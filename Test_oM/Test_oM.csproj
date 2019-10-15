@@ -59,6 +59,9 @@
     <Compile Include="LineSpan.cs" />
     <Compile Include="ResultStatus.cs" />
     <Compile Include="Span.cs" />
+    <Compile Include="Results\DiffingResults.cs" />
+    <Compile Include="Results\PropertyDifference.cs" />
+    <Compile Include="Results\PushPullSetDiffing.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
