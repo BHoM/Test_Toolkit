@@ -98,12 +98,16 @@
   <ItemGroup>
     <Compile Include="Convert\ToCSharpSyntaxTree.cs" />
     <Compile Include="Convert\ToSpan.cs" />
+    <Compile Include="Convert\ToLineSpan.cs" />
+    <Compile Include="Convert\ToPosition.cs" />
     <Compile Include="Convert\ToLineLocation.cs" />
     <Compile Include="Create\Error.cs" />
     <Compile Include="Create\LineLocation.cs" />
+    <Compile Include="Create\LineSpan.cs" />
     <Compile Include="Create\Span.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Query\TestDataOfType.cs" />
+    <Compile Include="Query\GetText.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Test_oM\Test_oM.csproj">

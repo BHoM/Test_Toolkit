@@ -31,16 +31,17 @@ namespace BH.Engine.Test
 {
     public static partial class Convert
     {
-        public static LineLocation ToLineLocation(this Span span, string context)
+        public static LineLocation ToLineLocation(int position, string context)
         {
-            if (span.Start > context.Length)
+            if (position > context.Length)
             {
-                BH.Engine.Reflection.Compute.RecordError($"{span.Start} not found in context");
+                Reflection.Compute.RecordError($"{position} not found in context");
                 return null;
             }
-            string beforeStart = context.Substring(0, span.Start);
+            if (position > context.Length) throw new ArgumentException($"{position} not found in context");
+            string beforeStart = context.Substring(0, position);
             int line = beforeStart.Count((c) => c == '\n') + 1;
-            int column = span.Start - beforeStart.LastIndexOf('\n');
+            int column = position - (beforeStart.LastIndexOf('\n') + 1);
             return Create.LineLocation(line, column);
         }
     }
