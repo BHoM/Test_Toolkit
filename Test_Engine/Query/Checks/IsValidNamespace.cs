@@ -21,7 +21,7 @@ namespace BH.Engine.Test.Checks
 
                 if (!(second == "oM" || second == "Engine" || second == "Adapter" || second == "UI"))
                 {
-                    return Create.ComplianceResult("",
+                    return Create.ComplianceResult(
                         ResultStatus.CriticalFail,
                         new List<Error> {
                             Create.Error($"Namespace '{name}' is not a valid BHoM namespace", Create.Span(node.Name.Span.Start, node.Name.Span.Length))
@@ -29,7 +29,7 @@ namespace BH.Engine.Test.Checks
                     );
                 }
             }
-            return Create.ComplianceResult("",ResultStatus.Pass);
+            return Create.ComplianceResult(ResultStatus.Pass);
         }
 
     }

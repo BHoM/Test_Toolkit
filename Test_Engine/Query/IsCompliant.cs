@@ -42,13 +42,13 @@ namespace BH.Engine.Test
 
         public static ComplianceResult IsCompliant(this SyntaxNode node, CodeContext ctx)
         {
-            return Create.ComplianceResult("", ResultStatus.Pass);
+            return Create.ComplianceResult(ResultStatus.Pass);
         }
 
         public static ComplianceResult IsCompliant<T>(this SyntaxList<T> syntaxList, CodeContext ctx) where T : SyntaxNode
         {
 
-            ComplianceResult finalresult = Create.ComplianceResult("", ResultStatus.Pass);
+            ComplianceResult finalresult = Create.ComplianceResult(ResultStatus.Pass);
             foreach(SyntaxNode syntaxNode in syntaxList)
             {
                 var result = syntaxNode.IIsCompliant();
