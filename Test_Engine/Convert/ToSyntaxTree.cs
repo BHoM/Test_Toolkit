@@ -39,6 +39,5 @@ namespace BH.Engine.Test
         {
             return CSharpSyntaxTree.ParseText(code);
         }
-
     }
 }

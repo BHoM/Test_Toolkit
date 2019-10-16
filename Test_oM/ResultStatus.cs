@@ -29,10 +29,11 @@ using System.Threading.Tasks;
 
 namespace BH.oM.Test
 {
-    public class Error : BHoMObject
+    public enum ResultStatus
     {
-        public ErrorLevel Level { get; set; }
-        public string Message { get; set; }
-        public Span Location { get; set; }
+        Undefined,
+        Pass,
+        Fail,
+        CriticalFail,
     }
 }
