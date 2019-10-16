@@ -27,21 +27,17 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+using Microsoft.CodeAnalysis;
+using Microsoft.CodeAnalysis.CSharp;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
+
 namespace BH.Engine.Test
 {
     public static partial class Convert
     {
-        public static LineLocation ToLineLocation(this Span span, string context)
+        public static SyntaxTree ToSyntaxTree(this string code)
         {
-            if (span.Start > context.Length)
-            {
-                BH.Engine.Reflection.Compute.RecordError($"{span.Start} not found in context");
-                return null;
-            }
-            string beforeStart = context.Substring(0, span.Start);
-            int line = beforeStart.Count((c) => c == '\n') + 1;
-            int column = span.Start - beforeStart.LastIndexOf('\n');
-            return Create.LineLocation(line, column);
+            return CSharpSyntaxTree.ParseText(code);
         }
     }
 }

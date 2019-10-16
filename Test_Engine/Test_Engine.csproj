@@ -96,6 +96,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Convert\ToCSharpSyntaxTree.cs" />
     <Compile Include="Convert\ToSpan.cs" />
     <Compile Include="Convert\ToLineLocation.cs" />
     <Compile Include="Create\Error.cs" />
