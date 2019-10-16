@@ -1,4 +1,4 @@
-/*
+﻿/*
  * This file is part of the Buildings and Habitats object Model (BHoM)
  * Copyright (c) 2015 - 2019, the respective contributors. All rights reserved.
  *
@@ -20,19 +20,28 @@
  * along with this code. If not, see <https://www.gnu.org/licenses/lgpl-3.0.html>.      
  */
 
-using BH.oM.Base;
+using BH.oM.Test;
+using Microsoft.CodeAnalysis;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BH.oM.Test
+namespace BH.Engine.Test
 {
-    public class ComplianceResult : BHoMObject
+    public static partial class Modify
     {
-        public string TestName { get; set; } = "";
-        public ResultStatus Status { get; set; } = ResultStatus.Undefined;
-        public List<Error> Errors { get; set; } = new List<Error>();
+        public static ComplianceResult Merge(this ComplianceResult a, ComplianceResult b)
+        {
+            List<Error> errors = a.Errors;
+            if (errors == null) errors = new List<Error>();
+            if (b.Errors != null) errors = errors.Concat(b.Errors).ToList();
+            return new ComplianceResult
+            {
+                Errors = errors,
+                Status = (ResultStatus)Math.Max((int)a.Status, (int)b.Status)
+            };
+        }
     }
 }

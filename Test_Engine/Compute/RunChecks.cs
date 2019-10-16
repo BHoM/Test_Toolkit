@@ -1,4 +1,4 @@
-/*
+﻿/*
  * This file is part of the Buildings and Habitats object Model (BHoM)
  * Copyright (c) 2015 - 2019, the respective contributors. All rights reserved.
  *
@@ -20,19 +20,38 @@
  * along with this code. If not, see <https://www.gnu.org/licenses/lgpl-3.0.html>.      
  */
 
-using BH.oM.Base;
+using BH.Engine.Reflection;
+using BH.oM.Test;
+using Microsoft.CodeAnalysis;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BH.oM.Test
+namespace BH.Engine.Test
 {
-    public class ComplianceResult : BHoMObject
+    public static partial class Compute
     {
-        public string TestName { get; set; } = "";
-        public ResultStatus Status { get; set; } = ResultStatus.Undefined;
-        public List<Error> Errors { get; set; } = new List<Error>();
+        public static ComplianceResult RunChecks(this SyntaxNode node, CodeContext ctx)
+        {
+            Type type = node.GetType();
+            IEnumerable<MethodInfo> checks = Reflection.Query.BHoMMethodList().Where(method =>
+                method.DeclaringType.Namespace == "BH.Engine.Test.Checks"
+                && method.GetParameters()[0].ParameterType.IsAssignableFrom(type));
+            ComplianceResult finalresult = Create.ComplianceResult("",ResultStatus.Pass);
+            foreach(MethodInfo method in checks)
+            {
+                Func<object[], object> fn = method.ToFunc();
+                ComplianceResult result = fn(new object[] { node, ctx }) as ComplianceResult;
+                if (result != null)
+                {
+                    finalresult = finalresult.Merge(result);
+                }
+            }
+            return finalresult;
+        }
     }
 }
