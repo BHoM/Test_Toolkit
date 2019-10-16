@@ -65,7 +65,7 @@ namespace BH.Engine.Test
                 return Create.ComplianceResult("Copyright Check", ResultStatus.Pass);
             else
             {
-                Error e = Create.Error("Copyright message is not accurate", Create.Span(0, 20), ErrorLevel.Error);
+                Error e = Create.Error("Copyright message is not accurate", Create.Span(0, 1), ErrorLevel.Error);
                 return Create.ComplianceResult("Copyright Check", ResultStatus.CriticalFail, new List<Error> { e });
             }
         }
