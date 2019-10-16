@@ -35,9 +35,9 @@ namespace BH.Engine.Test
 {
     public static partial class Query
     {
-        public static SyntaxNode GetRoot(this SyntaxTree tree)
+        public static List<SyntaxNode> GetNamespaceRoot(this SyntaxNode fullFileNode)
         {
-            return tree.GetRoot();
+            return fullFileNode.ChildNodes().ToList().Where(x => x.GetType() == typeof(NamespaceDeclarationSyntax)).ToList();
         }
     }
 }

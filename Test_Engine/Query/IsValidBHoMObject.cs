@@ -1,4 +1,4 @@
-/*
+﻿/*
  * This file is part of the Buildings and Habitats object Model (BHoM)
  * Copyright (c) 2015 - 2019, the respective contributors. All rights reserved.
  *
@@ -20,18 +20,24 @@
  * along with this code. If not, see <https://www.gnu.org/licenses/lgpl-3.0.html>.      
  */
 
-using BH.oM.Base;
+using BH.oM.Test;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BH.oM.Test
+using Microsoft.CodeAnalysis;
+using Microsoft.CodeAnalysis.CSharp;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
+
+namespace BH.Engine.Test
 {
-    public class ComplianceResult : BHoMObject
+    public static partial class Query
     {
-        public ResultStatus Status { get; set; } = ResultStatus.Undefined;
-        public List<Error> Errors { get; set; } = new List<Error>();
+        public static ComplianceResult IsValidBHoMObject(SyntaxTriviaList leadingTrivia, string copyrightStatement)
+        {
+            return null;
+        }
     }
 }

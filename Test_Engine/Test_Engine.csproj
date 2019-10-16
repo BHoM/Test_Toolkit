@@ -109,12 +109,15 @@
     <Compile Include="Modify\Merge.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Query\Checks\ContainsCopyright.cs" />
+    <Compile Include="Query\CheckSingleNamespace.cs" />
     <Compile Include="Query\ContainsCopyright.cs" />
     <Compile Include="Query\Checks\IsValidNamespace.cs" />
     <Compile Include="Compute\RunChecks.cs" />
     <Compile Include="Query\IsCompliant.cs" />
     <Compile Include="Query\GetLeadingTrivia.cs" />
-    <Compile Include="Query\GetRoot.cs" />
+    <Compile Include="Query\GetNamespaceRoot.cs" />
+    <Compile Include="Query\GetFileRoot.cs" />
+    <Compile Include="Query\IsValidBHoMObject.cs" />
     <Compile Include="Query\TestDataOfType.cs" />
     <Compile Include="Query\GetText.cs" />
   </ItemGroup>
