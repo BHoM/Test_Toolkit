@@ -21,33 +21,20 @@
  */
 
 using BH.oM.Test;
+using Microsoft.CodeAnalysis;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-using Microsoft.CodeAnalysis;
-using Microsoft.CodeAnalysis.CSharp;
-using Microsoft.CodeAnalysis.CSharp.Syntax;
-
 namespace BH.Engine.Test
 {
-    public static partial class Convert
+    public static partial class Query
     {
-        public static SyntaxTree ToSyntaxTree(this string code)
-        {
-            return CSharpSyntaxTree.ParseText(code);
-        }
-
         public static SyntaxNode GetRoot(this SyntaxTree tree)
         {
             return tree.GetRoot();
-        }
-
-        public static SyntaxTriviaList GetLeadingTrivia(this SyntaxNode node)
-        {
-            return node.GetLeadingTrivia();
         }
     }
 }
