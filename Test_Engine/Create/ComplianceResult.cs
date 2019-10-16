@@ -31,13 +31,12 @@ namespace BH.Engine.Test
 {
     public static partial class Create
     {
-        public static ComplianceResult ComplianceResult(string testName, ResultStatus status, List<Error> errors = null)
+        public static ComplianceResult ComplianceResult(ResultStatus status, List<Error> errors = null)
         {
             if (errors == null) errors = new List<Error>();
 
             return new ComplianceResult
             {
-                TestName = testName,
                 Status = status,
                 Errors = errors,
             };

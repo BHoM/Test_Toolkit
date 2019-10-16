@@ -41,7 +41,7 @@ namespace BH.Engine.Test
             IEnumerable<MethodInfo> checks = Reflection.Query.BHoMMethodList().Where(method =>
                 method.DeclaringType.Namespace == "BH.Engine.Test.Checks"
                 && method.GetParameters()[0].ParameterType.IsAssignableFrom(type));
-            ComplianceResult finalresult = Create.ComplianceResult("",ResultStatus.Pass);
+            ComplianceResult finalresult = Create.ComplianceResult(ResultStatus.Pass);
             foreach(MethodInfo method in checks)
             {
                 Func<object[], object> fn = method.ToFunc();

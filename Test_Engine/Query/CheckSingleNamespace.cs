@@ -40,11 +40,11 @@ namespace BH.Engine.Test
             string testName = "Single Namespace Check";
             //Check if a code file contains more than one namespace declaration
             if (codeTree.GetFileRoot().GetNamespaceRoot().Count == 1)
-                return Create.ComplianceResult(testName, ResultStatus.Pass);
+                return Create.ComplianceResult(ResultStatus.Pass);
             else
             {
                 Error e = Create.Error("The file " + codeTree.FilePath + " contains more than one namespace declaration - this is not valid", Create.Span(0, 20), ErrorLevel.Error);
-                return Create.ComplianceResult(testName, ResultStatus.CriticalFail, new List<Error> { e });
+                return Create.ComplianceResult(ResultStatus.CriticalFail, new List<Error> { e });
             }
         }
     }
