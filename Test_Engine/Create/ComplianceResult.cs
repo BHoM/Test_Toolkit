@@ -20,19 +20,27 @@
  * along with this code. If not, see <https://www.gnu.org/licenses/lgpl-3.0.html>.      
  */
 
-using BH.oM.Base;
+using BH.oM.Test;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BH.oM.Test
+namespace BH.Engine.Test
 {
-    public class Error : BHoMObject
+    public static partial class Create
     {
-        public ErrorLevel Level { get; set; }
-        public string Message { get; set; }
-        public Span Location { get; set; }
+        public static ComplianceResult ComplianceResult(string testName, ResultStatus status, List<Error> errors = null)
+        {
+            if (errors == null) errors = new List<Error>();
+
+            return new ComplianceResult
+            {
+                TestName = testName,
+                Status = status,
+                Errors = errors,
+            };
+        }
     }
 }
