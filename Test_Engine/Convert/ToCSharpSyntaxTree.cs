@@ -39,5 +39,15 @@ namespace BH.Engine.Test
         {
             return CSharpSyntaxTree.ParseText(code);
         }
+
+        public static SyntaxNode GetRoot(this SyntaxTree tree)
+        {
+            return tree.GetRoot();
+        }
+
+        public static SyntaxTriviaList GetLeadingTrivia(this SyntaxNode node)
+        {
+            return node.GetLeadingTrivia();
+        }
     }
 }
