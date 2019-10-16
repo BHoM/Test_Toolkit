@@ -29,13 +29,16 @@ using System.Threading.Tasks;
 
 namespace BH.Engine.Test
 {
-    public static partial class Convert
+    public static partial class Create
     {
-        public static Span ToSpan(this LineSpan lineSpan, string context)
+        public static LineSpan LineSpan(LineLocation start, LineLocation end)
         {
-            int start = lineSpan.Start.ToPosition(context);
-            int end = lineSpan.End.ToPosition(context);
-            return Create.Span(start, end - start);
+            return new LineSpan { Start = start, End = end };
+        }
+
+        public static LineSpan LineSpan(int firstLine, int lastLine)
+        {
+            return new LineSpan { Start = LineLocation(firstLine,0), End = LineLocation(lastLine,0) };
         }
     }
 }

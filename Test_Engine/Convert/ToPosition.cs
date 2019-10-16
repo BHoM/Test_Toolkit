@@ -31,11 +31,17 @@ namespace BH.Engine.Test
 {
     public static partial class Convert
     {
-        public static Span ToSpan(this LineSpan lineSpan, string context)
+        public static int ToPosition(this LineLocation location, string context)
         {
-            int start = lineSpan.Start.ToPosition(context);
-            int end = lineSpan.End.ToPosition(context);
-            return Create.Span(start, end - start);
+            var lines = context.Split('\n');
+            int position = 0;
+            for (int i = 0; i < (location.Line - 1); i++)
+            {
+                // plus newline charachter
+                position += lines[i].Length + 1;
+            }
+            position += location.Column;
+            return position;
         }
     }
 }

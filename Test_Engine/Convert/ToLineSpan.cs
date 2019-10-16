@@ -17,7 +17,7 @@
  * GNU Lesser General Public License for more details.                          
  *                                                                            
  * You should have received a copy of the GNU Lesser General Public License     
- * along with this code. If not, see <https://www.gnu.org/licenses/lgpl-3.0.html>.      
+ * along with this code. If not, see <https://www.gnu.oStart rg/licenses/lgpl-3.0.html>.      
  */
 
 using BH.oM.Test;
@@ -31,11 +31,9 @@ namespace BH.Engine.Test
 {
     public static partial class Convert
     {
-        public static Span ToSpan(this LineSpan lineSpan, string context)
+        public static LineSpan ToLineSpan(this Span span, string context)
         {
-            int start = lineSpan.Start.ToPosition(context);
-            int end = lineSpan.End.ToPosition(context);
-            return Create.Span(start, end - start);
+            return Create.LineSpan(ToLineLocation(span.Start, context), ToLineLocation(span.Start + span.Length, context));
         }
     }
 }
