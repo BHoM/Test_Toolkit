@@ -60,14 +60,28 @@ namespace BH.Engine.Test
  */";
 
             string l = leadingTrivia.ToString();
+            l = l.Replace('\r', ' ');
+            copyrightStatement = copyrightStatement.Replace('\r', ' ');
 
-            if (leadingTrivia.ToString().StartsWith(copyrightStatement.Trim()))
-                return Create.ComplianceResult("Copyright Check", ResultStatus.Pass);
-            else
+            string[] split = l.Split('\n');
+            string[] copyrightSplit = copyrightStatement.Split('\n');
+
+            if(split.Length < copyrightSplit.Length)
             {
-                Error e = Create.Error("Copyright message is not accurate", Create.Span(0, 1), ErrorLevel.Error);
-                return Create.ComplianceResult("Copyright Check", ResultStatus.CriticalFail, new List<Error> { e });
+                Error e = Create.Error("Copyright message is not accurate at line " + 1, Create.LineSpan(1, 2).ToSpan(l), ErrorLevel.Error);
+                return Create.ComplianceResult(ResultStatus.CriticalFail, new List<Error> { e });
             }
+
+            for(int x = 0; x < copyrightSplit.Length; x++)
+            {
+                if(split[x].TrimEnd() != copyrightSplit[x].TrimEnd())
+                {
+                    Error e = Create.Error("Copyright message is not accurate at line " + (x + 1), Create.LineSpan(x + 1, x + 2).ToSpan(l), ErrorLevel.Error);
+                    return Create.ComplianceResult(ResultStatus.CriticalFail, new List<Error> { e });
+                }
+            }
+
+            return Create.ComplianceResult( ResultStatus.Pass);
         }
     }
 }
