@@ -36,7 +36,7 @@ namespace BH.Engine.Test
         public static ComplianceResult IIsCompliant(this SyntaxNode node, CodeContext ctx = null)
         {
             if (ctx == null) ctx = new CodeContext();
-            else ctx = new CodeContext { Namespace = ctx.Namespace, Class = ctx.Class, Method = ctx.Method };
+            else ctx = new CodeContext { Namespace = ctx.Namespace, Class = ctx.Class, Method = ctx.Method, Toolkit = ctx.Toolkit };
             return IsCompliant(node as dynamic, ctx);
         }
 
@@ -94,6 +94,11 @@ namespace BH.Engine.Test
                 ctx.Class += $".{node.Identifier.Text}";
             }
             return result.Merge(node.Members.IsCompliant(ctx));
+        }
+
+        public static ComplianceResult IsCompliant(this MethodDeclarationSyntax node, CodeContext ctx)
+        {
+            return Compute.RunChecks(node, ctx);
         }
     }
 }

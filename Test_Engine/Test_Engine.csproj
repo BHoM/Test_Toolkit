@@ -110,6 +110,10 @@
     <Compile Include="Modify\Merge.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Query\Checks\ContainsCopyright.cs" />
+    <Compile Include="Query\Checks\HasCorrectAttributes.cs" />
+    <Compile Include="Query\DescriptionAttribute.cs" />
+    <Compile Include="Query\GetAttributes.cs" />
+    <Compile Include="Query\HasAttribute.cs" />
     <Compile Include="Query\HasSingleNamespace.cs" />
     <Compile Include="Query\Checks\HasSingleNamespace.cs" />
     <Compile Include="Query\Checks\IsPublicClass.cs" />
@@ -127,6 +131,8 @@
     <Compile Include="Query\ContainsToken.cs" />
     <Compile Include="Query\HasModifier.cs" />
     <Compile Include="Query\HasBody.cs" />
+    <Compile Include="Query\InputAttributes.cs" />
+    <Compile Include="Query\OutputAttribute.cs" />
     <Compile Include="Query\PropertyGetAccessor.cs" />
     <Compile Include="Query\IsPrivate.cs" />
     <Compile Include="Query\IsStatic.cs" />
