@@ -21,28 +21,31 @@
  */
 
 using BH.oM.Test;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-using Microsoft.CodeAnalysis;
-using Microsoft.CodeAnalysis.CSharp;
-using Microsoft.CodeAnalysis.CSharp.Syntax;
-
-namespace BH.Engine.Test
+namespace BH.Engine.Test.Checks
 {
     public static partial class Query
     {
-        public static bool HasModifier(this MemberDeclarationSyntax node, string value)
+        public static ComplianceResult PropertyHaveNoBody(PropertyDeclarationSyntax node, CodeContext ctx)
         {
-            return node.Modifiers.ContainsToken(value);
-        }
+            if(ctx.Namespace != null && ctx.Namespace.StartsWith("BH.oM") && node.IsPublic()) 
+            {
+                if(node.AccessorList.Accessors.Any(a=>a.HasBody()))
+                {
+                    return Create.ComplianceResult(ResultStatus.CriticalFail,
+                        new List<Error> {
+                        Create.Error("Invalid oM property: Object property accessors must not have a body", node.Modifiers.Span.ToBHoM())
+                        });
+                }
+            }
 
-        public static bool HasModifier(this AccessorDeclarationSyntax node, string value)
-        {
-            return node.Modifiers.ContainsToken(value);
+            return Create.ComplianceResult(ResultStatus.Pass);
         }
     }
 }

@@ -112,6 +112,8 @@
     <Compile Include="Query\Checks\ContainsCopyright.cs" />
     <Compile Include="Query\CheckSingleNamespace.cs" />
     <Compile Include="Query\Checks\IsPublicClass.cs" />
+    <Compile Include="Query\Checks\PropertyAccessorsHaveNoBody.cs" />
+    <Compile Include="Query\Checks\PropertyHasPublicGet.cs" />
     <Compile Include="Query\Checks\PropertyIsPublic.cs" />
     <Compile Include="Query\Checks\ObjectHasOnlyProperies .cs" />
     <Compile Include="Query\Checks\IsValidCreateMethodName.cs" />
@@ -123,6 +125,9 @@
     <Compile Include="Compute\RunChecks.cs" />
     <Compile Include="Query\ContainsToken.cs" />
     <Compile Include="Query\HasModifier.cs" />
+    <Compile Include="Query\HasBody.cs" />
+    <Compile Include="Query\PropertyGetAccessor.cs" />
+    <Compile Include="Query\IsPrivate.cs" />
     <Compile Include="Query\IsStatic.cs" />
     <Compile Include="Query\IsPublic.cs" />
     <Compile Include="Query\IsCompliant.cs" />

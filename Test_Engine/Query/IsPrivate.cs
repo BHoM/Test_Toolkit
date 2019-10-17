@@ -35,14 +35,14 @@ namespace BH.Engine.Test
 {
     public static partial class Query
     {
-        public static bool HasModifier(this MemberDeclarationSyntax node, string value)
+        public static bool IsPrivate(this MemberDeclarationSyntax node)
         {
-            return node.Modifiers.ContainsToken(value);
+            return node.HasModifier("private");
         }
 
-        public static bool HasModifier(this AccessorDeclarationSyntax node, string value)
+        public static bool IsPrivate(this AccessorDeclarationSyntax node)
         {
-            return node.Modifiers.ContainsToken(value);
+            return node.HasModifier("private");
         }
     }
 }
