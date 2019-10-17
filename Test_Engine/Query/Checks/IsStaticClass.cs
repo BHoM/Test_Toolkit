@@ -21,19 +21,29 @@
  */
 
 using BH.oM.Test;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BH.Engine.Test
+namespace BH.Engine.Test.Checks
 {
-    public static partial class Convert
+    public static partial class Query
     {
-        public static LineSpan ToLineSpan(this Span span, string context)
+        public static ComplianceResult IsStaticClass(ClassDeclarationSyntax node, CodeContext ctx)
         {
-            return Create.LineSpan(ToLineLocation(span.Start, context), ToLineLocation(span.Start + span.Length, context));
+            if(ctx.Namespace != null && ctx.Namespace.StartsWith("BH.Engine") && !node.IsStatic())
+            {
+                return Create.ComplianceResult(ResultStatus.CriticalFail,
+                    new List<Error> {
+                        Create.Error("Invalid Engine class: Engine classes must be static", node.Modifiers.Span.ToBHoM())
+                    });
+            }
+
+            return Create.ComplianceResult(ResultStatus.Pass);
         }
+
     }
 }
