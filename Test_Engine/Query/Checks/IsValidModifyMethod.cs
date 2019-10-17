@@ -32,25 +32,27 @@ namespace BH.Engine.Test.Checks
 {
     public static partial class Query
     {
-        public static ComplianceResult IsValidCreateMethod(MethodDeclarationSyntax node, CodeContext ctx)
+        public static ComplianceResult IsValidModifyMethod(MethodDeclarationSyntax node, CodeContext ctx)
         {
-            if(node.IsPublic() && ctx.Namespace.StartsWith("BH.Engine") && ctx.Class == "Create")
+            ComplianceResult result = Create.ComplianceResult(ResultStatus.Pass);
+
+            if (ctx.Namespace.StartsWith("BH.Engine") && ctx.Class == "Modify")
             {
-                string name = node.Identifier.Text;
-                var type = node.ReturnType;
-                if (type is QualifiedNameSyntax) type = ((QualifiedNameSyntax)type).Right;
-
-                string returntype = type.ToString();
-                var match = System.Text.RegularExpressions.Regex.Match(returntype, $"^I?{name}(<.+>)?$");
-
-                if (!match.Success)
+                List<LocalDeclarationStatementSyntax> statements = node.Body.Statements.Select(x => x as LocalDeclarationStatementSyntax).ToList();
+                if(statements.Count > 0)
                 {
-                    return Create.ComplianceResult(ResultStatus.CriticalFail, new List<Error> {
-                        Create.Error($"Invalid Create method name: Method '{node.Identifier}' name must have the same name as its return type", node.Identifier.Span.ToBHoM())
-                    });
+                    if (statements[0] == null)
+                        result = result.Merge(Create.ComplianceResult(ResultStatus.CriticalFail, new List<Error> { Create.Error($"Invalid Modify method: Modify method '{node.Identifier}' does not contain a suitable cloning statement in its first line. Cloning input objects are required to ensure upstream objects are not changed inadvertantly", node.Span.ToBHoM()) }));
+                    else
+                    {
+                        string firstStatement = statements[0].ToString();
+                        if (!firstStatement.Contains("DeepClone") && !firstStatement.Contains("ShallowClone") && !firstStatement.Contains("Copy"))
+                            result = result.Merge(Create.ComplianceResult(ResultStatus.CriticalFail, new List<Error> { Create.Error($"Invalid Modify method: Modify method '{node.Identifier}' does not contain a suitable cloning statement in its first line. Cloning input objects are required to ensure upstream objects are not changed inadvertantly", node.Span.ToBHoM()) }));
+                    }
                 }
             }
-            return Create.ComplianceResult(ResultStatus.Pass);
+
+            return result;
         }
 
     }
