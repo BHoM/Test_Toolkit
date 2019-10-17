@@ -42,7 +42,7 @@ namespace BH.Engine.Test
 
         public static ComplianceResult IsCompliant(this SyntaxNode node, CodeContext ctx)
         {
-            return Create.ComplianceResult(ResultStatus.Pass);
+            return Compute.RunChecks(node, ctx);
         }
 
         public static ComplianceResult IsCompliant<T>(this SyntaxList<T> syntaxList, CodeContext ctx) where T : SyntaxNode
@@ -51,7 +51,7 @@ namespace BH.Engine.Test
             ComplianceResult finalresult = Create.ComplianceResult(ResultStatus.Pass);
             foreach(SyntaxNode syntaxNode in syntaxList)
             {
-                var result = syntaxNode.IIsCompliant();
+                var result = syntaxNode.IIsCompliant(ctx);
                 finalresult = finalresult.Merge(result);
             }
             return finalresult;

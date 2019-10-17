@@ -32,23 +32,22 @@ namespace BH.Engine.Test.Checks
 {
     public static partial class Query
     {
-        public static ComplianceResult IsValidNamespace(NamespaceDeclarationSyntax node, CodeContext ctx)
+        public static ComplianceResult IsValidCreateMethod(MethodDeclarationSyntax node, CodeContext ctx)
         {
-            string name = node.Name.ToString();
-            if (ctx != null && string.IsNullOrWhiteSpace(ctx.Namespace)) name = ctx.Namespace + name;
-            if(name.StartsWith("BH."))
+            if(node.IsPublic() && ctx.Namespace.StartsWith("BH.Engine") && ctx.Class == "Create")
             {
-                string[] parts = name.Split('.');
-                string second = parts[1];
+                string name = node.Identifier.Text;
+                var type = node.ReturnType;
+                if (type is QualifiedNameSyntax) type = ((QualifiedNameSyntax)type).Right;
 
-                if (!(second == "oM" || second == "Engine" || second == "Adapter" || second == "UI"))
+                string returntype = type.ToString();
+                var match = System.Text.RegularExpressions.Regex.Match(returntype, $"^I?{name}(<.+>)?$");
+
+                if (!match.Success)
                 {
-                    return Create.ComplianceResult(
-                        ResultStatus.CriticalFail,
-                        new List<Error> {
-                            Create.Error($"Namespace '{name}' is not a valid BHoM namespace", Create.Span(node.Name.Span.Start, node.Name.Span.Length))
-                        }
-                    );
+                    return Create.ComplianceResult(ResultStatus.CriticalFail, new List<Error> {
+                        Create.Error("Invalid Create method name: Create methods must have the same name as their return type", node.Identifier.Span.ToBHoM())
+                    });
                 }
             }
             return Create.ComplianceResult(ResultStatus.Pass);
