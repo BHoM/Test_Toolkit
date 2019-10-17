@@ -35,17 +35,9 @@ namespace BH.Engine.Test
 {
     public static partial class Query
     {
-        public static ComplianceResult CheckSingleNamespace(this SyntaxTree codeTree)
+        public static bool HasSingleNamespace(CompilationUnitSyntax node)
         {
-            string testName = "Single Namespace Check";
-            //Check if a code file contains more than one namespace declaration
-            if (codeTree.GetFileRoot().GetNamespaceRoot().Count == 1)
-                return Create.ComplianceResult(ResultStatus.Pass);
-            else
-            {
-                Error e = Create.Error("The file " + codeTree.FilePath + " contains more than one namespace declaration - this is not valid", Create.Span(0, 20), ErrorLevel.Error);
-                return Create.ComplianceResult(ResultStatus.CriticalFail, new List<Error> { e });
-            }
+            return node.Members.Count == 1;
         }
     }
 }
