@@ -34,5 +34,6 @@ namespace BH.oM.Test
         public string Namespace { get; set; }
         public string Class { get; set; }
         public string Method { get; set; }
+        public string Toolkit { get; set; }
     }
 }
