@@ -32,25 +32,38 @@ namespace BH.Engine.Test.Checks
 {
     public static partial class Query
     {
-        public static ComplianceResult IsValidNamespace(NamespaceDeclarationSyntax node, CodeContext ctx)
+        public static ComplianceResult IsValidEngineClass(ClassDeclarationSyntax node, CodeContext ctx)
         {
-            string name = node.Name.ToString();
-            if (ctx != null && string.IsNullOrWhiteSpace(ctx.Namespace)) name = ctx.Namespace + name;
-            if(name.StartsWith("BH."))
+            List<string> validEngineClassNames = new List<string>() { "Create", "Convert", "Query", "Modify", "Compute" };
+            if(ctx.Namespace.StartsWith("BH.Engine"))
             {
-                string[] parts = name.Split('.');
-                string second = parts[1];
-
-                if (!(second == "oM" || second == "Engine" || second == "Adapter" || second == "UI"))
+                List<Error> errors = new List<Error>();
+                string name = node.Identifier.Text;
+                if (!validEngineClassNames.Contains(name))
                 {
-                    return Create.ComplianceResult(
-                        ResultStatus.CriticalFail,
-                        new List<Error> {
-                            Create.Error($"Namespace '{name}' is not a valid BHoM namespace", Create.Span(node.Name.Span.Start, node.Name.Span.Length))
-                        }
-                    );
+                    errors.Add(Create.Error("Invalid Engine class: Engine classes must be one of " +
+                        validEngineClassNames.Aggregate((a, b) => $"{a}, {b}"),
+                    node.Identifier.Span.ToBHoM()));
+                }
+
+                if (!node.IsPublic())
+                {
+                    errors.Add(Create.Error("Invalid Engine class: Engine classes must be public",
+                    node.Modifiers.Span.ToBHoM()));
+                }
+
+                if (!node.IsStatic())
+                {
+                    errors.Add(Create.Error("Invalid Engine class: Engine classes must be static",
+                    node.Modifiers.Span.ToBHoM()));
+                }
+                
+                if(errors.Count > 0)
+                {
+                    return Create.ComplianceResult(ResultStatus.CriticalFail, errors);
                 }
             }
+
             return Create.ComplianceResult(ResultStatus.Pass);
         }
 

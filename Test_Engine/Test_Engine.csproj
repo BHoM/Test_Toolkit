@@ -96,6 +96,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Convert\ToBHoM.cs" />
     <Compile Include="Convert\ToSyntaxTree.cs" />
     <Compile Include="Convert\ToSpan.cs" />
     <Compile Include="Convert\ToLineSpan.cs" />
@@ -110,9 +111,16 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Query\Checks\ContainsCopyright.cs" />
     <Compile Include="Query\CheckSingleNamespace.cs" />
+    <Compile Include="Query\Checks\IsValidCreateMethod.cs" />
+    <Compile Include="Query\Checks\IsValidConvertMethod.cs" />
+    <Compile Include="Query\Checks\IsValidEngineClass.cs" />
     <Compile Include="Query\ContainsCopyright.cs" />
     <Compile Include="Query\Checks\IsValidNamespace.cs" />
     <Compile Include="Compute\RunChecks.cs" />
+    <Compile Include="Query\ContainsToken.cs" />
+    <Compile Include="Query\HasModifier.cs" />
+    <Compile Include="Query\IsStatic.cs" />
+    <Compile Include="Query\IsPublic.cs" />
     <Compile Include="Query\IsCompliant.cs" />
     <Compile Include="Query\GetLeadingTrivia.cs" />
     <Compile Include="Query\GetNamespaceRoot.cs" />

@@ -32,23 +32,16 @@ namespace BH.Engine.Test.Checks
 {
     public static partial class Query
     {
-        public static ComplianceResult IsValidNamespace(NamespaceDeclarationSyntax node, CodeContext ctx)
+        public static ComplianceResult IsValidConvertMethod(MethodDeclarationSyntax node, CodeContext ctx)
         {
-            string name = node.Name.ToString();
-            if (ctx != null && string.IsNullOrWhiteSpace(ctx.Namespace)) name = ctx.Namespace + name;
-            if(name.StartsWith("BH."))
+            if(node.IsPublic() && ctx.Namespace.StartsWith("BH.Engine") && ctx.Class == "Convert")
             {
-                string[] parts = name.Split('.');
-                string second = parts[1];
-
-                if (!(second == "oM" || second == "Engine" || second == "Adapter" || second == "UI"))
+                string name = node.Identifier.Text;
+                if(!name.StartsWith("To") && !name.StartsWith("From"))
                 {
-                    return Create.ComplianceResult(
-                        ResultStatus.CriticalFail,
-                        new List<Error> {
-                            Create.Error($"Namespace '{name}' is not a valid BHoM namespace", Create.Span(node.Name.Span.Start, node.Name.Span.Length))
-                        }
-                    );
+                    return Create.ComplianceResult(ResultStatus.CriticalFail, new List<Error> {
+                        Create.Error("Convert method name invalid: Convert method names must begin with either 'To' or 'From'", node.Identifier.Span.ToBHoM())
+                    });
                 }
             }
             return Create.ComplianceResult(ResultStatus.Pass);
