@@ -39,5 +39,10 @@ namespace BH.Engine.Test
         {
             return node.GetAttributes("Output");
         }
+
+        public static List<AttributeListSyntax> OutputAttribute(this ConstructorDeclarationSyntax node)
+        {
+            return node.GetAttributes("Output");
+        }
     }
 }

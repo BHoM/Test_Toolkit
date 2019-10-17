@@ -39,5 +39,10 @@ namespace BH.Engine.Test
         {
             return node.AttributeLists.Where(x => x.Attributes.Where(y => y.Name.ToString() == value).ToList().Count > 0).ToList();
         }
+
+        public static List<AttributeListSyntax> GetAttributes(this ConstructorDeclarationSyntax node, string value)
+        {
+            return node.AttributeLists.Where(x => x.Attributes.Where(y => y.Name.ToString() == value).ToList().Count > 0).ToList();
+        }
     }
 }
