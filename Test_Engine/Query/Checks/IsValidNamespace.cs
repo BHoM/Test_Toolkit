@@ -36,10 +36,17 @@ namespace BH.Engine.Test.Checks
         {
             string name = node.Name.ToString();
             if (ctx != null && string.IsNullOrWhiteSpace(ctx.Namespace)) name = ctx.Namespace + name;
+
+            string toolkitName = "";
+            if (ctx != null && !string.IsNullOrWhiteSpace(ctx.Toolkit)) toolkitName = ctx.Toolkit;
+
             if(name.StartsWith("BH."))
             {
                 string[] parts = name.Split('.');
                 string second = parts[1];
+                string third = "";
+                if(parts.Length >= 3)
+                    third = parts[2];
 
                 if (!(second == "oM" || second == "Engine" || second == "Adapter" || second == "UI"))
                 {
@@ -50,6 +57,8 @@ namespace BH.Engine.Test.Checks
                         }
                     );
                 }
+                if (toolkitName != "" && third != "" && third != toolkitName)
+                    return Create.ComplianceResult(ResultStatus.CriticalFail, new List<Error> { Create.Error($"Namespace '{name}' is not a valid BHoM namespace, namespace name should contain the toolkit name", Create.Span(node.Name.Span.Start, node.Name.Span.Length)) });
             }
             return Create.ComplianceResult(ResultStatus.Pass);
         }
