@@ -21,19 +21,35 @@
  */
 
 using BH.oM.Test;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BH.Engine.Test
+namespace BH.Engine.Test.Checks
 {
-    public static partial class Convert
+    public static partial class Query
     {
-        public static LineSpan ToLineSpan(this Span span, string context)
+        public static ComplianceResult IsValidEngineClassName(ClassDeclarationSyntax node, CodeContext ctx)
         {
-            return Create.LineSpan(ToLineLocation(span.Start, context), ToLineLocation(span.Start + span.Length, context));
+            if(ctx.Namespace.StartsWith("BH.Engine"))
+            {
+                List<string> validEngineClassNames = new List<string>() { "Create", "Convert", "Query", "Modify", "Compute" };
+                string name = node.Identifier.Text;
+                if (!validEngineClassNames.Contains(name))
+                {
+                    return Create.ComplianceResult(ResultStatus.CriticalFail,
+                        new List<Error> {
+                            Create.Error("Invalid Engine class: Engine classes must be one of " + validEngineClassNames.Aggregate((a, b) => $"{a}, {b}"),
+                            node.Identifier.Span.ToBHoM())
+                        });
+                }
+            }
+
+            return Create.ComplianceResult(ResultStatus.Pass);
         }
+
     }
 }

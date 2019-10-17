@@ -111,9 +111,13 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Query\Checks\ContainsCopyright.cs" />
     <Compile Include="Query\CheckSingleNamespace.cs" />
-    <Compile Include="Query\Checks\IsValidCreateMethod.cs" />
-    <Compile Include="Query\Checks\IsValidConvertMethod.cs" />
-    <Compile Include="Query\Checks\IsValidEngineClass.cs" />
+    <Compile Include="Query\Checks\IsPublicClass.cs" />
+    <Compile Include="Query\Checks\PropertyIsPublic.cs" />
+    <Compile Include="Query\Checks\ObjectHasOnlyProperies .cs" />
+    <Compile Include="Query\Checks\IsValidCreateMethodName.cs" />
+    <Compile Include="Query\Checks\IsValidConvertMethodName.cs" />
+    <Compile Include="Query\Checks\IsStaticClass.cs" />
+    <Compile Include="Query\Checks\IsValidEngineClassName.cs" />
     <Compile Include="Query\ContainsCopyright.cs" />
     <Compile Include="Query\Checks\IsValidNamespace.cs" />
     <Compile Include="Compute\RunChecks.cs" />

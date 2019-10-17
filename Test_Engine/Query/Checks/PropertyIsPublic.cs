@@ -32,40 +32,17 @@ namespace BH.Engine.Test.Checks
 {
     public static partial class Query
     {
-        public static ComplianceResult IsValidEngineClass(ClassDeclarationSyntax node, CodeContext ctx)
+        public static ComplianceResult PropertyIsPublic(PropertyDeclarationSyntax node, CodeContext ctx)
         {
-            List<string> validEngineClassNames = new List<string>() { "Create", "Convert", "Query", "Modify", "Compute" };
-            if(ctx.Namespace.StartsWith("BH.Engine"))
+            if(ctx.Namespace != null && ctx.Namespace.StartsWith("BH.oM") && !node.IsPublic()) 
             {
-                List<Error> errors = new List<Error>();
-                string name = node.Identifier.Text;
-                if (!validEngineClassNames.Contains(name))
-                {
-                    errors.Add(Create.Error("Invalid Engine class: Engine classes must be one of " +
-                        validEngineClassNames.Aggregate((a, b) => $"{a}, {b}"),
-                    node.Identifier.Span.ToBHoM()));
-                }
-
-                if (!node.IsPublic())
-                {
-                    errors.Add(Create.Error("Invalid Engine class: Engine classes must be public",
-                    node.Modifiers.Span.ToBHoM()));
-                }
-
-                if (!node.IsStatic())
-                {
-                    errors.Add(Create.Error("Invalid Engine class: Engine classes must be static",
-                    node.Modifiers.Span.ToBHoM()));
-                }
-                
-                if(errors.Count > 0)
-                {
-                    return Create.ComplianceResult(ResultStatus.CriticalFail, errors);
-                }
+                return Create.ComplianceResult(ResultStatus.CriticalFail,
+                    new List<Error> {
+                        Create.Error("Invalid oM property: Object properties must be public", node.Modifiers.Span.ToBHoM())
+                    });
             }
 
             return Create.ComplianceResult(ResultStatus.Pass);
         }
-
     }
 }
