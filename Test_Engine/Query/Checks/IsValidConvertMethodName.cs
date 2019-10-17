@@ -40,7 +40,7 @@ namespace BH.Engine.Test.Checks
                 if(!name.StartsWith("To") && !name.StartsWith("From"))
                 {
                     return Create.ComplianceResult(ResultStatus.CriticalFail, new List<Error> {
-                        Create.Error("Convert method name invalid: Convert method names must begin with either 'To' or 'From'", node.Identifier.Span.ToBHoM())
+                        Create.Error($"Convert method name invalid: Method '{node.Identifier}' name must begin with either 'To' or 'From'", node.Identifier.Span.ToBHoM())
                     });
                 }
             }

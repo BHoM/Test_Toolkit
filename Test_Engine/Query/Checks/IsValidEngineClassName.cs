@@ -42,7 +42,7 @@ namespace BH.Engine.Test.Checks
                 {
                     return Create.ComplianceResult(ResultStatus.CriticalFail,
                         new List<Error> {
-                            Create.Error("Invalid Engine class: Engine classes must be one of " + validEngineClassNames.Aggregate((a, b) => $"{a}, {b}"),
+                            Create.Error($"Invalid Engine class: Method '{node.Identifier}' must be one of " + validEngineClassNames.Aggregate((a, b) => $"{a}, {b}"),
                             node.Identifier.Span.ToBHoM())
                         });
                 }
