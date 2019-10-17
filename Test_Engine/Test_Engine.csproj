@@ -110,7 +110,8 @@
     <Compile Include="Modify\Merge.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Query\Checks\ContainsCopyright.cs" />
-    <Compile Include="Query\CheckSingleNamespace.cs" />
+    <Compile Include="Query\HasSingleNamespace.cs" />
+    <Compile Include="Query\Checks\HasSingleNamespace.cs" />
     <Compile Include="Query\Checks\IsPublicClass.cs" />
     <Compile Include="Query\Checks\PropertyAccessorsHaveNoBody.cs" />
     <Compile Include="Query\Checks\PropertyHasPublicGet.cs" />

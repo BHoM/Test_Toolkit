@@ -76,6 +76,7 @@ namespace BH.Engine.Test
             {
                 ctx.Namespace += $".{node.Name.ToString()}";
             }
+
             return result
                 .Merge(node.Members.IsCompliant(ctx))
                 .Merge(node.Usings.IsCompliant(ctx));
