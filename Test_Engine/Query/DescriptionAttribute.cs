@@ -39,5 +39,10 @@ namespace BH.Engine.Test
         {
             return node.GetAttributes("Description");
         }
+
+        public static List<AttributeListSyntax> DescriptionAttribute(this ConstructorDeclarationSyntax node)
+        {
+            return node.GetAttributes("Description");
+        }
     }
 }

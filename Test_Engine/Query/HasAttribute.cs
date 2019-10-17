@@ -39,5 +39,10 @@ namespace BH.Engine.Test
         {
             return node.GetAttributes(value) != null && node.GetAttributes(value).Count > 0;
         }
+
+        public static bool HasAttribute(this ConstructorDeclarationSyntax node, string value)
+        {
+            return node.GetAttributes(value) != null && node.GetAttributes(value).Count > 0;
+        }
     }
 }
