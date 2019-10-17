@@ -35,14 +35,9 @@ namespace BH.Engine.Test
 {
     public static partial class Query
     {
-        public static bool HasModifier(this MemberDeclarationSyntax node, string value)
+        public static AccessorDeclarationSyntax PropertyGetAccessor(this PropertyDeclarationSyntax node)
         {
-            return node.Modifiers.ContainsToken(value);
-        }
-
-        public static bool HasModifier(this AccessorDeclarationSyntax node, string value)
-        {
-            return node.Modifiers.ContainsToken(value);
+            return node.AccessorList.Accessors.FirstOrDefault(a => a.Keyword.Text == "get");
         }
     }
 }

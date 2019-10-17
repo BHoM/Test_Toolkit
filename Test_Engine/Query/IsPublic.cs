@@ -39,5 +39,10 @@ namespace BH.Engine.Test
         {
             return node.HasModifier("public");
         }
+
+        public static bool IsPublic(this AccessorDeclarationSyntax node)
+        {
+            return node.HasModifier("public");
+        }
     }
 }

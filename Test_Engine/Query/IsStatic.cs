@@ -39,5 +39,10 @@ namespace BH.Engine.Test
         {
             return node.HasModifier("static");
         }
+
+        public static bool IsStatic(this AccessorDeclarationSyntax node)
+        {
+            return node.HasModifier("static");
+        }
     }
 }
