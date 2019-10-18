@@ -32,7 +32,7 @@ namespace BH.Engine.Test.Checks
 {
     public static partial class Query
     {
-        public static ComplianceResult IsValidCreateMethod(MethodDeclarationSyntax node)
+        public static ComplianceResult IsValidCreateMethodName(MethodDeclarationSyntax node)
         {
             if(node.IsPublic() && node.IGetNamespace().StartsWith("BH.Engine") && node.IGetClass() == "Create")
             {
