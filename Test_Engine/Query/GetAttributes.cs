@@ -35,12 +35,7 @@ namespace BH.Engine.Test
 {
     public static partial class Query
     {
-        public static List<AttributeListSyntax> GetAttributes(this MethodDeclarationSyntax node, string value)
-        {
-            return node.AttributeLists.Where(x => x.Attributes.Where(y => y.Name.ToString() == value).ToList().Count > 0).ToList();
-        }
-
-        public static List<AttributeListSyntax> GetAttributes(this ConstructorDeclarationSyntax node, string value)
+        public static List<AttributeListSyntax> GetAttributes(this BaseMethodDeclarationSyntax node, string value)
         {
             return node.AttributeLists.Where(x => x.Attributes.Where(y => y.Name.ToString() == value).ToList().Count > 0).ToList();
         }

@@ -35,12 +35,7 @@ namespace BH.Engine.Test
 {
     public static partial class Query
     {
-        public static bool HasAttribute(this MethodDeclarationSyntax node, string value)
-        {
-            return node.GetAttributes(value) != null && node.GetAttributes(value).Count > 0;
-        }
-
-        public static bool HasAttribute(this ConstructorDeclarationSyntax node, string value)
+        public static bool HasAttribute(this BaseMethodDeclarationSyntax node, string value)
         {
             return node.GetAttributes(value) != null && node.GetAttributes(value).Count > 0;
         }
