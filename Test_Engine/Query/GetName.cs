@@ -21,23 +21,46 @@
  */
 
 using BH.oM.Test;
+using Microsoft.CodeAnalysis;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-using Microsoft.CodeAnalysis;
-using Microsoft.CodeAnalysis.CSharp;
-using Microsoft.CodeAnalysis.CSharp.Syntax;
-
 namespace BH.Engine.Test
 {
     public static partial class Query
     {
-        public static List<AttributeListSyntax> InputAttributes(this BaseMethodDeclarationSyntax node)
+        public static string IGetName(this MemberDeclarationSyntax node)
         {
-            return node.GetAttributes("Input");
+            return GetName(node as dynamic);
+        }
+
+        public static string GetName(this MethodDeclarationSyntax node)
+        {
+            return node.Identifier.Text;
+        }
+
+        public static string GetName(this ConstructorDeclarationSyntax node)
+        {
+            return node.Identifier.Text;
+        }
+
+        public static string GetName(this PropertyDeclarationSyntax node)
+        {
+            return node.Identifier.Text;
+        }
+
+        public static string GetName(this ClassDeclarationSyntax node)
+        {
+            return node.Identifier.Text;
+        }
+
+        public static string GetName(this NamespaceDeclarationSyntax node)
+        {
+            return node.Name.ToString();
         }
     }
 }

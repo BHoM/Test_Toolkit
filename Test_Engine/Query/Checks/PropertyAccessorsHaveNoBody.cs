@@ -32,7 +32,7 @@ namespace BH.Engine.Test.Checks
 {
     public static partial class Query
     {
-        public static ComplianceResult PropertyHaveNoBody(PropertyDeclarationSyntax node, CodeContext ctx)
+        public static ComplianceResult PropertyAccessorsHaveNoBody(PropertyDeclarationSyntax node, CodeContext ctx)
         {
             if(ctx.Namespace != null && ctx.Namespace.StartsWith("BH.oM") && node.IsPublic()) 
             {
