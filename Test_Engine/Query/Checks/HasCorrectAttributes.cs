@@ -32,12 +32,13 @@ namespace BH.Engine.Test.Checks
 {
     public static partial class Query
     {
-        public static ComplianceResult HasCorrectAttributes(BaseMethodDeclarationSyntax node, CodeContext ctx)
+        public static ComplianceResult HasCorrectAttributes(BaseMethodDeclarationSyntax node)
         {
             ComplianceResult result = Create.ComplianceResult(ResultStatus.Pass);
-            if (ctx != null && !string.IsNullOrWhiteSpace(ctx.Namespace) && ctx.Namespace.StartsWith("BH."))
+            string ns = node.IGetNamespace();
+            if (ns.StartsWith("BH."))
             {
-                string[] parts = ctx.Namespace.Split('.');
+                string[] parts = ns.Split('.');
                 string second = parts[1];
 
                 if ((!node.IsConstructor() && second == "Engine") || (node.IsConstructor() && second == "Adapter"))
@@ -59,9 +60,8 @@ namespace BH.Engine.Test.Checks
                         ParameterListSyntax paramList = node.ParameterList;
                         foreach(ParameterSyntax p in paramList.Parameters)
                         {
-                            AttributeListSyntax a = null;// attrib.Where(x => x.Attributes.Where(y => y.ArgumentList.Arguments.Count >= 1 && y.ArgumentList.Arguments[0].ToString() == p.Identifier.ToString()).ToList().Count > 0).FirstOrDefault();
-
-                            foreach(AttributeListSyntax als in attrib)
+                            AttributeListSyntax a = null;
+                            foreach (AttributeListSyntax als in attrib)
                             {
                                 foreach(var ab in als.Attributes)
                                 {

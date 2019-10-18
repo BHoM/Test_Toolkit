@@ -32,9 +32,10 @@ namespace BH.Engine.Test.Checks
 {
     public static partial class Query
     {
-        public static ComplianceResult ObjectHasOnlyProperties(FieldDeclarationSyntax node, CodeContext ctx)
+        public static ComplianceResult ObjectHasOnlyProperties(FieldDeclarationSyntax node)
         {
-            if(ctx != null && ctx.Namespace.StartsWith("BH.oM"))
+            string ns = node.IGetNamespace();
+            if(ns.StartsWith("BH.oM"))
             {
                 return Create.ComplianceResult(ResultStatus.CriticalFail, new List<Error> {
                     Create.Error("BHoM Objects cannot contain fields, only properties", node.Span.ToBHoM())
@@ -43,9 +44,10 @@ namespace BH.Engine.Test.Checks
             return Create.ComplianceResult(ResultStatus.Pass);
         }
 
-        public static ComplianceResult ObjectHasOnlyProperties(MethodDeclarationSyntax node, CodeContext ctx)
+        public static ComplianceResult ObjectHasOnlyProperties(MethodDeclarationSyntax node)
         {
-            if(ctx != null && ctx.Namespace.StartsWith("BH.oM"))
+            string ns = node.IGetNamespace();
+            if(ns.StartsWith("BH.oM"))
             {
                 return Create.ComplianceResult(ResultStatus.CriticalFail, new List<Error> {
                     Create.Error("BHoM Objects cannot contain methods, only properties", node.Identifier.Span.ToBHoM())
@@ -54,9 +56,10 @@ namespace BH.Engine.Test.Checks
             return Create.ComplianceResult(ResultStatus.Pass);
         }
 
-        public static ComplianceResult ObjectHasOnlyProperties(ConstructorDeclarationSyntax node, CodeContext ctx)
+        public static ComplianceResult ObjectHasOnlyProperties(ConstructorDeclarationSyntax node)
         {
-            if(ctx != null && ctx.Namespace.StartsWith("BH.oM"))
+            string ns = node.IGetNamespace();
+            if(ns.StartsWith("BH.oM"))
             {
                 return Create.ComplianceResult(ResultStatus.CriticalFail, new List<Error> {
                     Create.Error("BHoM Objects cannot contain constructors, only properties", node.Identifier.Span.ToBHoM())

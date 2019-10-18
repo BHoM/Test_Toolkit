@@ -21,31 +21,40 @@
  */
 
 using BH.oM.Test;
-using Microsoft.CodeAnalysis.CSharp.Syntax;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BH.Engine.Test.Checks
+using Microsoft.CodeAnalysis;
+using Microsoft.CodeAnalysis.CSharp;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
+
+namespace BH.Engine.Test
 {
     public static partial class Query
     {
-        public static ComplianceResult IsValidConvertMethod(MethodDeclarationSyntax node)
+        public static string IGetNamespace(this SyntaxNode node)
         {
-            if(node.IsPublic() && node.IGetNamespace().StartsWith("BH.Engine") && node.IGetClass() == "Convert")
-            {
-                string name = node.Identifier.Text;
-                if(!name.StartsWith("To") && !name.StartsWith("From"))
-                {
-                    return Create.ComplianceResult(ResultStatus.CriticalFail, new List<Error> {
-                        Create.Error($"Convert method name invalid: Method '{node.Identifier}' name must begin with either 'To' or 'From'", node.Identifier.Span.ToBHoM())
-                    });
-                }
-            }
-            return Create.ComplianceResult(ResultStatus.Pass);
+            return GetNamespace(node as dynamic);
         }
 
+        public static string GetNamespace(this SyntaxNode node)
+        {
+            return node.Parent.IGetNamespace();
+        }
+
+        public static string GetNamespace(this CompilationUnitSyntax node)
+        {
+            return "";
+        }
+
+        public static string GetNamespace(this NamespaceDeclarationSyntax node)
+        {
+            string within = node.Parent.IGetNamespace();
+            if (string.IsNullOrEmpty(within)) return node.Name.ToString();
+            return within + "." + node.Name.ToString();
+        }
     }
 }

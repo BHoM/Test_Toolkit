@@ -32,7 +32,7 @@ namespace BH.Engine.Test.Checks
 {
     public static partial class Query
     {
-        public static ComplianceResult HasSingleNamespace(CompilationUnitSyntax node, CodeContext ctx)
+        public static ComplianceResult HasSingleNamespace(CompilationUnitSyntax node)
         {
             if (Test.Query.HasSingleNamespace(node))
                 return Create.ComplianceResult(ResultStatus.Pass);

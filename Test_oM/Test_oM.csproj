@@ -45,7 +45,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CodeContext.cs" />
     <Compile Include="ComplianceResult.cs" />
     <Compile Include="ErrorLevel.cs" />
     <Compile Include="LineLocation.cs" />

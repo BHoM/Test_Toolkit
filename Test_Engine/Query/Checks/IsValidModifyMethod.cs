@@ -32,11 +32,11 @@ namespace BH.Engine.Test.Checks
 {
     public static partial class Query
     {
-        public static ComplianceResult IsValidModifyMethod(MethodDeclarationSyntax node, CodeContext ctx)
+        public static ComplianceResult IsValidModifyMethod(MethodDeclarationSyntax node)
         {
             ComplianceResult result = Create.ComplianceResult(ResultStatus.Pass);
 
-            if (ctx.Namespace.StartsWith("BH.Engine") && ctx.Class == "Modify")
+            if (node.IGetNamespace().StartsWith("BH.Engine") && node.IGetClass() == "Modify")
             {
                 List<LocalDeclarationStatementSyntax> statements = node.Body.Statements.Select(x => x as LocalDeclarationStatementSyntax).ToList();
                 if(statements.Count > 0)

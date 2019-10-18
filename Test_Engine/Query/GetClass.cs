@@ -20,20 +20,41 @@
  * along with this code. If not, see <https://www.gnu.org/licenses/lgpl-3.0.html>.      
  */
 
-using BH.oM.Base;
+using BH.oM.Test;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BH.oM.Test
+using Microsoft.CodeAnalysis;
+using Microsoft.CodeAnalysis.CSharp;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
+
+namespace BH.Engine.Test
 {
-    public class CodeContext : IObject
+    public static partial class Query
     {
-        public string Namespace { get; set; }
-        public string Class { get; set; }
-        public string Method { get; set; }
-        public string Toolkit { get; set; }
+        public static string IGetClass(this SyntaxNode node)
+        {
+            return GetClass(node as dynamic);
+        }
+
+        public static string GetClass(this SyntaxNode node)
+        {
+            return node.Parent.IGetClass();
+        }
+
+        public static string GetClass(this CompilationUnitSyntax node)
+        {
+            return null;
+        }
+
+        public static string GetClass(this ClassDeclarationSyntax node)
+        {
+            string within = node.Parent.IGetClass();
+            if (string.IsNullOrEmpty(within)) return node.IGetName();
+            return within + "." + node.IGetName();
+        }
     }
 }

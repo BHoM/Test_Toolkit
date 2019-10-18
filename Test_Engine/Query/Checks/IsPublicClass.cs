@@ -32,9 +32,10 @@ namespace BH.Engine.Test.Checks
 {
     public static partial class Query
     {
-        public static ComplianceResult IsPublicClass(ClassDeclarationSyntax node, CodeContext ctx)
+        public static ComplianceResult IsPublicClass(ClassDeclarationSyntax node)
         {
-            if(ctx.Namespace != null && ctx.Namespace.StartsWith("BH.Engine") && !node.IsPublic())
+            string ns = node.IGetNamespace();
+            if(ns.StartsWith("BH.Engine") && !node.IsPublic())
             {
                 return Create.ComplianceResult(ResultStatus.CriticalFail,
                     new List<Error> {

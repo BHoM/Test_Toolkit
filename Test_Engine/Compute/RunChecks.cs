@@ -35,7 +35,7 @@ namespace BH.Engine.Test
 {
     public static partial class Compute
     {
-        public static ComplianceResult RunChecks(this SyntaxNode node, CodeContext ctx)
+        public static ComplianceResult RunChecks(this SyntaxNode node)
         {
             Type type = node.GetType();
             IEnumerable<MethodInfo> checks = Reflection.Query.BHoMMethodList().Where(method =>
@@ -45,7 +45,7 @@ namespace BH.Engine.Test
             foreach(MethodInfo method in checks)
             {
                 Func<object[], object> fn = method.ToFunc();
-                ComplianceResult result = fn(new object[] { node, ctx }) as ComplianceResult;
+                ComplianceResult result = fn(new object[] { node }) as ComplianceResult;
                 if (result != null)
                 {
                     finalresult = finalresult.Merge(result);

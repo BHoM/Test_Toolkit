@@ -114,6 +114,8 @@
     <Compile Include="Query\Checks\IsValidModifyMethod.cs" />
     <Compile Include="Query\DescriptionAttribute.cs" />
     <Compile Include="Query\GetAttributes.cs" />
+    <Compile Include="Query\GetClass.cs" />
+    <Compile Include="Query\GetNamespace.cs" />
     <Compile Include="Query\GetName.cs" />
     <Compile Include="Query\HasAttribute.cs" />
     <Compile Include="Query\HasSingleNamespace.cs" />

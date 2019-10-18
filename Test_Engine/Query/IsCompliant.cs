@@ -33,72 +33,52 @@ namespace BH.Engine.Test
 {
     public static partial class Query
     {
-        public static ComplianceResult IIsCompliant(this SyntaxNode node, CodeContext ctx = null)
+        public static ComplianceResult IIsCompliant(this SyntaxNode node)
         {
-            if (ctx == null) ctx = new CodeContext();
-            else ctx = new CodeContext { Namespace = ctx.Namespace, Class = ctx.Class, Method = ctx.Method, Toolkit = ctx.Toolkit };
-            return IsCompliant(node as dynamic, ctx);
+            return IsCompliant(node as dynamic);
         }
 
-        public static ComplianceResult IsCompliant(this SyntaxNode node, CodeContext ctx)
+        public static ComplianceResult IsCompliant(this SyntaxNode node)
         {
-            return Compute.RunChecks(node, ctx);
+            return Compute.RunChecks(node);
         }
 
-        public static ComplianceResult IsCompliant<T>(this SyntaxList<T> syntaxList, CodeContext ctx) where T : SyntaxNode
+        public static ComplianceResult IsCompliant<T>(this SyntaxList<T> syntaxList) where T : SyntaxNode
         {
-
             ComplianceResult finalresult = Create.ComplianceResult(ResultStatus.Pass);
             foreach(SyntaxNode syntaxNode in syntaxList)
             {
-                var result = syntaxNode.IIsCompliant(ctx);
+                var result = syntaxNode.IIsCompliant();
                 finalresult = finalresult.Merge(result);
             }
             return finalresult;
         }
 
-        public static ComplianceResult IsCompliant(this CompilationUnitSyntax node, CodeContext ctx)
+        public static ComplianceResult IsCompliant(this CompilationUnitSyntax node)
         {
-            var result = Compute.RunChecks(node, ctx);
+            var result = Compute.RunChecks(node);
             return result
-                .Merge(node.Members.IsCompliant(ctx))
-                .Merge(node.Usings.IsCompliant(ctx));
+                .Merge(node.Members.IsCompliant())
+                .Merge(node.Usings.IsCompliant());
         }
 
-        public static ComplianceResult IsCompliant(this NamespaceDeclarationSyntax node, CodeContext ctx)
+        public static ComplianceResult IsCompliant(this NamespaceDeclarationSyntax node)
         {
-            ComplianceResult result = Compute.RunChecks(node, ctx);
-            if (string.IsNullOrWhiteSpace(ctx.Namespace))
-            {
-                ctx.Namespace = node.Name.ToString();
-            }
-            else
-            {
-                ctx.Namespace += $".{node.Name.ToString()}";
-            }
-
+            ComplianceResult result = Compute.RunChecks(node);
             return result
-                .Merge(node.Members.IsCompliant(ctx))
-                .Merge(node.Usings.IsCompliant(ctx));
+                .Merge(node.Members.IsCompliant())
+                .Merge(node.Usings.IsCompliant());
         }
 
-        public static ComplianceResult IsCompliant(this ClassDeclarationSyntax node, CodeContext ctx)
+        public static ComplianceResult IsCompliant(this ClassDeclarationSyntax node)
         {
-            ComplianceResult result = Compute.RunChecks(node, ctx);
-            if (string.IsNullOrWhiteSpace(ctx.Class))
-            {
-                ctx.Class = node.Identifier.Text;
-            }
-            else
-            {
-                ctx.Class += $".{node.Identifier.Text}";
-            }
-            return result.Merge(node.Members.IsCompliant(ctx));
+            ComplianceResult result = Compute.RunChecks(node);
+            return result.Merge(node.Members.IsCompliant());
         }
 
-        public static ComplianceResult IsCompliant(this MethodDeclarationSyntax node, CodeContext ctx)
+        public static ComplianceResult IsCompliant(this MethodDeclarationSyntax node)
         {
-            return Compute.RunChecks(node, ctx);
+            return Compute.RunChecks(node);
         }
     }
 }

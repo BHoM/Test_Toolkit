@@ -32,13 +32,9 @@ namespace BH.Engine.Test.Checks
 {
     public static partial class Query
     {
-        public static ComplianceResult IsValidNamespace(NamespaceDeclarationSyntax node, CodeContext ctx)
+        public static ComplianceResult IsValidNamespace(NamespaceDeclarationSyntax node)
         {
             string name = node.Name.ToString();
-            if (ctx != null && string.IsNullOrWhiteSpace(ctx.Namespace)) name = ctx.Namespace + name;
-
-            string toolkitName = "";
-            if (ctx != null && !string.IsNullOrWhiteSpace(ctx.Toolkit)) toolkitName = ctx.Toolkit;
 
             if(name.StartsWith("BH."))
             {
@@ -57,8 +53,6 @@ namespace BH.Engine.Test.Checks
                         }
                     );
                 }
-                if (toolkitName != "" && third != "" && third != toolkitName)
-                    return Create.ComplianceResult(ResultStatus.CriticalFail, new List<Error> { Create.Error($"Namespace '{name}' is not a valid BHoM namespace, namespace name should contain the toolkit name", Create.Span(node.Name.Span.Start, node.Name.Span.Length)) });
             }
             return Create.ComplianceResult(ResultStatus.Pass);
         }

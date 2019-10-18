@@ -32,9 +32,10 @@ namespace BH.Engine.Test.Checks
 {
     public static partial class Query
     {
-        public static ComplianceResult PropertyHasPublicGet(PropertyDeclarationSyntax node, CodeContext ctx)
+        public static ComplianceResult PropertyHasPublicGet(PropertyDeclarationSyntax node)
         {
-            if(ctx.Namespace != null && ctx.Namespace.StartsWith("BH.oM") && node.IsPublic()) 
+            string ns = node.IGetNamespace();
+            if(ns.StartsWith("BH.oM") && node.IsPublic()) 
             {
                 AccessorDeclarationSyntax getter = node.PropertyGetAccessor();
                 if (getter == null || getter.Modifiers.ContainsToken("private"))
