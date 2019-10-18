@@ -96,6 +96,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Compute\CheckReferences.cs" />
     <Compile Include="Convert\ToBHoM.cs" />
     <Compile Include="Convert\ToSyntaxTree.cs" />
     <Compile Include="Convert\ToSpan.cs" />
