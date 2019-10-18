@@ -44,7 +44,7 @@ namespace BH.Engine.Test
             if (Path.GetExtension(csProjFilePath) != ".csproj")
                 return Create.ComplianceResult(ResultStatus.Pass);
 
-            ComplianceResult finalresult = Create.ComplianceResult(ResultStatus.Pass);
+            ComplianceResult finalResult = Create.ComplianceResult(ResultStatus.Pass);
 
             XNamespace msbuild = "http://schemas.microsoft.com/developer/msbuild/2003";
             XDocument projDefinition = XDocument.Load(csProjFilePath);
@@ -85,7 +85,7 @@ namespace BH.Engine.Test
 
                 if (include.Contains("Version") || include.Contains("Culture") || include.Contains("processorArchitecture"))
                 {
-                    finalresult = finalresult.Merge(Create.ComplianceResult(ResultStatus.CriticalFail, new List<Error> { Create.Error("Project references for BHoM DLLs should not include Version, Culture, or Processor Architecture", Create.Span(1, 1)) }));
+                    finalResult = finalResult.Merge(Create.ComplianceResult(ResultStatus.CriticalFail, new List<Error> { Create.Error("Project references for BHoM DLLs should not include Version, Culture, or Processor Architecture", Create.Span(1, 1)) }));
                     continue; //Difficult to check rest of reference due to string parsing if this bit is wrong
                 }
 
@@ -94,7 +94,7 @@ namespace BH.Engine.Test
 
                 if (x.Element(msbuild + "HintPath") == null)
                 {
-                    finalresult = finalresult.Merge(Create.ComplianceResult(ResultStatus.CriticalFail, new List<Error> { Create.Error($"HintPath for reference to '{reference}' must be set", Create.Span(1, 1)) }));
+                    finalResult = finalResult.Merge(Create.ComplianceResult(ResultStatus.CriticalFail, new List<Error> { Create.Error($"HintPath for reference to '{reference}' must be set", Create.Span(1, 1)) }));
                     continue;
                 }
 
@@ -129,10 +129,10 @@ namespace BH.Engine.Test
                 }
 
                 if (referenceHintPath != hintPath)
-                    finalresult = finalresult.Merge(Create.ComplianceResult(ResultStatus.CriticalFail, new List<Error> { Create.Error($"Project references for '{referenceError}' should be set to '{hintPath}'", Create.Span(1, 1)) }));
+                    finalResult = finalResult.Merge(Create.ComplianceResult(ResultStatus.CriticalFail, new List<Error> { Create.Error($"Project references for '{referenceError}' should be set to '{hintPath}'", Create.Span(1, 1)) }));
             }
 
-            return finalresult;
+            return finalResult;
         }
     }
 }
