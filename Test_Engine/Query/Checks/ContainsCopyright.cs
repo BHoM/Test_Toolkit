@@ -32,7 +32,7 @@ namespace BH.Engine.Test.Checks
 {
     public static partial class Query
     {
-        public static ComplianceResult ContainsCopyright(CompilationUnitSyntax node, CodeContext ctx)
+        public static ComplianceResult ContainsCopyright(CompilationUnitSyntax node)
         {
             return Test.Query.ContainsCopyright(node.GetLeadingTrivia(), "");
         }

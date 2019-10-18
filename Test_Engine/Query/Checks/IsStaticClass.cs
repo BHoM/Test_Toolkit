@@ -32,9 +32,10 @@ namespace BH.Engine.Test.Checks
 {
     public static partial class Query
     {
-        public static ComplianceResult IsStaticClass(ClassDeclarationSyntax node, CodeContext ctx)
+        public static ComplianceResult IsStaticClass(ClassDeclarationSyntax node)
         {
-            if(ctx.Namespace != null && ctx.Namespace.StartsWith("BH.Engine") && !node.IsStatic())
+            string ns = node.IGetNamespace();
+            if(ns.StartsWith("BH.Engine") && !node.IsStatic())
             {
                 return Create.ComplianceResult(ResultStatus.CriticalFail,
                     new List<Error> {

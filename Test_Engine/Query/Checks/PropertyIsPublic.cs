@@ -32,9 +32,10 @@ namespace BH.Engine.Test.Checks
 {
     public static partial class Query
     {
-        public static ComplianceResult PropertyIsPublic(PropertyDeclarationSyntax node, CodeContext ctx)
+        public static ComplianceResult PropertyIsPublic(PropertyDeclarationSyntax node)
         {
-            if(ctx.Namespace != null && ctx.Namespace.StartsWith("BH.oM") && !node.IsPublic()) 
+            string ns = node.IGetNamespace();
+            if(ns.StartsWith("BH.oM") && !node.IsPublic()) 
             {
                 return Create.ComplianceResult(ResultStatus.CriticalFail,
                     new List<Error> {

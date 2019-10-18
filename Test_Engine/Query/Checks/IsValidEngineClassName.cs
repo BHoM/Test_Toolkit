@@ -32,9 +32,9 @@ namespace BH.Engine.Test.Checks
 {
     public static partial class Query
     {
-        public static ComplianceResult IsValidEngineClassName(ClassDeclarationSyntax node, CodeContext ctx)
+        public static ComplianceResult IsValidEngineClassName(ClassDeclarationSyntax node)
         {
-            if(ctx.Namespace.StartsWith("BH.Engine"))
+            if(node.IGetNamespace().StartsWith("BH.Engine"))
             {
                 List<string> validEngineClassNames = new List<string>() { "Create", "Convert", "Query", "Modify", "Compute" };
                 string name = node.Identifier.Text;
