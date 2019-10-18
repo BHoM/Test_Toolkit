@@ -28,44 +28,22 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BH.Engine.Test.Checks
+using Microsoft.CodeAnalysis;
+using Microsoft.CodeAnalysis.CSharp;
+
+namespace BH.Engine.Test
 {
     public static partial class Query
     {
-        public static ComplianceResult ObjectHasOnlyProperties(FieldDeclarationSyntax node)
+        public static bool DirectlyInherits(ClassDeclarationSyntax node, string value)
         {
-            string ns = node.IGetNamespace();
-            if(ns.StartsWith("BH.oM"))
+            if(node.BaseList != null)
             {
-                return Create.ComplianceResult(ResultStatus.CriticalFail, new List<Error> {
-                    Create.Error("BHoM Objects cannot contain fields, only properties", node.Span.ToBHoM())
-                });
+                foreach (SimpleBaseTypeSyntax b in node.BaseList.Types)
+                    if (b.ToString() == value) return true;
             }
-            return Create.ComplianceResult(ResultStatus.Pass);
-        }
 
-        public static ComplianceResult ObjectHasOnlyProperties(MethodDeclarationSyntax node)
-        {
-            string ns = node.IGetNamespace();
-            if(ns.StartsWith("BH.oM"))
-            {
-                return Create.ComplianceResult(ResultStatus.CriticalFail, new List<Error> {
-                    Create.Error("BHoM Objects cannot contain methods, only properties", node.Identifier.Span.ToBHoM())
-                });
-            }
-            return Create.ComplianceResult(ResultStatus.Pass);
-        }
-
-        public static ComplianceResult ObjectHasOnlyProperties(ConstructorDeclarationSyntax node)
-        {
-            string ns = node.IGetNamespace();
-            if(ns.StartsWith("BH.oM") && !Test.Query.DirectlyInherits((node.Parent as ClassDeclarationSyntax), "IImmutable"))
-            {
-                return Create.ComplianceResult(ResultStatus.CriticalFail, new List<Error> {
-                    Create.Error("BHoM Objects cannot contain constructors, only properties", node.Identifier.Span.ToBHoM())
-                });
-            }
-            return Create.ComplianceResult(ResultStatus.Pass);
+            return false;
         }
     }
 }
