@@ -46,17 +46,17 @@ namespace BH.Engine.Test
             IEnumerable<MethodInfo> checks = Reflection.Query.BHoMMethodList().Where(method =>
                 method.DeclaringType.Namespace == "BH.Engine.Test.Checks"
                 && method.GetParameters()[0].ParameterType.IsAssignableFrom(type));
-            ComplianceResult finalresult = Create.ComplianceResult(ResultStatus.Pass);
+            ComplianceResult finalResult = Create.ComplianceResult(ResultStatus.Pass);
             foreach(MethodInfo method in checks)
             {
                 Func<object[], object> fn = method.ToFunc();
                 ComplianceResult result = fn(new object[] { node }) as ComplianceResult;
                 if (result != null)
                 {
-                    finalresult = finalresult.Merge(result);
+                    finalResult = finalResult.Merge(result);
                 }
             }
-            return finalresult;
+            return finalResult;
         }
     }
 }
