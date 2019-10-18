@@ -32,7 +32,7 @@ namespace BH.Engine.Test.Checks
 {
     public static partial class Query
     {
-        public static ComplianceResult IsValidConvertMethod(MethodDeclarationSyntax node)
+        public static ComplianceResult IsValidConvertMethodName(MethodDeclarationSyntax node)
         {
             if(node.IsPublic() && node.IGetNamespace().StartsWith("BH.Engine") && node.IGetClass() == "Convert")
             {
