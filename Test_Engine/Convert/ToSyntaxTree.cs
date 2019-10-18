@@ -35,9 +35,9 @@ namespace BH.Engine.Test
 {
     public static partial class Convert
     {
-        public static SyntaxTree ToSyntaxTree(this string code)
+        public static SyntaxTree ToSyntaxTree(this string code, string path = "")
         {
-            return CSharpSyntaxTree.ParseText(code);
+            return CSharpSyntaxTree.ParseText(code, path: path);
         }
     }
 }
