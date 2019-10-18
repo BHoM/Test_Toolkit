@@ -20,6 +20,7 @@
  * along with this code. If not, see <https://www.gnu.org/licenses/lgpl-3.0.html>.      
  */
 
+using BH.Engine.Base;
 using BH.oM.Test;
 using Microsoft.CodeAnalysis;
 using System;
@@ -34,7 +35,7 @@ namespace BH.Engine.Test
     {
         public static ComplianceResult Merge(this ComplianceResult a, ComplianceResult b)
         {
-            a = a.GetShallowClone() as ComplianceResult;
+            a = a.ShallowClone() as ComplianceResult;
             if (a.Errors == null) a.Errors = new List<Error>();
             a.Errors.AddRange(b.Errors);
             if (b.Status > a.Status) a.Status = b.Status;
