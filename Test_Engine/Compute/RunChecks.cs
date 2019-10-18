@@ -31,12 +31,17 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
+using System.IO;
+
 namespace BH.Engine.Test
 {
     public static partial class Compute
     {
         public static ComplianceResult RunChecks(this SyntaxNode node)
         {
+            if (Path.GetFileName(node.SyntaxTree.FilePath) == "AssemblyInfo.cs")
+                return Create.ComplianceResult(ResultStatus.Pass);
+
             Type type = node.GetType();
             IEnumerable<MethodInfo> checks = Reflection.Query.BHoMMethodList().Where(method =>
                 method.DeclaringType.Namespace == "BH.Engine.Test.Checks"
