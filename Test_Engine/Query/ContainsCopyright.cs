@@ -35,11 +35,20 @@ namespace BH.Engine.Test
 {
     public static partial class Query
     {
-        public static ComplianceResult ContainsCopyright(SyntaxTriviaList leadingTrivia, string copyrightStatement)
+        public static ComplianceResult ContainsCopyright(SyntaxTriviaList leadingTrivia, int year = -1)
         {
-            copyrightStatement = @"/*
+            bool checkAllYears = false;
+            if (year == -1)
+            {
+                checkAllYears = true;
+                year = 2018; //Start
+            }
+
+            int maxYear = DateTime.Now.Year; //Max
+
+            string copyrightStatement = $@"/*
  * This file is part of the Buildings and Habitats object Model (BHoM)
- * Copyright (c) 2015 - 2019, the respective contributors. All rights reserved.
+ * Copyright (c) 2015 - {year}, the respective contributors. All rights reserved.
  *
  * Each contributor holds copyright over their respective contributions.
  * The project versioning (Git) records all such contribution source information.
@@ -72,11 +81,45 @@ namespace BH.Engine.Test
                 return Create.ComplianceResult(ResultStatus.CriticalFail, new List<Error> { e });
             }
 
-            for(int x = 0; x < copyrightSplit.Length; x++)
+            if (!checkAllYears)
             {
-                if(split[x].TrimEnd() != copyrightSplit[x].TrimEnd())
+                for (int x = 0; x < copyrightSplit.Length; x++)
                 {
-                    Error e = Create.Error("Copyright message is not accurate at line " + (x + 1), Create.LineSpan(x + 1, x + 2).ToSpan(l), ErrorLevel.Error);
+                    if (split[x].TrimEnd() != copyrightSplit[x].TrimEnd())
+                    {
+                        Error e = Create.Error("Copyright message is not accurate at line " + (x + 1), Create.LineSpan(x + 1, x + 2).ToSpan(l), ErrorLevel.Error);
+                        return Create.ComplianceResult(ResultStatus.CriticalFail, new List<Error> { e });
+                    }
+                }
+            }
+            else
+            {
+                List<int> availableYears = new List<int>();
+                for (int x = 2018; x <= maxYear; x++)
+                    availableYears.Add(x);
+
+                for (int x = 0; x < copyrightSplit.Length; x++)
+                {
+                    if (x == 2) continue; //Skip the year line
+
+                    if (split[x].TrimEnd() != copyrightSplit[x].TrimEnd())
+                    {
+                        Error e = Create.Error("Copyright message is not accurate at line " + (x + 1), Create.LineSpan(x + 1, x + 2).ToSpan(l), ErrorLevel.Error);
+                        return Create.ComplianceResult(ResultStatus.CriticalFail, new List<Error> { e });
+                    }
+                }
+
+                bool validOnOneYear = false;
+                foreach (int a in availableYears)
+                {
+                    copyrightSplit[2] = $" * Copyright (c) 2015 - {a}, the respective contributors. All rights reserved.";
+                    if (split[2].TrimEnd() == copyrightSplit[2].TrimEnd())
+                        validOnOneYear = true;
+                }
+
+                if (!validOnOneYear)
+                {
+                    Error e = Create.Error("Copyright message is not accurate at line 3", Create.LineSpan(3, 4).ToSpan(l), ErrorLevel.Error);
                     return Create.ComplianceResult(ResultStatus.CriticalFail, new List<Error> { e });
                 }
             }
