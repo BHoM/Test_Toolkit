@@ -34,7 +34,7 @@ namespace BH.Engine.Test.Checks
     {
         public static ComplianceResult ContainsCopyright(CompilationUnitSyntax node)
         {
-            return Test.Query.ContainsCopyright(node.GetLeadingTrivia(), "");
+            return Test.Query.ContainsCopyright(node.GetLeadingTrivia(), -1);
         }
 
     }
