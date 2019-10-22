@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 
 using BH.oM.Test;
+using BH.Engine.Test;
 
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
@@ -48,12 +49,19 @@ namespace Test_Test
             {
                 StreamReader sr = new StreamReader(s);
 
-                //SyntaxTree
+                SyntaxTree st = BH.Engine.Test.Convert.ToSyntaxTree(sr.ReadLine(), s);
+                result = result.Merge(st.GetFileRoot().RunChecks());
+
                 sr.Close();
             }
 
-
-            Assert.IsTrue(true);
+            if (result.Status == ResultStatus.Pass)
+                Assert.IsTrue(true); //Pass test
+            else
+            {
+                Assert.Fail(result.Errors.Select(x => x.Message).ToString());
+                Assert.IsTrue(false); //Fail test
+            }
         }
     }
 }
