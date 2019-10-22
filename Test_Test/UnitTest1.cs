@@ -10,6 +10,11 @@ namespace Test_Test
         public void TestMethod1()
         {
             Assert.IsTrue(true);
+        }
+
+        [TestMethod]
+        public void TestMethod2()
+        {
             Assert.IsTrue(false);
         }
     }
