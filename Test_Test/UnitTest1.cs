@@ -31,16 +31,19 @@ namespace Test_Test
 
             if (projectName == "null") Assert.IsTrue(true);
 
+            string projectSplit = "";
             if (projectName.EndsWith("_Toolkit"))
-                projectName = projectName.Split('_')[0];
+                projectSplit = projectSplit.Split('_')[0];
+            else
+                projectSplit = projectName;
 
             string cwd = Directory.GetCurrentDirectory();
             Console.WriteLine(cwd);
 
-            string projectOM = Path.Combine("..", "..", projectName + "_Toolkit", projectName + "_oM");
-            string projectEngine = Path.Combine("..", "..", projectName + "_Toolkit", projectName + "_Engine");
-            string projectAdapter = Path.Combine("..", "..", projectName + "_Toolkit", projectName + "_Adapter");
-            string projectUI = Path.Combine("..", "..", projectName + "_Toolkit" + projectName + "_UI");
+            string projectOM = Path.Combine("..", "..", projectName + "_Toolkit", projectSplit + "_oM");
+            string projectEngine = Path.Combine("..", "..", projectName + "_Toolkit", projectSplit + "_Engine");
+            string projectAdapter = Path.Combine("..", "..", projectName + "_Toolkit", projectSplit + "_Adapter");
+            string projectUI = Path.Combine("..", "..", projectName + "_Toolkit" + projectSplit + "_UI");
 
             List<string> oMFiles = Directory.EnumerateFiles(projectOM, "*.cs", SearchOption.AllDirectories).ToList();
 
