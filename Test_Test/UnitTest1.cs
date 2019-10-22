@@ -31,6 +31,11 @@ namespace Test_Test
 
             if (projectName == "null") Assert.IsTrue(true);
 
+            string omName = TestContext.Properties["oMName"].ToString();
+            string engineName = TestContext.Properties["engineName"].ToString();
+            string adapterName = TestContext.Properties["adapterName"].ToString();
+            string uiName = TestContext.Properties["uiName"].ToString();
+
             string projectSplit = "";
             if (projectName.EndsWith("_Toolkit"))
                 projectSplit = projectSplit.Split('_')[0];
@@ -40,10 +45,15 @@ namespace Test_Test
             string cwd = Directory.GetCurrentDirectory();
             Console.WriteLine(cwd);
 
-            string projectOM = Path.Combine("..", "..", projectName, projectSplit + "_oM");
-            string projectEngine = Path.Combine("..", "..", projectName, projectSplit + "_Engine");
-            string projectAdapter = Path.Combine("..", "..", projectName, projectSplit + "_Adapter");
-            string projectUI = Path.Combine("..", "..", projectName, projectSplit + "_UI");
+            string projectOM = null;
+            string projectEngine = null;
+            string projectAdapter = null;
+            string projectUI = null;
+            
+            if(omName != "null") projectOM = Path.Combine("..", "..", projectName, projectSplit + "_oM");
+            if(engineName != "null") projectEngine = Path.Combine("..", "..", projectName, projectSplit + "_Engine");
+            if(adapterName != "null") projectAdapter = Path.Combine("..", "..", projectName, projectSplit + "_Adapter");
+            if(uiName != "null") projectUI = Path.Combine("..", "..", projectName, projectSplit + "_UI");
 
             List<string> oMFiles = Directory.EnumerateFiles(projectOM, "*.cs", SearchOption.AllDirectories).ToList();
 
