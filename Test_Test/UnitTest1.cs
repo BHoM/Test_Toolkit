@@ -40,10 +40,10 @@ namespace Test_Test
             string cwd = Directory.GetCurrentDirectory();
             Console.WriteLine(cwd);
 
-            string projectOM = Path.Combine("..", "..", projectName + "_Toolkit", projectSplit + "_oM");
-            string projectEngine = Path.Combine("..", "..", projectName + "_Toolkit", projectSplit + "_Engine");
-            string projectAdapter = Path.Combine("..", "..", projectName + "_Toolkit", projectSplit + "_Adapter");
-            string projectUI = Path.Combine("..", "..", projectName + "_Toolkit" + projectSplit + "_UI");
+            string projectOM = Path.Combine("..", "..", projectName, projectSplit + "_oM");
+            string projectEngine = Path.Combine("..", "..", projectName, projectSplit + "_Engine");
+            string projectAdapter = Path.Combine("..", "..", projectName, projectSplit + "_Adapter");
+            string projectUI = Path.Combine("..", "..", projectName, projectSplit + "_UI");
 
             List<string> oMFiles = Directory.EnumerateFiles(projectOM, "*.cs", SearchOption.AllDirectories).ToList();
 
