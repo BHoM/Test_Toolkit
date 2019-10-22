@@ -45,6 +45,8 @@
   <!-- Parameters used by tests at runtime -->
   <TestRunParameters>
     <Parameter name="projectName" value="Test_Toolkit" />
+    <Parameter name="oMName" value="Test_oM" />
+    <Parameter name="engineName" value="Test_Engine" />
   </TestRunParameters>
 
   <!-- Adapter Specific sections -->
