@@ -63,8 +63,10 @@ namespace Test_Test
                 StreamReader sr = new StreamReader(s);
 
                 string file = sr.ReadToEnd();
+                sr.Close();
                 if (file != null)
                 {
+                    Assert.Fail(file);
                     SyntaxTree st = BH.Engine.Test.Convert.ToSyntaxTree(file, s);
                     result = result.Merge(st.GetFileRoot().RunChecks());
                 }
