@@ -57,13 +57,17 @@ namespace Test_Test
             
             List<string> oMFiles = Directory.EnumerateFiles(projectOM, "*.cs", SearchOption.AllDirectories).ToList();
 
-            ComplianceResult result = null;
+            ComplianceResult result = Create.ComplianceResult(ResultStatus.Pass);
             foreach(string s in oMFiles)
             {
                 StreamReader sr = new StreamReader(s);
 
-                SyntaxTree st = BH.Engine.Test.Convert.ToSyntaxTree(sr.ReadLine(), s);
-                result = result.Merge(st.GetFileRoot().RunChecks());
+                string file = sr.ReadToEnd();
+                if (file != null)
+                {
+                    SyntaxTree st = BH.Engine.Test.Convert.ToSyntaxTree(file, s);
+                    result = result.Merge(st.GetFileRoot().RunChecks());
+                }
 
                 sr.Close();
             }
@@ -72,8 +76,10 @@ namespace Test_Test
                 Assert.IsTrue(true); //Pass test
             else
             {
-                Assert.Fail(result.Errors.Select(x => x.Message).ToString());
-                Assert.IsTrue(false); //Fail test
+                string message = "";
+                foreach (Error e in result.Errors)
+                    message += e.Message + "\n";
+                Assert.Fail(message);
             }
         }
     }
