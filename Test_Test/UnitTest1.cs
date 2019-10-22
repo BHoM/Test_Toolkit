@@ -46,13 +46,13 @@ namespace Test_Test
             string projectUI = null;
 
             if(TestContext.Properties.Contains("oMName"))
-                projectOM = Path.Combine("..", "..", projectName, TestContext.Properties["oMName"].ToString()+ "_oM");
+                projectOM = Path.Combine("..", "..", projectName, TestContext.Properties["oMName"].ToString());
             if (TestContext.Properties.Contains("engineName"))
-                projectEngine = Path.Combine("..", "..", projectName, TestContext.Properties["engineName"].ToString() + "_Engine");
+                projectEngine = Path.Combine("..", "..", projectName, TestContext.Properties["engineName"].ToString());
             if (TestContext.Properties.Contains("adapterName"))
-                projectAdapter = Path.Combine("..", "..", projectName, TestContext.Properties["adapterName"].ToString() + "_Adapter");
+                projectAdapter = Path.Combine("..", "..", projectName, TestContext.Properties["adapterName"].ToString());
             if (TestContext.Properties.Contains("uiName"))
-                projectUI = Path.Combine("..", "..", projectName, TestContext.Properties["uiName"].ToString() + "_UI");
+                projectUI = Path.Combine("..", "..", projectName, TestContext.Properties["uiName"].ToString());
 
             
             List<string> oMFiles = Directory.EnumerateFiles(projectOM, "*.cs", SearchOption.AllDirectories).ToList();
