@@ -28,7 +28,7 @@ namespace Test_Test
         {
             string projectName = TestContext.Properties["projectName"].ToString();
 
-            if (projectName == "null") return;
+            if (projectName == "null") Assert.IsTrue(true);
 
             if (projectName.EndsWith("_Toolkit"))
                 projectName = projectName.Split('_')[0];
@@ -47,7 +47,8 @@ namespace Test_Test
             foreach(string s in oMFiles)
             {
                 StreamReader sr = new StreamReader(s);
-                
+
+                //SyntaxTree
                 sr.Close();
             }
 
