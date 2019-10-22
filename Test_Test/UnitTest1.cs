@@ -31,11 +31,6 @@ namespace Test_Test
 
             if (projectName == "null") Assert.IsTrue(true);
 
-            string omName = TestContext.Properties["oMName"].ToString();
-            string engineName = TestContext.Properties["engineName"].ToString();
-            string adapterName = TestContext.Properties["adapterName"].ToString();
-            string uiName = TestContext.Properties["uiName"].ToString();
-
             string projectSplit = "";
             if (projectName.EndsWith("_Toolkit"))
                 projectSplit = projectSplit.Split('_')[0];
@@ -49,12 +44,17 @@ namespace Test_Test
             string projectEngine = null;
             string projectAdapter = null;
             string projectUI = null;
-            
-            if(omName != "null") projectOM = Path.Combine("..", "..", projectName, projectSplit + "_oM");
-            if(engineName != "null") projectEngine = Path.Combine("..", "..", projectName, projectSplit + "_Engine");
-            if(adapterName != "null") projectAdapter = Path.Combine("..", "..", projectName, projectSplit + "_Adapter");
-            if(uiName != "null") projectUI = Path.Combine("..", "..", projectName, projectSplit + "_UI");
 
+            if(TestContext.Properties.Contains("oMName"))
+                projectOM = Path.Combine("..", "..", projectName, TestContext.Properties["oMName"].ToString()+ "_oM");
+            if (TestContext.Properties.Contains("engineName"))
+                projectEngine = Path.Combine("..", "..", projectName, TestContext.Properties["engineName"].ToString() + "_Engine");
+            if (TestContext.Properties.Contains("adapterName"))
+                projectAdapter = Path.Combine("..", "..", projectName, TestContext.Properties["adapterName"].ToString() + "_Adapter");
+            if (TestContext.Properties.Contains("uiName"))
+                projectUI = Path.Combine("..", "..", projectName, TestContext.Properties["uiName"].ToString() + "_UI");
+
+            
             List<string> oMFiles = Directory.EnumerateFiles(projectOM, "*.cs", SearchOption.AllDirectories).ToList();
 
             ComplianceResult result = null;
