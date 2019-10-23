@@ -105,7 +105,6 @@
     <Compile Include="AdapterTests.cs" />
     <Compile Include="EngineTests.cs" />
     <Compile Include="oMTests.cs" />
-    <Compile Include="UnitTest1.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
