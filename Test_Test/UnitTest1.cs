@@ -68,11 +68,9 @@ namespace Test_Test
                 {
                     //Assert.Fail(file);
                     SyntaxTree st = BH.Engine.Test.Convert.ToSyntaxTree(file, s);
-                    Assert.Fail(st.GetFileRoot().GetType().ToString());
-                    //result = result.Merge(st.GetFileRoot().RunChecks());
+                    //Assert.Fail(st.GetFileRoot().GetType().ToString());
+                    result = result.Merge(st.GetFileRoot().IIsCompliant());
                 }
-
-                sr.Close();
             }
 
             if (result.Status == ResultStatus.Pass)
