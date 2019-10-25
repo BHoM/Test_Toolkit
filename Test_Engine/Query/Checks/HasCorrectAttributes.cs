@@ -43,45 +43,62 @@ namespace BH.Engine.Test.Checks
 
                 if ((!node.IsConstructor() && second == "Engine") || (node.IsConstructor() && second == "Adapter"))
                 {
-                    if (node.HasAttribute("Description") && node.GetAttributes("Description").Count > 1)
-                        result = result.Merge(Create.ComplianceResult(ResultStatus.Fail, new List<Error> { Create.Error($"Method '{node.IGetName()}' cannot contain more than one Description attribute", node.Span.ToBHoM(), ErrorLevel.Warning) }));
-                    else if(!node.HasAttribute("Description"))
-                        result = result.Merge(Create.ComplianceResult(ResultStatus.Fail, new List<Error> { Create.Error($"Method '{node.IGetName()}' requires a Description attribute", node.Span.ToBHoM(), ErrorLevel.Warning) }));
-                    if (node.HasAttribute("Output") && node.GetAttributes("Output").Count > 1)
-                        result = result.Merge(Create.ComplianceResult(ResultStatus.Fail, new List<Error> { Create.Error($"Method '{node.IGetName()}' cannot contain more than one Output attribute - if you have more than one output consider using MultiOutput", node.Span.ToBHoM(), ErrorLevel.Warning) }));
-                    else if(!node.HasAttribute("Output") && !node.HasAttribute("MultiOutput"))
-                        result = result.Merge(Create.ComplianceResult(ResultStatus.Fail, new List<Error> { Create.Error($"Method '{node.IGetName()}' requires an Output attribute", node.Span.ToBHoM(), ErrorLevel.Warning) }));
-
-                    if(!node.HasAttribute("Input") && node.ParameterList != null)
-                        result = result.Merge(Create.ComplianceResult(ResultStatus.Fail, new List<Error> { Create.Error($"Method '{node.IGetName()}' requires an Input attribute", node.Span.ToBHoM(), ErrorLevel.Warning) }));
-                    else if(node.HasAttribute("Input"))
+                    var descattrs = node.GetAttributes("Description");
+                    if (descattrs.Count == 0)
                     {
-                        List<AttributeListSyntax> attrib = node.InputAttributes();
-                        ParameterListSyntax paramList = node.ParameterList;
-                        foreach(ParameterSyntax p in paramList.Parameters)
+                        result = result.Merge(Create.ComplianceResult(ResultStatus.Fail, new List<Error> { Create.Error($"Method '{node.IGetName()}' requires a Description attribute", node.IGetIdentifier().Span.ToBHoM(), ErrorLevel.Warning) }));
+                    }
+                    else if (node.GetAttributes("Description").Count > 1)
+                    {
+                        for (int i = 1; i < descattrs.Count; i++)
                         {
-                            AttributeListSyntax a = null;
-                            foreach (AttributeListSyntax als in attrib)
+                            result = result.Merge(Create.ComplianceResult(ResultStatus.Fail, new List<Error> { Create.Error($"Method '{node.IGetName()}' cannot contain more than one Description attribute", descattrs[i].Span.ToBHoM(), ErrorLevel.Warning) }));
+                        }
+                    }
+
+                    var outputattrs = node.GetAttributes("Output");
+                    if (outputattrs.Count == 0 && !node.HasAttribute("MultiOutput"))
+                    {
+                        result = result.Merge(Create.ComplianceResult(ResultStatus.Fail, new List<Error> { Create.Error($"Method '{node.IGetName()}' requires an Output attribute", node.IGetIdentifier().Span.ToBHoM(), ErrorLevel.Warning) }));
+                    }
+                    else if(outputattrs.Count > 1)
+                    {
+                        for (int i = 1; i < outputattrs.Count; i++)
+                        {
+                            result = result.Merge(Create.ComplianceResult(ResultStatus.Fail, new List<Error> { Create.Error($"Method '{node.IGetName()}' cannot contain more than one Output attribute - if you have more than one output consider using MultiOutput", outputattrs[i].Span.ToBHoM(), ErrorLevel.Warning) }));
+                        }
+                    }
+
+                    List<AttributeListSyntax> attrib = node.InputAttributes();
+                    ParameterListSyntax paramList = node.ParameterList;
+                    foreach (ParameterSyntax p in paramList.Parameters)
+                    {
+                        AttributeListSyntax a = null;
+                        foreach (AttributeListSyntax als in attrib)
+                        {
+                            foreach (var ab in als.Attributes)
                             {
-                                foreach(var ab in als.Attributes)
+                                foreach (var ac in ab.ArgumentList.Arguments)
                                 {
-                                    foreach(var ac in ab.ArgumentList.Arguments)
-                                    {
-                                        string acs = ac.Expression.GetFirstToken().Value.ToString();
-                                        if (acs == p.Identifier.ToString())
-                                            a = als;
-                                    }
+                                    string acs = ac.Expression.GetFirstToken().Value.ToString();
+                                    if (acs == p.Identifier.ToString())
+                                        a = als;
                                 }
                             }
-
-                            if (a == null)
-                                result = result.Merge(Create.ComplianceResult(ResultStatus.Fail, new List<Error> { Create.Error($"Input '{p.Identifier}' in method '{node.IGetName()}' requires an Input attribute", node.Span.ToBHoM(), ErrorLevel.Warning) }));
-                            else
-                                attrib.Remove(a);
                         }
 
-                        if(attrib.Count > 0)
-                            result = result.Merge(Create.ComplianceResult(ResultStatus.Fail, new List<Error> { Create.Error($"Method '{node.IGetName()}' contains unnecessary Input attribute(s)", node.Span.ToBHoM(), ErrorLevel.Warning) }));
+                        if (a == null)
+                            result = result.Merge(Create.ComplianceResult(ResultStatus.Fail, new List<Error> { Create.Error($"Input '{p.Identifier}' in method '{node.IGetName()}' requires an Input attribute", p.Identifier.Span.ToBHoM(), ErrorLevel.Warning) }));
+                        else
+                            attrib.Remove(a);
+                    }
+
+                    if (attrib.Count > 0)
+                    {
+                        foreach (var attr in attrib)
+                        {
+                            result = result.Merge(Create.ComplianceResult(ResultStatus.Fail, new List<Error> { Create.Error($"Unneccesary attribute", attr.Span.ToBHoM(), ErrorLevel.Warning) }));
+                        }
                     }
                 }
             }
