@@ -116,6 +116,7 @@
     <Compile Include="Query\Checks\NamespaceMatchesFilePath.cs" />
     <Compile Include="Query\Checks\NameMatchesFileName.cs" />
     <Compile Include="Query\Checks\IsValidModifyMethod.cs" />
+    <Compile Include="Query\Checks\ModifyReturnsSameType.cs" />
     <Compile Include="Query\DescriptionAttribute.cs" />
     <Compile Include="Query\DirectlyInherits.cs" />
     <Compile Include="Query\GetAttributes.cs" />
