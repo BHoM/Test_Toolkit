@@ -120,6 +120,7 @@
     <Compile Include="Query\DirectlyInherits.cs" />
     <Compile Include="Query\GetAttributes.cs" />
     <Compile Include="Query\GetClass.cs" />
+    <Compile Include="Query\GetIdentifier.cs" />
     <Compile Include="Query\GetNamespace.cs" />
     <Compile Include="Query\GetName.cs" />
     <Compile Include="Query\HasAttribute.cs" />
