@@ -43,9 +43,11 @@ namespace BH.Engine.Test
                 return Create.ComplianceResult(ResultStatus.Pass);
 
             Type type = node.GetType();
-            IEnumerable<MethodInfo> checks = Reflection.Query.BHoMMethodList().Where(method =>
-                method.DeclaringType.Namespace == "BH.Engine.Test.Checks"
-                && method.GetParameters()[0].ParameterType.IsAssignableFrom(type));
+            IEnumerable<MethodInfo> checks = Assembly.GetCallingAssembly().DefinedTypes
+                .Where(t => t.IsClass && t.Name == "Query" && t.Namespace == "BH.Engine.Test.Checks")
+                .SelectMany(t => t.DeclaredMethods)
+                .Where(method => method.IsPublic && method.GetParameters()[0].ParameterType.IsAssignableFrom(type));
+
             ComplianceResult finalResult = Create.ComplianceResult(ResultStatus.Pass);
             foreach(MethodInfo method in checks)
             {
