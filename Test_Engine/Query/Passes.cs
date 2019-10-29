@@ -21,41 +21,39 @@
  */
 
 using BH.oM.Test;
-using Microsoft.CodeAnalysis.CSharp.Syntax;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BH.Engine.Test.Checks
+using Microsoft.CodeAnalysis;
+using Microsoft.CodeAnalysis.CSharp;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
+using BH.oM.Test.Attributes;
+
+namespace BH.Engine.Test
 {
     public static partial class Query
     {
-        public static ComplianceResult IsValidNamespace(NamespaceDeclarationSyntax node)
+        public static bool IPasses(this ConditionAttribute condition, SyntaxNode node)
         {
-            string name = node.Name.ToString();
-
-            if(name.StartsWith("BH."))
-            {
-                string[] parts = name.Split('.');
-                string second = parts[1];
-                string third = "";
-                if(parts.Length >= 3)
-                    third = parts[2];
-
-                if (!(second == "oM" || second == "Engine" || second == "Adapter" || second == "UI"))
-                {
-                    return Create.ComplianceResult(
-                        ResultStatus.CriticalFail,
-                        new List<Error> {
-                            Create.Error($"Namespace '{name}' is not a valid BHoM namespace", Create.Span(node.Name.Span.Start, node.Name.Span.Length))
-                        }
-                    );
-                }
-            }
-            return Create.ComplianceResult(ResultStatus.Pass);
+            return Passes(condition as dynamic, node as dynamic);
         }
 
+        public static bool Passes(this ConditionAttribute condition, SyntaxNode node)
+        {
+            return condition.Expect;
+        }
+
+        public static bool Passes(this PathAttribute condition, SyntaxNode node)
+        {
+            return condition.Pattern.IsMatch(node.SyntaxTree.FilePath) == condition.Expect;
+        }
+
+        public static bool Passes(this IsPublicAttribute condition, MemberDeclarationSyntax node)
+        {
+            return node.IsPublic() == condition.Expect;
+        }
     }
 }

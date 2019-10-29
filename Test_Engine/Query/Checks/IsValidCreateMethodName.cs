@@ -21,36 +21,30 @@
  */
 
 using BH.oM.Test;
+using BH.oM.Test.Attributes;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace BH.Engine.Test.Checks
 {
     public static partial class Query
     {
-        public static ComplianceResult IsValidCreateMethodName(MethodDeclarationSyntax node)
+        [Message("Invalid Create method name: Method name must have the same name as its return type")]
+        [Path(@"([a-zA-Z0-9]+)_Engine\\Create\\.*\.cs$")]
+        [IsPublic()]
+        public static Span IsValidCreateMethodName(MethodDeclarationSyntax node)
         {
-            if(node.IsPublic() && node.IGetNamespace().StartsWith("BH.Engine") && node.IGetClass() == "Create")
-            {
-                string name = node.Identifier.Text;
-                var type = node.ReturnType;
-                if (type is QualifiedNameSyntax) type = ((QualifiedNameSyntax)type).Right;
+            string name = node.Identifier.Text;
+            var type = node.ReturnType;
+            if (type is QualifiedNameSyntax) type = ((QualifiedNameSyntax)type).Right;
+            string returntype = type.ToString();
 
-                string returntype = type.ToString();
-                var match = System.Text.RegularExpressions.Regex.Match(returntype, $"^I?{name}(<.+>)?$");
-
-                if (!match.Success)
-                {
-                    return Create.ComplianceResult(ResultStatus.CriticalFail, new List<Error> {
-                        Create.Error($"Invalid Create method name: Method '{node.Identifier}' name must have the same name as its return type", node.Identifier.Span.ToBHoM())
-                    });
-                }
-            }
-            return Create.ComplianceResult(ResultStatus.Pass);
+            return Regex.IsMatch(returntype, $"^I?{name}(<.+>)?$") ? null : node.Identifier.Span.ToBHoM();
         }
 
     }

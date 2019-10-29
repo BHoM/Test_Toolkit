@@ -45,6 +45,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Attributes\ErrorLevelAttribute.cs" />
+    <Compile Include="Attributes\IsPublicAttribute.cs" />
+    <Compile Include="Attributes\PathAttribute.cs" />
+    <Compile Include="Attributes\MessageAttribute.cs" />
+    <Compile Include="Attributes\ConditionAttribute.cs" />
     <Compile Include="ComplianceResult.cs" />
     <Compile Include="ErrorLevel.cs" />
     <Compile Include="LineLocation.cs" />

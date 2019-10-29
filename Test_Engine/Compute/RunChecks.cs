@@ -32,6 +32,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 using System.IO;
+using BH.oM.Test.Attributes;
 
 namespace BH.Engine.Test
 {
@@ -39,23 +40,35 @@ namespace BH.Engine.Test
     {
         public static ComplianceResult RunChecks(this SyntaxNode node)
         {
-            if (Path.GetFileName(node.SyntaxTree.FilePath) == "AssemblyInfo.cs")
+            string path = node.SyntaxTree.FilePath;
+            if (Path.GetFileName(path) == "AssemblyInfo.cs")
                 return Create.ComplianceResult(ResultStatus.Pass);
 
             Type type = node.GetType();
             IEnumerable<MethodInfo> checks = Assembly.GetCallingAssembly().DefinedTypes
                 .Where(t => t.IsClass && t.Name == "Query" && t.Namespace == "BH.Engine.Test.Checks")
                 .SelectMany(t => t.DeclaredMethods)
-                .Where(method => method.IsPublic && method.GetParameters()[0].ParameterType.IsAssignableFrom(type));
+                .Where(method => method.IsPublic && method.ReturnType == typeof(Span) && method.GetParameters()[0].ParameterType.IsAssignableFrom(type));
 
             ComplianceResult finalResult = Create.ComplianceResult(ResultStatus.Pass);
             foreach(MethodInfo method in checks)
             {
+                if (!method.GetCustomAttributes<ConditionAttribute>().All(condition => condition.IPasses(node)))
+                    continue;
+
                 Func<object[], object> fn = method.ToFunc();
-                ComplianceResult result = fn(new object[] { node }) as ComplianceResult;
+                Span result = fn(new object[] { node }) as Span;
                 if (result != null)
                 {
-                    finalResult = finalResult.Merge(result);
+                    string message = method.GetCustomAttribute<MessageAttribute>()?.Message??"";
+                    ErrorLevel errLevel = method.GetCustomAttribute<ErrorLevelAttribute>()?.Level??ErrorLevel.Error;
+                    finalResult = finalResult.Merge(
+                        Create.ComplianceResult(
+                            errLevel == ErrorLevel.Error ? ResultStatus.CriticalFail : ResultStatus.Fail,
+                            new List<Error> {
+                                Create.Error(message,result,errLevel,method.Name)
+                            })
+                        );
                 }
             }
             return finalResult;

@@ -21,6 +21,7 @@
  */
 
 using BH.oM.Test;
+using BH.oM.Test.Attributes;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using System;
 using System.Collections.Generic;
@@ -32,22 +33,16 @@ namespace BH.Engine.Test.Checks
 {
     public static partial class Query
     {
-        public static ComplianceResult PropertyHasPublicGet(PropertyDeclarationSyntax node)
+        [Message("Invalid oM property: Object properties must have a public getter")]
+        [Path(@"([a-zA-Z0-9]+)_?oM\\.*\.cs$")]
+        [Path(@"([a-zA-Z0-9]+)_Engine\\.*\.cs$", false)]
+        [Path(@"([a-zA-Z0-9]+)_Adapter\\.*\.cs$", false)]
+        [Path(@"([a-zA-Z0-9]+)_UI\\.*\.cs$", false)]
+        [IsPublic()]
+        public static Span PropertyHasPublicGet(PropertyDeclarationSyntax node)
         {
-            string ns = node.IGetNamespace();
-            if(ns.StartsWith("BH.oM") && node.IsPublic()) 
-            {
-                AccessorDeclarationSyntax getter = node.PropertyGetAccessor();
-                if (getter == null || getter.Modifiers.ContainsToken("private"))
-                {
-                    return Create.ComplianceResult(ResultStatus.CriticalFail,
-                        new List<Error> {
-                        Create.Error("Invalid oM property: Object properties must have a public getter", node.Modifiers.Span.ToBHoM())
-                        });
-                }
-            }
-
-            return Create.ComplianceResult(ResultStatus.Pass);
+            AccessorDeclarationSyntax getter = node.PropertyGetAccessor();
+            return (getter == null || getter.IsPrivate()) ? getter.Modifiers.Span.ToBHoM() : null;
         }
     }
 }

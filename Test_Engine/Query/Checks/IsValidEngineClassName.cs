@@ -21,6 +21,7 @@
  */
 
 using BH.oM.Test;
+using BH.oM.Test.Attributes;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using System;
 using System.Collections.Generic;
@@ -32,23 +33,12 @@ namespace BH.Engine.Test.Checks
 {
     public static partial class Query
     {
-        public static ComplianceResult IsValidEngineClassName(ClassDeclarationSyntax node)
+        [Message("Invalid Engine class name")]
+        [Path(@"([a-zA-Z0-9]+)_Engine\\.*\.cs$")]
+        public static Span IsValidEngineClassName(ClassDeclarationSyntax node)
         {
-            if(node.IGetNamespace().StartsWith("BH.Engine"))
-            {
-                List<string> validEngineClassNames = new List<string>() { "Create", "Convert", "Query", "Modify", "Compute" };
-                string name = node.Identifier.Text;
-                if (!validEngineClassNames.Contains(name))
-                {
-                    return Create.ComplianceResult(ResultStatus.CriticalFail,
-                        new List<Error> {
-                            Create.Error($"Invalid Engine class: Method '{node.Identifier}' must be one of " + validEngineClassNames.Aggregate((a, b) => $"{a}, {b}"),
-                            node.Identifier.Span.ToBHoM())
-                        });
-                }
-            }
-
-            return Create.ComplianceResult(ResultStatus.Pass);
+            List<string> validEngineClassNames = new List<string>() { "Create", "Convert", "Query", "Modify", "Compute" };
+            return validEngineClassNames.Contains(node.Identifier.Text) ? null : node.Identifier.Span.ToBHoM();
         }
 
     }

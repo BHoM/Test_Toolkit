@@ -21,6 +21,7 @@
  */
 
 using BH.oM.Test;
+using BH.oM.Test.Attributes;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using System;
 using System.Collections.Generic;
@@ -33,34 +34,27 @@ namespace BH.Engine.Test.Checks
 {
     public static partial class Query
     {
-        public static ComplianceResult NamespaceMatchesFilePath(NamespaceDeclarationSyntax node)
+        [Message("Namespace is incorrect based on file path")]
+        [Path(@"([A-Za-z0-9]+)_(Engine|oM|Adapter|UI)\\.*\.cs$")]
+        public static Span NamespaceMatchesFilePath(NamespaceDeclarationSyntax node)
         {
             string ns = node.IGetNamespace();
             string path = node.SyntaxTree.FilePath;
-            if (ns.StartsWith("BH.") && !string.IsNullOrEmpty(path))
+            MatchCollection matches = Regex.Matches(path, "([A-Za-z0-9]+)_(oM|Engine|Adapter|UI)");
+            if (matches.Count > 0)
             {
-                Regex re = new Regex("([A-Za-z0-9]+)_(Engine|oM|Adapter|UI)");
-                MatchCollection matches = re.Matches(node.SyntaxTree.FilePath);
-                if (matches.Count > 0)
+                Match match = matches[matches.Count - 1];
+                string rootNs = $"BH.{match.Groups[2]}.{match.Groups[1]}";
+                if (!ns.StartsWith(rootNs))
                 {
-                    Match match = matches[matches.Count - 1];
-                    string rootNs = $"BH.{match.Groups[2]}.{match.Groups[1]}";
-                    if(!ns.StartsWith(rootNs))
-                    {
-                        return Create.ComplianceResult(ResultStatus.CriticalFail,
-                            new List<Error>
-                            {
-                                Create.Error($"Namespace '{ns}' is incorrect, expected it to start with '{rootNs}'", node.Name.Span.ToBHoM())
-                            }
-                            );
-                    }
+                    return node.Name.Span.ToBHoM();
                 }
             }
 
-            return Create.ComplianceResult(ResultStatus.Pass);
+            return null;
         }
 
-        
+
 
     }
 }

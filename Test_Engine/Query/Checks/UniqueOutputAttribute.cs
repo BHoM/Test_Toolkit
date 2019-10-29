@@ -20,7 +20,6 @@
  * along with this code. If not, see <https://www.gnu.org/licenses/lgpl-3.0.html>.      
  */
 
-using BH.oM.Reflection.Attributes;
 using BH.oM.Test;
 using BH.oM.Test.Attributes;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
@@ -34,13 +33,21 @@ namespace BH.Engine.Test.Checks
 {
     public static partial class Query
     {
-        [Message("Invalid Engine class: Engine classes must be public")]
-        [Path(@"([a-zA-Z0-9]+)_Engine\\.*\.cs$")]
-        [IsPublic(false)]
-        [Output("A span that represents where this error resides or null if there is no error")]
-        public static Span IsPublicClass(ClassDeclarationSyntax node)
+        [Message("Method cannot contain more than one Output attribute")]
+        [ErrorLevel(ErrorLevel.Warning)]
+        [Path(@"([a-zA-Z0-9]+)_(Engine|Adapter)\\.*\.cs$")]
+        public static Span UniqueOutputAttribute(AttributeSyntax node)
         {
-            return node.Modifiers.Span.ToBHoM();
+            string name = node.Name.ToString();
+            if (name != "Output" && name != "MultiOutput") return null;
+
+            var method = node.Parent.Parent as BaseMethodDeclarationSyntax;
+            if (method != null && method.IsPublic() && (method.IsEngineMethod() || method.IsAdapterConstructor()))
+            {
+                var outattrs = method.GetAttributes("Output");
+                if ( outattrs.Count > 0 && outattrs[0] != node ) return node.Span.ToBHoM();
+            }
+            return null;
         }
     }
 }

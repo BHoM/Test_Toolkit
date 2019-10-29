@@ -112,7 +112,13 @@
     <Compile Include="Modify\Merge.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Query\Checks\ContainsCopyright.cs" />
-    <Compile Include="Query\Checks\HasCorrectAttributes.cs" />
+    <Compile Include="Query\Checks\DescriptionAttributePresent.cs" />
+    <Compile Include="Query\Checks\EngineClassMatchesFilePath.cs" />
+    <Compile Include="Query\Checks\OutputAttributePresent.cs" />
+    <Compile Include="Query\Checks\InputAttributeHasParameter.cs" />
+    <Compile Include="Query\Checks\ParameterHasInputDescription.cs" />
+    <Compile Include="Query\Checks\UniqueOutputAttribute.cs" />
+    <Compile Include="Query\Checks\UniqueDescriptionAttribute.cs" />
     <Compile Include="Query\Checks\NamespaceMatchesFilePath.cs" />
     <Compile Include="Query\Checks\NameMatchesFileName.cs" />
     <Compile Include="Query\Checks\IsValidModifyMethod.cs" />
@@ -125,6 +131,9 @@
     <Compile Include="Query\GetNamespace.cs" />
     <Compile Include="Query\GetName.cs" />
     <Compile Include="Query\HasAttribute.cs" />
+    <Compile Include="Query\IsAdapterConstructor.cs" />
+    <Compile Include="Query\IsEngineMethod.cs" />
+    <Compile Include="Query\Passes.cs" />
     <Compile Include="Query\HasSingleNamespace.cs" />
     <Compile Include="Query\Checks\HasSingleNamespace.cs" />
     <Compile Include="Query\Checks\IsPublicClass.cs" />
@@ -137,7 +146,6 @@
     <Compile Include="Query\Checks\IsStaticClass.cs" />
     <Compile Include="Query\Checks\IsValidEngineClassName.cs" />
     <Compile Include="Query\ContainsCopyright.cs" />
-    <Compile Include="Query\Checks\IsValidNamespace.cs" />
     <Compile Include="Compute\RunChecks.cs" />
     <Compile Include="Query\ContainsToken.cs" />
     <Compile Include="Query\HasModifier.cs" />
