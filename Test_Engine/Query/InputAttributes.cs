@@ -35,7 +35,7 @@ namespace BH.Engine.Test
 {
     public static partial class Query
     {
-        public static List<AttributeListSyntax> InputAttributes(this BaseMethodDeclarationSyntax node)
+        public static List<AttributeSyntax> InputAttributes(this BaseMethodDeclarationSyntax node)
         {
             return node.GetAttributes("Input");
         }

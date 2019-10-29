@@ -20,7 +20,6 @@
  * along with this code. If not, see <https://www.gnu.org/licenses/lgpl-3.0.html>.      
  */
 
-using BH.oM.Reflection.Attributes;
 using BH.oM.Test;
 using BH.oM.Test.Attributes;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
@@ -34,13 +33,20 @@ namespace BH.Engine.Test.Checks
 {
     public static partial class Query
     {
-        [Message("Invalid Engine class: Engine classes must be public")]
+        [Message("Method must contain an Output or MultiOutput attribute")]
+        [ErrorLevel(ErrorLevel.Warning)]
         [Path(@"([a-zA-Z0-9]+)_Engine\\.*\.cs$")]
-        [IsPublic(false)]
-        [Output("A span that represents where this error resides or null if there is no error")]
-        public static Span IsPublicClass(ClassDeclarationSyntax node)
+        public static Span OutputAttributePresent(MethodDeclarationSyntax node)
         {
-            return node.Modifiers.Span.ToBHoM();
+            return node.HasAttribute("Output") || node.HasAttribute("MultiOutput")  ? null : node.Identifier.Span.ToBHoM();
+        }
+
+        [Message("Method must contain an Output or MultiOutput attribute")]
+        [ErrorLevel(ErrorLevel.Warning)]
+        [Path(@"([a-zA-Z0-9]+)_Adapter\\.*\.cs$")]
+        public static Span OutputAttributePresent(ConstructorDeclarationSyntax node)
+        {
+            return node.HasAttribute("Output") || node.HasAttribute("MultiOutput")  ? null : node.Identifier.Span.ToBHoM();
         }
     }
 }

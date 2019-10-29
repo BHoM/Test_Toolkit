@@ -37,7 +37,7 @@ namespace BH.Engine.Test
     {
         public static bool IsPrivate(this MemberDeclarationSyntax node)
         {
-            return node.HasModifier("private");
+            return !node.IsPublic();
         }
 
         public static bool IsPrivate(this AccessorDeclarationSyntax node)

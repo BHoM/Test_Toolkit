@@ -21,6 +21,7 @@
  */
 
 using BH.oM.Test;
+using BH.oM.Test.Attributes;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using System;
 using System.Collections.Generic;
@@ -32,19 +33,12 @@ namespace BH.Engine.Test.Checks
 {
     public static partial class Query
     {
-        public static ComplianceResult IsStaticClass(ClassDeclarationSyntax node)
+
+        [Message("Invalid Engine class: Engine classes must be public")]
+        [Path(@"([a-zA-Z0-9]+)_Engine\\.*\.cs$")]
+        public static Span IsStaticClass(ClassDeclarationSyntax node)
         {
-            string ns = node.IGetNamespace();
-            if(ns.StartsWith("BH.Engine") && !node.IsStatic())
-            {
-                return Create.ComplianceResult(ResultStatus.CriticalFail,
-                    new List<Error> {
-                        Create.Error("Invalid Engine class: Engine classes must be static", node.Modifiers.Span.ToBHoM())
-                    });
-            }
-
-            return Create.ComplianceResult(ResultStatus.Pass);
+            return node.IsStatic() ? null : node.Modifiers.Span.ToBHoM();
         }
-
     }
 }

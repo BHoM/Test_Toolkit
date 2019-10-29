@@ -20,7 +20,6 @@
  * along with this code. If not, see <https://www.gnu.org/licenses/lgpl-3.0.html>.      
  */
 
-using BH.oM.Reflection.Attributes;
 using BH.oM.Test;
 using BH.oM.Test.Attributes;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
@@ -34,13 +33,25 @@ namespace BH.Engine.Test.Checks
 {
     public static partial class Query
     {
-        [Message("Invalid Engine class: Engine classes must be public")]
-        [Path(@"([a-zA-Z0-9]+)_Engine\\.*\.cs$")]
-        [IsPublic(false)]
-        [Output("A span that represents where this error resides or null if there is no error")]
-        public static Span IsPublicClass(ClassDeclarationSyntax node)
+        [Message("Input attribute does not match any parameter")]
+        [ErrorLevel(ErrorLevel.Warning)]
+        [Path(@"([a-zA-Z0-9]+)_(Engine|Adapter)\\.*\.cs$")]
+        public static Span InputAttributeHasParameter(AttributeSyntax node)
         {
-            return node.Modifiers.Span.ToBHoM();
+            if (node.Name.ToString() != "Input") return null;
+
+            var method = node.Parent.Parent as BaseMethodDeclarationSyntax;
+            if (method != null && method.IsPublic() && (method.IsEngineMethod() || method.IsAdapterConstructor()))
+            {
+                if (node.ArgumentList.Arguments.Count == 2)
+                {
+                    string paramname = node.ArgumentList.Arguments[0].Expression.GetFirstToken().Value.ToString();
+                    if (method.ParameterList.Parameters.Any((p) => p.Identifier.Text == paramname)) return null;
+                    else return node.ArgumentList.Arguments[0].Span.ToBHoM();
+                }
+                return node.Span.ToBHoM();
+            }
+            return null;
         }
     }
 }

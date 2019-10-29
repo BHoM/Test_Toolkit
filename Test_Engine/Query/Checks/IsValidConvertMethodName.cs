@@ -21,6 +21,7 @@
  */
 
 using BH.oM.Test;
+using BH.oM.Test.Attributes;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using System;
 using System.Collections.Generic;
@@ -32,19 +33,13 @@ namespace BH.Engine.Test.Checks
 {
     public static partial class Query
     {
-        public static ComplianceResult IsValidConvertMethodName(MethodDeclarationSyntax node)
+        [Message("Convert method name invalid: Method name must begin with either 'To' or 'From'")]
+        [Path(@"([a-zA-Z0-9]+)_Engine\\Convert\\.*\.cs$")]
+        [IsPublic()]
+        public static Span IsValidConvertMethodName(MethodDeclarationSyntax node)
         {
-            if(node.IsPublic() && node.IGetNamespace().StartsWith("BH.Engine") && node.IGetClass() == "Convert")
-            {
-                string name = node.Identifier.Text;
-                if(!name.StartsWith("To") && !name.StartsWith("From"))
-                {
-                    return Create.ComplianceResult(ResultStatus.CriticalFail, new List<Error> {
-                        Create.Error($"Convert method name invalid: Method '{node.Identifier}' name must begin with either 'To' or 'From'", node.Identifier.Span.ToBHoM())
-                    });
-                }
-            }
-            return Create.ComplianceResult(ResultStatus.Pass);
+            string name = node.Identifier.Text;
+            return name.StartsWith("To") || name.StartsWith("From") ? null : node.Identifier.Span.ToBHoM();
         }
 
     }

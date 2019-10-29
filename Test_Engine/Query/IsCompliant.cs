@@ -53,6 +53,17 @@ namespace BH.Engine.Test
             }
             return finalresult;
         }
+        
+        public static ComplianceResult IsCompliant<T>(this SeparatedSyntaxList<T> syntaxList) where T : SyntaxNode
+        {
+            ComplianceResult finalresult = Create.ComplianceResult(ResultStatus.Pass);
+            foreach(SyntaxNode syntaxNode in syntaxList)
+            {
+                var result = syntaxNode.IIsCompliant();
+                finalresult = finalresult.Merge(result);
+            }
+            return finalresult;
+        }
 
         public static ComplianceResult IsCompliant(this CompilationUnitSyntax node)
         {
@@ -76,9 +87,16 @@ namespace BH.Engine.Test
             return result.Merge(node.Members.IsCompliant());
         }
 
-        public static ComplianceResult IsCompliant(this MethodDeclarationSyntax node)
+        public static ComplianceResult IsCompliant(this BaseMethodDeclarationSyntax node)
         {
-            return Compute.RunChecks(node);
+            return Compute.RunChecks(node)
+                .Merge(node.AttributeLists.IsCompliant())
+                .Merge(node.ParameterList.Parameters.IsCompliant());
+        }
+        
+        public static ComplianceResult IsCompliant(this AttributeListSyntax node)
+        {
+            return node.Attributes.IsCompliant(); 
         }
     }
 }

@@ -20,7 +20,6 @@
  * along with this code. If not, see <https://www.gnu.org/licenses/lgpl-3.0.html>.      
  */
 
-using BH.oM.Reflection.Attributes;
 using BH.oM.Test;
 using BH.oM.Test.Attributes;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
@@ -34,13 +33,25 @@ namespace BH.Engine.Test.Checks
 {
     public static partial class Query
     {
-        [Message("Invalid Engine class: Engine classes must be public")]
-        [Path(@"([a-zA-Z0-9]+)_Engine\\.*\.cs$")]
-        [IsPublic(false)]
-        [Output("A span that represents where this error resides or null if there is no error")]
-        public static Span IsPublicClass(ClassDeclarationSyntax node)
+        [Message("Input requires a matching Input attribute")]
+        [ErrorLevel(ErrorLevel.Warning)]
+        public static Span ParameterHasInputDescription(ParameterSyntax node)
         {
-            return node.Modifiers.Span.ToBHoM();
+            var method = node.Parent.Parent as BaseMethodDeclarationSyntax;
+            if (method != null && method.IsPublic() && (method.IsEngineMethod() || method.IsAdapterConstructor()))
+            {
+                foreach (var ab in method.InputAttributes())
+                {
+                    if (ab.Name.ToString() == "Input" && ab.ArgumentList.Arguments.Count == 2)
+                    {
+                        string paramname = ab.ArgumentList.Arguments[0].Expression.GetFirstToken().Value.ToString();
+                        if (paramname == node.Identifier.ToString())
+                            return null;
+                    }
+                }
+                return node.Identifier.Span.ToBHoM();
+            }
+            return null;
         }
     }
 }

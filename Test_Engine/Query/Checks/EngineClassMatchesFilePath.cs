@@ -20,7 +20,6 @@
  * along with this code. If not, see <https://www.gnu.org/licenses/lgpl-3.0.html>.      
  */
 
-using BH.oM.Reflection.Attributes;
 using BH.oM.Test;
 using BH.oM.Test.Attributes;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
@@ -28,19 +27,25 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace BH.Engine.Test.Checks
 {
     public static partial class Query
     {
-        [Message("Invalid Engine class: Engine classes must be public")]
-        [Path(@"([a-zA-Z0-9]+)_Engine\\.*\.cs$")]
-        [IsPublic(false)]
-        [Output("A span that represents where this error resides or null if there is no error")]
-        public static Span IsPublicClass(ClassDeclarationSyntax node)
+        [Message("Incorrect Engine class based on file path")]
+        [Path(@"([A-Za-z0-9]+)_Engine\\.*\.cs")]
+        public static Span EngineClassMatchesFilePath(ClassDeclarationSyntax node)
         {
-            return node.Modifiers.Span.ToBHoM();
+            string path = node.SyntaxTree.FilePath;
+            Regex re = new Regex(@"([A-Za-z0-9]+)_Engine\\([^\\]+)\\", RegexOptions.RightToLeft);
+            Match match = re.Match(path);
+            string expected = match.Groups[2].Value;
+            return node.Identifier.Text == expected ? null : node.Identifier.Span.ToBHoM();
         }
+
+
+
     }
 }

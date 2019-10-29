@@ -21,6 +21,7 @@
  */
 
 using BH.oM.Test;
+using BH.oM.Test.Attributes;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using System;
 using System.Collections.Generic;
@@ -32,12 +33,14 @@ namespace BH.Engine.Test.Checks
 {
     public static partial class Query
     {
-        public static ComplianceResult HasSingleNamespace(CompilationUnitSyntax node)
+        [Message("Files cannot contain more than one namespace")]
+        [Path(@"([a-zA-Z0-9]+)(_?oM|_(Engine|UI|Adapter))\\.*\.cs$")]
+        public static Span HasSingleNamespace(NamespaceDeclarationSyntax node)
         {
-            if (Test.Query.HasSingleNamespace(node))
-                return Create.ComplianceResult(ResultStatus.Pass);
-            else
-                return Create.ComplianceResult(ResultStatus.CriticalFail, new List<Error> { Create.Error("Files cannot contain more than one namespace", node.Members.Span.ToBHoM()) });
+            if (!node.SyntaxTree.HasCompilationUnitRoot) return null;
+            CompilationUnitSyntax root = node.SyntaxTree.GetRoot() as CompilationUnitSyntax;
+            if (root.Members.OfType<NamespaceDeclarationSyntax>().FirstOrDefault() != node) return node.Name.Span.ToBHoM();
+            return null;
         }
 
     }

@@ -21,6 +21,7 @@
  */
 
 using BH.oM.Test;
+using BH.oM.Test.Attributes;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using System;
 using System.Collections.Generic;
@@ -32,29 +33,18 @@ namespace BH.Engine.Test.Checks
 {
     public static partial class Query
     {
-        public static ComplianceResult ModifyReturnsSameType(MethodDeclarationSyntax node)
+
+        [Message("Modify methods must return the same type as their first parameter")]
+        [Path(@"([a-zA-Z0-9]+)_Engine\\Modify\\.*\.cs$")]
+        [IsPublic()]
+        public static Span ModifyReturnsSameType(MethodDeclarationSyntax node)
         {
-
-            if (node.IGetNamespace().StartsWith("BH.Engine") && node.IGetClass() == "Modify" && node.IsPublic())
+            ParameterSyntax param = node.ParameterList.Parameters.FirstOrDefault();
+            if (param == null || !param.Type.IsEquivalentTo(node.ReturnType))
             {
-                ParameterSyntax param = node.ParameterList.Parameters.FirstOrDefault();
-                if (param == null)
-                    return Create.ComplianceResult(ResultStatus.CriticalFail, new List<Error> {
-                        Create.Error("Modify methods must have at least one parameter", node.ParameterList.Span.ToBHoM())
-                    });
-
-                TypeSyntax paramType = param.Type;
-                TypeSyntax returnType = node.ReturnType;
-
-                if (!paramType.IsEquivalentTo(returnType))
-                {
-                    return Create.ComplianceResult(ResultStatus.CriticalFail, new List<Error> {
-                        Create.Error("Modify methods must return the same type as their first parameter", node.ReturnType.Span.ToBHoM())
-                    });
-                }
+                return node.ReturnType.Span.ToBHoM();
             }
-
-            return Create.ComplianceResult(ResultStatus.Pass);
+            return null;
         }
 
     }

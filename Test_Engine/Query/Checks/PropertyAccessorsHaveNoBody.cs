@@ -21,6 +21,7 @@
  */
 
 using BH.oM.Test;
+using BH.oM.Test.Attributes;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using System;
 using System.Collections.Generic;
@@ -32,21 +33,15 @@ namespace BH.Engine.Test.Checks
 {
     public static partial class Query
     {
-        public static ComplianceResult PropertyAccessorsHaveNoBody(PropertyDeclarationSyntax node)
+        [Message("Invalid oM property: Object property accessors must not have a body")]
+        [Path(@"([a-zA-Z0-9]+)_?oM\\.*\.cs$")]
+        [Path(@"([a-zA-Z0-9]+)_Engine\\.*\.cs$", false)]
+        [Path(@"([a-zA-Z0-9]+)_Adapter\\.*\.cs$", false)]
+        [Path(@"([a-zA-Z0-9]+)_UI\\.*\.cs$", false)]
+        [IsPublic()]
+        public static Span PropertyAccessorsHaveNoBody(PropertyDeclarationSyntax node)
         {
-            string ns = node.IGetNamespace();
-            if(ns.StartsWith("BH.oM") && node.IsPublic()) 
-            {
-                if(node.AccessorList.Accessors.Any(a=>a.HasBody()))
-                {
-                    return Create.ComplianceResult(ResultStatus.CriticalFail,
-                        new List<Error> {
-                        Create.Error("Invalid oM property: Object property accessors must not have a body", node.Modifiers.Span.ToBHoM())
-                        });
-                }
-            }
-
-            return Create.ComplianceResult(ResultStatus.Pass);
+            return node.AccessorList.Accessors.Any(a => a.HasBody()) ? node.Modifiers.Span.ToBHoM() : null;
         }
     }
 }

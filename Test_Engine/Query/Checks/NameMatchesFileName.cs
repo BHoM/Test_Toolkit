@@ -21,6 +21,7 @@
  */
 
 using BH.oM.Test;
+using BH.oM.Test.Attributes;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using System;
 using System.Collections.Generic;
@@ -32,45 +33,46 @@ namespace BH.Engine.Test.Checks
 {
     public static partial class Query
     {
-        public static ComplianceResult NameMatchesFileName(ClassDeclarationSyntax node)
+
+        [Message("Class name must match filename")]
+        [Path(@"([a-zA-Z0-9]+)_?oM\\.*\.cs$")]
+        [Path(@"([a-zA-Z0-9]+)_Engine\\.*\.cs$", false)]
+        [Path(@"([a-zA-Z0-9]+)_Adapter\\.*\.cs$", false)]
+        [Path(@"([a-zA-Z0-9]+)_UI\\.*\.cs$", false)]
+        [IsPublic()]
+        public static Span NameMatchesFileName(ClassDeclarationSyntax node)
         {
-            string ns = node.IGetNamespace();
-            if(ns.StartsWith("BH.oM"))
+            string filePath = node.SyntaxTree.FilePath;
+            if (!string.IsNullOrEmpty(filePath))
             {
-                string filePath = node.SyntaxTree.FilePath;
-                if(!string.IsNullOrEmpty(filePath))
+                string filename = System.IO.Path.GetFileNameWithoutExtension(filePath);
+                if (node.IGetName() != filename)
                 {
-                    string filename = System.IO.Path.GetFileName(filePath);
-                    filename = filename.Remove(filename.LastIndexOf('.'));
-                    if(node.IGetName() != filename)
-                    {
-                        return Create.ComplianceResult(ResultStatus.CriticalFail, new List<Error> { Create.Error("Class name must match filename", node.Identifier.Span.ToBHoM())});
-                    }
+                    return node.Identifier.Span.ToBHoM();
                 }
             }
 
-            return Create.ComplianceResult(ResultStatus.Pass);
+            return null;
         }
 
-        public static ComplianceResult NameMatchesFileName(MethodDeclarationSyntax node)
+        [Message("Method name must match filename")]
+        [Path(@"([a-zA-Z0-9]+)_Engine\\.*\.cs$")]
+        [IsPublic()]
+        public static Span NameMatchesFileName(MethodDeclarationSyntax node)
         {
-            string ns = node.IGetNamespace();
-            if(ns.StartsWith("BH.Engine") && node.IsPublic())
+            string name = node.IGetName();
+            string filePath = node.SyntaxTree.FilePath;
+            if (!string.IsNullOrEmpty(filePath))
             {
-                string name = node.IGetName();
-                string filePath = node.SyntaxTree.FilePath;
-                if(!string.IsNullOrEmpty(filePath))
+                string filename = System.IO.Path.GetFileName(filePath);
+                filename = filename.Remove(filename.LastIndexOf('.'));
+                if (name != filename && name != $"I{filename}")
                 {
-                    string filename = System.IO.Path.GetFileName(filePath);
-                    filename = filename.Remove(filename.LastIndexOf('.'));
-                    if(name != filename && name != $"I{filename}")
-                    {
-                        return Create.ComplianceResult(ResultStatus.CriticalFail, new List<Error> { Create.Error("Method name must match filename", node.Identifier.Span.ToBHoM())});
-                    }
+                    return node.Identifier.Span.ToBHoM();
                 }
             }
 
-            return Create.ComplianceResult(ResultStatus.Pass);
+            return null;
         }
 
     }

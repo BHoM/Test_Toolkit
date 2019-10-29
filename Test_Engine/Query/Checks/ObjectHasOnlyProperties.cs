@@ -21,6 +21,7 @@
  */
 
 using BH.oM.Test;
+using BH.oM.Test.Attributes;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using System;
 using System.Collections.Generic;
@@ -32,40 +33,25 @@ namespace BH.Engine.Test.Checks
 {
     public static partial class Query
     {
-        public static ComplianceResult ObjectHasOnlyProperties(FieldDeclarationSyntax node)
+        [Message("BHoM Objects cannot contain fields, only properties")]
+        [Path(@"([a-zA-Z0-9]+)_?oM\\.*\.cs$")]
+        [Path(@"([a-zA-Z0-9]+)_Engine\\.*\.cs$", false)]
+        [Path(@"([a-zA-Z0-9]+)_Adapter\\.*\.cs$", false)]
+        [Path(@"([a-zA-Z0-9]+)_UI\\.*\.cs$", false)]
+        public static Span ObjectHasOnlyProperties(FieldDeclarationSyntax node)
         {
-            string ns = node.IGetNamespace();
-            if(ns.StartsWith("BH.oM"))
-            {
-                return Create.ComplianceResult(ResultStatus.CriticalFail, new List<Error> {
-                    Create.Error("BHoM Objects cannot contain fields, only properties", node.Span.ToBHoM())
-                });
-            }
-            return Create.ComplianceResult(ResultStatus.Pass);
+            return node.Span.ToBHoM();
         }
 
-        public static ComplianceResult ObjectHasOnlyProperties(MethodDeclarationSyntax node)
+        [Message("BHoM Objects cannot contain methods or constructors, only properties")]
+        [Path(@"([a-zA-Z0-9]+)_?oM\\.*\.cs$")]
+        [Path(@"([a-zA-Z0-9]+)_Engine\\.*\.cs$", false)]
+        [Path(@"([a-zA-Z0-9]+)_Adapter\\.*\.cs$", false)]
+        [Path(@"([a-zA-Z0-9]+)_UI\\.*\.cs$", false)]
+        public static Span ObjectHasOnlyProperties(BaseMethodDeclarationSyntax node)
         {
-            string ns = node.IGetNamespace();
-            if(ns.StartsWith("BH.oM"))
-            {
-                return Create.ComplianceResult(ResultStatus.CriticalFail, new List<Error> {
-                    Create.Error("BHoM Objects cannot contain methods, only properties", node.Identifier.Span.ToBHoM())
-                });
-            }
-            return Create.ComplianceResult(ResultStatus.Pass);
+            return node.IGetIdentifier().Span.ToBHoM();
         }
 
-        public static ComplianceResult ObjectHasOnlyProperties(ConstructorDeclarationSyntax node)
-        {
-            string ns = node.IGetNamespace();
-            if(ns.StartsWith("BH.oM") && !Test.Query.DirectlyInherits((node.Parent as ClassDeclarationSyntax), "IImmutable"))
-            {
-                return Create.ComplianceResult(ResultStatus.CriticalFail, new List<Error> {
-                    Create.Error("BHoM Objects cannot contain constructors, only properties", node.Identifier.Span.ToBHoM())
-                });
-            }
-            return Create.ComplianceResult(ResultStatus.Pass);
-        }
     }
 }

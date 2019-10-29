@@ -21,6 +21,7 @@
  */
 
 using BH.oM.Test;
+using BH.oM.Test.Attributes;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using System;
 using System.Collections.Generic;
@@ -32,9 +33,12 @@ namespace BH.Engine.Test.Checks
 {
     public static partial class Query
     {
-        public static ComplianceResult ContainsCopyright(CompilationUnitSyntax node)
+        [Message("Copyright message is invalid")]
+        public static Span ContainsCopyright(CompilationUnitSyntax node)
         {
-            return Test.Query.ContainsCopyright(node.GetLeadingTrivia(), -1);
+            Error error = Test.Query.ContainsCopyright(node.GetLeadingTrivia(), -1).Errors.FirstOrDefault();
+            if (error != null) return error.Location;
+            return null;
         }
 
     }

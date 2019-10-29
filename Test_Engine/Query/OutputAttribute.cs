@@ -35,12 +35,12 @@ namespace BH.Engine.Test
 {
     public static partial class Query
     {
-        public static List<AttributeListSyntax> OutputAttribute(this MethodDeclarationSyntax node)
+        public static List<AttributeSyntax> OutputAttribute(this MethodDeclarationSyntax node)
         {
             return node.GetAttributes("Output");
         }
 
-        public static List<AttributeListSyntax> OutputAttribute(this ConstructorDeclarationSyntax node)
+        public static List<AttributeSyntax> OutputAttribute(this ConstructorDeclarationSyntax node)
         {
             return node.GetAttributes("Output");
         }
