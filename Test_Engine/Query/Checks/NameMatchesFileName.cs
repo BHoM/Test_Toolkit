@@ -60,6 +60,8 @@ namespace BH.Engine.Test.Checks
         [IsPublic()]
         public static Span NameMatchesFileName(MethodDeclarationSyntax node)
         {
+            if (node.Parent.IGetClass() == "Convert") return null;
+
             string name = node.IGetName();
             string filePath = node.SyntaxTree.FilePath;
             if (!string.IsNullOrEmpty(filePath))
