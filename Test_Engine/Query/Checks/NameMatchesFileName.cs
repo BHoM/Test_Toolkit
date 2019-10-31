@@ -57,11 +57,10 @@ namespace BH.Engine.Test.Checks
 
         [Message("Method name must match filename")]
         [Path(@"([a-zA-Z0-9]+)_Engine\\.*\.cs$")]
+        [Path(@"([a-zA-Z0-9]+)_Engine\\Convert\\.*\.cs$", false)]
         [IsPublic()]
         public static Span NameMatchesFileName(MethodDeclarationSyntax node)
         {
-            if (node.Parent.IGetClass() == "Convert") return null;
-
             string name = node.IGetName();
             string filePath = node.SyntaxTree.FilePath;
             if (!string.IsNullOrEmpty(filePath))
