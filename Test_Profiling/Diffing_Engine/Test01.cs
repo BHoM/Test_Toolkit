@@ -21,6 +21,7 @@ namespace Test_Profiling
         public static void Test01(bool propertyLevelDiffing = true)
         {
             Console.WriteLine("Running Diffing_Engine Test01");
+            DiffConfig diffConfig = new DiffConfig() { EnablePropertyDiffing = propertyLevelDiffing };
 
             // 1. Suppose Alessio is creating 3 bars in Grasshopper, representing a Portal frame structure.
             // These will be Alessio's "Current" objects.
@@ -37,7 +38,7 @@ namespace Test_Profiling
             // 2. Alessio wants these bars to be part of a "Portal frame Stream" that will be tracking the objects for future changes.
             // Alessio creates a stream
             string comment = "Portal Frame Stream";
-            Stream stream_Alessio = Create.Stream(currentObjs_Alessio, comment); // this will add the hash fragments to the objects
+            Stream stream_Alessio = Create.Stream(currentObjs_Alessio, diffConfig, comment); // this will add the hash fragments to the objects
 
             // Alessio can now push the Stream.
 
@@ -69,7 +70,7 @@ namespace Test_Profiling
 
             // Eduardo can also manually check the differences.
 
-            Delta delta = Compute.Diffing(stream_Alessio, stream_Eduardo, propertyLevelDiffing, null, true);
+            Delta delta = Compute.Diffing(stream_Alessio, stream_Eduardo, diffConfig);
 
             // 7. Now Eduardo can push his new delta object (like step 3).
             // `delta.ToCreate` will have 1 object; `delta2.ToUpdate` 1 object; `delta2.ToDelete` 1 object; `delta2.Unchanged` 2 objects.
