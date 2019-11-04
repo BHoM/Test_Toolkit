@@ -31,7 +31,7 @@ namespace BH.Engine.Test
 {
     public static partial class Create
     {
-        public static Error Error(string message, Span location, ErrorLevel level = ErrorLevel.Error, string name = "")
+        public static Error Error(string message, Location location, ErrorLevel level = ErrorLevel.Error, string name = "")
         {
             return new Error
             {

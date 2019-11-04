@@ -29,10 +29,9 @@ using System.Threading.Tasks;
 
 namespace BH.oM.Test
 {
-    public class Error : BHoMObject
+    public class Location : IObject
     {
-        public ErrorLevel Level { get; set; }
-        public string Message { get; set; }
-        public Location Location { get; set; }
+        public string FilePath { get; set; } = "";
+        public Span Span { get; set; } = new Span();
     }
 }

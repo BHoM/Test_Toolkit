@@ -108,6 +108,7 @@
     <Compile Include="Create\Error.cs" />
     <Compile Include="Create\LineLocation.cs" />
     <Compile Include="Create\LineSpan.cs" />
+    <Compile Include="Create\Location.cs" />
     <Compile Include="Create\Span.cs" />
     <Compile Include="Modify\Merge.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
