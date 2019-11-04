@@ -14,9 +14,9 @@ using BH.Engine.Serialiser;
 using BH.oM.Diffing;
 using System.Diagnostics;
 
-namespace Engine_Test
+namespace Test_Profiling
 {
-    internal static partial class TestDiffing
+    internal static partial class Diffing_Engine
     {
         public static void Profiling01()
         {
@@ -54,7 +54,7 @@ namespace Engine_Test
             }
 
             // Generate random objects
-            List<IBHoMObject> currentObjs = GenerateRandomObjects(typeof(Bar), totalObjs);
+            List<IBHoMObject> currentObjs = Utils.GenerateRandomObjects(typeof(Bar), totalObjs);
 
             // Create Stream. This assigns the Hashes.
             var stream = BH.Engine.Diffing.Create.Stream(currentObjs, null);

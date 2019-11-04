@@ -10,6 +10,17 @@ namespace Test_Profiling
     {
         static void Main(string[] args)
         {
+            /// ************************************/
+            /// Diffing test and profiling methods
+            /// ************************************/
+
+            Diffing_Engine.Test01();
+
+            Diffing_Engine.Profiling01();
+
+            /// ************************************/
+
+            Console.Read();
         }
     }
 }

@@ -67,7 +67,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Diffing_Engine\GenerateRandomObjs.cs" />
+    <Compile Include="Diffing_Engine\Utils\GenerateRandomObjs.cs" />
     <Compile Include="Diffing_Engine\Profiling01.cs" />
     <Compile Include="Diffing_Engine\Test01.cs" />
     <Compile Include="Program.cs" />

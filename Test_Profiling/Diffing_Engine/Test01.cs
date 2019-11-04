@@ -14,9 +14,9 @@ using System.Diagnostics;
 using BH.oM.Diffing;
 using BH.Engine.Diffing;
 
-namespace Engine_Test
+namespace Test_Profiling
 {
-    internal static partial class TestDiffing
+    internal static partial class Diffing_Engine
     {
         public static void Test01(bool propertyLevelDiffing = true)
         {

@@ -5,11 +5,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Engine_Test
+namespace Test_Profiling
 {
-    internal static partial class TestDiffing
+    internal static partial class Utils
     {
-        private static List<IBHoMObject> GenerateRandomObjects(Type t, int count)
+        internal static List<IBHoMObject> GenerateRandomObjects(Type t, int count)
         {
             List<IBHoMObject> objs = new List<IBHoMObject>();
 
