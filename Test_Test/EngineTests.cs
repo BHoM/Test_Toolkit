@@ -72,7 +72,7 @@ namespace BH.Test.Test
 
             string message = "";
             foreach (Error e in result.Errors)
-                message += e.Message + "\n";
+                message += e.ToText() + "\n";
 
             if(result.Status == ResultStatus.Fail) { Assert.Inconclusive(message); }
             if (result.Status == ResultStatus.CriticalFail) { Assert.Fail(message); }
