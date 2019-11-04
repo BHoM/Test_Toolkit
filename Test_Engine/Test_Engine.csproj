@@ -104,6 +104,7 @@
     <Compile Include="Convert\ToLineSpan.cs" />
     <Compile Include="Convert\ToPosition.cs" />
     <Compile Include="Convert\ToLineLocation.cs" />
+    <Compile Include="Convert\ToText.cs" />
     <Compile Include="Create\ComplianceResult.cs" />
     <Compile Include="Create\Error.cs" />
     <Compile Include="Create\LineLocation.cs" />

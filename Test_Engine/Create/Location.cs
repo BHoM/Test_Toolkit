@@ -31,13 +31,13 @@ namespace BH.Engine.Test
 {
     public static partial class Create
     {
-        public static Location Location(string filePath = "", Span span = null)
+        public static Location Location(string filePath = "", LineSpan line = null)
         {
-            span = span ?? new oM.Test.Span();
+            line = line ?? new oM.Test.LineSpan();
             return new Location
             {
                 FilePath = filePath,
-                Span = span,
+                Line = line,
             };
         }
     }
