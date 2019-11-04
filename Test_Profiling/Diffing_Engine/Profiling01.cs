@@ -27,29 +27,31 @@ namespace Test_Profiling
 
             List<int> numberOfObjects = new List<int>() { 10, 100, 1000, 5000, 10000 }; //, 12250, 15000, 17250, 20000, 25000, 30000 };
 
-            bool propertyLevelDiffing = false;
+            bool enablePropertyLevelDiff = false;
             for (int b = 0; b < 2; b++)
             {
-                numberOfObjects.ForEach(i =>
-                    ProfilingTask(i, propertyLevelDiffing, path));
+                DiffConfig diffconfig = new DiffConfig() { EnablePropertyDiffing = enablePropertyLevelDiff };
 
-                propertyLevelDiffing = !propertyLevelDiffing;
+                numberOfObjects.ForEach(i =>
+                    ProfilingTask(i, diffconfig, path));
+
+                enablePropertyLevelDiff = !enablePropertyLevelDiff;
             }
 
             Console.WriteLine("Profiling01 concluded.");
         }
 
-        public static void ProfilingTask(int totalObjs, bool propertyLevelDiffing, string path = null)
+        public static void ProfilingTask(int totalObjs, DiffConfig diffconfig, string path = null)
         {
             string introMessage = $"Profiling diffing for {totalObjs} randomly generated and modified objects.";
-            introMessage += propertyLevelDiffing ? " Includes collection-level and property-level diffing." : " Only collection-level diffing.";
+            introMessage += diffconfig.EnablePropertyDiffing ? " Includes collection-level and property-level diffing." : " Only collection-level diffing.";
             Console.WriteLine(introMessage);
 
             if (path != null)
             {
                 string fName = Path.GetFileNameWithoutExtension(path);
                 string ext = Path.GetExtension(path);
-                fName += propertyLevelDiffing ? "_propLevel" : "_onlyCollLevel";
+                fName += diffconfig.EnablePropertyDiffing ? "_propLevel" : "_onlyCollLevel";
                 path = Path.Combine(Path.GetDirectoryName(path), fName + ext);
             }
 
@@ -57,7 +59,7 @@ namespace Test_Profiling
             List<IBHoMObject> currentObjs = Utils.GenerateRandomObjects(typeof(Bar), totalObjs);
 
             // Create Stream. This assigns the Hashes.
-            var stream = BH.Engine.Diffing.Create.Stream(currentObjs, null);
+            var stream = BH.Engine.Diffing.Create.Stream(currentObjs, diffconfig, "");
 
             // Modify randomly half the total of objects.
             var readObjs = stream.Objects.Cast<IBHoMObject>().ToList();
@@ -77,7 +79,7 @@ namespace Test_Profiling
             var timer = new Stopwatch();
             timer.Start();
 
-            Delta delta = BH.Engine.Diffing.Compute.Diffing(stream, updatedStream, propertyLevelDiffing, null, true);
+            Delta delta = BH.Engine.Diffing.Compute.Diffing(stream, updatedStream, diffconfig);
 
             timer.Stop();
 
