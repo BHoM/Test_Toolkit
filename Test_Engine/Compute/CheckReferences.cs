@@ -85,7 +85,7 @@ namespace BH.Engine.Test
 
                 if (include.Contains("Version") || include.Contains("Culture") || include.Contains("processorArchitecture"))
                 {
-                    finalResult = finalResult.Merge(Create.ComplianceResult(ResultStatus.CriticalFail, new List<Error> { Create.Error("Project references for BHoM DLLs should not include Version, Culture, or Processor Architecture", Create.Location(csProjFilePath, Create.Span(1, 1))) }));
+                    finalResult = finalResult.Merge(Create.ComplianceResult(ResultStatus.CriticalFail, new List<Error> { Create.Error("Project references for BHoM DLLs should not include Version, Culture, or Processor Architecture", Create.Location(csProjFilePath, Create.LineSpan(1, 1))) }));
                     continue; //Difficult to check rest of reference due to string parsing if this bit is wrong
                 }
 
@@ -94,7 +94,7 @@ namespace BH.Engine.Test
 
                 if (x.Element(msbuild + "HintPath") == null)
                 {
-                    finalResult = finalResult.Merge(Create.ComplianceResult(ResultStatus.CriticalFail, new List<Error> { Create.Error($"HintPath for reference to '{reference}' must be set", Create.Location(csProjFilePath, Create.Span(1, 1))) }));
+                    finalResult = finalResult.Merge(Create.ComplianceResult(ResultStatus.CriticalFail, new List<Error> { Create.Error($"HintPath for reference to '{reference}' must be set", Create.Location(csProjFilePath, Create.LineSpan(1, 1))) }));
                     continue;
                 }
 
@@ -129,7 +129,7 @@ namespace BH.Engine.Test
                 }
 
                 if (referenceHintPath != hintPath)
-                    finalResult = finalResult.Merge(Create.ComplianceResult(ResultStatus.CriticalFail, new List<Error> { Create.Error($"Project references for '{referenceError}' should be set to '{hintPath}'", Create.Location(csProjFilePath, Create.Span(1, 1))) }));
+                    finalResult = finalResult.Merge(Create.ComplianceResult(ResultStatus.CriticalFail, new List<Error> { Create.Error($"Project references for '{referenceError}' should be set to '{hintPath}'", Create.Location(csProjFilePath, Create.LineSpan(1, 1))) }));
             }
 
             return finalResult;

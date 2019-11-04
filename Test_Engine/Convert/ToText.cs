@@ -20,18 +20,22 @@
  * along with this code. If not, see <https://www.gnu.org/licenses/lgpl-3.0.html>.      
  */
 
-using BH.oM.Base;
+using BH.oM.Test;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BH.oM.Test
+namespace BH.Engine.Test
 {
-    public class Location : IObject
+    public static partial class Convert
     {
-        public string FilePath { get; set; } = "";
-        public LineSpan Line { get; set; } = new LineSpan();
+        public static string ToText(this Location location)
+        {
+            //return $" in {location.FilePath} at {location.Span.Start}"
+            return "";
+
+        }
     }
 }

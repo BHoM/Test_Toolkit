@@ -38,7 +38,7 @@ namespace BH.Engine.Test
 
         public static LineSpan LineSpan(int firstLine, int lastLine)
         {
-            return new LineSpan { Start = LineLocation(firstLine,0), End = LineLocation(lastLine,0) };
+            return new LineSpan { Start = LineLocation(firstLine, 0), End = LineLocation(lastLine, 0) };
         }
     }
 }
