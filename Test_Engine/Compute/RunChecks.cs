@@ -66,7 +66,7 @@ namespace BH.Engine.Test
                         Create.ComplianceResult(
                             errLevel == ErrorLevel.Error ? ResultStatus.CriticalFail : ResultStatus.Fail,
                             new List<Error> {
-                                Create.Error(message,result,errLevel,method.Name)
+                                Create.Error(message, Create.Location(path, result), errLevel, method.Name)
                             })
                         );
                 }

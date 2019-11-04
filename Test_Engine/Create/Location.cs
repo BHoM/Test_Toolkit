@@ -20,19 +20,25 @@
  * along with this code. If not, see <https://www.gnu.org/licenses/lgpl-3.0.html>.      
  */
 
-using BH.oM.Base;
+using BH.oM.Test;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BH.oM.Test
+namespace BH.Engine.Test
 {
-    public class Error : BHoMObject
+    public static partial class Create
     {
-        public ErrorLevel Level { get; set; }
-        public string Message { get; set; }
-        public Location Location { get; set; }
+        public static Location Location(string filePath = "", Span span = null)
+        {
+            span = span ?? new oM.Test.Span();
+            return new Location
+            {
+                FilePath = filePath,
+                Span = span,
+            };
+        }
     }
 }
