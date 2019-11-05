@@ -12,7 +12,6 @@ using System.Security.Cryptography;
 using BH.Engine.Diffing;
 using System.Diagnostics;
 using BH.oM.Diffing;
-using BH.Engine.Diffing;
 
 namespace Test_Profiling
 {
