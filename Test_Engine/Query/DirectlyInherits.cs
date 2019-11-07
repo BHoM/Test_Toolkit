@@ -35,12 +35,11 @@ namespace BH.Engine.Test
 {
     public static partial class Query
     {
-        public static bool DirectlyInherits(ClassDeclarationSyntax node, string value)
+        public static bool DirectlyInherits(this ClassDeclarationSyntax node, string value)
         {
             if(node.BaseList != null)
             {
-                foreach (SimpleBaseTypeSyntax b in node.BaseList.Types)
-                    if (b.ToString() == value) return true;
+                return node.BaseList.Types.Any(t => t.Type.ToString() == value);
             }
 
             return false;
