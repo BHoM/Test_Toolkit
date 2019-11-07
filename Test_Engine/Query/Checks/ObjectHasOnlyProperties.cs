@@ -35,9 +35,6 @@ namespace BH.Engine.Test.Checks
     {
         [Message("BHoM Objects cannot contain fields, only properties")]
         [Path(@"([a-zA-Z0-9]+)_?oM\\.*\.cs$")]
-        [Path(@"([a-zA-Z0-9]+)_Engine\\.*\.cs$", false)]
-        [Path(@"([a-zA-Z0-9]+)_Adapter\\.*\.cs$", false)]
-        [Path(@"([a-zA-Z0-9]+)_UI\\.*\.cs$", false)]
         public static Span ObjectHasOnlyProperties(FieldDeclarationSyntax node)
         {
             return node.Span.ToBHoM();
@@ -45,12 +42,17 @@ namespace BH.Engine.Test.Checks
 
         [Message("BHoM Objects cannot contain methods or constructors, only properties")]
         [Path(@"([a-zA-Z0-9]+)_?oM\\.*\.cs$")]
-        [Path(@"([a-zA-Z0-9]+)_Engine\\.*\.cs$", false)]
-        [Path(@"([a-zA-Z0-9]+)_Adapter\\.*\.cs$", false)]
-        [Path(@"([a-zA-Z0-9]+)_UI\\.*\.cs$", false)]
-        public static Span ObjectHasOnlyProperties(BaseMethodDeclarationSyntax node)
+        public static Span ObjectHasOnlyProperties(MethodDeclarationSyntax node)
         {
             return node.IGetIdentifier().Span.ToBHoM();
+        }
+
+        [Message("BHoM Objects cannot contain methods or constructors, only properties")]
+        [Path(@"([a-zA-Z0-9]+)_?oM\\.*\.cs$")]
+
+        public static Span ObjectHasOnlyProperties(ConstructorDeclarationSyntax node)
+        {
+            return node.IGetDeclaringClass().IsImmutable() ? null : node.IGetIdentifier().Span.ToBHoM();
         }
 
     }

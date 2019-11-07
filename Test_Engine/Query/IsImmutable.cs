@@ -35,20 +35,9 @@ namespace BH.Engine.Test
 {
     public static partial class Query
     {
-        public static string IGetClass(this SyntaxNode node)
+        public static bool IsImmutable(this ClassDeclarationSyntax node)
         {
-            return GetClass(node as dynamic);
-        }
-
-        public static string GetClass(this SyntaxNode node)
-        {
-            return node.Parent == null ? null : node.Parent.IGetClass();
-        }
-        public static string GetClass(this ClassDeclarationSyntax node)
-        {
-            string within = node.Parent.IGetClass();
-            if (string.IsNullOrEmpty(within)) return node.IGetName();
-            return within + "." + node.IGetName();
+            return node.DirectlyInherits("IImmutable");
         }
     }
 }

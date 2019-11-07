@@ -35,20 +35,19 @@ namespace BH.Engine.Test
 {
     public static partial class Query
     {
-        public static string IGetClass(this SyntaxNode node)
+        public static ClassDeclarationSyntax IGetDeclaringClass(this SyntaxNode node)
         {
             return GetClass(node as dynamic);
         }
 
-        public static string GetClass(this SyntaxNode node)
+        public static ClassDeclarationSyntax GetDeclaringClass(this SyntaxNode node)
         {
-            return node.Parent == null ? null : node.Parent.IGetClass();
+            return node.Parent == null ? null : node.Parent.IGetDeclaringClass();
         }
-        public static string GetClass(this ClassDeclarationSyntax node)
+
+        public static ClassDeclarationSyntax GetDeclaringClass(this ClassDeclarationSyntax node)
         {
-            string within = node.Parent.IGetClass();
-            if (string.IsNullOrEmpty(within)) return node.IGetName();
-            return within + "." + node.IGetName();
+            return node;
         }
     }
 }

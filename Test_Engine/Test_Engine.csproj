@@ -128,6 +128,7 @@
     <Compile Include="Query\DescriptionAttribute.cs" />
     <Compile Include="Query\DirectlyInherits.cs" />
     <Compile Include="Query\GetAttributes.cs" />
+    <Compile Include="Query\GetDelaringClass.cs" />
     <Compile Include="Query\GetClass.cs" />
     <Compile Include="Query\GetIdentifier.cs" />
     <Compile Include="Query\GetNamespace.cs" />
@@ -135,6 +136,7 @@
     <Compile Include="Query\HasAttribute.cs" />
     <Compile Include="Query\IsAdapterConstructor.cs" />
     <Compile Include="Query\IsEngineMethod.cs" />
+    <Compile Include="Query\IsImmutable.cs" />
     <Compile Include="Query\Passes.cs" />
     <Compile Include="Query\HasSingleNamespace.cs" />
     <Compile Include="Query\Checks\HasSingleNamespace.cs" />
