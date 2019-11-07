@@ -33,12 +33,12 @@ namespace BH.Engine.Test
     {
         public static string ToText(this Location location)
         {
-            return $" in {location.FilePath} at {location.Line.Start.Line}:{location.Line.Start.Column}";
+            return $"{location.FilePath} at {location.Line.Start.Line}:{location.Line.Start.Column}";
         }
 
         public static string ToText(this Error error)
         {
-            return $"{error.Message} " + error.Location.ToText();
+            return $"{error.Message}\n    in {error.Location.ToText()}";
         }
     }
 }
