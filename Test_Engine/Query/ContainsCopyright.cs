@@ -77,7 +77,7 @@ namespace BH.Engine.Test
 
             if(split.Length < copyrightSplit.Length)
             {
-                Error e = Create.Error("Copyright message is not accurate at line " + 1, Create.Location("", Create.Span(1, 2).ToLineSpan(l)), ErrorLevel.Error);
+                Error e = Create.Error("Copyright message is not accurate at line " + 1, Create.Location("", Create.LineSpan(1,2)), ErrorLevel.Error);
                 return Create.ComplianceResult(ResultStatus.CriticalFail, new List<Error> { e });
             }
 
@@ -87,7 +87,7 @@ namespace BH.Engine.Test
                 {
                     if (split[x].TrimEnd() != copyrightSplit[x].TrimEnd())
                     {
-                        Error e = Create.Error("Copyright message is not accurate at line " + (x + 1), Create.Location("", Create.Span(x + 1, x + 2).ToLineSpan(l)), ErrorLevel.Error);
+                        Error e = Create.Error("Copyright message is not accurate at line " + (x + 1), Create.Location("", Create.LineSpan(x + 1, x + 2)), ErrorLevel.Error);
                         return Create.ComplianceResult(ResultStatus.CriticalFail, new List<Error> { e });
                     }
                 }
@@ -104,7 +104,7 @@ namespace BH.Engine.Test
 
                     if (split[x].TrimEnd() != copyrightSplit[x].TrimEnd())
                     {
-                        Error e = Create.Error("Copyright message is not accurate at line " + (x + 1), Create.Location("", Create.Span(x + 1, x + 2).ToLineSpan(l)), ErrorLevel.Error);
+                        Error e = Create.Error("Copyright message is not accurate at line " + (x + 1), Create.Location("", Create.LineSpan(x + 1, x + 2)), ErrorLevel.Error);
                         return Create.ComplianceResult(ResultStatus.CriticalFail, new List<Error> { e });
                     }
                 }
@@ -119,7 +119,7 @@ namespace BH.Engine.Test
 
                 if (!validOnOneYear)
                 {
-                    Error e = Create.Error("Copyright message is not accurate at line 3", Create.Location("", Create.Span(3, 4).ToLineSpan(l)), ErrorLevel.Error);
+                    Error e = Create.Error("Copyright message is not accurate at line 3", Create.Location("", Create.LineSpan(3, 4)), ErrorLevel.Error);
                     return Create.ComplianceResult(ResultStatus.CriticalFail, new List<Error> { e });
                 }
             }
