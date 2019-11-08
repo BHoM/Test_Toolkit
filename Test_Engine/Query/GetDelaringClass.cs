@@ -37,7 +37,7 @@ namespace BH.Engine.Test
     {
         public static ClassDeclarationSyntax IGetDeclaringClass(this SyntaxNode node)
         {
-            return GetClass(node as dynamic);
+            return GetDeclaringClass(node as dynamic);
         }
 
         public static ClassDeclarationSyntax GetDeclaringClass(this SyntaxNode node)
