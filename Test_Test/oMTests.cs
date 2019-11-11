@@ -25,17 +25,11 @@ namespace BH.Test.Test
             set { testContextInstance = value; }
         }
 
-        private List<string> GetObjectFiles()
+        private List<string> GetAllObjectFiles()
         {
             string projectName = TestContext.Properties["projectName"].ToString();
 
             if (projectName == "null") return null;
-
-            string projectSplit = "";
-            if (projectName.EndsWith("_Toolkit"))
-                projectSplit = projectSplit.Split('_')[0];
-            else
-                projectSplit = projectName;
 
             string projectOM = null;
 
@@ -47,35 +41,53 @@ namespace BH.Test.Test
             return Directory.EnumerateFiles(projectOM, "*.cs", SearchOption.AllDirectories).ToList();
         }
 
+        private List<string> GetChangedObjectFiles()
+        {
+            string projectName = TestContext.Properties["projectName"].ToString();
+
+            if (projectName == "null") return null;
+
+            string projectSplit = "";
+            if (projectName.EndsWith("_Toolkit"))
+                projectSplit = projectName.Split('_')[0];
+            else
+                projectSplit = projectName;
+
+            string build = Environment.GetEnvironmentVariable("BUILD_SOURCESDIRECTORY").ToString();
+
+            string pathToOM = Path.Combine(build, "PRTestFiles", projectName, projectSplit + "_oM");
+            return Directory.EnumerateFiles(pathToOM, "*.cs", SearchOption.AllDirectories).ToList();
+        }
+
         [TestMethod]
         public void TestObjectCompliance()
         {
-            List<string> allObjectFiles = GetObjectFiles();
-            if (allObjectFiles == null) { Assert.IsTrue(true); return; }
+            List<string> changedFiles = GetChangedObjectFiles();
+            if (changedFiles == null) { Assert.IsTrue(true); return; }
 
-            ComplianceResult result = Create.ComplianceResult(ResultStatus.Pass);
-
-            foreach (string s in allObjectFiles)
+            ComplianceResult r = Create.ComplianceResult(ResultStatus.Pass);
+            foreach (string s in changedFiles)
             {
                 StreamReader sr = new StreamReader(s);
                 string file = sr.ReadToEnd();
                 sr.Close();
 
-                if (file != null)
+                if(file != null)
                 {
                     SyntaxTree st = BH.Engine.Test.Convert.ToSyntaxTree(file, s);
-                    result = result.Merge(st.GetFileRoot().RunChecks());
+                    r = r.Merge(Compute.Check(Query.AllChecks().Where(x => x.Name == "IsPublic").FirstOrDefault(), st.GetFileRoot()));
                 }
             }
 
-            if (result.Status == ResultStatus.Pass) { Assert.IsTrue(true); return; }
-
             string message = "";
-            foreach (Error e in result.Errors)
-                message += e.ToText() + "\n";
+            foreach (Error e in r.Errors)
+                message += e.Message + "\n";
 
-            if (result.Status == ResultStatus.Fail) { Assert.Inconclusive(message); }
-            if (result.Status == ResultStatus.CriticalFail) { Assert.Fail(message); }
+            if (r.Status == ResultStatus.CriticalFail)
+                Assert.Fail(message);
+            else
+                Assert.IsTrue(true);
+             
         }
     }
 }
