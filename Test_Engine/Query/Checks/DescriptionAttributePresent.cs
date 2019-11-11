@@ -36,6 +36,7 @@ namespace BH.Engine.Test.Checks
         [Message("Engine Method must contain a Description attrubute")]
         [ErrorLevel(ErrorLevel.Warning)]
         [Path(@"([a-zA-Z0-9]+)_Engine\\.*\.cs$")]
+        [Path(@"([a-zA-Z0-9]+)_Engine\\Objects\\.*\.cs$", false)]
         public static Span DescriptionAttributePresent(MethodDeclarationSyntax node)
         {
             return node.HasAttribute("Description") ? null : node.Identifier.Span.ToBHoM();

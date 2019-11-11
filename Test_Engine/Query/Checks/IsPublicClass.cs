@@ -36,6 +36,7 @@ namespace BH.Engine.Test.Checks
     {
         [Message("Invalid Engine class: Engine classes must be public")]
         [Path(@"([a-zA-Z0-9]+)_Engine\\.*\.cs$")]
+        [Path(@"([a-zA-Z0-9]+)_Engine\\Objects\\.*\.cs$", false)]
         [IsPublic(false)]
         [Output("A span that represents where this error resides or null if there is no error")]
         public static Span IsPublicClass(ClassDeclarationSyntax node)
