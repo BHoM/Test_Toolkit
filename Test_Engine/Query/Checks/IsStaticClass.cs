@@ -34,8 +34,9 @@ namespace BH.Engine.Test.Checks
     public static partial class Query
     {
 
-        [Message("Invalid Engine class: Engine classes must be public")]
+        [Message("Invalid Engine class: Engine classes must be static")]
         [Path(@"([a-zA-Z0-9]+)_Engine\\.*\.cs$")]
+        [Path(@"([a-zA-Z0-9]+)_Engine\\Objects\\.*\.cs$", false)]
         public static Span IsStaticClass(ClassDeclarationSyntax node)
         {
             return node.IsStatic() ? null : node.Modifiers.Span.ToBHoM();

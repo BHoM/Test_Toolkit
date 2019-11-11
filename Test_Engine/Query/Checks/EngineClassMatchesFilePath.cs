@@ -35,7 +35,8 @@ namespace BH.Engine.Test.Checks
     public static partial class Query
     {
         [Message("Incorrect Engine class based on file path")]
-        [Path(@"([A-Za-z0-9]+)_Engine\\.*\.cs")]
+        [Path(@"([A-Za-z0-9]+)_Engine\\.*\.cs$")]
+        [Path(@"([a-zA-Z0-9]+)_Engine\\Objects\\.*\.cs$", false)]
         public static Span EngineClassMatchesFilePath(ClassDeclarationSyntax node)
         {
             string path = node.SyntaxTree.FilePath;
@@ -44,8 +45,5 @@ namespace BH.Engine.Test.Checks
             string expected = match.Groups[2].Value;
             return node.Identifier.Text == expected ? null : node.Identifier.Span.ToBHoM();
         }
-
-
-
     }
 }

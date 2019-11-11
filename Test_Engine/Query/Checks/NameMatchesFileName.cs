@@ -36,9 +36,6 @@ namespace BH.Engine.Test.Checks
 
         [Message("Class name must match filename")]
         [Path(@"([a-zA-Z0-9]+)_?oM\\.*\.cs$")]
-        [Path(@"([a-zA-Z0-9]+)_Engine\\.*\.cs$", false)]
-        [Path(@"([a-zA-Z0-9]+)_Adapter\\.*\.cs$", false)]
-        [Path(@"([a-zA-Z0-9]+)_UI\\.*\.cs$", false)]
         [IsPublic()]
         public static Span NameMatchesFileName(ClassDeclarationSyntax node)
         {
@@ -58,6 +55,7 @@ namespace BH.Engine.Test.Checks
         [Message("Method name must match filename")]
         [Path(@"([a-zA-Z0-9]+)_Engine\\.*\.cs$")]
         [Path(@"([a-zA-Z0-9]+)_Engine\\Convert\\.*\.cs$", false)]
+        [Path(@"([a-zA-Z0-9]+)_Engine\\Objects\\.*\.cs$", false)]
         [IsPublic()]
         public static Span NameMatchesFileName(MethodDeclarationSyntax node)
         {

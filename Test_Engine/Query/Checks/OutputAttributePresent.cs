@@ -36,6 +36,7 @@ namespace BH.Engine.Test.Checks
         [Message("Method must contain an Output or MultiOutput attribute")]
         [ErrorLevel(ErrorLevel.Warning)]
         [Path(@"([a-zA-Z0-9]+)_Engine\\.*\.cs$")]
+        [Path(@"([a-zA-Z0-9]+)_Engine\\Objects\\.*\.cs$", false)]
         public static Span OutputAttributePresent(MethodDeclarationSyntax node)
         {
             return node.HasAttribute("Output") || node.HasAttribute("MultiOutput")  ? null : node.Identifier.Span.ToBHoM();
