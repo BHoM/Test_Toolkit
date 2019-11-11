@@ -20,36 +20,28 @@
  * along with this code. If not, see <https://www.gnu.org/licenses/lgpl-3.0.html>.      
  */
 
-using BH.Engine.Reflection;
 using BH.oM.Test;
-using Microsoft.CodeAnalysis;
-using Microsoft.CodeAnalysis.CSharp.Syntax;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
-using System.IO;
-using BH.oM.Test.Attributes;
+using Microsoft.CodeAnalysis;
+using Microsoft.CodeAnalysis.CSharp;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
+using System.Reflection;
 
 namespace BH.Engine.Test
 {
-    public static partial class Compute
+    public static partial class Query
     {
-        public static ComplianceResult RunChecks(this SyntaxNode node)
+        public static IEnumerable<MethodInfo> AllChecks()
         {
-            string path = node.SyntaxTree.FilePath;
-            if (Path.GetFileName(path) == "AssemblyInfo.cs")
-                return Create.ComplianceResult(ResultStatus.Pass);
-
-            ComplianceResult finalResult = Create.ComplianceResult(ResultStatus.Pass);
-            foreach(MethodInfo method in Query.AllChecks())
-            {
-                finalResult = finalResult.Merge(method.Check(node));
-            }
-            return finalResult;
+            return Assembly.GetExecutingAssembly().DefinedTypes
+                .Where(t => t.IsClass && t.Name == "Query" && t.Namespace == "BH.Engine.Test.Checks")
+                .SelectMany(t => t.DeclaredMethods)
+                .Where(method => method.IsPublic && method.ReturnType == typeof(Span));
         }
     }
 }

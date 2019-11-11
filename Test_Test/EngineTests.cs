@@ -64,7 +64,7 @@ namespace BH.Test.Test
                 if(file != null)
                 {
                     SyntaxTree st = BH.Engine.Test.Convert.ToSyntaxTree(file, s);
-                    result = result.Merge(st.GetFileRoot().IIsCompliant());
+                    result = result.Merge(st.GetFileRoot().RunChecks());
                 }
             }
 

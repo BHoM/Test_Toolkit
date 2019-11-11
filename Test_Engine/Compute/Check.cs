@@ -1,6 +1,6 @@
 ﻿/*
  * This file is part of the Buildings and Habitats object Model (BHoM)
- * Copyright (c) 2015 - 2019, the respective contributors. All rights reserved.
+ * Copyright (c) 2015 - 201, the respective contributors. All rights reserved.
  *
  * Each contributor holds copyright over their respective contributions.
  * The project versioning (Git) records all such contribution source information.
@@ -38,14 +38,36 @@ namespace BH.Engine.Test
 {
     public static partial class Compute
     {
-        public static ComplianceResult RunChecks(this SyntaxNode node)
+        public static ComplianceResult Check(this MethodInfo method, SyntaxNode node)
         {
+            ComplianceResult finalResult = Create.ComplianceResult(ResultStatus.Pass);
             string path = node.SyntaxTree.FilePath;
             if (Path.GetFileName(path) == "AssemblyInfo.cs")
-                return Create.ComplianceResult(ResultStatus.Pass);
+                return finalResult;
 
+            Type type = node.GetType();
+            if (method.GetParameters()[0].ParameterType.IsAssignableFrom(type) &&
+                method.GetCustomAttributes<ConditionAttribute>().All(condition => condition.IPasses(node)))
+            {
+                Func<object[], object> fn = method.ToFunc();
+                Span result = fn(new object[] { node }) as Span;
+                if (result != null)
+                {
+                    string message = method.GetCustomAttribute<MessageAttribute>()?.Message ?? "";
+                    ErrorLevel errLevel = method.GetCustomAttribute<ErrorLevelAttribute>()?.Level ?? ErrorLevel.Error;
+                    finalResult = finalResult.Merge(Create.ComplianceResult(
+                        errLevel == ErrorLevel.Error ? ResultStatus.CriticalFail : ResultStatus.Fail,
+                        new List<Error> {
+                        Create.Error(message, Create.Location(path, result.ToLineSpan(node.SyntaxTree.GetRoot().ToFullString())), errLevel, method.Name)
+                        }));
+                }
+            }
+            return finalResult.Merge(method.Check(node.ChildNodes()));
+        }
+        public static ComplianceResult Check(this MethodInfo method, IEnumerable<SyntaxNode> nodes)
+        {
             ComplianceResult finalResult = Create.ComplianceResult(ResultStatus.Pass);
-            foreach(MethodInfo method in Query.AllChecks())
+            foreach(var node in nodes)
             {
                 finalResult = finalResult.Merge(method.Check(node));
             }
