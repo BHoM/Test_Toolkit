@@ -98,6 +98,7 @@
   <ItemGroup>
     <Compile Include="Compute\CheckProjectStructure.cs" />
     <Compile Include="Compute\CheckReferences.cs" />
+    <Compile Include="Compute\Check.cs" />
     <Compile Include="Convert\ToBHoM.cs" />
     <Compile Include="Convert\ToSyntaxTree.cs" />
     <Compile Include="Convert\ToSpan.cs" />
@@ -125,6 +126,7 @@
     <Compile Include="Query\Checks\NameMatchesFileName.cs" />
     <Compile Include="Query\Checks\IsValidModifyMethod.cs" />
     <Compile Include="Query\Checks\ModifyReturnsSameType.cs" />
+    <Compile Include="Query\AllChecks.cs" />
     <Compile Include="Query\DescriptionAttribute.cs" />
     <Compile Include="Query\DirectlyInherits.cs" />
     <Compile Include="Query\GetAttributes.cs" />
@@ -161,7 +163,6 @@
     <Compile Include="Query\IsPrivate.cs" />
     <Compile Include="Query\IsStatic.cs" />
     <Compile Include="Query\IsPublic.cs" />
-    <Compile Include="Query\IsCompliant.cs" />
     <Compile Include="Query\GetLeadingTrivia.cs" />
     <Compile Include="Query\GetNamespaceRoot.cs" />
     <Compile Include="Query\GetFileRoot.cs" />
