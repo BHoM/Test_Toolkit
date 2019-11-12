@@ -36,6 +36,9 @@ namespace BH.Test.Test
             if (TestContext.Properties.Contains("oMName"))
                 projectOM = Path.Combine("..", "..", projectName, TestContext.Properties["oMName"].ToString());
 
+            if (TestContext.Properties.Contains("engineName"))
+                projectOM = Path.Combine("..", "..", projectName, TestContext.Properties["engineName"].ToString());
+
             if (projectOM == null) return null;
 
             return Directory.EnumerateFiles(projectOM, "*.cs", SearchOption.AllDirectories).ToList();
@@ -59,10 +62,10 @@ namespace BH.Test.Test
             return Directory.EnumerateFiles(pathToOM, "*.cs", SearchOption.AllDirectories).ToList();
         }
 
-        [TestMethod]
-        public void TestObjectCompliance()
+        
+        public static void RunTest(string name, bool allFiles = false)
         {
-            List<string> changedFiles = GetChangedObjectFiles();
+            List<string> changedFiles = (allFiles ? GetAllObjectFiles() : GetChangedObjectFiles());
             if (changedFiles == null) { Assert.IsTrue(true); return; }
 
             ComplianceResult r = Create.ComplianceResult(ResultStatus.Pass);
@@ -75,19 +78,37 @@ namespace BH.Test.Test
                 if(file != null)
                 {
                     SyntaxTree st = BH.Engine.Test.Convert.ToSyntaxTree(file, s);
-                    r = r.Merge(Compute.Check(Query.AllChecks().Where(x => x.Name == "IsPublic").FirstOrDefault(), st.GetFileRoot()));
+                    List<System.Reflection.MethodInfo> o = Query.AllChecks().ToList();
+                    foreach (var check in o.Where(x => x.Name == name))
+                    {
+                        r = r.Merge(check.Check(st.GetRoot()));
+                    }
                 }
             }
 
-            string message = "";
-            foreach (Error e in r.Errors)
-                message += e.Message + "\n";
-
             if (r.Status == ResultStatus.CriticalFail)
-                Assert.Fail(message);
+                Assert.Fail(r.Errors.Select(x => x.ToText() + "\n").Aggregate((a, b) => a + b));
             else
-                Assert.IsTrue(true);
-             
+                Assert.IsTrue(true);             
+        }
+
+        [TestMethod]
+        public void TestIsPublic()
+        {
+            RunTest("IsPublicClass", GetAllObjectFiles());
+        }
+
+        [TestMethod]
+        public void TestIsStatic()
+        {
+            RunTest("IsStaticClass", true);
+
+        }
+
+        [TestMethod]
+        public void TestOutputAttributePresent()
+        {
+            RunTest("OutputAttributePresent", true);
         }
     }
 }
