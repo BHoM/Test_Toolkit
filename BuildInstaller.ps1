@@ -31,7 +31,6 @@ git clone -q --branch=master https://github.com/BHoM/BHoM_Datasets.git  $ENV:BUI
 write-Output ("**** ITERATE OVER ALL DEPENDENCIES ****")
 ForEach ($repo in $dependencies) 
 {
-  Remove-Item -LiteralPath "$ENV:BUILD_SOURCESDIRECTORY\$repo" -Force -Recurse
   & "$ENV:BUILD_SOURCESDIRECTORY\Test_Toolkit\CloneAndBuildRepo.ps1" -repo $repo
 }
 
@@ -39,7 +38,6 @@ ForEach ($repo in $dependencies)
 # **** Iterate over all Toolkits to Include ****
 write-Output ("**** ITERATE OVER ALL TOOLKITS TO INCLUDE ****")
 ForEach ($repo in $includes) {
-  Remove-Item -LiteralPath "$ENV:BUILD_SOURCESDIRECTORY\$repo" -Force -Recurse
   & "$ENV:BUILD_SOURCESDIRECTORY\Test_Toolkit\CloneAndBuildRepo.ps1" -repo $repo
 }
 
@@ -64,7 +62,6 @@ ForEach ($altconfig in $altconfigs)
 write-Output ("**** ITERATE OVER ALL USER INTERFACES ****")
 ForEach ($repo in $uis) 
 {
-  Remove-Item -LiteralPath "$ENV:BUILD_SOURCESDIRECTORY\$repo" -Force -Recurse
   & "$ENV:BUILD_SOURCESDIRECTORY\Test_Toolkit\CloneAndBuildRepo.ps1" -repo $repo
 }
 
