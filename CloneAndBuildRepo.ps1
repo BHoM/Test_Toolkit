@@ -9,8 +9,11 @@ $repo = $parts[1]
 
 $slnPath = "$ENV:BUILD_SOURCESDIRECTORY\$repo\$repo.sln"
 
-Write-Output ("Deleting folder if it exists before cloning...")
-Remove-Item -LiteralPath "$ENV:BUILD_SOURCESDIRECTORY\$repo" -Force -Recurse
+If(test-path "$ENV:BUILD_SOURCESDIRECTORY\$repo")
+{
+	Write-Output ("Deleting folder if it exists before cloning...")
+	Remove-Item -LiteralPath "$ENV:BUILD_SOURCESDIRECTORY\$repo" -Force -Recurse
+}
 
 # **** Cloning Repo ****
 Write-Output ("Cloning " + $repo + " to " + $ENV:BUILD_SOURCESDIRECTORY + "\" + $repo)
