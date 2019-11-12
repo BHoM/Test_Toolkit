@@ -35,7 +35,7 @@ namespace BH.Engine.Test
 {
     public static partial class Query
     {
-        public static bool ContainsToken(this SyntaxTokenList list, string value)
+        public static bool ContainsToken(this IEnumerable<SyntaxToken> list, string value)
         {
             foreach(SyntaxToken token in list)
             {

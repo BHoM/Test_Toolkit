@@ -37,7 +37,7 @@ namespace BH.Engine.Test
     {
         public static bool HasModifier(this MemberDeclarationSyntax node, string value)
         {
-            return node.Modifiers.ContainsToken(value);
+            return node.ChildTokens().ContainsToken(value);
         }
 
         public static bool HasModifier(this AccessorDeclarationSyntax node, string value)
