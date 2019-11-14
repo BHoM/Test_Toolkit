@@ -64,6 +64,7 @@ namespace BH.Engine.Test
             }
             return finalResult.Merge(method.Check(node.ChildNodes()));
         }
+
         public static ComplianceResult Check(this MethodInfo method, IEnumerable<SyntaxNode> nodes)
         {
             ComplianceResult finalResult = Create.ComplianceResult(ResultStatus.Pass);
