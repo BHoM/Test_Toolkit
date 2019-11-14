@@ -1,6 +1,6 @@
 ﻿/*
  * This file is part of the Buildings and Habitats object Model (BHoM)
- * Copyright (c) 2015 - 2020, the respective contributors. All rights reserved.
+ * Copyright (c) 2015 - 2019, the respective contributors. All rights reserved.
  *
  * Each contributor holds copyright over their respective contributions.
  * The project versioning (Git) records all such contribution source information.
@@ -34,8 +34,5 @@ namespace BH.oM.Test
         public ErrorLevel Level { get; set; }
         public string Message { get; set; }
         public Location Location { get; set; }
-
-        public double HelloWorld { get { return 0.1; } set { HelloWorld = value; } }
-        public double Hello2 { private get { return 0.1; } set { HelloWorld = value; } }
     }
 }
