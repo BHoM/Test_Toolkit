@@ -34,7 +34,7 @@ If ($branch -ne "master")
 
 	If((git rev-parse --verify --quiet ("origin/"+$branch)).length -gt 0)
 	{
-		Write-Output("Merging branch " + $branch " in repo " + $repo + " to master")
+		Write-Output("Merging branch " + $branch + " in repo " + $repo + " to master")
 		git merge $branch
 	}
 	Else
