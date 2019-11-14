@@ -34,5 +34,7 @@ namespace BH.oM.Test
         public ErrorLevel Level { get; set; }
         public string Message { get; set; }
         public Location Location { get; set; }
+
+        private double DeliberateFail { get; set; }
     }
 }
