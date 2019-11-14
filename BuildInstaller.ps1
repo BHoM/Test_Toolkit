@@ -31,14 +31,14 @@ git clone -q --branch=master https://github.com/BHoM/BHoM_Datasets.git  $ENV:BUI
 write-Output ("**** ITERATE OVER ALL DEPENDENCIES ****")
 ForEach ($repo in $dependencies) 
 {
-  & "$ENV:BUILD_SOURCESDIRECTORY\Test_Toolkit\CloneAndBuildRepo.ps1" -repo $repo
+  & "$ENV:BUILD_SOURCESDIRECTORY\Test_Toolkit\CloneAndBuildRepoWithMerge.ps1" -repo $repo
 }
 
 
 # **** Iterate over all Toolkits to Include ****
 write-Output ("**** ITERATE OVER ALL TOOLKITS TO INCLUDE ****")
 ForEach ($repo in $includes) {
-  & "$ENV:BUILD_SOURCESDIRECTORY\Test_Toolkit\CloneAndBuildRepo.ps1" -repo $repo
+  & "$ENV:BUILD_SOURCESDIRECTORY\Test_Toolkit\CloneAndBuildRepoWithMerge.ps1" -repo $repo
 }
 
 
@@ -62,6 +62,6 @@ ForEach ($altconfig in $altconfigs)
 write-Output ("**** ITERATE OVER ALL USER INTERFACES ****")
 ForEach ($repo in $uis) 
 {
-  & "$ENV:BUILD_SOURCESDIRECTORY\Test_Toolkit\CloneAndBuildRepo.ps1" -repo $repo
+  & "$ENV:BUILD_SOURCESDIRECTORY\Test_Toolkit\CloneAndBuildRepoWithMerge.ps1" -repo $repo
 }
 
