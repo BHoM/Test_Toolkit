@@ -16,5 +16,5 @@ git config --global user.name "BHoMBot"
 write-Output ("**** ITERATE OVER ALL DEPENDENCIES ****")
 ForEach ($repo in $cores) 
 {
-  & "$ENV:BUILD_SOURCESDIRECTORY\Test_Toolkit\CloneAndBuildRepo.ps1" -repo $repo
+  & "$ENV:BUILD_SOURCESDIRECTORY\Test_Toolkit\CloneAndBuildRepoWithMerge.ps1" -repo $repo
 }

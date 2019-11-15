@@ -14,5 +14,5 @@ git config --global user.name "BHoMBot"
 # **** Iterate over all Toolkits to Include ****
 write-Output ("**** ITERATE OVER ALL DEPENDANTS  ****")
 ForEach ($repo in $dependants) {
-  & "$ENV:BUILD_SOURCESDIRECTORY\Test_Toolkit\CloneAndBuildRepo.ps1" -repo $repo
+  & "$ENV:BUILD_SOURCESDIRECTORY\Test_Toolkit\CloneAndBuildRepoWithMerge.ps1" -repo $repo
 }
