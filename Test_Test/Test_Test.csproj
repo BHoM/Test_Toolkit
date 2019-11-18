@@ -102,8 +102,7 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
-    <Compile Include="AdapterTests.cs" />
-    <Compile Include="EngineTests.cs" />
+    <Compile Include="AdapterTests\GetFiles.cs" />
     <Compile Include="EngineTests\UniqueOutputAttribute.cs" />
     <Compile Include="EngineTests\UniqueDescriptionAttribute.cs" />
     <Compile Include="EngineTests\ParameterHasInputDescription.cs" />
