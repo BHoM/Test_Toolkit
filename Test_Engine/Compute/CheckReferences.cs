@@ -130,6 +130,9 @@ namespace BH.Engine.Test
 
                 if (referenceHintPath != hintPath)
                     finalResult = finalResult.Merge(Create.ComplianceResult(ResultStatus.CriticalFail, new List<Error> { Create.Error($"Project references for '{referenceError}' should be set to '{hintPath}'", Create.Location(csProjFilePath, Create.LineSpan(1, 1))) }));
+
+                if(x.Element(msbuild + "Private") == null || x.Element(msbuild + "Private").Value.ToString().ToLower() != "false")
+                    finalResult = finalResult.Merge(Create.ComplianceResult(ResultStatus.CriticalFail, new List<Error> { Create.Error($"Project references for '{x.Attribute("Include").Value}' should be set to NOT copy local", Create.Location(csProjFilePath, Create.LineSpan(1, 1))) }));
             }
 
             return finalResult;
