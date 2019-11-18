@@ -104,6 +104,22 @@
   <ItemGroup>
     <Compile Include="AdapterTests.cs" />
     <Compile Include="EngineTests.cs" />
+    <Compile Include="EngineTests\UniqueOutputAttribute.cs" />
+    <Compile Include="EngineTests\UniqueDescriptionAttribute.cs" />
+    <Compile Include="EngineTests\ParameterHasInputDescription.cs" />
+    <Compile Include="EngineTests\OutputAttributePresent.cs" />
+    <Compile Include="EngineTests\NamespaceMatchesFilePath.cs" />
+    <Compile Include="EngineTests\ModifyReturnsSameType.cs" />
+    <Compile Include="EngineTests\IsValidEngineClassName.cs" />
+    <Compile Include="EngineTests\IsValidCreateMethodName.cs" />
+    <Compile Include="EngineTests\IsValidConvertMethodName.cs" />
+    <Compile Include="EngineTests\IsStaticClass.cs" />
+    <Compile Include="EngineTests\IsPublicClass.cs" />
+    <Compile Include="EngineTests\InputAttributeHasParameter.cs" />
+    <Compile Include="EngineTests\EngineClassMatchesFilePath.cs" />
+    <Compile Include="EngineTests\DescriptionAttributePresent.cs" />
+    <Compile Include="EngineTests\ContainsCopyright.cs" />
+    <Compile Include="EngineTests\GetFiles.cs" />
     <Compile Include="oMTests\ContainsCopyright.cs" />
     <Compile Include="oMTests\GetFiles.cs" />
     <Compile Include="oMTests\IsPublicClass.cs" />
