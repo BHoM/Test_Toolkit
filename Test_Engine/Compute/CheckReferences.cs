@@ -135,6 +135,12 @@ namespace BH.Engine.Test
                     finalResult = finalResult.Merge(Create.ComplianceResult(ResultStatus.CriticalFail, new List<Error> { Create.Error($"Project references for '{x.Attribute("Include").Value}' should be set to NOT copy local", Create.Location(csProjFilePath, Create.LineSpan(1, 1))) }));
             }
 
+            foreach(XElement xe in projDefinition.Element(msbuild + "Project").Elements(msbuild + "PropertyGroup"))
+            {
+                if (xe.Element(msbuild + "OutputPath") == null || xe.Element(msbuild + "OutputPath").Value != "..\\Build\\")
+                    finalResult = finalResult.Merge(Create.ComplianceResult(ResultStatus.CriticalFail, new List<Error> { Create.Error($"Output path for all build configurations should be set to '..\\Build\\'", Create.Location(csProjFilePath, Create.LineSpan(1, 1))) }));
+            }
+
             return finalResult;
         }
     }
