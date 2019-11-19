@@ -43,9 +43,9 @@ Foreach($diff in $diffFiles)
 	{
 		$index = [array]::indexof($folderPathParts, $oMName)
 		$savePath = $pathOM
-		For($x = $index; $x -lt $folderPathParts.Count - 1; $x++)
+		For($x = $index + 1; $x -lt $folderPathParts.Count - 1; $x++)
 		{
-			$savePath = $savePath + "/" + $folderPathParts[$x]
+			$savePath = $savePath + "\" + $folderPathParts[$x]
 		}
 		If(!(test-path $savePath))
 		{
@@ -60,9 +60,9 @@ Foreach($diff in $diffFiles)
 	{
 		$index = [array]::indexof($folderPathParts, $engineName)
 		$savePath = $pathEngine
-		For($x = $index; $x -lt $folderPathParts.Count - 1; $x++)
+		For($x = $index + 1; $x -lt $folderPathParts.Count - 1; $x++)
 		{
-			$savePath = $savePath + "/" + $folderPathParts[$x]
+			$savePath = $savePath + "\" + $folderPathParts[$x]
 		}
 		If(!(test-path $savePath))
 		{
@@ -77,9 +77,9 @@ Foreach($diff in $diffFiles)
 	{
 		$index = [array]::indexof($folderPathParts, $adapterName)
 		$savePath = $pathAdapter
-		For($x = $index; $x -lt $folderPathParts.Count - 1; $x++)
+		For($x = $index + 1; $x -lt $folderPathParts.Count - 1; $x++)
 		{
-			$savePath = $savePath + "/" + $folderPathParts[$x]
+			$savePath = $savePath + "\" + $folderPathParts[$x]
 		}
 		If(!(test-path $savePath))
 		{
