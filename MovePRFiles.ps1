@@ -59,7 +59,7 @@ Foreach($diff in $diffFiles)
 	If($diff -like "*_Engine*")
 	{
 		$index = [array]::indexof($folderPathParts, $engineName)
-		$savePath = $pathOM
+		$savePath = $pathEngine
 		For($x = $index; $x -lt $folderPathParts.Count - 1; $x++)
 		{
 			$savePath = $savePath + "/" + $folderPathParts[$x]
@@ -76,7 +76,7 @@ Foreach($diff in $diffFiles)
 	If($diff -like "*_Adapter*")
 	{
 		$index = [array]::indexof($folderPathParts, $adapterName)
-		$savePath = $pathOM
+		$savePath = $pathAdapter
 		For($x = $index; $x -lt $folderPathParts.Count - 1; $x++)
 		{
 			$savePath = $savePath + "/" + $folderPathParts[$x]
