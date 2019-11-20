@@ -141,6 +141,7 @@
     <Compile Include="Query\IsAdapterConstructor.cs" />
     <Compile Include="Query\IsEngineMethod.cs" />
     <Compile Include="Query\IsImmutable.cs" />
+    <Compile Include="Query\ObjectsAreIObject.cs" />
     <Compile Include="Query\Passes.cs" />
     <Compile Include="Query\HasSingleNamespace.cs" />
     <Compile Include="Query\Checks\HasSingleNamespace.cs" />

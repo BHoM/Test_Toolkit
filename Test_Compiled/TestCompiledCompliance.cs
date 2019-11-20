@@ -19,24 +19,6 @@ namespace BH.Test.TestCompiled
             set { testContextInstance = value; }
         }
 
-        private string GetBuiltDLL()
-        {
-            string projectName = TestContext.Properties["projectName"].ToString();
-
-            if (projectName == "null") return null;
-
-            string projectOM = null;
-
-            if (TestContext.Properties.Contains("oMName"))
-                projectOM = TestContext.Properties["oMName"].ToString();
-
-            if (projectOM == null || projectOM == "null") return null;
-
-            string build = Environment.GetEnvironmentVariable("BUILD_SOURCESDIRECTORY").ToString();
-
-            return System.IO.Path.Combine(build, projectName, projectOM + ".dll");
-        }
-
         private string GetBuildFolder()
         {
             string projectName = TestContext.Properties["projectName"].ToString();
