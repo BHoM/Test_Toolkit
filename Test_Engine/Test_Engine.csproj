@@ -138,6 +138,7 @@
     <Compile Include="Query\GetNamespace.cs" />
     <Compile Include="Query\GetName.cs" />
     <Compile Include="Query\HasAttribute.cs" />
+    <Compile Include="Query\InterfaceMethodsHaveMethods.cs" />
     <Compile Include="Query\IsAdapterConstructor.cs" />
     <Compile Include="Query\IsEngineMethod.cs" />
     <Compile Include="Query\IsImmutable.cs" />
