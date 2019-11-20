@@ -111,6 +111,9 @@
   </Choose>
   <ItemGroup>
     <Compile Include="AdapterTests\GetFiles.cs" />
+    <Compile Include="AdapterTests\InputParameterStartsLower.cs" />
+    <Compile Include="AdapterTests\MethodNameStartsUpper.cs" />
+    <Compile Include="EngineTests\MethodNameStartsUpper.cs" />
     <Compile Include="EngineTests\UniqueOutputAttribute.cs" />
     <Compile Include="EngineTests\UniqueDescriptionAttribute.cs" />
     <Compile Include="EngineTests\ParameterHasInputDescription.cs" />
@@ -127,6 +130,7 @@
     <Compile Include="EngineTests\DescriptionAttributePresent.cs" />
     <Compile Include="EngineTests\ContainsCopyright.cs" />
     <Compile Include="EngineTests\GetFiles.cs" />
+    <Compile Include="EngineTests\InputParameterStartsLower.cs" />
     <Compile Include="oMTests\ContainsCopyright.cs" />
     <Compile Include="oMTests\GetFiles.cs" />
     <Compile Include="oMTests\IsPublicClass.cs" />

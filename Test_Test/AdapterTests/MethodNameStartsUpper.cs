@@ -8,12 +8,12 @@ using System.Threading.Tasks;
 
 namespace BH.Test.Test
 {
-    public partial class Test_Engine
+    public partial class Test_Adapter
     {
         [TestMethod]
-        public void UniqueDescriptionAttribute()
+        public void MethodNameStartsUpper()
         {
-            Test.RunTest("UniqueDescriptionAttribute", GetChangedObjectFiles());
+            Test.RunTest("MethodNameStartsUpper", GetChangedObjectFiles());
         }
     }
 }
