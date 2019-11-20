@@ -117,6 +117,8 @@
     <Compile Include="Query\Checks\ContainsCopyright.cs" />
     <Compile Include="Query\Checks\DescriptionAttributePresent.cs" />
     <Compile Include="Query\Checks\EngineClassMatchesFilePath.cs" />
+    <Compile Include="Query\Checks\InputParameterStartsLower.cs" />
+    <Compile Include="Query\Checks\MethodNameStartsUpper.cs" />
     <Compile Include="Query\Checks\OutputAttributePresent.cs" />
     <Compile Include="Query\Checks\InputAttributeHasParameter.cs" />
     <Compile Include="Query\Checks\ParameterHasInputDescription.cs" />
@@ -136,7 +138,6 @@
     <Compile Include="Query\GetNamespace.cs" />
     <Compile Include="Query\GetName.cs" />
     <Compile Include="Query\HasAttribute.cs" />
-    <Compile Include="Query\IsInputParameterValid.cs" />
     <Compile Include="Query\IsAdapterConstructor.cs" />
     <Compile Include="Query\IsEngineMethod.cs" />
     <Compile Include="Query\IsImmutable.cs" />
@@ -175,6 +176,7 @@
     <ProjectReference Include="..\Test_oM\Test_oM.csproj">
       <Project>{F758FC9C-CEDF-430D-AEFF-2B1E196F677B}</Project>
       <Name>Test_oM</Name>
+      <Private>False</Private>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

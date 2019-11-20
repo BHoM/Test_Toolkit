@@ -21,7 +21,7 @@
  */
 
 using BH.oM.Test;
-using Microsoft.CodeAnalysis;
+using BH.oM.Test.Attributes;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using System;
 using System.Collections.Generic;
@@ -29,26 +29,17 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-using System.Reflection;
-
-namespace BH.Engine.Test
+namespace BH.Engine.Test.Checks
 {
     public static partial class Query
     {
-        public static List<string> IsInputParameterValid(this MethodInfo mInfo)
+        [Message("Input attribute should start with a lowercase letter")]
+        [ErrorLevel(ErrorLevel.Error)]
+        [Path(@"([a-zA-Z0-9]+)_(Engine|Adapter)\\.*\.cs$")]
+        public static Span MethodNameStartsUpper(MethodDeclarationSyntax node)
         {
-            return mInfo.GetParameters().Select(x => x.IsInputParameterValid()).ToList();
-        }
-
-        public static string IsInputParameterValid(this ParameterInfo pInfo)
-        {
-            return IsInputParameterValid(pInfo.Name);
-        }
-
-        public static string IsInputParameterValid(string inputParameter)
-        {
-            if (char.IsUpper(inputParameter[0]))
-                return inputParameter;
+            if (!char.IsUpper(node.Identifier.ToString()[0]))
+                return node.Identifier.Span.ToBHoM();
             else
                 return null;
         }
