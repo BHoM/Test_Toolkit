@@ -44,18 +44,18 @@ steps:
   inputs:
     filePath: '$(Build.SourcesDirectory)/Test_Toolkit/CloneAndBuildDependencies.ps1'
 
-- task: PowerShell@2
-  displayName: 'Build Test Toolkit'
+- task: NuGetCommand@2
+  displayName: 'Restore NuGets for Primary Solution'
   inputs:
-    filePath: '$(Build.SourcesDirectory)/Test_Toolkit/BuildTest.ps1'
+    restoreSolution: '$(solution)'
 
 - task: PowerShell@2
-  displayName: 'Copy changed files'
+  displayName: 'Build Primary Solution'
   inputs:
-    filePath: '$(Build.SourcesDirectory)/Test_Toolkit/MovePRFiles.ps1'
+    filePath: '$(Build.SourcesDirectory)/Test_Toolkit/BuildPrimarySolution.ps1'
 
 - task: VSTest@2
   inputs:
     testSelector: 'testAssemblies'
-    testAssemblyVer2: '$(Build.SourcesDirectory)/Test_Toolkit/Build/Test_Test.dll'
+    testAssemblyVer2: '$(Build.SourcesDirectory)/Test_Toolkit/Build/Test_TestCompiled.dll'
     runSettingsFile: '.ci/testSettings.runsettings'
