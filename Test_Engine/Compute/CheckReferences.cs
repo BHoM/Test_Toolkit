@@ -74,7 +74,6 @@ namespace BH.Engine.Test
                     "Reflection",
                     "Serialiser",
                     "Structure",
-                    "Testing",
                 };
 
             foreach(XElement x in referenceElements)
