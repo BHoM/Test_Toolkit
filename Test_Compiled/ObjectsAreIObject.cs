@@ -20,7 +20,7 @@ namespace BH.Test.TestCompiled
 
             foreach (MethodInfo method in BH.Engine.Reflection.Query.BHoMMethodList())
             {
-                if (method.IsInputParameterValid() != null && method.IsInputParameterValid().Count > 0)
+                //if (method.IsInputParameterValid() != null && method.IsInputParameterValid().Count > 0)
                     errors.Add(method);
             }
 

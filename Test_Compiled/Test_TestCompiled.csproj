@@ -38,6 +38,7 @@
   <ItemGroup>
     <Reference Include="Reflection_Engine">
       <HintPath>..\..\BHoM_Engine\Build\Reflection_Engine.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="System" />
   </ItemGroup>
@@ -55,17 +56,19 @@
   </Choose>
   <ItemGroup>
     <Compile Include="TestCompiledCompliance.cs" />
-    <Compile Include="InputParameterValid.cs" />
+    <Compile Include="ObjectsAreIObject.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Test_Engine\Test_Engine.csproj">
       <Project>{5e17ba6f-f159-47dd-865c-f2daa235aac7}</Project>
       <Name>Test_Engine</Name>
+      <Private>False</Private>
     </ProjectReference>
     <ProjectReference Include="..\Test_oM\Test_oM.csproj">
       <Project>{f758fc9c-cedf-430d-aeff-2b1e196f677b}</Project>
       <Name>Test_oM</Name>
+      <Private>False</Private>
     </ProjectReference>
   </ItemGroup>
   <Choose>
