@@ -1,4 +1,5 @@
 ﻿using System;
+using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 using System.Collections.Generic;
@@ -8,12 +9,12 @@ using System.Threading.Tasks;
 
 namespace BH.Test.Test
 {
-    public partial class Test_Engine
+    public partial class Test_Adapter
     {
         [TestMethod]
-        public void UniqueDescriptionAttribute()
+        public void InputParameterStartsLower()
         {
-            Test.RunTest("UniqueDescriptionAttribute", GetChangedObjectFiles());
+            Test.RunTest("InputParameterStartsLower", GetChangedObjectFiles());
         }
     }
 }
