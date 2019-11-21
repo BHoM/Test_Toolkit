@@ -37,7 +37,8 @@ namespace BH.Engine.Test
     {
         public static bool IsPublic(this MemberDeclarationSyntax node)
         {
-            return node.HasModifier("public");
+            var type = node.GetDeclaringType();
+            return node.HasModifier("public") || (type != null && type != node && type is InterfaceDeclarationSyntax);
         }
 
         public static bool IsPublic(this AccessorDeclarationSyntax node)

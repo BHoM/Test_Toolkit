@@ -52,7 +52,7 @@ namespace BH.Engine.Test.Checks
 
         public static Span ObjectHasOnlyProperties(ConstructorDeclarationSyntax node)
         {
-            return node.IGetDeclaringClass().IsImmutable() ? null : node.IGetIdentifier().Span.ToBHoM();
+            return node.IGetDeclaringType().IsImmutable() ? null : node.IGetIdentifier().Span.ToBHoM();
         }
 
     }
