@@ -34,9 +34,9 @@ namespace BH.Engine.Test.Checks
     public static partial class Query
     {
         [Message("Copyright message is invalid")]
-        public static Span ContainsCopyright(CompilationUnitSyntax node, int year = -1)
+        public static Span ContainsCopyright(CompilationUnitSyntax node)
         {
-            Error error = Test.Query.ContainsCopyright(node.GetLeadingTrivia(), year).Errors.FirstOrDefault();
+            Error error = Test.Query.ContainsCopyright(node.GetLeadingTrivia(), -1).Errors.FirstOrDefault();
             if (error != null) return error.Location.Line.ToSpan(node.GetLeadingTrivia().ToString());
             return null;
         }

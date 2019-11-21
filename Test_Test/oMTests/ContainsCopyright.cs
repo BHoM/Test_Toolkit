@@ -34,9 +34,7 @@ namespace BH.Test.Test
                 if (file != null)
                 {
                     SyntaxTree st = BH.Engine.Test.Convert.ToSyntaxTree(file, s);
-                    Span span = BH.Engine.Test.Checks.Query.ContainsCopyright(st.GetRoot() as CompilationUnitSyntax, DateTime.Now.Year);
-                    if(span != null)
-                        r = r.Merge(Create.ComplianceResult(ResultStatus.CriticalFail, new List<Error> { Create.Error("Copyright statement is invalid", Create.Location(s, span.ToLineSpan(file))) }));
+                    r = r.Merge(BH.Engine.Test.Query.ContainsCopyright((st.GetRoot() as CompilationUnitSyntax).GetLeadingTrivia(), DateTime.Now.Year));
                 }
             }
 
