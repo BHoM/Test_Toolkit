@@ -35,7 +35,7 @@ namespace BH.Engine.Test
 {
     public static partial class Query
     {
-        public static bool IsImmutable(this ClassDeclarationSyntax node)
+        public static bool IsImmutable(this BaseTypeDeclarationSyntax node)
         {
             return node.DirectlyInherits("IImmutable");
         }

@@ -35,7 +35,7 @@ namespace BH.Engine.Test
 {
     public static partial class Query
     {
-        public static bool DirectlyInherits(this ClassDeclarationSyntax node, string value)
+        public static bool DirectlyInherits(this BaseTypeDeclarationSyntax node, string value)
         {
             if(node.BaseList != null)
             {
