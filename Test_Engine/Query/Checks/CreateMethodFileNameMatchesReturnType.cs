@@ -34,16 +34,21 @@ namespace BH.Engine.Test.Checks
     public static partial class Query
     {
 
-        [Message("Class name must match filename")]
-        [Path(@"([a-zA-Z0-9]+)_?oM\\.*\.cs$")]
+        [Message("Create filename must match the create method(s) return type")]
+        [Path(@"([a-zA-Z0-9]+)_Engine\\Create\\.*\.cs$")]
         [IsPublic()]
-        public static Span NameMatchesFileName(ClassDeclarationSyntax node)
+        public static Span CreateMethodFileNameMatchesReturnType(MethodDeclarationSyntax node)
         {
             string filePath = node.SyntaxTree.FilePath;
+            var type = node.ReturnType;
+            if (type is QualifiedNameSyntax) type = ((QualifiedNameSyntax)type).Right;
+            string returnType = type.ToString();
+
             if (!string.IsNullOrEmpty(filePath))
             {
-                string filename = System.IO.Path.GetFileNameWithoutExtension(filePath);
-                if (node.IGetName() != filename)
+                string fileName = System.IO.Path.GetFileName(filePath);
+                fileName = fileName.Remove(fileName.LastIndexOf('.'));
+                if (returnType != fileName && returnType != $"I{fileName}")
                 {
                     return node.Identifier.Span.ToBHoM();
                 }
@@ -52,27 +57,5 @@ namespace BH.Engine.Test.Checks
             return null;
         }
 
-        [Message("Method name must match filename")]
-        [Path(@"([a-zA-Z0-9]+)_Engine\\.*\.cs$")]
-        [Path(@"([a-zA-Z0-9]+)_Engine\\Convert\\.*\.cs$", false)]
-        [Path(@"([a-zA-Z0-9]+)_Engine\\Create\\.*\.cs$", false)]
-        [Path(@"([a-zA-Z0-9]+)_Engine\\Objects\\.*\.cs$", false)]
-        [IsPublic()]
-        public static Span NameMatchesFileName(MethodDeclarationSyntax node)
-        {
-            string name = node.IGetName();
-            string filePath = node.SyntaxTree.FilePath;
-            if (!string.IsNullOrEmpty(filePath))
-            {
-                string filename = System.IO.Path.GetFileName(filePath);
-                filename = filename.Remove(filename.LastIndexOf('.'));
-                if (name != filename && name != $"I{filename}")
-                {
-                    return node.Identifier.Span.ToBHoM();
-                }
-            }
-
-            return null;
-        }
     }
 }

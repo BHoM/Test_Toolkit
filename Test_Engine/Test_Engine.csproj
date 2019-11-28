@@ -115,6 +115,7 @@
     <Compile Include="Modify\Merge.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Query\Checks\ContainsCopyright.cs" />
+    <Compile Include="Query\Checks\CreateMethodFileNameMatchesReturnType.cs" />
     <Compile Include="Query\Checks\DescriptionAttributePresent.cs" />
     <Compile Include="Query\Checks\EngineClassMatchesFilePath.cs" />
     <Compile Include="Query\Checks\InputParameterStartsLower.cs" />
