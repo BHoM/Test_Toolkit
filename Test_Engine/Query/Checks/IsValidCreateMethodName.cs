@@ -34,7 +34,7 @@ namespace BH.Engine.Test.Checks
 {
     public static partial class Query
     {
-        [Message("Invalid Create method name: Method name must have the same name as its return type")]
+        [Message("Invalid Create method name: Method name must start with or end with the same name as its return type")]
         [Path(@"([a-zA-Z0-9]+)_Engine\\Create\\.*\.cs$")]
         [IsPublic()]
         public static Span IsValidCreateMethodName(MethodDeclarationSyntax node)
@@ -42,9 +42,39 @@ namespace BH.Engine.Test.Checks
             string name = node.Identifier.Text;
             var type = node.ReturnType;
             if (type is QualifiedNameSyntax) type = ((QualifiedNameSyntax)type).Right;
-            string returntype = type.ToString();
+            string returnType = type.ToString();
 
-            return Regex.IsMatch(returntype, $"^I?{name}(<.+>)?$") ? null : node.Identifier.Span.ToBHoM();
+            if (!name.StartsWith(returnType) && !name.EndsWith(returnType))
+            {
+                List<string> returnSplit = CamelCaseSplit(name);
+                List<string> nameSplit = CamelCaseSplit(name);
+
+                if (returnSplit[0] == "List") // Takes care of the case of lists
+                {
+                    returnSplit = returnSplit.Skip(1).ToList();
+                    returnSplit[returnSplit.Count - 1] += 's';
+                }
+
+                if (returnSplit.First() != nameSplit.First() && returnSplit.Last() != nameSplit.Last())
+                    return node.Identifier.Span.ToBHoM(); //Name is not compliant
+            }
+
+            return null;
+        }
+
+        private static List<string> CamelCaseSplit(string input)
+        {
+            List<string> values = new List<string>();
+            int pos = 0;
+            foreach (Match m in Regex.Matches(input, "[A-Z]"))
+            {
+                if (m.Index > 0)
+                    values.Add(input.Substring(pos, m.Index - pos));
+                pos = m.Index + m.Length - 1;
+            }
+            values.Add(input.Substring(pos));
+
+            return values;
         }
 
     }
