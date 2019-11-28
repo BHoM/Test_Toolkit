@@ -35,9 +35,9 @@ namespace BH.Engine.Test
 {
     public static partial class Query
     {
-        public static bool IsDeprecated(this BaseMethodDeclarationSyntax node)
+        public static bool IsDeprecated(this MemberDeclarationSyntax node)
         {
-            return node.GetAttributes("Deprecated") != null && node.GetAttributes("Deprecated").Count > 0;
+            return node.HasAttribute("Deprecated");
         }
     }
 }

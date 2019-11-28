@@ -42,11 +42,13 @@ namespace BH.Engine.Test
         {
             ComplianceResult finalResult = Create.ComplianceResult(ResultStatus.Pass);
             string path = node.SyntaxTree.FilePath;
-            if (Path.GetFileName(path) == "AssemblyInfo.cs" || method.IsDeprecated())
+            if (Path.GetFileName(path) == "AssemblyInfo.cs")
                 return finalResult;
 
             Type type = node.GetType();
             if (method.GetParameters()[0].ParameterType.IsAssignableFrom(type) &&
+                !(typeof(MemberDeclarationSyntax).IsAssignableFrom(node.GetType())
+                && ((MemberDeclarationSyntax)node).IsDeprecated()) &&
                 method.GetCustomAttributes<ConditionAttribute>().All(condition => condition.IPasses(node)))
             {
                 Func<object[], object> fn = method.ToFunc();

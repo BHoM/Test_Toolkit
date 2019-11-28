@@ -47,8 +47,7 @@ namespace BH.Engine.Test
             ComplianceResult finalResult = Create.ComplianceResult(ResultStatus.Pass);
             foreach(MethodInfo method in Query.AllChecks())
             {
-                if(!method.IsDeprecated())
-                    finalResult = finalResult.Merge(method.Check(node));
+                finalResult = finalResult.Merge(method.Check(node));
             }
             return finalResult;
         }
