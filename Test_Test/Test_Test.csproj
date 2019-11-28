@@ -113,6 +113,7 @@
     <Compile Include="AdapterTests\GetFiles.cs" />
     <Compile Include="AdapterTests\InputParameterStartsLower.cs" />
     <Compile Include="AdapterTests\MethodNameStartsUpper.cs" />
+    <Compile Include="EngineTests\CreateMethodFileNameMatchesReturnType.cs" />
     <Compile Include="EngineTests\MethodNameStartsUpper.cs" />
     <Compile Include="EngineTests\UniqueOutputAttribute.cs" />
     <Compile Include="EngineTests\UniqueDescriptionAttribute.cs" />
