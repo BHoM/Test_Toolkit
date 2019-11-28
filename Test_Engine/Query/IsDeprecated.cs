@@ -20,37 +20,24 @@
  * along with this code. If not, see <https://www.gnu.org/licenses/lgpl-3.0.html>.      
  */
 
-using BH.Engine.Reflection;
 using BH.oM.Test;
-using Microsoft.CodeAnalysis;
-using Microsoft.CodeAnalysis.CSharp.Syntax;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
-using System.IO;
-using BH.oM.Test.Attributes;
+using Microsoft.CodeAnalysis;
+using Microsoft.CodeAnalysis.CSharp;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 namespace BH.Engine.Test
 {
-    public static partial class Compute
+    public static partial class Query
     {
-        public static ComplianceResult RunChecks(this SyntaxNode node)
+        public static bool IsDeprecated(this BaseMethodDeclarationSyntax node)
         {
-            string path = node.SyntaxTree.FilePath;
-            if (Path.GetFileName(path) == "AssemblyInfo.cs")
-                return Create.ComplianceResult(ResultStatus.Pass);
-
-            ComplianceResult finalResult = Create.ComplianceResult(ResultStatus.Pass);
-            foreach(MethodInfo method in Query.AllChecks())
-            {
-                if(!method.IsDeprecated())
-                    finalResult = finalResult.Merge(method.Check(node));
-            }
-            return finalResult;
+            return node.GetAttributes("Deprecated") != null && node.GetAttributes("Deprecated").Count > 0;
         }
     }
 }

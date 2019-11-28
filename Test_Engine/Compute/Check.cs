@@ -42,7 +42,7 @@ namespace BH.Engine.Test
         {
             ComplianceResult finalResult = Create.ComplianceResult(ResultStatus.Pass);
             string path = node.SyntaxTree.FilePath;
-            if (Path.GetFileName(path) == "AssemblyInfo.cs")
+            if (Path.GetFileName(path) == "AssemblyInfo.cs" || method.IsDeprecated())
                 return finalResult;
 
             Type type = node.GetType();
