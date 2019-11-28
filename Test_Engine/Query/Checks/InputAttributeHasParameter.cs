@@ -34,7 +34,7 @@ namespace BH.Engine.Test.Checks
     public static partial class Query
     {
         [Message("Input attribute does not match any parameter")]
-        [ErrorLevel(ErrorLevel.Warning)]
+        [ErrorLevel(ErrorLevel.Error)]
         [Path(@"([a-zA-Z0-9]+)_(Engine|Adapter)\\.*\.cs$")]
         public static Span InputAttributeHasParameter(AttributeSyntax node)
         {
