@@ -110,10 +110,13 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="AdapterTests\CheckProjectFile.cs" />
+    <Compile Include="AdapterTests\ContainsCopyright.cs" />
     <Compile Include="AdapterTests\GetFiles.cs" />
     <Compile Include="AdapterTests\HasSingleClass.cs" />
     <Compile Include="AdapterTests\InputParameterStartsLower.cs" />
     <Compile Include="AdapterTests\MethodNameStartsUpper.cs" />
+    <Compile Include="EngineTests\CheckProjectFile.cs" />
     <Compile Include="EngineTests\CreateMethodFileNameMatchesReturnType.cs" />
     <Compile Include="EngineTests\HasSingleClass.cs" />
     <Compile Include="EngineTests\MethodNameStartsUpper.cs" />
@@ -134,6 +137,7 @@
     <Compile Include="EngineTests\ContainsCopyright.cs" />
     <Compile Include="EngineTests\GetFiles.cs" />
     <Compile Include="EngineTests\InputParameterStartsLower.cs" />
+    <Compile Include="oMTests\CheckProjectFile.cs" />
     <Compile Include="oMTests\HasSingleClass.cs" />
     <Compile Include="oMTests\ContainsCopyright.cs" />
     <Compile Include="oMTests\GetFiles.cs" />
