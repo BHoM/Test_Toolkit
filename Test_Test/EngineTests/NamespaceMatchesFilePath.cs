@@ -10,10 +10,10 @@ namespace BH.Test.Test
 {
     public partial class Test_Engine
     {
-        [TestMethod]
+        /*[TestMethod]
         public void NamespaceMatchesFilePath()
         {
             Test.RunTest("NamespaceMatchesFilePath", GetChangedObjectFiles());
-        }
+        }*/
     }
 }
