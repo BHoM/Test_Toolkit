@@ -37,56 +37,59 @@ $adapterName = $project + "_Adapter"
 
 Foreach($diff in $diffFiles)
 {
-	$folderPathParts = $diff.split("/")
-
-	If($diff -like "*_oM*")
+	If(test-path $diff)
 	{
-		$index = [array]::indexof($folderPathParts, $oMName)
-		$savePath = $pathOM
-		For($x = $index + 1; $x -lt $folderPathParts.Count - 1; $x++)
+		$folderPathParts = $diff.split("/")
+
+		If($diff -like "*_oM*")
 		{
-			$savePath = $savePath + "\" + $folderPathParts[$x]
-		}
-		If(!(test-path $savePath))
-		{
-			New-Item -ItemType Directory -Force -Path $savePath
+			$index = [array]::indexof($folderPathParts, $oMName)
+			$savePath = $pathOM
+			For($x = $index + 1; $x -lt $folderPathParts.Count - 1; $x++)
+			{
+				$savePath = $savePath + "\" + $folderPathParts[$x]
+			}
+			If(!(test-path $savePath))
+			{
+				New-Item -ItemType Directory -Force -Path $savePath
+			}
+
+			Write-Output("Copying " + $diff + " to " + $savePath)
+			Copy-Item $diff -Destination $savePath
 		}
 
-		Write-Output("Copying " + $diff + " to " + $savePath)
-		Copy-Item $diff -Destination $savePath
-	}
+		If($diff -like "*_Engine*")
+		{
+			$index = [array]::indexof($folderPathParts, $engineName)
+			$savePath = $pathEngine
+			For($x = $index + 1; $x -lt $folderPathParts.Count - 1; $x++)
+			{
+				$savePath = $savePath + "\" + $folderPathParts[$x]
+			}
+			If(!(test-path $savePath))
+			{
+				New-Item -ItemType Directory -Force -Path $savePath
+			}
 
-	If($diff -like "*_Engine*")
-	{
-		$index = [array]::indexof($folderPathParts, $engineName)
-		$savePath = $pathEngine
-		For($x = $index + 1; $x -lt $folderPathParts.Count - 1; $x++)
-		{
-			$savePath = $savePath + "\" + $folderPathParts[$x]
-		}
-		If(!(test-path $savePath))
-		{
-			New-Item -ItemType Directory -Force -Path $savePath
-		}
-
-		Write-Output("Copying " + $diff + " to " + $savePath)
-		Copy-Item $diff -Destination $savePath
-	}
-
-	If($diff -like "*_Adapter*")
-	{
-		$index = [array]::indexof($folderPathParts, $adapterName)
-		$savePath = $pathAdapter
-		For($x = $index + 1; $x -lt $folderPathParts.Count - 1; $x++)
-		{
-			$savePath = $savePath + "\" + $folderPathParts[$x]
-		}
-		If(!(test-path $savePath))
-		{
-			New-Item -ItemType Directory -Force -Path $savePath
+			Write-Output("Copying " + $diff + " to " + $savePath)
+			Copy-Item $diff -Destination $savePath
 		}
 
-		Write-Output("Copying " + $diff + " to " + $savePath)
-		Copy-Item $diff -Destination $savePath
+		If($diff -like "*_Adapter*")
+		{
+			$index = [array]::indexof($folderPathParts, $adapterName)
+			$savePath = $pathAdapter
+			For($x = $index + 1; $x -lt $folderPathParts.Count - 1; $x++)
+			{
+				$savePath = $savePath + "\" + $folderPathParts[$x]
+			}
+			If(!(test-path $savePath))
+			{
+				New-Item -ItemType Directory -Force -Path $savePath
+			}
+
+			Write-Output("Copying " + $diff + " to " + $savePath)
+			Copy-Item $diff -Destination $savePath
+		}
 	}
 }
