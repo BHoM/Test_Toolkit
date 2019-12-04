@@ -144,7 +144,6 @@
     <Compile Include="oMTests\IsPublicClass.cs" />
     <Compile Include="oMTests\NameMatchesFileName.cs" />
     <Compile Include="oMTests\NamespaceMatchesFilePath.cs" />
-    <Compile Include="oMTests\ObjectOnlyHasProperties.cs" />
     <Compile Include="oMTests\PropertyAccessorsHaveNoBody.cs" />
     <Compile Include="oMTests\PropertyHasPublicGet.cs" />
     <Compile Include="oMTests\PropertyIsPublic.cs" />
