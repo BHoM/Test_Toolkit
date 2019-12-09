@@ -14,7 +14,7 @@ $project = $parts[0]
 
 $pathOM = "$ENV:BUILD_SOURCESDIRECTORY\PRTestFiles\" + $projectName + "\" + $project + "_oM"
 $pathEngine = "$ENV:BUILD_SOURCESDIRECTORY\PRTestFiles\" + $projectName + "\" + $project + "_Engine"
-$pathAdatper = "$ENV:BUILD_SOURCESDIRECTORY\PRTestFiles\" + $projectName + "\" + $project+ "_Adapter"
+$pathAdapter = "$ENV:BUILD_SOURCESDIRECTORY\PRTestFiles\" + $projectName + "\" + $project+ "_Adapter"
 
 If(!(test-path $pathOM))
 {
@@ -26,9 +26,9 @@ If(!(test-path $pathEngine))
 	New-Item -ItemType Directory -Force -Path $pathEngine
 }
 
-If(!(test-path $pathAdatper))
+If(!(test-path $pathAdapter))
 {
-	New-Item -ItemType Directory -Force -Path $pathAdatper
+	New-Item -ItemType Directory -Force -Path $pathAdapter
 }
 
 $oMName = $project + "_oM"
