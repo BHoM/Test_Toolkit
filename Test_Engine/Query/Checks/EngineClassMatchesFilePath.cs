@@ -34,7 +34,7 @@ namespace BH.Engine.Test.Checks
 {
     public static partial class Query
     {
-        [Message("Incorrect Engine class based on file path")]
+        [Message("Incorrect Engine class name based on file path")]
         [Path(@"([A-Za-z0-9]+)_Engine\\.*\.cs$")]
         [Path(@"([a-zA-Z0-9]+)_Engine\\Objects\\.*\.cs$", false)]
         public static Span EngineClassMatchesFilePath(ClassDeclarationSyntax node)

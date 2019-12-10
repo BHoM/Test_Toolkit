@@ -34,7 +34,7 @@ namespace BH.Engine.Test.Checks
     public static partial class Query
     {
 
-        [Message("Class name must match filename")]
+        [Message("Class name must match file name")]
         [Path(@"([a-zA-Z0-9]+)_?oM\\.*\.cs$")]
         [IsPublic()]
         public static Span NameMatchesFileName(ClassDeclarationSyntax node)
@@ -52,7 +52,7 @@ namespace BH.Engine.Test.Checks
             return null;
         }
 
-        [Message("Method name must match filename")]
+        [Message("Method name must match file name")]
         [Path(@"([a-zA-Z0-9]+)_Engine\\.*\.cs$")]
         [Path(@"([a-zA-Z0-9]+)_Engine\\Convert\\.*\.cs$", false)]
         [Path(@"([a-zA-Z0-9]+)_Engine\\Create\\.*\.cs$", false)]
