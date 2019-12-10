@@ -33,7 +33,7 @@ namespace BH.Engine.Test.Checks
 {
     public static partial class Query
     {
-        [Message("Engine Method must contain a Description attrubute")]
+        [Message("Engine Method must contain a Description attribute")]
         [ErrorLevel(ErrorLevel.Warning)]
         [Path(@"([a-zA-Z0-9]+)_Engine\\.*\.cs$")]
         [Path(@"([a-zA-Z0-9]+)_Engine\\Objects\\.*\.cs$", false)]
@@ -42,7 +42,7 @@ namespace BH.Engine.Test.Checks
             return node.HasAttribute("Description") ? null : node.Identifier.Span.ToBHoM();
         }
 
-        [Message("Adapter constructor must contain a Description attrubute")]
+        [Message("Adapter constructor must contain a Description attribute")]
         [ErrorLevel(ErrorLevel.Warning)]
         [Path(@"([a-zA-Z0-9]+)_Adapter\\.*\.cs$")]
         public static Span DescriptionAttributePresent(ConstructorDeclarationSyntax node)
