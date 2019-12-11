@@ -11,9 +11,9 @@ namespace BH.Test.Test
     public partial class Test_Engine
     {
         [TestMethod]
-        public void ParameterHasInputDescription()
+        public void IsUniqueDescriptionAttribute()
         {
-            Test.RunTest("ParameterHasInputDescription", GetChangedObjectFiles());
+            Test.RunTest("IsUniqueDescriptionAttribute", GetChangedObjectFiles());
         }
     }
 }
