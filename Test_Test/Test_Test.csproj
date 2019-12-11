@@ -120,9 +120,9 @@
     <Compile Include="EngineTests\CreateMethodFileNameMatchesReturnType.cs" />
     <Compile Include="EngineTests\HasSingleClass.cs" />
     <Compile Include="EngineTests\MethodNameStartsUpper.cs" />
-    <Compile Include="EngineTests\UniqueOutputAttribute.cs" />
-    <Compile Include="EngineTests\UniqueDescriptionAttribute.cs" />
-    <Compile Include="EngineTests\ParameterHasInputDescription.cs" />
+    <Compile Include="EngineTests\IsUniqueOutputAttribute.cs" />
+    <Compile Include="EngineTests\IsUniqueDescriptionAttribute.cs" />
+    <Compile Include="EngineTests\HasMatchingInputDescription.cs" />
     <Compile Include="EngineTests\OutputAttributePresent.cs" />
     <Compile Include="EngineTests\NamespaceMatchesFilePath.cs" />
     <Compile Include="EngineTests\ModifyReturnsSameType.cs" />
@@ -131,7 +131,7 @@
     <Compile Include="EngineTests\IsValidConvertMethodName.cs" />
     <Compile Include="EngineTests\IsStaticClass.cs" />
     <Compile Include="EngineTests\IsPublicClass.cs" />
-    <Compile Include="EngineTests\InputAttributeHasParameter.cs" />
+    <Compile Include="EngineTests\InputAttributeMatchesParameter.cs" />
     <Compile Include="EngineTests\EngineClassMatchesFilePath.cs" />
     <Compile Include="EngineTests\DescriptionAttributePresent.cs" />
     <Compile Include="EngineTests\ContainsCopyright.cs" />
@@ -145,8 +145,8 @@
     <Compile Include="oMTests\NameMatchesFileName.cs" />
     <Compile Include="oMTests\NamespaceMatchesFilePath.cs" />
     <Compile Include="oMTests\PropertyAccessorsHaveNoBody.cs" />
-    <Compile Include="oMTests\PropertyHasPublicGet.cs" />
-    <Compile Include="oMTests\PropertyIsPublic.cs" />
+    <Compile Include="oMTests\HasPublicGet.cs" />
+    <Compile Include="oMTests\IsPublicProperty.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RunTest.cs" />
   </ItemGroup>

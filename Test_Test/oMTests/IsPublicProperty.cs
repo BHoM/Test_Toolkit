@@ -11,9 +11,9 @@ namespace BH.Test.Test
     public partial class Test_oM
     {
         [TestMethod]
-        public void PropertyHasPublicGet()
+        public void IsPublicProperty()
         {
-            Test.RunTest("PropertyHasPublicGet", GetChangedObjectFiles());
+            Test.RunTest("IsPublicProperty", GetChangedObjectFiles());
         }
     }
 }

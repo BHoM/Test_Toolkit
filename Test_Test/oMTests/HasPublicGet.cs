@@ -8,12 +8,12 @@ using System.Threading.Tasks;
 
 namespace BH.Test.Test
 {
-    public partial class Test_Engine
+    public partial class Test_oM
     {
         [TestMethod]
-        public void InputAttributeHasParameter()
+        public void HasPublicGet()
         {
-            Test.RunTest("InputAttributeHasParameter", GetChangedObjectFiles());
+            Test.RunTest("HasPublicGet", GetChangedObjectFiles());
         }
     }
 }

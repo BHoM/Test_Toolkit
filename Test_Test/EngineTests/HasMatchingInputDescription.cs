@@ -8,12 +8,12 @@ using System.Threading.Tasks;
 
 namespace BH.Test.Test
 {
-    public partial class Test_oM
+    public partial class Test_Engine
     {
         [TestMethod]
-        public void PropertyIsPublic()
+        public void HasMatchingInputDescription()
         {
-            Test.RunTest("PropertyIsPublic", GetChangedObjectFiles());
+            Test.RunTest("HasMatchingInputDescription", GetChangedObjectFiles());
         }
     }
 }
