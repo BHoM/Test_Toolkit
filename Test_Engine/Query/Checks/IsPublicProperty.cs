@@ -33,16 +33,15 @@ namespace BH.Engine.Test.Checks
 {
     public static partial class Query
     {
-        [Message("Invalid oM property: Object properties must have a public getter")]
+        [Message("Invalid oM property: Object properties must be public")]
         [Path(@"([a-zA-Z0-9]+)_?oM\\.*\.cs$")]
         [Path(@"([a-zA-Z0-9]+)_Engine\\.*\.cs$", false)]
         [Path(@"([a-zA-Z0-9]+)_Adapter\\.*\.cs$", false)]
         [Path(@"([a-zA-Z0-9]+)_UI\\.*\.cs$", false)]
-        [IsPublic()]
-        public static Span PropertyHasPublicGet(PropertyDeclarationSyntax node)
+        [IsPublic(false)]
+        public static Span IsPublicProperty(PropertyDeclarationSyntax node)
         {
-            AccessorDeclarationSyntax getter = node.PropertyGetAccessor();
-            return (getter == null || getter.IsPrivate()) ? getter.Modifiers.Span.ToBHoM() : null;
+            return node.Modifiers.Count > 0 ? node.Modifiers.Span.ToBHoM() : node.Span.ToBHoM();
         }
     }
 }

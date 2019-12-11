@@ -36,7 +36,7 @@ namespace BH.Engine.Test.Checks
         [Message("Method cannot contain more than one Output attribute")]
         [ErrorLevel(ErrorLevel.Warning)]
         [Path(@"([a-zA-Z0-9]+)_(Engine|Adapter)\\.*\.cs$")]
-        public static Span UniqueOutputAttribute(AttributeSyntax node)
+        public static Span IsUniqueOutputAttribute(AttributeSyntax node)
         {
             string name = node.Name.ToString();
             if (name != "Output" && name != "MultiOutput") return null;

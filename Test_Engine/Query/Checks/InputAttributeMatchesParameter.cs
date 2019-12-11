@@ -33,15 +33,25 @@ namespace BH.Engine.Test.Checks
 {
     public static partial class Query
     {
-        [Message("Invalid oM property: Object properties must be public")]
-        [Path(@"([a-zA-Z0-9]+)_?oM\\.*\.cs$")]
-        [Path(@"([a-zA-Z0-9]+)_Engine\\.*\.cs$", false)]
-        [Path(@"([a-zA-Z0-9]+)_Adapter\\.*\.cs$", false)]
-        [Path(@"([a-zA-Z0-9]+)_UI\\.*\.cs$", false)]
-        [IsPublic(false)]
-        public static Span PropertyIsPublic(PropertyDeclarationSyntax node)
+        [Message("Input attribute does not match any of the given parameters")]
+        [ErrorLevel(ErrorLevel.Error)]
+        [Path(@"([a-zA-Z0-9]+)_(Engine|Adapter)\\.*\.cs$")]
+        public static Span InputAttributeMatchesParameter(AttributeSyntax node)
         {
-            return node.Modifiers.Count > 0 ? node.Modifiers.Span.ToBHoM() : node.Span.ToBHoM();
+            if (node.Name.ToString() != "Input") return null;
+
+            var method = node.Parent.Parent as BaseMethodDeclarationSyntax;
+            if (method != null && method.IsPublic() && (method.IsEngineMethod() || method.IsAdapterConstructor()))
+            {
+                if (node.ArgumentList.Arguments.Count == 2)
+                {
+                    string paramname = node.ArgumentList.Arguments[0].Expression.GetFirstToken().Value.ToString();
+                    if (method.ParameterList.Parameters.Any((p) => p.Identifier.Text == paramname)) return null;
+                    else return node.ArgumentList.Arguments[0].Span.ToBHoM();
+                }
+                return node.Span.ToBHoM();
+            }
+            return null;
         }
     }
 }

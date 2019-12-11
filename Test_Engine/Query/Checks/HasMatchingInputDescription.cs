@@ -33,23 +33,23 @@ namespace BH.Engine.Test.Checks
 {
     public static partial class Query
     {
-        [Message("Input attribute does not match any parameter")]
-        [ErrorLevel(ErrorLevel.Error)]
-        [Path(@"([a-zA-Z0-9]+)_(Engine|Adapter)\\.*\.cs$")]
-        public static Span InputAttributeHasParameter(AttributeSyntax node)
+        [Message("Input parameter requires a matching Input attribute")]
+        [ErrorLevel(ErrorLevel.Warning)]
+        public static Span HasMatchingInputDescription(ParameterSyntax node)
         {
-            if (node.Name.ToString() != "Input") return null;
-
             var method = node.Parent.Parent as BaseMethodDeclarationSyntax;
             if (method != null && method.IsPublic() && (method.IsEngineMethod() || method.IsAdapterConstructor()))
             {
-                if (node.ArgumentList.Arguments.Count == 2)
+                foreach (var ab in method.InputAttributes())
                 {
-                    string paramname = node.ArgumentList.Arguments[0].Expression.GetFirstToken().Value.ToString();
-                    if (method.ParameterList.Parameters.Any((p) => p.Identifier.Text == paramname)) return null;
-                    else return node.ArgumentList.Arguments[0].Span.ToBHoM();
+                    if (ab.Name.ToString() == "Input" && ab.ArgumentList.Arguments.Count == 2)
+                    {
+                        string paramname = ab.ArgumentList.Arguments[0].Expression.GetFirstToken().Value.ToString();
+                        if (paramname == node.Identifier.ToString())
+                            return null;
+                    }
                 }
-                return node.Span.ToBHoM();
+                return node.Identifier.Span.ToBHoM();
             }
             return null;
         }
