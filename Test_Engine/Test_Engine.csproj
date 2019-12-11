@@ -126,7 +126,6 @@
     <Compile Include="Query\Checks\InputAttributeMatchesParameter.cs" />
     <Compile Include="Query\Checks\IsUniqueOutputAttribute.cs" />
     <Compile Include="Query\Checks\IsUniqueDescriptionAttribute.cs" />
-    <Compile Include="Query\Checks\NamespaceMatchesFilePath.cs" />
     <Compile Include="Query\Checks\NameMatchesFileName.cs" />
     <Compile Include="Query\Checks\ModifyReturnsSameType.cs" />
     <Compile Include="Query\AllChecks.cs" />
@@ -146,7 +145,6 @@
     <Compile Include="Query\IsImmutable.cs" />
     <Compile Include="Query\ObjectsAreIObject.cs" />
     <Compile Include="Query\Passes.cs" />
-    <Compile Include="Query\HasSingleNamespace.cs" />
     <Compile Include="Query\Checks\HasSingleNamespace.cs" />
     <Compile Include="Query\Checks\IsPublicClass.cs" />
     <Compile Include="Query\Checks\PropertyAccessorsHaveNoBody.cs" />
