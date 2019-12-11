@@ -33,25 +33,16 @@ namespace BH.Engine.Test.Checks
 {
     public static partial class Query
     {
-        [Message("Input requires a matching Input attribute")]
-        [ErrorLevel(ErrorLevel.Warning)]
-        public static Span ParameterHasInputDescription(ParameterSyntax node)
+        [Message("Invalid oM property: Object properties must have a public getter")]
+        [Path(@"([a-zA-Z0-9]+)_?oM\\.*\.cs$")]
+        [Path(@"([a-zA-Z0-9]+)_Engine\\.*\.cs$", false)]
+        [Path(@"([a-zA-Z0-9]+)_Adapter\\.*\.cs$", false)]
+        [Path(@"([a-zA-Z0-9]+)_UI\\.*\.cs$", false)]
+        [IsPublic()]
+        public static Span HasPublicGet(PropertyDeclarationSyntax node)
         {
-            var method = node.Parent.Parent as BaseMethodDeclarationSyntax;
-            if (method != null && method.IsPublic() && (method.IsEngineMethod() || method.IsAdapterConstructor()))
-            {
-                foreach (var ab in method.InputAttributes())
-                {
-                    if (ab.Name.ToString() == "Input" && ab.ArgumentList.Arguments.Count == 2)
-                    {
-                        string paramname = ab.ArgumentList.Arguments[0].Expression.GetFirstToken().Value.ToString();
-                        if (paramname == node.Identifier.ToString())
-                            return null;
-                    }
-                }
-                return node.Identifier.Span.ToBHoM();
-            }
-            return null;
+            AccessorDeclarationSyntax getter = node.PropertyGetAccessor();
+            return (getter == null || getter.IsPrivate()) ? getter.Modifiers.Span.ToBHoM() : null;
         }
     }
 }
