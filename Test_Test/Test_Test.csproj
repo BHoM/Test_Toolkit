@@ -132,7 +132,7 @@
     <Compile Include="EngineTests\IsPublicClass.cs" />
     <Compile Include="EngineTests\InputAttributeMatchesParameter.cs" />
     <Compile Include="EngineTests\EngineClassMatchesFilePath.cs" />
-    <Compile Include="EngineTests\DescriptionAttributePresent.cs" />
+    <Compile Include="EngineTests\HasDescriptionAttribute.cs" />
     <Compile Include="EngineTests\ContainsCopyright.cs" />
     <Compile Include="EngineTests\GetFiles.cs" />
     <Compile Include="EngineTests\InputParameterStartsLower.cs" />
