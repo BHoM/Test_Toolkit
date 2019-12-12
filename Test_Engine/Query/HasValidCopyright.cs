@@ -35,7 +35,7 @@ namespace BH.Engine.Test
 {
     public static partial class Query
     {
-        public static ComplianceResult ContainsCopyright(SyntaxTriviaList leadingTrivia, int year = -1)
+        public static ComplianceResult HasValidCopyright(SyntaxTriviaList leadingTrivia, int year = -1)
         {
             bool checkAllYears = false;
             if (year == -1)
