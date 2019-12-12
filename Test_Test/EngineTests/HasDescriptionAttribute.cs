@@ -11,9 +11,9 @@ namespace BH.Test.Test
     public partial class Test_Engine
     {
         [TestMethod]
-        public void DescriptionAttributePresent()
+        public void HasDescriptionAttribute()
         {
-            Test.RunTest("DescriptionAttributePresent", GetChangedObjectFiles());
+            Test.RunTest("HasDescriptionAttribute", GetChangedObjectFiles());
         }
     }
 }
