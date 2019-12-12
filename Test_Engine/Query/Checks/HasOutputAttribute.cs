@@ -33,13 +33,21 @@ namespace BH.Engine.Test.Checks
 {
     public static partial class Query
     {
-        [Message("Copyright message is invalid")]
-        public static Span ContainsCopyright(CompilationUnitSyntax node)
+        [Message("Method must contain an Output or MultiOutput attribute")]
+        [ErrorLevel(ErrorLevel.Warning)]
+        [Path(@"([a-zA-Z0-9]+)_Engine\\.*\.cs$")]
+        [Path(@"([a-zA-Z0-9]+)_Engine\\Objects\\.*\.cs$", false)]
+        public static Span HasOutputAttribute(MethodDeclarationSyntax node)
         {
-            Error error = Test.Query.ContainsCopyright(node.GetLeadingTrivia(), -1).Errors.FirstOrDefault();
-            if (error != null) return error.Location.Line.ToSpan(node.GetLeadingTrivia().ToString());
-            return null;
+            return node.HasAttribute("Output") || node.HasAttribute("MultiOutput")  ? null : node.Identifier.Span.ToBHoM();
         }
 
+        [Message("Method must contain an Output or MultiOutput attribute")]
+        [ErrorLevel(ErrorLevel.Warning)]
+        [Path(@"([a-zA-Z0-9]+)_Adapter\\.*\.cs$")]
+        public static Span HasOutputAttribute(ConstructorDeclarationSyntax node)
+        {
+            return node.HasAttribute("Output") || node.HasAttribute("MultiOutput")  ? null : node.Identifier.Span.ToBHoM();
+        }
     }
 }

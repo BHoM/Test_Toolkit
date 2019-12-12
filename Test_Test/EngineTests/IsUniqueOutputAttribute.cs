@@ -11,9 +11,9 @@ namespace BH.Test.Test
     public partial class Test_Engine
     {
         [TestMethod]
-        public void UniqueOutputAttribute()
+        public void IsUniqueOutputAttribute()
         {
-            Test.RunTest("UniqueOutputAttribute", GetChangedObjectFiles());
+            Test.RunTest("IsUniqueOutputAttribute", GetChangedObjectFiles());
         }
     }
 }

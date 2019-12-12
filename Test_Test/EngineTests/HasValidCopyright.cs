@@ -16,10 +16,10 @@ using System.IO;
 
 namespace BH.Test.Test
 {
-    public partial class Test_oM
+    public partial class Test_Engine
     {
         [TestMethod]
-        public void ContainsCopyright()
+        public void HasValidCopyright()
         {
             List<string> changedFiles = GetChangedObjectFiles();
             if (changedFiles == null) { Assert.IsTrue(true); return; }
@@ -34,7 +34,7 @@ namespace BH.Test.Test
                 if (file != null)
                 {
                     SyntaxTree st = BH.Engine.Test.Convert.ToSyntaxTree(file, s);
-                    r = r.Merge(BH.Engine.Test.Query.ContainsCopyright((st.GetRoot() as CompilationUnitSyntax).GetLeadingTrivia(), DateTime.Now.Year));
+                    r = r.Merge(BH.Engine.Test.Query.HasValidCopyright((st.GetRoot() as CompilationUnitSyntax).GetLeadingTrivia(), DateTime.Now.Year));
                 }
             }
 

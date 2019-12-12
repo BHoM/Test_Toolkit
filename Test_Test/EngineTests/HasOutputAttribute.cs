@@ -11,9 +11,9 @@ namespace BH.Test.Test
     public partial class Test_Engine
     {
         [TestMethod]
-        public void OutputAttributePresent()
+        public void HasOutputAttribute()
         {
-            Test.RunTest("OutputAttributePresent", GetChangedObjectFiles());
+            Test.RunTest("HasOutputAttribute", GetChangedObjectFiles());
         }
     }
 }
