@@ -34,7 +34,7 @@ using System.Threading.Tasks;
 using System.IO;
 using BH.oM.Test.Attributes;
 
-namespace BH.Engine.Test.Interopability
+namespace BH.Engine.Test
 {
     public static partial class Compute
     {
