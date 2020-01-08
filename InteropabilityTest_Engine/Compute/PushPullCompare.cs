@@ -41,9 +41,12 @@ namespace BH.Engine.Test.Interopability
         /**** Public Methods                            ****/
         /***************************************************/
 
-        [Description("")]
-        [Input("", "")]
-        [Output("", "")]
+        [Description("Tests Pushing objects of a specific type, then pulling them back and comparing the objects. Returns Results outlining if the obejcts pulled are identical to the pushed ones, and if not, what proeprties that differs between the two")]
+        [Input("adapter", "The adapter to test for")]
+        [Input("type", "The type of object to test. This will use test sets in the Dataset library")]
+        [Input("config", "Config for the test. Not yet in use")]
+        [Input("active", "Toggles whether to run the test")]
+        [Output("diffingResults", "Diffing results outlining any differences found between the pushed and pulled objects. Also contains any error or warning messages returned by the adapter in the process")]
         public static List<PushPullSetDiffing> PushPullCompare(BHoMAdapter adapter, Type type, string config = "", bool active = false)
         {
 
