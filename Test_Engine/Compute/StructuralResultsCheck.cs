@@ -20,36 +20,61 @@
  * along with this code. If not, see <https://www.gnu.org/licenses/lgpl-3.0.html>.      
  */
 
-using BH.Engine.Reflection;
-using BH.oM.Test;
-using Microsoft.CodeAnalysis;
-using Microsoft.CodeAnalysis.CSharp.Syntax;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
+using System.Linq;
+using System.Collections.Generic;
+using System.ComponentModel;
+using BH.oM.Reflection.Attributes;
+using BH.oM.Base;
 
-using System.IO;
-using BH.oM.Test.Attributes;
+using BH.oM.Data.Requests;
+using BH.oM.Data.Collections;
 
-namespace BH.Engine.Test.Interopability
+using BH.oM.Test.Results;
+using BH.Adapter;
+
+namespace BH.Engine.Test
 {
     public static partial class Compute
     {
-        public static ComplianceResult RunChecks(this SyntaxNode node)
-        {
-            string path = node.SyntaxTree.FilePath;
-            if (Path.GetFileName(path) == "AssemblyInfo.cs")
-                return Create.ComplianceResult(ResultStatus.Pass);
+        /***************************************************/
+        /**** Public Methods                            ****/
+        /***************************************************/
 
-            ComplianceResult finalResult = Create.ComplianceResult(ResultStatus.Pass);
-            foreach(MethodInfo method in Query.AllChecks())
-            {
-                finalResult = finalResult.Merge(method.Check(node));
-            }
-            return finalResult;
+
+        public class ResultCheck : BHoMObject
+        {
+            public List<BHoMObject> Model { get; set; }
+            public MethodInfo CheckingMethod { get; set; }
         }
+
+        public class CheckingResults
+        {
+
+        }
+
+        [Description("")]
+        [Input("", "")]
+        [Output("", "")]
+        public static void StructuralResultsCheck(BHoMAdapter adapter, ResultCheck check)
+        {
+
+            //1 Build model
+
+            //1a Push bars+panels etc
+
+            //1b Push loads
+
+            //2 run model through exucute
+
+
+            //3 Run check
+
+            var result = check.CheckingMethod.Invoke(null, new object[] { adapter, check.Model });
+            throw new NotImplementedException();
+        }
+
+        /***************************************************/
     }
 }
