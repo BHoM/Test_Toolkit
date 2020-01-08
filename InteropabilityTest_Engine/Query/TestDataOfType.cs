@@ -28,7 +28,7 @@ using BH.oM.Reflection;
 using BH.oM.Reflection.Attributes;
 using BH.oM.Base;
 
-namespace BH.Engine.Test
+namespace BH.Engine.Test.Interopability
 {
     public static partial class Query
     {
