@@ -122,7 +122,6 @@
     <Compile Include="Compute\CheckProjectStructure.cs" />
     <Compile Include="Compute\CheckReferences.cs" />
     <Compile Include="Compute\Check.cs" />
-    <Compile Include="Compute\StructuralResultsCheck.cs" />
     <Compile Include="Convert\ToBHoM.cs" />
     <Compile Include="Convert\ToSyntaxTree.cs" />
     <Compile Include="Convert\ToSpan.cs" />
