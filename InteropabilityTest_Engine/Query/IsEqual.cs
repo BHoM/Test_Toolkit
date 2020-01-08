@@ -33,7 +33,7 @@ using BH.oM.Reflection.Attributes;
 
 using KellermanSoftware.CompareNetObjects;
 
-namespace BH.Engine.Testing
+namespace BH.Engine.Test
 {
     public static partial class Query
     {

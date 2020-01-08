@@ -1,6 +1,6 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
+# Visual Studio Express 14 for Windows Desktop
 VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Test_oM", "Test_oM\Test_oM.csproj", "{F758FC9C-CEDF-430D-AEFF-2B1E196F677B}"
@@ -14,6 +14,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Test_Test", "Test_Test\Test
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Test_Profiling", "Test_Profiling\Test_Profiling.csproj", "{A1B4F048-33CD-4A87-8978-1ADACC8ABFA8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InteropabilityTest_Engine", "InteropabilityTest_Engine\InteropabilityTest_Engine.csproj", "{DF4047D7-2883-4763-83C0-B1D3B391D454}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -37,6 +39,10 @@ Global
 		{A1B4F048-33CD-4A87-8978-1ADACC8ABFA8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A1B4F048-33CD-4A87-8978-1ADACC8ABFA8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A1B4F048-33CD-4A87-8978-1ADACC8ABFA8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DF4047D7-2883-4763-83C0-B1D3B391D454}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DF4047D7-2883-4763-83C0-B1D3B391D454}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DF4047D7-2883-4763-83C0-B1D3B391D454}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DF4047D7-2883-4763-83C0-B1D3B391D454}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
