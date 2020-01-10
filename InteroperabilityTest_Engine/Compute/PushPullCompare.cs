@@ -33,7 +33,7 @@ using BH.oM.Test.Results;
 using BH.Adapter;
 
 
-namespace BH.Engine.Test.Interopability
+namespace BH.Engine.Test.Interoperability
 {
     public static partial class Compute
     {

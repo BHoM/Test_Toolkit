@@ -15,7 +15,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Test_Test", "Test_Test\Test
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Test_Profiling", "Test_Profiling\Test_Profiling.csproj", "{A1B4F048-33CD-4A87-8978-1ADACC8ABFA8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InteropabilityTest_Engine", "InteropabilityTest_Engine\InteropabilityTest_Engine.csproj", "{DF4047D7-2883-4763-83C0-B1D3B391D454}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InteroperabilityTest_Engine", "InteroperabilityTest_Engine\InteroperabilityTest_Engine.csproj", "{DF4047D7-2883-4763-83C0-B1D3B391D454}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

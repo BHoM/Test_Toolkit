@@ -7,8 +7,8 @@
     <ProjectGuid>{DF4047D7-2883-4763-83C0-B1D3B391D454}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>BH.Engine.Test.Interopability</RootNamespace>
-    <AssemblyName>InteropabilityTest_Engine</AssemblyName>
+    <RootNamespace>BH.Engine.Test.Interoperability</RootNamespace>
+    <AssemblyName>InteroperabilityTest_Engine</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
