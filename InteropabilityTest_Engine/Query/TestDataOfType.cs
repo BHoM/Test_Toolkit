@@ -63,8 +63,21 @@ namespace BH.Engine.Test.Interopability
             //Get and filter out libraries of interest
             List<string> libraryNames = Engine.Library.Query.LibraryNames().Where(x => x.Contains(match)).ToList();
 
+            if (libraryNames == null || libraryNames.Count == 0)
+            {
+                Reflection.Compute.RecordWarning("No test set libraries found of the type  " + type.Name);
+                return new Output<List<string>, List<List<IBHoMObject>>> { Item1 = new List<string>(), Item2 = new List<List<IBHoMObject>>() };
+            }
+
             //Extract data from library
             List<List<IBHoMObject>> testData = libraryNames.Select(x => Library.Query.Library(x)).ToList();
+
+            if (testData == null || testData.Count == 0)
+            {
+                Reflection.Compute.RecordWarning("Failed to extract test data of type  " + type.Name);
+                return new Output<List<string>, List<List<IBHoMObject>>> { Item1 = new List<string>(), Item2 = new List<List<IBHoMObject>>() };
+
+            }
 
             return new Output<List<string>, List<List<IBHoMObject>>>() { Item1 = libraryNames.Select(x => x.Split('\\').Last()).ToList(), Item2 = testData };
         }

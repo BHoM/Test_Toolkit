@@ -37,7 +37,6 @@ namespace BH.Engine.Test.Interopability
             m_adapterId = adapterId;
         }
 
-
         /***************************************************/
         /**** Public Methods                            ****/
         /***************************************************/
@@ -62,7 +61,6 @@ namespace BH.Engine.Test.Interopability
             if (!obj2.CustomData.TryGetValue(m_adapterId, out obj2Id))
                 return false;
 
-
             return obj1Id.ToString() == obj2Id.ToString();
         }
 
@@ -80,7 +78,6 @@ namespace BH.Engine.Test.Interopability
                 return 0;
 
             return id.ToString().GetHashCode();
-
         }
 
 
@@ -89,7 +86,6 @@ namespace BH.Engine.Test.Interopability
         /***************************************************/
 
         private string m_adapterId;
-
 
         /***************************************************/
     }

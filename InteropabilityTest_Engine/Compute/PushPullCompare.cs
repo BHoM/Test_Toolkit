@@ -41,20 +41,26 @@ namespace BH.Engine.Test.Interopability
         /**** Public Methods                            ****/
         /***************************************************/
 
-        [Description("Tests Pushing objects of a specific type, then pulling them back and comparing the objects. Returns Results outlining if the obejcts pulled are identical to the pushed ones, and if not, what proeprties that differs between the two")]
-        [Input("adapter", "The adapter to test for")]
+        [Description("Tests Pushing objects of a specific type, then pulling them back and comparing the objects. Returns Results outlining if the objects pulled are identical to the pushed ones, and if not, what properties are different between the two")]
+        [Input("adapter", "The instance of the adapter to test for")]
         [Input("type", "The type of object to test. This will use test sets in the Dataset library")]
         [Input("config", "Config for the test. Not yet in use")]
         [Input("active", "Toggles whether to run the test")]
         [Output("diffingResults", "Diffing results outlining any differences found between the pushed and pulled objects. Also contains any error or warning messages returned by the adapter in the process")]
         public static List<PushPullSetDiffing> PushPullCompare(BHoMAdapter adapter, Type type, string config = "", bool active = false)
         {
-
             if (!active)
                 return new List<PushPullSetDiffing>();
 
             //Get testdata
             var testSets = Query.TestDataOfType(type);
+
+            if (testSets == null || testSets.Item1 == null || testSets.Item2 == null)
+            {
+                Reflection.Compute.RecordError("Failed to extract testdata");
+                return new List<PushPullSetDiffing>();
+            }
+
             List<string> testSetNames = testSets.Item1;
             List<List<IBHoMObject>> testData = testSets.Item2;
 
@@ -70,7 +76,6 @@ namespace BH.Engine.Test.Interopability
                 results.Add(RunOneSet(adapter, testSetNames[i], testData[i], request, comparer));
             }
 
-
             return results;
         }
 
@@ -80,11 +85,10 @@ namespace BH.Engine.Test.Interopability
 
         private static PushPullSetDiffing RunOneSet(BHoMAdapter adapter, string setName, List<IBHoMObject> objects, IRequest request, IEqualityComparer<IBHoMObject> comparer)
         {
-
             PushPullSetDiffing result = new PushPullSetDiffing { Name = setName };
 
-            List<IBHoMObject> pushedObjects;
-            List<IBHoMObject> pulledObjects;
+            List<IBHoMObject> pushedObjects = new List<IBHoMObject>();
+            List<IBHoMObject> pulledObjects = new List<IBHoMObject>();
 
             //Push objects
             try
