@@ -24,7 +24,7 @@ using System;
 using System.Collections.Generic;
 using BH.oM.Base;
 
-namespace BH.Engine.Test.Interopability
+namespace BH.Engine.Test.Interoperability
 {
     public class AdapterIdComparer : IEqualityComparer<IBHoMObject>
     {
