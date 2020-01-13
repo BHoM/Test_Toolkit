@@ -91,6 +91,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Compute\ResultTesting.cs" />
     <Compile Include="Compute\PushPullCompare.cs" />
     <Compile Include="Objects\EqualityComparers\AdapterIdComparer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
