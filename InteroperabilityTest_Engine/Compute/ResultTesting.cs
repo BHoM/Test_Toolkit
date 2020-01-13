@@ -31,6 +31,7 @@ using BH.oM.Data.Requests;
 using BH.oM.Data.Collections;
 using BH.oM.Structure.Loads;
 using BH.oM.Structure.Results;
+using BH.oM.Structure.Elements;
 
 using BH.oM.Test.Results;
 using BH.Adapter;
@@ -40,8 +41,7 @@ namespace BH.Engine.Test.Interoperability
 {
     public static partial class Compute
     {
-        private static IRequest request;
-
+        
         /***************************************************/
         /**** Public Methods                            ****/
         /***************************************************/
@@ -58,13 +58,13 @@ namespace BH.Engine.Test.Interoperability
             //1. Filter out non+load objects
 
             IEnumerable<IBHoMObject> loads = objects.Where(x => x is ILoad);
-            IEnumerable<IBHoMObject> noneLoads = objects.Where(x => !(x is ILoad));
+            IEnumerable<IBHoMObject> nonLoads = objects.Where(x => !(x is ILoad));
 
             //2. Push non+load objects        
 
             List<IBHoMObject> pushedObjects = new List<IBHoMObject>();
 
-            pushedObjects = adapter.Push(noneLoads).Cast<IBHoMObject>().ToList();
+            pushedObjects = adapter.Push(nonLoads).Cast<IBHoMObject>().ToList();
                        
             //3. Re+assign pushed elements to loads
             
@@ -72,7 +72,7 @@ namespace BH.Engine.Test.Interoperability
             {
                 if (loads.ElementAt(i) is Load<IBHoMObject>)
                 {                    
-                    (loads.ElementAt(i) as Load<IBHoMObject>).Objects.Elements = (loads.ElementAt(i) as Load<IBHoMObject>).Objects.Elements.Select(x => pushedObjects.Where(y => y.Equals(x)).Single()).ToList();
+                    (loads.ElementAt(i) as Load<IBHoMObject>).Objects.Elements = (loads.ElementAt(i) as Load<IBHoMObject>).Objects.Elements.Select(x => pushedObjects.Where(y => y.Equals(x)).Single()).ToList(); // Does Equals work?
                 }
             }
 
@@ -86,18 +86,14 @@ namespace BH.Engine.Test.Interoperability
 
             //Invoke checking method
 
-            double diffingPrecentage;
-            
+            double diffingPrecentageShear;            
             BarResultRequest request = new BarResultRequest();
-            
                         
             IEnumerable<IBHoMObject> results = adapter.Pull(request).Cast<IBHoMObject>();
-            
-            if (checkingMethod.Name == "ShearMoment")
-            {
-                diffingPrecentage = CheckingMethodShear(results as BarStress);
-            }
 
+            diffingPrecentageShear = ResultCompareShear(results as BarStress);
+            
+            
 
         }
 
@@ -106,13 +102,26 @@ namespace BH.Engine.Test.Interoperability
         /***************************************************/
 
         //new equals method maybe?
-
-
-        public static double CheckingMethodShear(BarStress results)
+        //*
+        public static Boolean ElementEquals(IBHoMObject y, IBHoMObject x)
         {
+
+            if ((y as Bar).StartNode == (x as Bar).StartNode && (y as Bar).EndNode == (x as Bar).EndNode)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+
+        }
+       // */
+        public static double ResultCompareShear(BarStress results)
+        {
+            double HandcalculatedShear = 123;
             
-            
-            return 0;
+            return (results.ShearZ/HandcalculatedShear)-1;
         }
 
 
