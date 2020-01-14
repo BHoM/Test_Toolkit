@@ -31,7 +31,7 @@ using System.Threading.Tasks;
 
 using BH.oM.Base;
 
-namespace BH.Engine.CodeComplianceTest
+namespace BH.Engine.Test.CodeCompliance
 {
     public static partial class Query
     {

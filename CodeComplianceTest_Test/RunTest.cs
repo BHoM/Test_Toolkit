@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 
 using BH.oM.Test;
-using BH.Engine.CodeComplianceTest;
+using BH.Engine.Test.CodeCompliance;
 
 using Microsoft.CodeAnalysis;
 
@@ -29,7 +29,7 @@ namespace BH.Test.Test
 
                 if (file != null)
                 {
-                    SyntaxTree st = BH.Engine.CodeComplianceTest.Convert.ToSyntaxTree(file, s);
+                    SyntaxTree st = BH.Engine.Test.CodeCompliance.Convert.ToSyntaxTree(file, s);
                     List<System.Reflection.MethodInfo> o = Query.AllChecks().ToList();
                     foreach (var check in o.Where(x => x.Name == name))
                     {

@@ -34,7 +34,7 @@ using System.Threading.Tasks;
 using System.IO;
 using BH.oM.Test.Attributes;
 
-namespace BH.Engine.CodeComplianceTest
+namespace BH.Engine.Test.CodeCompliance
 {
     public static partial class Compute
     {

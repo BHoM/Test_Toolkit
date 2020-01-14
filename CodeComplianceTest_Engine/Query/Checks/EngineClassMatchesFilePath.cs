@@ -30,7 +30,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
-namespace BH.Engine.CodeComplianceTest.Checks
+namespace BH.Engine.Test.CodeCompliance.Checks
 {
     public static partial class Query
     {

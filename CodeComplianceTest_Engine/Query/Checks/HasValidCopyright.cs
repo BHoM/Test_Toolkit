@@ -29,14 +29,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BH.Engine.CodeComplianceTest.Checks
+namespace BH.Engine.Test.CodeCompliance.Checks
 {
     public static partial class Query
     {
         [Message("Copyright message is invalid")]
         public static Span HasValidCopyright(CompilationUnitSyntax node)
         {
-            Error error = CodeComplianceTest.Query.HasValidCopyright(node.GetLeadingTrivia(), -1).Errors.FirstOrDefault();
+            Error error = Test.CodeCompliance.Query.HasValidCopyright(node.GetLeadingTrivia(), -1).Errors.FirstOrDefault();
             if (error != null) return error.Location.Line.ToSpan(node.GetLeadingTrivia().ToString());
             return null;
         }

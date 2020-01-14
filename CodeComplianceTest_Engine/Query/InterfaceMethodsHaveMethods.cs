@@ -34,7 +34,7 @@ using BH.oM.Base;
 using System.Reflection;
 using BH.Engine.Reflection;
 
-namespace BH.Engine.CodeComplianceTest
+namespace BH.Engine.Test.CodeCompliance
 {
     public static partial class Query
     {
