@@ -32,7 +32,7 @@ using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using BH.oM.Test.Attributes;
 
-namespace BH.Engine.CodeComplianceTest
+namespace BH.Engine.Test.CodeCompliance
 {
     public static partial class Query
     {

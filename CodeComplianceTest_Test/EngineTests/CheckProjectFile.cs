@@ -7,7 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 using BH.oM.Test;
-using BH.Engine.CodeComplianceTest;
+using BH.Engine.Test.CodeCompliance;
 
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
@@ -29,7 +29,7 @@ namespace BH.Test.Test
             ComplianceResult r = Create.ComplianceResult(ResultStatus.Pass);
             foreach (string s in changedFiles)
             {
-                r = r.Merge(BH.Engine.CodeComplianceTest.Compute.CheckReferences(s));
+                r = r.Merge(BH.Engine.Test.CodeCompliance.Compute.CheckReferences(s));
             }
 
             if (r.Status == ResultStatus.CriticalFail)

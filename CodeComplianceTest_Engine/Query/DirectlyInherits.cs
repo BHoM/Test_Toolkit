@@ -31,7 +31,7 @@ using System.Threading.Tasks;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 
-namespace BH.Engine.CodeComplianceTest
+namespace BH.Engine.Test.CodeCompliance
 {
     public static partial class Query
     {

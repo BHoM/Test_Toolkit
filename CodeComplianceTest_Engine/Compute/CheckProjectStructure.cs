@@ -35,7 +35,7 @@ using System.IO;
 
 using System.Xml.Linq;
 
-namespace BH.Engine.CodeComplianceTest
+namespace BH.Engine.Test.CodeCompliance
 {
     public static partial class Compute
     {

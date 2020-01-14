@@ -31,7 +31,7 @@ using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 
-namespace BH.Engine.CodeComplianceTest
+namespace BH.Engine.Test.CodeCompliance
 {
     public static partial class Query
     {

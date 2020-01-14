@@ -7,7 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 using BH.oM.Test;
-using BH.Engine.CodeComplianceTest;
+using BH.Engine.Test.CodeCompliance;
 
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
@@ -33,8 +33,8 @@ namespace BH.Test.Test
 
                 if (file != null)
                 {
-                    SyntaxTree st = BH.Engine.CodeComplianceTest.Convert.ToSyntaxTree(file, s);
-                    r = r.Merge(BH.Engine.CodeComplianceTest.Query.HasValidCopyright((st.GetRoot() as CompilationUnitSyntax).GetLeadingTrivia(), DateTime.Now.Year));
+                    SyntaxTree st = BH.Engine.Test.CodeCompliance.Convert.ToSyntaxTree(file, s);
+                    r = r.Merge(BH.Engine.Test.CodeCompliance.Query.HasValidCopyright((st.GetRoot() as CompilationUnitSyntax).GetLeadingTrivia(), DateTime.Now.Year));
                 }
             }
 
