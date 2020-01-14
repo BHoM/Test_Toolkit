@@ -36,6 +36,7 @@ using BH.oM.Structure.Elements;
 using BH.oM.Test.Results;
 using BH.Adapter;
 using BH.oM.Structure.Requests;
+using BH.oM.Geometry;
 
 namespace BH.Engine.Test.Interoperability
 {
@@ -57,7 +58,7 @@ namespace BH.Engine.Test.Interoperability
 
             //1. Filter out non+load objects
 
-            IEnumerable<IBHoMObject> loads = objects.Where(x => x is ILoad);
+            IEnumerable<ILoad> loads = objects.Where(x => x is ILoad).Cast<ILoad>();
             IEnumerable<IBHoMObject> nonLoads = objects.Where(x => !(x is ILoad));
 
             //2. Push non+load objects        
@@ -65,15 +66,12 @@ namespace BH.Engine.Test.Interoperability
             List<IBHoMObject> pushedObjects = new List<IBHoMObject>();
 
             pushedObjects = adapter.Push(nonLoads).Cast<IBHoMObject>().ToList();
-                       
+
             //3. Re+assign pushed elements to loads
-            
-            for (int i = 0; i < loads.Count(); i++)
+
+            foreach (ILoad load in loads)
             {
-                if (loads.ElementAt(i) is Load<IBHoMObject>)
-                {                    
-                    (loads.ElementAt(i) as Load<IBHoMObject>).Objects.Elements = (loads.ElementAt(i) as Load<IBHoMObject>).Objects.Elements.Select(x => pushedObjects.Where(y => y.Equals(x)).Single()).ToList(); // Does Equals work?
-                }
+                ReassignObjectsToLoad(load as dynamic, pushedObjects);
             }
 
             // Push loads
@@ -82,17 +80,11 @@ namespace BH.Engine.Test.Interoperability
 
             // Run model
                                   
-            adapter.Execute("Analyse");
+            adapter.Execute("Analyze");
 
             //Invoke checking method
-
-            double diffingPrecentageShear;            
-            BarResultRequest request = new BarResultRequest();
-                        
-            IEnumerable<IBHoMObject> results = adapter.Pull(request).Cast<IBHoMObject>();
-
-            diffingPrecentageShear = ResultCompareShear(results as BarStress);
-            
+            if(checkingMethod != null)
+                checkingMethod.Invoke(null, new object[] { adapter, objects });          
             
 
         }
@@ -101,29 +93,71 @@ namespace BH.Engine.Test.Interoperability
         /**** Private Methods                           ****/
         /***************************************************/
 
-        //new equals method maybe?
-        //*
-        public static Boolean ElementEquals(IBHoMObject y, IBHoMObject x)
+
+        private static Load<T> ReassignObjectsToLoad<T>(Load<T> load, IEnumerable<IBHoMObject> objects) where T : IBHoMObject
         {
-
-            if ((y as Bar).StartNode == (x as Bar).StartNode && (y as Bar).EndNode == (x as Bar).EndNode)
+            IEnumerable<T> filteredObjects = objects.OfType<T>().Cast<T>();
+            for (int i = 0; i < load.Objects.Elements.Count; i++)
             {
-                return true;
+                load.Objects.Elements[i] = filteredObjects.Single(x => x.BHoM_Guid == load.Objects.Elements[i].BHoM_Guid);
             }
-            else
-            {
-                return false;
-            }
-
+            return load;
         }
-       // */
-        public static double ResultCompareShear(BarStress results)
+
+        /****************************************************/
+
+
+        private static ILoad ReassignObjectsToLoad<T>(ILoad load, IEnumerable<IBHoMObject> objects) where T : IBHoMObject
         {
-            double HandcalculatedShear = 123;
+            return load;
+        }
+
+        /***************************************************/
+
+        public static bool CheckShearForceAndMoments(BHoMAdapter adapter, IEnumerable<IBHoMObject> objects)
+        {
+            //Pull Results from robot
+            BarResultRequest request = new BarResultRequest();
+            List<IBHoMObject> pulledResults = new List<IBHoMObject>();
             
-            return (results.ShearZ/HandcalculatedShear)-1;
-        }
+            pulledResults = adapter.Pull(request).Cast<IBHoMObject>().ToList();
 
+            //Make "hand calc" on the assumed results based on the "model" i.e., the list of BHoMObjects and some maths
+
+            IEnumerable<BarStress> barStress = pulledResults.Where(x => (x is BarStress)).Cast<BarStress>();
+
+            double test = (barStress as BarStress).ShearZ;
+            //List<double> test2 = new List<double>((barStress as BarStress).Position);
+            foreach (double pos in (barStress as BarStress).Position)
+            {
+
+            }
+
+
+            foreach (BarStress result in barStress)
+            {
+                double AdapterResultShearZ = result.ShearZ;
+                    
+            }
+
+
+            ///Handcalc
+
+            IEnumerable<Bar> bar = objects.Where(x => (x is Bar)).Cast<Bar>();
+            double barLength = (bar as Bar).EndNode.Position.CompareTo((bar as Bar).StartNode.Position);
+
+            //foreach (bar bara in bars)
+            //{
+            //    double barlength = bara.startnode.position.compareto(bara.endnode.position);
+            //}
+
+
+            //Compare the results
+
+
+            return false;
+
+        }
 
     }
 }
