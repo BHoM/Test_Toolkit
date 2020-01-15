@@ -39,7 +39,7 @@ namespace BH.Engine.Test.CodeCompliance
         public static IEnumerable<MethodInfo> AllChecks()
         {
             return Assembly.GetExecutingAssembly().DefinedTypes
-                .Where(t => t.IsClass && t.Name == "Query" && t.Namespace == "BH.Engine.Test.Checks")
+                .Where(t => t.IsClass && t.Name == "Query" && t.Namespace == "BH.Engine.Test.CodeCompliance.Checks")
                 .SelectMany(t => t.DeclaredMethods)
                 .Where(method => method.IsPublic && method.ReturnType == typeof(Span));
         }
