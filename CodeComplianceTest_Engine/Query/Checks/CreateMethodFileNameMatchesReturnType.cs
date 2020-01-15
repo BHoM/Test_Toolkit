@@ -27,6 +27,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace BH.Engine.Test.CodeCompliance.Checks
@@ -48,7 +49,7 @@ namespace BH.Engine.Test.CodeCompliance.Checks
             {
                 string fileName = System.IO.Path.GetFileName(filePath);
                 fileName = fileName.Remove(fileName.LastIndexOf('.'));
-                if (returnType != fileName && returnType != $"I{fileName}")
+                if(!Regex.Match(returnType, $"((List|IEnumerable)<)?I?{fileName}(<.*>)?>?$").Success)
                 {
                     return node.Identifier.Span.ToBHoM();
                 }
