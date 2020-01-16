@@ -66,7 +66,7 @@ namespace BH.Engine.Test.Interoperability
 
             //Set up comparer and request
             FilterRequest request = new FilterRequest { Type = type };
-            AdapterIdComparer comparer = new AdapterIdComparer(adapter.AdapterId);
+            AdapterIdComparer comparer = new AdapterIdComparer(adapter.AdapterIdName);
 
             //List for storing output
             List<PushPullSetDiffing> results = new List<PushPullSetDiffing>();
