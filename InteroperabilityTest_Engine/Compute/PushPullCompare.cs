@@ -31,6 +31,7 @@ using BH.oM.Data.Collections;
 
 using BH.oM.Test.Results;
 using BH.Adapter;
+using BH.oM.Adapter.Commands;
 
 
 namespace BH.Engine.Test.Interoperability
@@ -87,6 +88,9 @@ namespace BH.Engine.Test.Interoperability
         {
             PushPullSetDiffing result = new PushPullSetDiffing { Name = setName };
 
+            //Start up an empty model
+            adapter.Execute(new NewModel());
+
             List<IBHoMObject> pushedObjects = new List<IBHoMObject>();
             List<IBHoMObject> pulledObjects = new List<IBHoMObject>();
 
@@ -113,6 +117,7 @@ namespace BH.Engine.Test.Interoperability
             {
                 Engine.Reflection.Compute.ClearCurrentEvents();
                 pulledObjects = adapter.Pull(request).Cast<IBHoMObject>().ToList();
+                result.PullSuccess = pulledObjects.Count == pushedObjects.Count;
             }
             catch (Exception e)
             {
@@ -129,7 +134,7 @@ namespace BH.Engine.Test.Interoperability
             VennDiagram<IBHoMObject> diagram = Engine.Data.Create.VennDiagram(pushedObjects, pulledObjects, comparer);
 
             //Check that all pushed objects found a match in pulled obejcts
-            result.PullSuccess = diagram.OnlySet1.Count == 0;
+            //result.PullSuccess = diagram.OnlySet1.Count == 0;
 
             foreach (Tuple<IBHoMObject, IBHoMObject> pair in diagram.Intersection)
             {
@@ -143,6 +148,9 @@ namespace BH.Engine.Test.Interoperability
 
                 result.DiffingResults.Add(diff);
             }
+
+            //Close the model
+            adapter.Execute(new Close { SaveBeforeClose = false });
 
             return result;
         }
