@@ -37,6 +37,7 @@ using BH.oM.Test.Results;
 using BH.Adapter;
 using BH.oM.Structure.Requests;
 using BH.oM.Geometry;
+using BH.Engine.Geometry;
 
 namespace BH.Engine.Test.Interoperability
 {
@@ -55,6 +56,8 @@ namespace BH.Engine.Test.Interoperability
         [Output("diffingResults", "Diffing results outlining any differences found between the pushed and pulled objects. Also contains any error or warning messages returned by the adapter in the process")]
         public static void CheckAnalysisResults(BHoMAdapter adapter, IEnumerable<IBHoMObject> objects, MethodInfo checkingMethod = null, bool active = false)
         {
+            
+            //OBS. this only work if the elements are not already pushed!
 
             //1. Filter out non+load objects
 
@@ -71,7 +74,7 @@ namespace BH.Engine.Test.Interoperability
 
             foreach (ILoad load in loads)
             {
-                ReassignObjectsToLoad(load as dynamic, pushedObjects);
+                ReassignObjectsToLoad(load as dynamic, pushedObjects); // won't work
             }
 
             // Push loads
@@ -81,12 +84,14 @@ namespace BH.Engine.Test.Interoperability
             // Run model
                                   
             adapter.Execute("Analyze");
+            adapter.Execute("Run Analysis");
 
             //Invoke checking method
-            if(checkingMethod != null)
-                checkingMethod.Invoke(null, new object[] { adapter, objects });          
-            
+            //if(checkingMethod != null)
+            //    checkingMethod.Invoke(null, new object[] { adapter, objects, loads });                   
 
+            bool test = CheckShearForceAndMoments(adapter, nonLoads, loads);
+            //(loads as BarUniformlyDistributedLoad).Force.
         }
 
         /***************************************************/
@@ -114,48 +119,113 @@ namespace BH.Engine.Test.Interoperability
 
         /***************************************************/
 
-        public static bool CheckShearForceAndMoments(BHoMAdapter adapter, IEnumerable<IBHoMObject> objects)
+        public static bool CheckShearForceAndMoments(BHoMAdapter adapter, IEnumerable<IBHoMObject> objects, IEnumerable<ILoad> loads)
         {
             //Pull Results from robot
             BarResultRequest request = new BarResultRequest();
+            GlobalResultRequest request2 = new GlobalResultRequest();            
+            request.Divisions = 4;
             List<IBHoMObject> pulledResults = new List<IBHoMObject>();
-            
+                        
             pulledResults = adapter.Pull(request).Cast<IBHoMObject>().ToList();
-
+            pulledResults = adapter.Pull(request2).Cast<IBHoMObject>().ToList();
+            
             //Make "hand calc" on the assumed results based on the "model" i.e., the list of BHoMObjects and some maths
 
+            //adapter results
             IEnumerable<BarStress> barStress = pulledResults.Where(x => (x is BarStress)).Cast<BarStress>();
 
-            double test = (barStress as BarStress).ShearZ;
-            //List<double> test2 = new List<double>((barStress as BarStress).Position);
-            foreach (double pos in (barStress as BarStress).Position)
-            {
-
-            }
-
+            List<double> positions = new List<double>();
+            List<double> shearY = new List<double>();
+            List<double> shearZ = new List<double>();            
+            List<double> momentY = new List<double>();
+            List<double> momentZ = new List<double>();
 
             foreach (BarStress result in barStress)
             {
-                double AdapterResultShearZ = result.ShearZ;
-                    
+                positions.Add(result.Position);
+                shearY.Add(result.ShearY);
+                shearZ.Add(result.ShearZ);
+                momentY.Add(result.BendingY_Top);
+                momentZ.Add(result.BendingZ_Top);
             }
 
+            //Handcalc
+            //W
+            IEnumerable<BarUniformlyDistributedLoad> uniformlyDistributedLoads = loads.Where(x => (x is BarUniformlyDistributedLoad)).Cast<BarUniformlyDistributedLoad>(); 
+            double yForce = 0; double zForce = 0;
 
-            ///Handcalc
+            for (int i = 0; i < uniformlyDistributedLoads.Count(); i++)
+            {
+                yForce += uniformlyDistributedLoads.ElementAt(i).Force.Y;
+                zForce += uniformlyDistributedLoads.ElementAt(i).Force.Z;
+            }
 
-            IEnumerable<Bar> bar = objects.Where(x => (x is Bar)).Cast<Bar>();
-            double barLength = (bar as Bar).EndNode.Position.CompareTo((bar as Bar).StartNode.Position);
+            //L
+            IEnumerable<Bar> bar = objects.Where(x => (x is Bar)).Cast<Bar>(); //could maybe pull this instead, then wouldn't need "objects" input
+            double barLength = bar.ElementAt(0).EndNode.Position.Distance(bar.ElementAt(0).StartNode.Position);
 
-            //foreach (bar bara in bars)
-            //{
-            //    double barlength = bara.startnode.position.compareto(bara.endnode.position);
-            //}
+            //Result
+            List<double> HandCshearY = new List<double>();
+            List<double> HandCshearZ = new List<double>();
+            List<double> HandCmomentY = new List<double>();
+            List<double> HandCmomentZ = new List<double>();
 
+            for (int i = 0; i < positions.Count; i++)
+            {
+                HandCshearY.Add(yForce * (positions[i] -3) * barLength / 8);
+                HandCshearZ.Add(zForce * (positions[i] -3) * barLength / 8);
+                HandCmomentY.Add(zForce * ((Math.Pow(positions[i], 2) / 2) - 3 * barLength * positions[i] / 8));
+                HandCmomentZ.Add(yForce * ((Math.Pow(positions[i], 2) / 2) - 3 * barLength * positions[i] / 8));
+            }
 
             //Compare the results
+            //List<double> shearYDiff = new List<double>();
+            //List<double> shearZDiff = new List<double>();
+            //List<double> momentYDiff = new List<double>();
+            //List<double> momentZDiff = new List<double>();
 
+            double shearYDiff; double shearZDiff; double momentYDiff; double momentZDiff; int fails = 0;
 
-            return false;
+            for (int i = 0; i < positions.Count; i++)
+            {
+                //shearYDiff.Add(shearY[i] / HandCshearY[i]);
+                //shearZDiff.Add(shearZ[i] / HandCshearZ[i]);
+                //momentYDiff.Add(momentY[i] / HandCmomentY[i]);
+                //momentZDiff.Add(momentZ[i] / HandCmomentZ[i]);
+                shearYDiff = shearY[i] / HandCshearY[i];
+                shearZDiff = shearZ[i] / HandCshearZ[i];
+                momentYDiff = momentY[i] / HandCmomentY[i];
+                momentZDiff = momentZ[i] / HandCmomentZ[i];
+                double diffAllowence = 0.1;
+
+                if (Math.Abs(shearYDiff - 1) < diffAllowence)         // shearYDiff < 1-diffAllowence || shearYDiff > 1+diffAllowence
+                {
+                    fails += 1;
+                }
+                if (Math.Abs(shearZDiff - 1) < diffAllowence)
+                {
+                    fails += 1;
+                }
+                if (Math.Abs(momentYDiff - 1) < diffAllowence)
+                {
+                    fails += 1;
+                }
+                if (Math.Abs(momentZDiff - 1) < diffAllowence)
+                {
+                    fails += 1;
+                }
+            }
+
+            //string numberOfFails = string.Format("{0} of the checks failed.", fails);
+            if (fails > 0)
+            {
+                return false;
+            }
+            else
+            {
+                return true;
+            }            
 
         }
 
