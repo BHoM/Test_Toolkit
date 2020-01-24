@@ -37,6 +37,7 @@ namespace BH.Engine.Test.CodeCompliance.Checks
         [ErrorLevel(ErrorLevel.Warning)]
         [Path(@"([a-zA-Z0-9]+)_Engine\\.*\.cs$")]
         [Path(@"([a-zA-Z0-9]+)_Engine\\Objects\\.*\.cs$", false)]
+        [IsPublic()]
         public static Span HasOutputAttribute(MethodDeclarationSyntax node)
         {
             return node.HasAttribute("Output") || node.HasAttribute("MultiOutput")  ? null : node.Identifier.Span.ToBHoM();
@@ -45,6 +46,7 @@ namespace BH.Engine.Test.CodeCompliance.Checks
         [Message("Method must contain an Output or MultiOutput attribute")]
         [ErrorLevel(ErrorLevel.Warning)]
         [Path(@"([a-zA-Z0-9]+)_Adapter\\.*\.cs$")]
+        [IsPublic()]
         public static Span HasOutputAttribute(ConstructorDeclarationSyntax node)
         {
             return node.HasAttribute("Output") || node.HasAttribute("MultiOutput")  ? null : node.Identifier.Span.ToBHoM();

@@ -37,6 +37,7 @@ namespace BH.Engine.Test.CodeCompliance.Checks
         [ErrorLevel(ErrorLevel.Warning)]
         [Path(@"([a-zA-Z0-9]+)_Engine\\.*\.cs$")]
         [Path(@"([a-zA-Z0-9]+)_Engine\\Objects\\.*\.cs$", false)]
+        [IsPublic()]
         public static Span HasDescriptionAttribute(MethodDeclarationSyntax node)
         {
             return node.HasAttribute("Description") ? null : node.Identifier.Span.ToBHoM();
@@ -45,6 +46,7 @@ namespace BH.Engine.Test.CodeCompliance.Checks
         [Message("Adapter constructor must contain a Description attribute")]
         [ErrorLevel(ErrorLevel.Warning)]
         [Path(@"([a-zA-Z0-9]+)_Adapter\\.*\.cs$")]
+        [IsPublic()]
         public static Span HasDescriptionAttribute(ConstructorDeclarationSyntax node)
         {
             return node.HasAttribute("Description") ? null : node.Identifier.Span.ToBHoM();
