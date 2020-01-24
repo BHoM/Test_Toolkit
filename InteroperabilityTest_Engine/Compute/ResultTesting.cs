@@ -99,10 +99,15 @@ namespace BH.Engine.Test.Interoperability
 
             //      if(checkingMethod != null)
             //      checkingMethod.Invoke(null, new object[] { adapter, objects, loads });                   
-            
-            results.CustomData["TestResults"] = CheckShearForceAndMoments(adapter, nonLoads, loads); // rename based on what method ran?
+            if (false)
+            results.CustomData["TestResultsF&M"] = CheckShearForceAndMoments(adapter, nonLoads, loads); // rename based on what method ran?
 
-            
+            if (false)
+            results.CustomData["TestResultsAxial"] = CheckAxialForce(adapter, nonLoads, loads);
+
+            results.CustomData["TestResultsTorsion"] = CheckTorsion(adapter, nonLoads, loads);
+
+
             //Close commandClose = new Close();
             //adapter.Execute(commandClose);
             return results;
@@ -137,28 +142,13 @@ namespace BH.Engine.Test.Interoperability
         {
             //Pull Results from robot
 
-           // BarResultRequest request = new BarResultRequest() { ResultType = BarResultType.BarForce};
-            BarResultRequest request2 = new BarResultRequest() { Cases = new List<object>() {objects.Single((x => x is Loadcase)) } };
+            BarResultRequest request = new BarResultRequest() { Cases = new List<object>() {objects.Single((x => x is Loadcase)) } };
             //BarResultRequest request2 = new BarResultRequest() {  };
             List<BarForce> pulledResults = new List<BarForce>();
 
-            pulledResults = adapter.Pull(request2).Cast<BarForce>().ToList();
+            pulledResults = adapter.Pull(request).Cast<BarForce>().ToList();
             bool pullSuccess = pulledResults.Count > 0;
-
-            //
-            for (int i = 0; i < pulledResults.Count; i++)
-            {
-                //if (pulledResults.ElementAt(i).ResultCase() == loads.Cast<BarUniformlyDistributedLoad>.)
-                //{
-
-                //}
-                
-            }
-            //loads.Cast<BarUniformlyDistributedLoad>.Loadcase
-
-
-            //IEnumerable<BarStress> barStress = pulledResults.Where(x => (x is BarStress)).Cast<BarStress>();
-
+            
             List<double> positions = new List<double>();
             List<double> FY = new List<double>();
             List<double> FZ = new List<double>();
@@ -186,7 +176,7 @@ namespace BH.Engine.Test.Interoperability
             }
 
             //L
-            IEnumerable<Bar> bar = objects.Where(x => (x is Bar)).Cast<Bar>(); //could maybe pull this instead, then wouldn't need "objects" input
+            IEnumerable<Bar> bar = objects.Where(x => (x is Bar)).Cast<Bar>(); // pull this instead?
             double barLength = bar.ElementAt(0).EndNode.Position.Distance(bar.ElementAt(0).StartNode.Position);
 
             //Result
@@ -292,5 +282,114 @@ namespace BH.Engine.Test.Interoperability
 
         }
 
+        /***************************************************/
+
+        public static CustomObject CheckReactionForces(BHoMAdapter adapter, IEnumerable<IBHoMObject> objects, IEnumerable<ILoad> loads)
+        {
+            NodeResultRequest request = new NodeResultRequest() { Cases = new List<object>() { objects.Single((x => x is Loadcase)) } };
+;
+            List<NodeReaction> pulledResults = new List<NodeReaction>();
+
+            pulledResults = adapter.Pull(request).Cast<NodeReaction>().ToList();
+
+            foreach (NodeReaction result in pulledResults)
+            {
+                //result
+            }
+
+
+            return new CustomObject(); 
+
+        }
+
+        /***************************************************/
+
+        public static CustomObject CheckAxialForce(BHoMAdapter adapter, IEnumerable<IBHoMObject> objects, IEnumerable<ILoad> loads)
+        {
+            // Pull
+            BarResultRequest request = new BarResultRequest() { Cases = new List<object>() { objects.Single((x => x is Loadcase)) } };            
+            List<BarForce> pulledResults = new List<BarForce>();
+            pulledResults = adapter.Pull(request).Cast<BarForce>().ToList();
+            bool pullSuccess = pulledResults.Count > 0;
+
+            //Handcalc
+            //L
+            IEnumerable<Bar> bar = objects.Where(x => (x is Bar)).Cast<Bar>();
+            double L = bar.ElementAt(0).EndNode.Position.Distance(bar.ElementAt(0).StartNode.Position);
+
+            //W
+            BarUniformlyDistributedLoad uniformlyDistributedLoad = loads.Where(x => (x is BarUniformlyDistributedLoad)).Cast<BarUniformlyDistributedLoad>().ElementAt(0);
+            double W = uniformlyDistributedLoad.Force.Z;
+
+            List<double> FX = new List<double>();
+            List<double> positions = new List<double>();
+
+            foreach (BarForce result in pulledResults)
+            {
+                double x = result.Position * L;
+                double test = result.FX;
+                double handCalc = W * (x - L);
+                if (test == 0 && handCalc == 0)
+                {
+                    FX.Add(0);
+                }
+                else
+                {
+                    FX.Add(test / handCalc - 1);
+                }
+            }
+
+            CustomObject results = new CustomObject();
+            results.CustomData["PullSuccess"] = pullSuccess;
+            results.CustomData["FXDifference"] = FX;
+
+            return results;
+
+        }
+
+        /***************************************************/
+
+        public static CustomObject CheckTorsion(BHoMAdapter adapter, IEnumerable<IBHoMObject> objects, IEnumerable<ILoad> loads)
+        {
+            // Pull
+            BarResultRequest request = new BarResultRequest() { Cases = new List<object>() { objects.Single((x => x is Loadcase)) } };
+            List<BarForce> pulledResults = new List<BarForce>();
+            pulledResults = adapter.Pull(request).Cast<BarForce>().ToList();
+            bool pullSuccess = pulledResults.Count > 0;
+
+            //Handcalc
+            //L
+            IEnumerable<Bar> bar = objects.Where(x => (x is Bar)).Cast<Bar>();
+            double L = bar.ElementAt(0).EndNode.Position.Distance(bar.ElementAt(0).StartNode.Position);
+
+            //T
+            BarUniformlyDistributedLoad uniformlyDistributedLoad = loads.Where(x => (x is BarUniformlyDistributedLoad)).Cast<BarUniformlyDistributedLoad>().ElementAt(0);
+            double T = uniformlyDistributedLoad.Moment.X;
+
+            List<double> MX = new List<double>();
+            List<double> positions = new List<double>();
+
+            foreach (BarForce result in pulledResults)
+            {
+                double x = result.Position * L;
+                double test = result.MX;
+                double handCalc = T * (x - L);
+                if (test == 0 && handCalc == 0)
+                {
+                    MX.Add(0);
+                }
+                else
+                {
+                    MX.Add(test / handCalc - 1);
+                }
+            }
+
+            CustomObject results = new CustomObject();
+            results.CustomData["PullSuccess"] = pullSuccess;
+            results.CustomData["FXDifference"] = MX;
+
+            return results;
+
+        }
     }
 }
