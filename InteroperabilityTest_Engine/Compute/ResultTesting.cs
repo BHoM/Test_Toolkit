@@ -53,13 +53,14 @@ namespace BH.Engine.Test.Interoperability
         [Input("adapter", "The instance of the adapter to test for")]
         [Input("objects", "The type of object to test. This will use test sets in the Dataset library")]
         [Input("active", "Toggles whether to run the test")]
+        [Input("methodINT", "0=Shear&moment, 1=AxialForce, 2=Torsion, 3=Reactions")]
         [Output("analysisResults", "Diffing results outlining any differences found between the pushed and pulled objects. Also contains any error or warning messages returned by the adapter in the process")]
-        public static CustomObject CheckAnalysisResults(BHoMAdapter adapter, IEnumerable<IBHoMObject> objects, MethodInfo checkingMethod = null, bool active = false)
+        public static CustomObject CheckAnalysisResults(BHoMAdapter adapter, IEnumerable<IBHoMObject> objects, MethodInfo checkingMethod = null, bool active = false, int methodINT = 0)
         {
             if (active == false)
             {
                 return new CustomObject();
-            }
+            }            
 
             CustomObject results = new CustomObject();
 
@@ -79,8 +80,7 @@ namespace BH.Engine.Test.Interoperability
             results.CustomData["PushObjectsSuccess"] = pushedObjects.Count == nonLoads.Count();
 
             //3. Re+assign pushed elements to loads
-            int method = 1; int reactions = 1;
-            if (method != reactions)
+            if (methodINT != 3 )
             {
                 foreach (ILoad load in loads)
                 {
@@ -101,16 +101,17 @@ namespace BH.Engine.Test.Interoperability
 
             //      if(checkingMethod != null)
             //      checkingMethod.Invoke(null, new object[] { adapter, objects, loads });
-            if (false)
-            results.CustomData["TestResultsF&M"] = CheckShearForceAndMoments(adapter, nonLoads, loads); // rename based on what method ran?
+            if (methodINT == 0)
+                results.CustomData["TestResultsF&M"] = CheckShearForceAndMoments(adapter, nonLoads, loads); // rename based on what method ran?
 
-            if (false)
-            results.CustomData["TestResultsAxial"] = CheckAxialForce(adapter, nonLoads, loads);
+            if (methodINT == 1)
+                results.CustomData["TestResultsAxial"] = CheckAxialForce(adapter, nonLoads, loads);
 
-            if (false)
-            results.CustomData["TestResultsTorsion"] = CheckTorsion(adapter, nonLoads, loads);
+            if (methodINT == 2)
+                results.CustomData["TestResultsTorsion"] = CheckTorsion(adapter, nonLoads, loads);
 
-            results.CustomData["TestResultsReactions"] = CheckReactionForces(adapter, nonLoads, loads);
+            if (methodINT == 3)
+                results.CustomData["TestResultsReactions"] = CheckReactionForces(adapter, nonLoads, loads);
 
 
             return results;
