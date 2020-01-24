@@ -22,6 +22,7 @@
 
 using BH.oM.Test;
 using BH.oM.Test.Attributes;
+using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using System;
 using System.Collections.Generic;
@@ -40,7 +41,10 @@ namespace BH.Engine.Test.CodeCompliance.Checks
         [IsPublic()]
         public static Span HasOutputAttribute(MethodDeclarationSyntax node)
         {
-            return node.HasAttribute("Output") || node.HasAttribute("MultiOutput")  ? null : node.Identifier.Span.ToBHoM();
+           
+           
+            return ((PredefinedTypeSyntax)node.ReturnType).Keyword.Kind() == SyntaxKind.VoidKeyword
+                || node.HasAttribute("Output") || node.HasAttribute("MultiOutput")  ? null : node.Identifier.Span.ToBHoM();
         }
 
         [Message("Method must contain an Output or MultiOutput attribute")]
