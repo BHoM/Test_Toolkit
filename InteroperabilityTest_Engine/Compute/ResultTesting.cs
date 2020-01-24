@@ -105,8 +105,10 @@ namespace BH.Engine.Test.Interoperability
             if (false)
             results.CustomData["TestResultsAxial"] = CheckAxialForce(adapter, nonLoads, loads);
 
+            if (false)
             results.CustomData["TestResultsTorsion"] = CheckTorsion(adapter, nonLoads, loads);
 
+            results.CustomData["TestResultsReactions"] = CheckReactionForces(adapter, nonLoads, loads);
 
             //Close commandClose = new Close();
             //adapter.Execute(commandClose);
@@ -284,26 +286,6 @@ namespace BH.Engine.Test.Interoperability
 
         /***************************************************/
 
-        public static CustomObject CheckReactionForces(BHoMAdapter adapter, IEnumerable<IBHoMObject> objects, IEnumerable<ILoad> loads)
-        {
-            NodeResultRequest request = new NodeResultRequest() { Cases = new List<object>() { objects.Single((x => x is Loadcase)) } };
-;
-            List<NodeReaction> pulledResults = new List<NodeReaction>();
-
-            pulledResults = adapter.Pull(request).Cast<NodeReaction>().ToList();
-
-            foreach (NodeReaction result in pulledResults)
-            {
-                //result
-            }
-
-
-            return new CustomObject(); 
-
-        }
-
-        /***************************************************/
-
         public static CustomObject CheckAxialForce(BHoMAdapter adapter, IEnumerable<IBHoMObject> objects, IEnumerable<ILoad> loads)
         {
             // Pull
@@ -389,6 +371,36 @@ namespace BH.Engine.Test.Interoperability
             results.CustomData["FXDifference"] = MX;
 
             return results;
+
+        }
+
+        /***************************************************/
+
+        public static CustomObject CheckReactionForces(BHoMAdapter adapter, IEnumerable<IBHoMObject> objects, IEnumerable<ILoad> loads)
+        {
+            NodeResultRequest request = new NodeResultRequest() { Cases = new List<object>() { objects.Single((x => x is Loadcase)) } };
+
+            List<NodeReaction> pulledResults = new List<NodeReaction>();
+
+            pulledResults = adapter.Pull(request).Cast<NodeReaction>().ToList();
+            bool pullSuccess = pulledResults.Count > 0;
+            //T
+            double Load = loads.Where(x => (x is PointLoad)).Cast<PointLoad>().ElementAt(0).Force.Z;
+
+            double nodeReactions = 0;
+
+            foreach (NodeReaction result in pulledResults)
+            {
+                nodeReactions += result.FZ;
+            }
+
+            double comparision = nodeReactions / Load - 1;
+
+            CustomObject results = new CustomObject();
+            results.CustomData["PullSuccess"] = pullSuccess;
+            results.CustomData["ReactionDifference"] = comparision;
+
+            return results;            
 
         }
     }
