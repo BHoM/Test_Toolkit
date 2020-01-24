@@ -79,12 +79,14 @@ namespace BH.Engine.Test.Interoperability
             results.CustomData["PushObjectsSuccess"] = pushedObjects.Count == nonLoads.Count();
 
             //3. Re+assign pushed elements to loads
-
-            foreach (ILoad load in loads)
+            int method = 1; int reactions = 1;
+            if (method != reactions)
             {
-                ReassignObjectsToLoad(load as dynamic, pushedObjects);
+                foreach (ILoad load in loads)
+                {
+                    ReassignObjectsToLoad(load as dynamic, pushedObjects);
+                }
             }
-
             // Push loads
 
             results.CustomData["PushObjectsSuccess"] = adapter.Push(loads).Count() == loads.Count();
@@ -98,7 +100,7 @@ namespace BH.Engine.Test.Interoperability
             //Invoke checking method
 
             //      if(checkingMethod != null)
-            //      checkingMethod.Invoke(null, new object[] { adapter, objects, loads });                   
+            //      checkingMethod.Invoke(null, new object[] { adapter, objects, loads });
             if (false)
             results.CustomData["TestResultsF&M"] = CheckShearForceAndMoments(adapter, nonLoads, loads); // rename based on what method ran?
 
@@ -110,10 +112,11 @@ namespace BH.Engine.Test.Interoperability
 
             results.CustomData["TestResultsReactions"] = CheckReactionForces(adapter, nonLoads, loads);
 
+
+            return results;
+            //Close adapter after sending results back?            
             //Close commandClose = new Close();
             //adapter.Execute(commandClose);
-            return results;
-            //Close adapter after sending results back?
 
         }
 
@@ -143,135 +146,76 @@ namespace BH.Engine.Test.Interoperability
         public static CustomObject CheckShearForceAndMoments(BHoMAdapter adapter, IEnumerable<IBHoMObject> objects, IEnumerable<ILoad> loads)
         {
             //Pull Results from robot
-
-            BarResultRequest request = new BarResultRequest() { Cases = new List<object>() {objects.Single((x => x is Loadcase)) } };
-            //BarResultRequest request2 = new BarResultRequest() {  };
+            BarResultRequest request = new BarResultRequest() { Cases = new List<object>() {objects.Single((x => x is Loadcase)) } };            
             List<BarForce> pulledResults = new List<BarForce>();
 
             pulledResults = adapter.Pull(request).Cast<BarForce>().ToList();
             bool pullSuccess = pulledResults.Count > 0;
-            
-            List<double> positions = new List<double>();
-            List<double> FY = new List<double>();
-            List<double> FZ = new List<double>();
-            List<double> MY = new List<double>();
-            List<double> MZ = new List<double>();
 
-            foreach (BarForce result in pulledResults)
-            {
-                
-                positions.Add(result.Position);
-                FY.Add(result.FY);
-                FZ.Add(result.FZ);
-                MY.Add(result.MY);
-                MZ.Add(result.MZ);
-            }
-            //Handcalc
+            //Handcalc variables
             //W
             IEnumerable<BarUniformlyDistributedLoad> uniformlyDistributedLoads = loads.Where(x => (x is BarUniformlyDistributedLoad)).Cast<BarUniformlyDistributedLoad>();
-            double yForce = 0; double zForce = 0;
-
-            for (int i = 0; i < uniformlyDistributedLoads.Count(); i++)
-            {
-                yForce += uniformlyDistributedLoads.ElementAt(i).Force.Y;
-                zForce += uniformlyDistributedLoads.ElementAt(i).Force.Z;
-            }
+            double yForce = uniformlyDistributedLoads.ElementAt(0).Force.Y;
+            double zForce = uniformlyDistributedLoads.ElementAt(0).Force.Z;            
 
             //L
             IEnumerable<Bar> bar = objects.Where(x => (x is Bar)).Cast<Bar>(); // pull this instead?
             double barLength = bar.ElementAt(0).EndNode.Position.Distance(bar.ElementAt(0).StartNode.Position);
 
             //Result
-            List<double> HandCshearY = new List<double>();
-            List<double> HandCshearZ = new List<double>();
-            List<double> HandCmomentY = new List<double>();
-            List<double> HandCmomentZ = new List<double>();
-
-            for (int i = 0; i < positions.Count; i++)
-            {
-                double x = positions[i] * barLength;
-                HandCshearY.Add(yForce * (x - 3 * barLength / 8));
-                HandCshearZ.Add(zForce * (x - 3 * barLength / 8));
-                HandCmomentY.Add(zForce * ((Math.Pow(x, 2) / 2) - 3 * barLength * x / 8));
-                HandCmomentZ.Add(yForce * ((Math.Pow(x, 2) / 2) - 3 * barLength * x / 8));
-            }
-
-            //Compare the results
             List<double> FYDiff = new List<double>();
             List<double> FZDiff = new List<double>();
             List<double> MYDiff = new List<double>();
             List<double> MZDiff = new List<double>();
 
-            //double shearYDiff; double shearZDiff; double momentYDiff; double momentZDiff;
-            //int fails = 0; double diffAllowence = 0.1;
-
-            for (int i = 0; i < positions.Count; i++)
+            foreach (BarForce result in pulledResults)
             {
+                double x = result.Position * barLength;
 
-                if (FY[i] == 0 && HandCshearY[i] == 0)
+                double HandCalcFY = yForce * (x - 3 * barLength / 8);
+                double HandCalcFZ = zForce * (x - 3 * barLength / 8);
+                double HandCalcMY = zForce * ((Math.Pow(x, 2) / 2) - 3 * barLength * x / 8);
+                double HandCalcMZ = yForce * ((Math.Pow(x, 2) / 2) - 3 * barLength * x / 8);
+
+                double FY = result.FY;
+                double FZ = result.FZ;
+                double MY = result.MY;
+                double MZ = result.MZ;
+
+                if (FY == 0 && HandCalcFY == 0)
                 {
                     FYDiff.Add(0);
                 }
                 else
                 {
-                    FYDiff.Add(FY[i] / HandCshearY[i] - 1);
+                    FYDiff.Add(FY / HandCalcFY - 1);
                 }
-                if (FZ[i] == 0 && HandCshearZ[i] == 0)
+                if (FZ == 0 && HandCalcFZ == 0)
                 {
                     FZDiff.Add(0);
                 }
                 else
                 {
-                    FZDiff.Add(FZ[i] / HandCshearZ[i] - 1);
+                    FZDiff.Add(FZ / HandCalcFZ - 1);
                 }
-                if (MY[i] == 0 && HandCmomentY[i] == 0)
+                if (MY == 0 && HandCalcMY == 0)
                 {
                     MYDiff.Add(0);
                 }
                 else
                 {
-                    MYDiff.Add(MY[i] / HandCmomentY[i] - 1);
+                    MYDiff.Add(MY / HandCalcMY - 1);
                 }
-                if (MZ[i] == 0 && HandCmomentZ[i] == 0)
+                if (MZ == 0 && HandCalcMZ == 0)
                 {
                     MZDiff.Add(0);
                 }
                 else
                 {
-                    MZDiff.Add(MZ[i] / HandCmomentZ[i] - 1);
+                    MZDiff.Add(MZ / HandCalcMZ - 1);
                 }
-                //FYDiff.Add(FY[i] / HandCshearY[i]);
-                //FZDiff.Add(FZ[i] / HandCshearZ[i]);
-                //MYDiff.Add(MY[i] / HandCmomentY[i]);
-                //MZDiff.Add(MZ[i] / HandCmomentZ[i]);                
-
-                //if (Math.Abs(FYDiff[i]) > diffAllowence)         // shearYDiff < 1-diffAllowence || shearYDiff > 1+diffAllowence
-                //{
-                //    fails += 1;
-                //}
-                //if (Math.Abs(FZDiff[i]) > diffAllowence)
-                //{
-                //    fails += 1;
-                //}
-                //if (Math.Abs(MYDiff[i]) > diffAllowence)
-                //{
-                //    fails += 1;
-                //}
-                //if (Math.Abs(MZDiff[i]) > diffAllowence)
-                //{
-                //    fails += 1;
-                //}
             }
 
-            //string numberOfFails = string.Format("{0} of the checks failed.", fails);
-            //if (fails > 0)
-            //{
-            //    return false;
-            //}
-            //else
-            //{
-            //    return true;
-            //}
             CustomObject results = new CustomObject();
 
             results.CustomData["PullSuccess"] = pullSuccess;
@@ -294,36 +238,35 @@ namespace BH.Engine.Test.Interoperability
             pulledResults = adapter.Pull(request).Cast<BarForce>().ToList();
             bool pullSuccess = pulledResults.Count > 0;
 
-            //Handcalc
+            //Handcalc variables
             //L
             IEnumerable<Bar> bar = objects.Where(x => (x is Bar)).Cast<Bar>();
             double L = bar.ElementAt(0).EndNode.Position.Distance(bar.ElementAt(0).StartNode.Position);
 
-            //W
-            BarUniformlyDistributedLoad uniformlyDistributedLoad = loads.Where(x => (x is BarUniformlyDistributedLoad)).Cast<BarUniformlyDistributedLoad>().ElementAt(0);
-            double W = uniformlyDistributedLoad.Force.Z;
+            //W 
+            double W = loads.Where(x => (x is BarUniformlyDistributedLoad)).Cast<BarUniformlyDistributedLoad>().ElementAt(0).Force.Z;
 
-            List<double> FX = new List<double>();
-            List<double> positions = new List<double>();
+            List<double> FXDiff = new List<double>();
 
             foreach (BarForce result in pulledResults)
             {
                 double x = result.Position * L;
                 double test = result.FX;
                 double handCalc = W * (x - L);
+
                 if (test == 0 && handCalc == 0)
                 {
-                    FX.Add(0);
+                    FXDiff.Add(0);
                 }
                 else
                 {
-                    FX.Add(test / handCalc - 1);
+                    FXDiff.Add(test / handCalc - 1);
                 }
             }
 
             CustomObject results = new CustomObject();
             results.CustomData["PullSuccess"] = pullSuccess;
-            results.CustomData["FXDifference"] = FX;
+            results.CustomData["FXDifference"] = FXDiff;
 
             return results;
 
@@ -345,11 +288,9 @@ namespace BH.Engine.Test.Interoperability
             double L = bar.ElementAt(0).EndNode.Position.Distance(bar.ElementAt(0).StartNode.Position);
 
             //T
-            BarUniformlyDistributedLoad uniformlyDistributedLoad = loads.Where(x => (x is BarUniformlyDistributedLoad)).Cast<BarUniformlyDistributedLoad>().ElementAt(0);
-            double T = uniformlyDistributedLoad.Moment.X;
+            double T = loads.Where(x => (x is BarUniformlyDistributedLoad)).Cast<BarUniformlyDistributedLoad>().ElementAt(0).Moment.X;
 
-            List<double> MX = new List<double>();
-            List<double> positions = new List<double>();
+            List<double> MXDiff = new List<double>();
 
             foreach (BarForce result in pulledResults)
             {
@@ -358,17 +299,17 @@ namespace BH.Engine.Test.Interoperability
                 double handCalc = T * (x - L);
                 if (test == 0 && handCalc == 0)
                 {
-                    MX.Add(0);
+                    MXDiff.Add(0);
                 }
                 else
                 {
-                    MX.Add(test / handCalc - 1);
+                    MXDiff.Add(test / handCalc - 1);
                 }
             }
 
             CustomObject results = new CustomObject();
             results.CustomData["PullSuccess"] = pullSuccess;
-            results.CustomData["FXDifference"] = MX;
+            results.CustomData["MXDifference"] = MXDiff;
 
             return results;
 
@@ -379,12 +320,11 @@ namespace BH.Engine.Test.Interoperability
         public static CustomObject CheckReactionForces(BHoMAdapter adapter, IEnumerable<IBHoMObject> objects, IEnumerable<ILoad> loads)
         {
             NodeResultRequest request = new NodeResultRequest() { Cases = new List<object>() { objects.Single((x => x is Loadcase)) } };
-
             List<NodeReaction> pulledResults = new List<NodeReaction>();
 
             pulledResults = adapter.Pull(request).Cast<NodeReaction>().ToList();
             bool pullSuccess = pulledResults.Count > 0;
-            //T
+
             double Load = loads.Where(x => (x is PointLoad)).Cast<PointLoad>().ElementAt(0).Force.Z;
 
             double nodeReactions = 0;
