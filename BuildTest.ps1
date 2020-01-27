@@ -10,4 +10,4 @@ $slnPath = "$ENV:BUILD_SOURCESDIRECTORY\$repo\$repo.sln"
 
 # **** Building .sln ****
 write-Output ("Building " + $repo + ".sln")
-& $msbuildPath -nologo $slnPath /verbosity:minimal
+& $msbuildPath -nologo $slnPath /verbosity:minimal /p:Configuration="ComplianceTestBuild"
