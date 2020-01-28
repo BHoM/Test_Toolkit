@@ -9,8 +9,13 @@ Set-Location "$ENV:BUILD_SOURCESDIRECTORY\$repo"
 $diffFiles = $(git diff origin/master --name-only)
 
 $projectName = $ENV:PROJECTNAME
-$parts = $projectName.split("_")
-$project = $parts[0]
+$project = $projectName
+
+If($project -match "_Toolkit$")
+{
+	$parts = $projectName.split("_")
+	$project = $parts[0]
+}
 
 $pathOM = "$ENV:BUILD_SOURCESDIRECTORY\PRTestFiles\" + $projectName + "\" + $project + "_oM"
 $pathEngine = "$ENV:BUILD_SOURCESDIRECTORY\PRTestFiles\" + $projectName + "\" + $project + "_Engine"
