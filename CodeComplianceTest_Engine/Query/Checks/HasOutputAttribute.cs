@@ -41,10 +41,12 @@ namespace BH.Engine.Test.CodeCompliance.Checks
         [IsPublic()]
         public static Span HasOutputAttribute(MethodDeclarationSyntax node)
         {
-           
-           
-            return ((PredefinedTypeSyntax)node.ReturnType).Keyword.Kind() == SyntaxKind.VoidKeyword
-                || node.HasAttribute("Output") || node.HasAttribute("MultiOutput")  ? null : node.Identifier.Span.ToBHoM();
+            bool isvoid = false;
+            if(node.ReturnType is PredefinedTypeSyntax)
+            {
+                isvoid = ((PredefinedTypeSyntax)node.ReturnType).Keyword.Kind() == SyntaxKind.VoidKeyword;
+            }
+            return  isvoid || node.HasAttribute("Output") || node.HasAttribute("MultiOutput")  ? null : node.Identifier.Span.ToBHoM();
         }
 
         [Message("Method must contain an Output or MultiOutput attribute")]
