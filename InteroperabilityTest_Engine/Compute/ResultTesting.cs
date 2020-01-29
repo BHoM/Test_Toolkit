@@ -80,13 +80,13 @@ namespace BH.Engine.Test.Interoperability
             results.CustomData["PushObjectsSuccess"] = pushedObjects.Count == nonLoads.Count();
 
             //3. Re+assign pushed elements to loads
-            if (methodINT != 3 )
-            {
+            //if (methodINT != 3 )
+            //{
                 foreach (ILoad load in loads)
                 {
                     ReassignObjectsToLoad(load as dynamic, pushedObjects);
                 }
-            }
+            //}
             // Push loads
 
             results.CustomData["PushObjectsSuccess"] = adapter.Push(loads).Count() == loads.Count();
