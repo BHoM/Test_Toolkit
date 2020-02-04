@@ -35,7 +35,7 @@ namespace BH.Engine.Test.CodeCompliance
 {
     public static partial class Query
     {
-        public static ComplianceResult HasValidCopyright(SyntaxTriviaList leadingTrivia, int year = -1)
+        public static ComplianceResult HasValidCopyright(SyntaxTriviaList leadingTrivia, int year = -1, string filePath = "")
         {
             bool checkAllYears = false;
             if (year == -1)
@@ -77,7 +77,7 @@ namespace BH.Engine.Test.CodeCompliance
 
             if(split.Length < copyrightSplit.Length)
             {
-                Error e = Create.Error("Copyright message is not accurate at line " + 1, Create.Location("", Create.LineSpan(1,2)), ErrorLevel.Error);
+                Error e = Create.Error("Copyright message is not accurate at line " + 1, Create.Location(filePath, Create.LineSpan(1,2)), ErrorLevel.Error);
                 return Create.ComplianceResult(ResultStatus.CriticalFail, new List<Error> { e });
             }
 
@@ -87,7 +87,7 @@ namespace BH.Engine.Test.CodeCompliance
                 {
                     if (split[x].TrimEnd() != copyrightSplit[x].TrimEnd())
                     {
-                        Error e = Create.Error("Copyright message is not accurate at line " + (x + 1), Create.Location("", Create.LineSpan(x + 1, x + 2)), ErrorLevel.Error);
+                        Error e = Create.Error("Copyright message is not accurate at line " + (x + 1), Create.Location(filePath, Create.LineSpan(x + 1, x + 2)), ErrorLevel.Error);
                         return Create.ComplianceResult(ResultStatus.CriticalFail, new List<Error> { e });
                     }
                 }
@@ -104,7 +104,7 @@ namespace BH.Engine.Test.CodeCompliance
 
                     if (split[x].TrimEnd() != copyrightSplit[x].TrimEnd())
                     {
-                        Error e = Create.Error("Copyright message is not accurate at line " + (x + 1), Create.Location("", Create.LineSpan(x + 1, x + 2)), ErrorLevel.Error);
+                        Error e = Create.Error("Copyright message is not accurate at line " + (x + 1), Create.Location(filePath, Create.LineSpan(x + 1, x + 2)), ErrorLevel.Error);
                         return Create.ComplianceResult(ResultStatus.CriticalFail, new List<Error> { e });
                     }
                 }
@@ -119,7 +119,7 @@ namespace BH.Engine.Test.CodeCompliance
 
                 if (!validOnOneYear)
                 {
-                    Error e = Create.Error("Copyright message is not accurate at line 3", Create.Location("", Create.LineSpan(3, 4)), ErrorLevel.Error);
+                    Error e = Create.Error("Copyright message is not accurate at line 3", Create.Location(filePath, Create.LineSpan(3, 4)), ErrorLevel.Error);
                     return Create.ComplianceResult(ResultStatus.CriticalFail, new List<Error> { e });
                 }
             }

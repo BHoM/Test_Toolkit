@@ -56,7 +56,7 @@ namespace BH.Test.Test
                 if (file != null)
                 {
                     SyntaxTree st = BH.Engine.Test.CodeCompliance.Convert.ToSyntaxTree(file, s);
-                    r = r.Merge(BH.Engine.Test.CodeCompliance.Query.HasValidCopyright((st.GetRoot() as CompilationUnitSyntax).GetLeadingTrivia(), DateTime.Now.Year));
+                    r = r.Merge(BH.Engine.Test.CodeCompliance.Query.HasValidCopyright((st.GetRoot() as CompilationUnitSyntax).GetLeadingTrivia(), DateTime.Now.Year, s));
                 }
             }
 
