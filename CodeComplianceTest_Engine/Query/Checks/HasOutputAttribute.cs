@@ -46,7 +46,7 @@ namespace BH.Engine.Test.CodeCompliance.Checks
             {
                 isvoid = ((PredefinedTypeSyntax)node.ReturnType).Keyword.Kind() == SyntaxKind.VoidKeyword;
             }
-            return  isvoid || node.HasAttribute("Output") || node.HasAttribute("MultiOutput")  ? null : node.Identifier.Span.ToBHoM();
+            return  isvoid || node.HasAttribute("Output") || node.HasAttribute("MultiOutput") || node.IsDeprecated()  ? null : node.Identifier.Span.ToBHoM();
         }
 
         [Message("Method must contain an Output or MultiOutput attribute")]
@@ -55,7 +55,7 @@ namespace BH.Engine.Test.CodeCompliance.Checks
         [IsPublic()]
         public static Span HasOutputAttribute(ConstructorDeclarationSyntax node)
         {
-            return node.HasAttribute("Output") || node.HasAttribute("MultiOutput")  ? null : node.Identifier.Span.ToBHoM();
+            return node.HasAttribute("Output") || node.HasAttribute("MultiOutput") || node.IsDeprecated() ? null : node.Identifier.Span.ToBHoM();
         }
     }
 }

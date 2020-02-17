@@ -40,7 +40,7 @@ namespace BH.Engine.Test.CodeCompliance.Checks
         [IsPublic()]
         public static Span HasDescriptionAttribute(MethodDeclarationSyntax node)
         {
-            return node.HasAttribute("Description") ? null : node.Identifier.Span.ToBHoM();
+            return (node.IsDeprecated() || node.HasAttribute("Description")) ? null : node.Identifier.Span.ToBHoM();
         }
 
         [Message("Adapter constructor must contain a Description attribute")]
@@ -49,7 +49,7 @@ namespace BH.Engine.Test.CodeCompliance.Checks
         [IsPublic()]
         public static Span HasDescriptionAttribute(ConstructorDeclarationSyntax node)
         {
-            return node.HasAttribute("Description") ? null : node.Identifier.Span.ToBHoM();
+            return (node.IsDeprecated() || node.HasAttribute("Description")) ? null : node.Identifier.Span.ToBHoM();
         }
     }
 }

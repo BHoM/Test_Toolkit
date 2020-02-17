@@ -38,6 +38,9 @@ namespace BH.Engine.Test.CodeCompliance.Checks
         public static Span HasMatchingInputDescription(ParameterSyntax node)
         {
             var method = node.Parent.Parent as BaseMethodDeclarationSyntax;
+            
+            if (method.IsDeprecated()) return null;
+
             if (method != null && method.IsPublic() && (method.IsEngineMethod() || method.IsAdapterConstructor()))
             {
                 foreach (var ab in method.InputAttributes())
