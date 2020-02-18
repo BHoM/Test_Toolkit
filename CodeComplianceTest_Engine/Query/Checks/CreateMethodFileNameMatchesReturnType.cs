@@ -35,7 +35,7 @@ namespace BH.Engine.Test.CodeCompliance.Checks
     public static partial class Query
     {
 
-        [Message("Create file path must match the create method(s) return type. Either part of the path or the filename must be an exact match of the return type of the method")]
+        [Message("Create file path must match the create method(s) return type. Either part of the path or the filename must be an exact match of the return type of the method.")]
         [Path(@"([a-zA-Z0-9]+)_Engine\\Create\\.*\.cs$")]
         [IsPublic()]
         public static Span CreateMethodFileNameMatchesReturnType(MethodDeclarationSyntax node)
@@ -45,9 +45,9 @@ namespace BH.Engine.Test.CodeCompliance.Checks
             if (type is QualifiedNameSyntax) type = ((QualifiedNameSyntax)type).Right;
             string returnType = type.ToString();
 
+            string fileName;
             if (!string.IsNullOrEmpty(filePath))
             {
-                string fileName;
                 do
                 {
                     fileName = System.IO.Path.GetFileNameWithoutExtension(filePath);
@@ -58,6 +58,14 @@ namespace BH.Engine.Test.CodeCompliance.Checks
                     filePath = System.IO.Path.GetDirectoryName(filePath);
                 }
                 while (!Regex.Match(returnType, $"((List|IEnumerable)<)?I?{fileName}(<.*>)?>?$").Success) ;
+            }
+
+            filePath = node.SyntaxTree.FilePath;
+            fileName = System.IO.Path.GetFileNameWithoutExtension(filePath);
+            if (!Regex.Match(returnType, $"((List|IEnumerable)<)?I?{fileName}(<.*>)?>?$").Success && 
+                !Regex.Match(node.Identifier.ToString(), $"I?{fileName}$").Success)
+            {
+                return node.Identifier.Span.ToBHoM();
             }
 
             return null;
