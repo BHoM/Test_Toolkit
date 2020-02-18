@@ -35,7 +35,7 @@ namespace BH.Engine.Test.CodeCompliance.Checks
     public static partial class Query
     {
 
-        [Message("Create file path must match the create method(s) return type. Either part of the path or the filename must be an exact match of the return type of the method.")]
+        [Message("Create file  must match the create method(s) return type. Either part of the path or the filename must be an exact match of the return type of the method. If the file name does not match the return type file name must match the method name.")]
         [Path(@"([a-zA-Z0-9]+)_Engine\\Create\\.*\.cs$")]
         [IsPublic()]
         public static Span CreateMethodFileNameMatchesReturnType(MethodDeclarationSyntax node)
@@ -45,7 +45,7 @@ namespace BH.Engine.Test.CodeCompliance.Checks
             if (type is QualifiedNameSyntax) type = ((QualifiedNameSyntax)type).Right;
             string returnType = type.ToString();
 
-            string fileName;
+            string fileName = "";
             if (!string.IsNullOrEmpty(filePath))
             {
                 do
@@ -57,16 +57,16 @@ namespace BH.Engine.Test.CodeCompliance.Checks
                     }
                     filePath = System.IO.Path.GetDirectoryName(filePath);
                 }
-                while (!Regex.Match(returnType, $"((List|IEnumerable)<)?I?{fileName}(<.*>)?>?$").Success) ;
-            }
+                while (!Regex.Match(returnType, $"((List|IEnumerable)<)?I?{fileName}(<.*>)?>?$").Success);
 
-            filePath = node.SyntaxTree.FilePath;
-            fileName = System.IO.Path.GetFileNameWithoutExtension(filePath);
-            if (!Regex.Match(returnType, $"((List|IEnumerable)<)?I?{fileName}(<.*>)?>?$").Success && 
-                !Regex.Match(node.Identifier.ToString(), $"I?{fileName}$").Success)
-            {
-                return node.Identifier.Span.ToBHoM();
-            }
+                filePath = node.SyntaxTree.FilePath;
+                fileName = System.IO.Path.GetFileNameWithoutExtension(filePath);
+                if (!Regex.Match(returnType, $"((List|IEnumerable)<)?I?{fileName}(<.*>)?>?$").Success &&
+                    !Regex.Match(node.Identifier.ToString(), $"I?{fileName}$").Success)
+                {
+                    return node.Identifier.Span.ToBHoM();
+                }
+            }   
 
             return null;
         }
