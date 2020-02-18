@@ -256,6 +256,7 @@
     <Compile Include="Query\GetText.cs" />
     <Compile Include="Query\Signature.cs" />
     <Compile Include="Query\StringEndsWithPunctuation.cs" />
+    <Compile Include="Query\DynamicChecks\ConvertMethodIsValid.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
