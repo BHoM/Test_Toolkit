@@ -123,11 +123,13 @@
     <Compile Include="AdapterTests\HasValidCopyright.cs" />
     <Compile Include="AdapterTests\GetFiles.cs" />
     <Compile Include="AdapterTests\HasSingleClass.cs" />
+    <Compile Include="AdapterTests\InputAttributeIsUnique.cs" />
     <Compile Include="AdapterTests\InputParameterStartsLower.cs" />
     <Compile Include="AdapterTests\MethodNameStartsUpper.cs" />
     <Compile Include="EngineTests\CheckProjectFile.cs" />
     <Compile Include="EngineTests\CreateMethodFileNameMatchesReturnType.cs" />
     <Compile Include="EngineTests\HasSingleClass.cs" />
+    <Compile Include="EngineTests\InputAttributeIsUnique.cs" />
     <Compile Include="EngineTests\MethodNameStartsUpper.cs" />
     <Compile Include="EngineTests\IsUniqueOutputAttribute.cs" />
     <Compile Include="EngineTests\IsUniqueDescriptionAttribute.cs" />
