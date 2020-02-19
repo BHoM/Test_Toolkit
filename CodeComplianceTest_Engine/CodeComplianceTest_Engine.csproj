@@ -145,6 +145,7 @@
     <Compile Include="Query\Checks\EngineClassMatchesFilePath.cs" />
     <Compile Include="Query\Checks\HasMatchingInputDescription.cs" />
     <Compile Include="Query\Checks\HasSingleClass.cs" />
+    <Compile Include="Query\Checks\InputAttributeIsUnique.cs" />
     <Compile Include="Query\Checks\InputParameterStartsLower.cs" />
     <Compile Include="Query\Checks\MethodNameStartsUpper.cs" />
     <Compile Include="Query\Checks\HasOutputAttribute.cs" />
