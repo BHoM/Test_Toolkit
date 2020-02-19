@@ -43,7 +43,7 @@ namespace BH.Engine.Test.CodeCompliance.Checks
             var method = node.Parent.Parent as BaseMethodDeclarationSyntax;
             if (method != null && method.IsPublic() && (method.IsEngineMethod() || method.IsAdapterConstructor()))
             {
-                if (node.ArgumentList.Arguments.Count == 2)
+                if (node.ArgumentList.Arguments.Count >= 2)
                 {
                     string paramname = node.ArgumentList.Arguments[0].Expression.GetFirstToken().Value.ToString();
                     if (method.ParameterList.Parameters.Any((p) => p.Identifier.Text == paramname)) return null;
