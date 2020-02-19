@@ -39,9 +39,7 @@ namespace BH.Engine.Test.CodeCompliance.Checks
         {
             var method = node.Parent.Parent as BaseMethodDeclarationSyntax;
             
-            if (method.IsDeprecated()) return null;
-
-            if (method != null && method.IsPublic() && (method.IsEngineMethod() || method.IsAdapterConstructor()))
+            if (method != null && method.IsPublic() && (method.IsEngineMethod() || method.IsAdapterConstructor()) && !method.IsDeprecated())
             {
                 foreach (var ab in method.InputAttributes())
                 {
