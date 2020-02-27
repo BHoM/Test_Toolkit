@@ -157,6 +157,8 @@
     <Compile Include="Query\AllChecks.cs" />
     <Compile Include="Query\DescriptionAttribute.cs" />
     <Compile Include="Query\DirectlyInherits.cs" />
+    <Compile Include="Query\DynamicChecks\AdapterCreateMethodIsValid.cs" />
+    <Compile Include="Query\DynamicChecks\AdapterReadMethodIsValid.cs" />
     <Compile Include="Query\GetAttributes.cs" />
     <Compile Include="Query\GetDeclaringType.cs" />
     <Compile Include="Query\GetClass.cs" />
