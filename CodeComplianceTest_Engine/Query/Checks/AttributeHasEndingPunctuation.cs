@@ -42,11 +42,8 @@ namespace BH.Engine.Test.CodeCompliance.Checks
         {
             List<AttributeArgumentSyntax> args = node.ArgumentList.Arguments.ToList();
 
-            foreach(var a in args)
-            {
-                if (!a.GetText().ToString().StringEndsWithPunctuation())
-                    return node.Span.ToBHoM();
-            }
+            if (!args.Last().GetText().ToString().StringEndsWithPunctuation())
+                return node.Span.ToBHoM();
 
             return null;
         }
