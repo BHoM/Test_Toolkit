@@ -42,15 +42,20 @@ namespace BH.Engine.Test.CodeCompliance.Checks
         {
             List<AttributeArgumentSyntax> args = node.ArgumentList.Arguments.ToList();
 
-            if (args.Count < 3)
+            string name = node.Name.ToString();
+
+            if(name == "Description")
             {
-                if (!args.Last().GetText().ToString().StringEndsWithPunctuation()) //For most attributes that do not contain quantity information
+                if (!args.Last().GetText().ToString().StringEndsWithPunctuation())
                     return node.Span.ToBHoM();
             }
-            else
+            else if (name == "Input" || name.Contains("Output"))
             {
-                if (!args[1].GetText().ToString().StringEndsWithPunctuation()) //For attributes with quantity information
-                    return node.Span.ToBHoM();
+                if(args.Count > 1)
+                {
+                    if (!args[1].GetText().ToString().StringEndsWithPunctuation())
+                        return node.Span.ToBHoM();
+                }
             }
 
             return null;
