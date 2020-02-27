@@ -33,7 +33,7 @@ namespace BH.Engine.Test.CodeCompliance.Checks
 {
     public static partial class Query
     {
-        [Message("Convert method name invalid: Method name must begin with either 'To' or 'From' and not be 'ToBHoM' or 'FromBHoM'")]
+        [Message("Convert method name invalid: Method name must begin with either 'ITo' or 'To' or 'IFrom' or 'From' and not contain 'ToBHoM' or 'FromBHoM'")]
         [Path(@"([a-zA-Z0-9]+)_Engine\\Convert\\.*\.cs$")]
         [IsPublic()]
         public static Span IsValidConvertMethodName(MethodDeclarationSyntax node)
