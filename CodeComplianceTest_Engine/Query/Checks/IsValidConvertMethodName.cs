@@ -39,8 +39,8 @@ namespace BH.Engine.Test.CodeCompliance.Checks
         public static Span IsValidConvertMethodName(MethodDeclarationSyntax node)
         {
             string name = node.Identifier.Text;
-            return (name.StartsWith("To") && !name.StartsWith("ToBHoM")) ||
-                (name.StartsWith("From") && !name.StartsWith("FromBHoM")) ? null : node.Identifier.Span.ToBHoM();
+            return ((name.StartsWith("ITo") || name.StartsWith("To")) && !name.StartsWith("ToBHoM")) ||
+                ((name.StartsWith("IFrom") || name.StartsWith("From")) && !name.StartsWith("FromBHoM")) ? null : node.Identifier.Span.ToBHoM();
         }
 
     }
