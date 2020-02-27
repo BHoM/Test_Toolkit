@@ -37,6 +37,7 @@ namespace BH.Engine.Test.CodeCompliance
     {
         public static bool StringEndsWithPunctuation(this string value)
         {
+            value = value.Replace("\"", ""); //Remove any speech marks surrounding the value
             return value.EndsWith(".") || value.EndsWith("!") || value.EndsWith("?");
         }
     }
