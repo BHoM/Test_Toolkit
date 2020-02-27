@@ -139,6 +139,7 @@
     <Compile Include="Create\Span.cs" />
     <Compile Include="Modify\Merge.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Query\Checks\AttributeHasEndingPunctuation.cs" />
     <Compile Include="Query\Checks\HasValidCopyright.cs" />
     <Compile Include="Query\Checks\CreateMethodFileNameMatchesReturnType.cs" />
     <Compile Include="Query\Checks\HasDescriptionAttribute.cs" />
@@ -199,6 +200,7 @@
     <Compile Include="Query\GetFileRoot.cs" />
     <Compile Include="Query\IsValidBHoMObject.cs" />
     <Compile Include="Query\GetText.cs" />
+    <Compile Include="Query\StringEndsWithPunctuation.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Test_oM\Test_oM.csproj">
