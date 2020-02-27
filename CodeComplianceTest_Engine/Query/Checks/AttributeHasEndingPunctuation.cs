@@ -40,24 +40,14 @@ namespace BH.Engine.Test.CodeCompliance.Checks
         [Path(@"([a-zA-Z0-9]+)_(Engine|Adapter)\\.*\.cs$")]
         public static Span AttributeHasEndingPunctuation(AttributeSyntax node)
         {
-            var method = node.Parent.Parent as BaseMethodDeclarationSyntax;
-            if (method != null && method.IsPublic() && (method.IsEngineMethod() || method.IsAdapterConstructor()))
+            List<AttributeArgumentSyntax> args = node.ArgumentList.Arguments.ToList();
+
+            foreach(var a in args)
             {
-                var descAttrs = method.GetAttributes("Description");
-                if (descAttrs.Count > 0 && !descAttrs[0].GetText().ToString().StringEndsWithPunctuation())
-                    return node.Span.ToBHoM();
-
-                List<AttributeSyntax> inputAttrs = method.GetAttributes("Input");
-                foreach(AttributeSyntax a in inputAttrs)
-                {  
-                    if (!a.ToString().StringEndsWithPunctuation())
-                        return node.Span.ToBHoM();
-                }
-
-                var outattrs = method.GetAttributes("Output");
-                if (outattrs.Count > 0 && !outattrs[0].GetText().ToString().StringEndsWithPunctuation())
+                if (!a.GetText().ToString().StringEndsWithPunctuation())
                     return node.Span.ToBHoM();
             }
+
             return null;
         }
     }
