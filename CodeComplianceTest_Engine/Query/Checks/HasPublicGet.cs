@@ -43,7 +43,7 @@ namespace BH.Engine.Test.CodeCompliance.Checks
         {
             AccessorDeclarationSyntax getter = node.PropertyGetAccessor();
             if (getter == null)
-                return node.Modifiers.Span.ToBHoM();
+                return node.Span.ToBHoM();
             
             return getter.IsPrivate() ? getter.Modifiers.Span.ToBHoM() : null;
         }
