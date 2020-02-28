@@ -31,7 +31,7 @@ namespace BH.Engine.Test.CodeCompliance
 {
     public static partial class Convert
     {
-        public static Span ToBHoM(this Microsoft.CodeAnalysis.Text.TextSpan span)
+        public static Span ToSpan(this Microsoft.CodeAnalysis.Text.TextSpan span)
         {
             return Create.Span(span.Start, span.Length);
         }

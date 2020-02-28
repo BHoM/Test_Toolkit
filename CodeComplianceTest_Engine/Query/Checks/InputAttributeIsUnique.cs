@@ -47,7 +47,7 @@ namespace BH.Engine.Test.CodeCompliance.Checks
                 var firstOfName = method.InputAttributes().First(attr => attr.ArgumentList.Arguments[0].Expression.GetFirstToken().Value.ToString() == paramname);
                 if (firstOfName != node)
                 {
-                    return node.Span.ToBHoM();
+                    return node.Span.ToSpan();
                 }
             }
             return null;

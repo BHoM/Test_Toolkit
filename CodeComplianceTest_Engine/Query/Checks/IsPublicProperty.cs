@@ -41,7 +41,7 @@ namespace BH.Engine.Test.CodeCompliance.Checks
         [IsPublic(false)]
         public static Span IsPublicProperty(PropertyDeclarationSyntax node)
         {
-            return node.Modifiers.Count > 0 ? node.Modifiers.Span.ToBHoM() : node.Span.ToBHoM();
+            return node.Modifiers.Count > 0 ? node.Modifiers.Span.ToSpan() : node.Span.ToSpan();
         }
     }
 }

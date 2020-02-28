@@ -45,7 +45,7 @@ namespace BH.Engine.Test.CodeCompliance.Checks
                 string filename = System.IO.Path.GetFileNameWithoutExtension(filePath);
                 if (node.IGetName() != filename)
                 {
-                    return node.Identifier.Span.ToBHoM();
+                    return node.Identifier.Span.ToSpan();
                 }
             }
 
@@ -68,7 +68,7 @@ namespace BH.Engine.Test.CodeCompliance.Checks
                 filename = filename.Remove(filename.LastIndexOf('.'));
                 if (name != filename && name != $"I{filename}")
                 {
-                    return node.Identifier.Span.ToBHoM();
+                    return node.Identifier.Span.ToSpan();
                 }
             }
 

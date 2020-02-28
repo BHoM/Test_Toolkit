@@ -39,7 +39,7 @@ namespace BH.Engine.Test.CodeCompliance.Checks
         {
             if (!node.SyntaxTree.HasCompilationUnitRoot) return null;
             CompilationUnitSyntax root = node.SyntaxTree.GetRoot() as CompilationUnitSyntax;
-            if (root.DescendantNodes().OfType<BaseTypeDeclarationSyntax >().FirstOrDefault() != node) return node.Identifier.Span.ToBHoM();
+            if (root.DescendantNodes().OfType<BaseTypeDeclarationSyntax >().FirstOrDefault() != node) return node.Identifier.Span.ToSpan();
             return null;
         }
 

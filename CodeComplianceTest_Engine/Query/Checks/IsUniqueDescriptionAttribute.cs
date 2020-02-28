@@ -47,7 +47,7 @@ namespace BH.Engine.Test.CodeCompliance.Checks
                 var attrs = method.GetAttributes("Description");
                 if ( (attrs.Count > 0 && attrs[0] != node) )
                 {
-                    return node.Span.ToBHoM();
+                    return node.Span.ToSpan();
                 }
             }
             return null;

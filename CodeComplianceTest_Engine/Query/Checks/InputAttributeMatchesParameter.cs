@@ -47,9 +47,9 @@ namespace BH.Engine.Test.CodeCompliance.Checks
                 {
                     string paramname = node.ArgumentList.Arguments[0].Expression.GetFirstToken().Value.ToString();
                     if (method.ParameterList.Parameters.Any((p) => p.Identifier.Text == paramname)) return null;
-                    else return node.ArgumentList.Arguments[0].Span.ToBHoM();
+                    else return node.ArgumentList.Arguments[0].Span.ToSpan();
                 }
-                return node.Span.ToBHoM();
+                return node.Span.ToSpan();
             }
             return null;
         }

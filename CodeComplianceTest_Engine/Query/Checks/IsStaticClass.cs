@@ -39,7 +39,7 @@ namespace BH.Engine.Test.CodeCompliance.Checks
         [Path(@"([a-zA-Z0-9]+)_Engine\\Objects\\.*\.cs$", false)]
         public static Span IsStaticClass(ClassDeclarationSyntax node)
         {
-            return node.IsStatic() ? null : node.Modifiers.Span.ToBHoM();
+            return node.IsStatic() ? null : node.Modifiers.Span.ToSpan();
         }
     }
 }

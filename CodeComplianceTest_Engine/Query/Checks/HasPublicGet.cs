@@ -43,9 +43,9 @@ namespace BH.Engine.Test.CodeCompliance.Checks
         {
             AccessorDeclarationSyntax getter = node.PropertyGetAccessor();
             if (getter == null)
-                return node.Span.ToBHoM();
+                return node.Span.ToSpan();
             
-            return getter.IsPrivate() ? getter.Modifiers.Span.ToBHoM() : null;
+            return getter.IsPrivate() ? getter.Modifiers.Span.ToSpan() : null;
         }
     }
 }

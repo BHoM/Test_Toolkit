@@ -50,7 +50,7 @@ namespace BH.Engine.Test.CodeCompliance.Checks
                             return null;
                     }
                 }
-                return node.Identifier.Span.ToBHoM();
+                return node.Identifier.Span.ToSpan();
             }
             return null;
         }
