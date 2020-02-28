@@ -78,6 +78,10 @@
     <Reference Include="Microsoft.CodeAnalysis.CSharp, Version=3.4.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.CodeAnalysis.CSharp.3.4.0-beta2-final\lib\netstandard2.0\Microsoft.CodeAnalysis.CSharp.dll</HintPath>
     </Reference>
+    <Reference Include="Quantities_oM, Version=3.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\BHoM\Build\Quantities_oM.dll</HintPath>
+    </Reference>
     <Reference Include="Reflection_Engine">
       <HintPath>..\..\BHoM_Engine\Build\Reflection_Engine.dll</HintPath>
       <Private>True</Private>
@@ -160,6 +164,7 @@
     <Compile Include="Query\DirectlyInherits.cs" />
     <Compile Include="Query\DynamicChecks\AdapterCreateMethodIsValid.cs" />
     <Compile Include="Query\DynamicChecks\AdapterReadMethodIsValid.cs" />
+    <Compile Include="Query\DynamicChecks\IsValidQuantityInputAttribute.cs" />
     <Compile Include="Query\GetAttributes.cs" />
     <Compile Include="Query\GetDeclaringType.cs" />
     <Compile Include="Query\GetClass.cs" />
