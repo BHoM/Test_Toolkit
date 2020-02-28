@@ -33,10 +33,10 @@ namespace BH.Engine.Test.CodeCompliance.Checks
 {
     public static partial class Query
     {
-        [Message("Input attribute should start with a lowercase letter")]
+        [Message("Input parameter should start with a lowercase letter")]
         [ErrorLevel(ErrorLevel.Error)]
         [Path(@"([a-zA-Z0-9]+)_(Engine|Adapter)\\.*\.cs$")]
-        public static Span InputAttributeStartsLower(ParameterSyntax node)
+        public static Span InputParameterStartsLower(ParameterSyntax node)
         {
             if (char.IsUpper(node.Identifier.ToString()[0]))
                 return node.Identifier.Span.ToBHoM();
