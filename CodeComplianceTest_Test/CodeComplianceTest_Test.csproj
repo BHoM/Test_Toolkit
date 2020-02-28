@@ -149,6 +149,7 @@
     <Compile Include="EngineTests\HasValidCopyright.cs" />
     <Compile Include="EngineTests\GetFiles.cs" />
     <Compile Include="EngineTests\InputParameterStartsLower.cs" />
+    <Compile Include="oMTests\AttributeHasEndingPunctuation.cs" />
     <Compile Include="oMTests\CheckProjectFile.cs" />
     <Compile Include="oMTests\HasSingleClass.cs" />
     <Compile Include="oMTests\HasValidCopyright.cs" />
