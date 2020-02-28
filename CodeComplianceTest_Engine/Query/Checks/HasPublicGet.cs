@@ -42,7 +42,10 @@ namespace BH.Engine.Test.CodeCompliance.Checks
         public static Span HasPublicGet(PropertyDeclarationSyntax node)
         {
             AccessorDeclarationSyntax getter = node.PropertyGetAccessor();
-            return (getter == null || getter.IsPrivate()) ? getter.Modifiers.Span.ToBHoM() : null;
+            if (getter == null)
+                return node.Modifiers.Span.ToBHoM();
+            
+            return getter.IsPrivate() ? getter.Modifiers.Span.ToBHoM() : null;
         }
     }
 }
