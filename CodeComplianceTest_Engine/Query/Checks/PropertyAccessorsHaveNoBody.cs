@@ -41,6 +41,9 @@ namespace BH.Engine.Test.CodeCompliance.Checks
         [IsPublic()]
         public static Span PropertyAccessorsHaveNoBody(PropertyDeclarationSyntax node)
         {
+            if (node.AccessorList == null)
+                return null;
+
             return node.AccessorList.Accessors.Any(a => a.HasBody()) ? node.Modifiers.Span.ToBHoM() : null;
         }
     }
