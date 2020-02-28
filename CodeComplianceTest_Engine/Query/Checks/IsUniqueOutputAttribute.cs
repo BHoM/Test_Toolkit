@@ -45,7 +45,7 @@ namespace BH.Engine.Test.CodeCompliance.Checks
             if (method != null && method.IsPublic() && (method.IsEngineMethod() || method.IsAdapterConstructor()))
             {
                 var outattrs = method.GetAttributes("Output");
-                if ( outattrs.Count > 0 && outattrs[0] != node ) return node.Span.ToBHoM();
+                if ( outattrs.Count > 0 && outattrs[0] != node ) return node.Span.ToSpan();
             }
             return null;
         }

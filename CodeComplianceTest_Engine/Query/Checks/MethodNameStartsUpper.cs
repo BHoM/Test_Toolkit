@@ -39,7 +39,7 @@ namespace BH.Engine.Test.CodeCompliance.Checks
         public static Span MethodNameStartsUpper(MethodDeclarationSyntax node)
         {
             if (!char.IsUpper(node.Identifier.ToString()[0]))
-                return node.Identifier.Span.ToBHoM();
+                return node.Identifier.Span.ToSpan();
             else
                 return null;
         }

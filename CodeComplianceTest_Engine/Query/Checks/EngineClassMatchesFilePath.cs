@@ -43,7 +43,7 @@ namespace BH.Engine.Test.CodeCompliance.Checks
             Regex re = new Regex(@"([A-Za-z0-9]+)_Engine\\([^\\]+)\\", RegexOptions.RightToLeft);
             Match match = re.Match(path);
             string expected = match.Groups[2].Value;
-            return node.Identifier.Text == expected ? null : node.Identifier.Span.ToBHoM();
+            return node.Identifier.Text == expected ? null : node.Identifier.Span.ToSpan();
         }
     }
 }

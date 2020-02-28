@@ -56,7 +56,7 @@ namespace BH.Engine.Test.CodeCompliance.Checks
                 }
 
                 if (returnSplit.First() != nameSplit.First() && returnSplit.Last() != nameSplit.Last())
-                    return node.Identifier.Span.ToBHoM(); //Name is not compliant
+                    return node.Identifier.Span.ToSpan(); //Name is not compliant
             }
 
             return null;

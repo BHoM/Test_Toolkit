@@ -47,14 +47,14 @@ namespace BH.Engine.Test.CodeCompliance.Checks
             if(name == "Description")
             {
                 if (!args.Last().GetText().ToString().StringEndsWithPunctuation())
-                    return node.Span.ToBHoM();
+                    return node.Span.ToSpan();
             }
             else if (name == "Input" || name.Contains("Output"))
             {
                 if(args.Count > 1)
                 {
                     if (!args[1].GetText().ToString().StringEndsWithPunctuation())
-                        return node.Span.ToBHoM();
+                        return node.Span.ToSpan();
                 }
             }
 

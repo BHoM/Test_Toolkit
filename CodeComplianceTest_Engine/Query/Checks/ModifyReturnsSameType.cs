@@ -42,7 +42,7 @@ namespace BH.Engine.Test.CodeCompliance.Checks
             ParameterSyntax param = node.ParameterList.Parameters.FirstOrDefault();
             if (param == null || !param.Type.IsEquivalentTo(node.ReturnType))
             {
-                return node.ReturnType.Span.ToBHoM();
+                return node.ReturnType.Span.ToSpan();
             }
             return null;
         }

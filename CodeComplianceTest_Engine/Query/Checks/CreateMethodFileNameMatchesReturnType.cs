@@ -53,7 +53,7 @@ namespace BH.Engine.Test.CodeCompliance.Checks
                     fileName = System.IO.Path.GetFileNameWithoutExtension(filePath);
                     if (string.IsNullOrEmpty(fileName))
                     {
-                        return node.Identifier.Span.ToBHoM();
+                        return node.Identifier.Span.ToSpan();
                     }
                     filePath = System.IO.Path.GetDirectoryName(filePath);
                 }
@@ -64,7 +64,7 @@ namespace BH.Engine.Test.CodeCompliance.Checks
                 if (!Regex.Match(returnType, $"((List|IEnumerable)<)?I?{fileName}(<.*>)?>?$").Success &&
                     !Regex.Match(node.Identifier.ToString(), $"I?{fileName}$").Success)
                 {
-                    return node.Identifier.Span.ToBHoM();
+                    return node.Identifier.Span.ToSpan();
                 }
             }   
 
