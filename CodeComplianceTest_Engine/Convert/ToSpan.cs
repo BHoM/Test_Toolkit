@@ -37,6 +37,11 @@ namespace BH.Engine.Test.CodeCompliance
             int end = lineSpan.End.ToPosition(context);
             return Create.Span(start, end - start);
         }
+
+        public static Span ToSpan(this Microsoft.CodeAnalysis.Text.TextSpan span)
+        {
+            return Create.Span(span.Start, span.Length);
+        }
     }
 }
 
