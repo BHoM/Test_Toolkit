@@ -36,7 +36,7 @@ namespace BH.Engine.Test.CodeCompliance.Checks
         [Message("Input parameter should start with a lowercase letter")]
         [ErrorLevel(ErrorLevel.Error)]
         [Path(@"([a-zA-Z0-9]+)_(Engine|Adapter)\\.*\.cs$")]
-        public static Span InputParameterStartsLower(ParameterSyntax node)
+        public static Span InputParameterStartsLower(this ParameterSyntax node)
         {
             if (char.IsUpper(node.Identifier.ToString()[0]))
                 return node.Identifier.Span.ToSpan();

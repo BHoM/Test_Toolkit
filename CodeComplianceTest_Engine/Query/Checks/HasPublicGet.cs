@@ -39,7 +39,7 @@ namespace BH.Engine.Test.CodeCompliance.Checks
         [Path(@"([a-zA-Z0-9]+)_Adapter\\.*\.cs$", false)]
         [Path(@"([a-zA-Z0-9]+)_UI\\.*\.cs$", false)]
         [IsPublic()]
-        public static Span HasPublicGet(PropertyDeclarationSyntax node)
+        public static Span HasPublicGet(this PropertyDeclarationSyntax node)
         {
             AccessorDeclarationSyntax getter = node.PropertyGetAccessor();
             if (getter == null)

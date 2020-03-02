@@ -36,7 +36,7 @@ namespace BH.Engine.Test.CodeCompliance.Checks
         [Message("Method cannot contain more than one Description attribute")]
         [ErrorLevel(ErrorLevel.Warning)]
         [Path(@"([a-zA-Z0-9]+)_(Engine|Adapter)\\.*\.cs$")]
-        public static Span IsUniqueDescriptionAttribute(AttributeSyntax node)
+        public static Span IsUniqueDescriptionAttribute(this AttributeSyntax node)
         {
             string name = node.Name.ToString();
             if (name != "Description") return null;

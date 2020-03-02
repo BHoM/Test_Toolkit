@@ -31,7 +31,7 @@ namespace BH.Engine.Test.CodeCompliance
 {
     public static partial class Convert
     {
-        public static LineLocation ToLineLocation(int position, string context)
+        public static LineLocation ToLineLocation(this int position, string context)
         {
             if (position > context.Length)
             {

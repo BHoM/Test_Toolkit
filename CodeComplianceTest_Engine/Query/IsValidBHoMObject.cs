@@ -35,7 +35,7 @@ namespace BH.Engine.Test.CodeCompliance
 {
     public static partial class Query
     {
-        public static ComplianceResult IsValidBHoMObject(SyntaxTriviaList leadingTrivia, string copyrightStatement)
+        public static ComplianceResult IsValidBHoMObject(this SyntaxTriviaList leadingTrivia, string copyrightStatement)
         {
             return null;
         }

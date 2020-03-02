@@ -31,7 +31,7 @@ namespace BH.Engine.Test.CodeCompliance
 {
     public static partial class Create
     {
-        public static Span Span(int start, int length)
+        public static Span Span(this int start, int length)
         {
             return new Span { Start = start, Length = length };
         }

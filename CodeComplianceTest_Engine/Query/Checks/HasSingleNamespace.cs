@@ -35,7 +35,7 @@ namespace BH.Engine.Test.CodeCompliance.Checks
     {
         [Message("Files cannot contain more than one namespace")]
         [Path(@"([a-zA-Z0-9]+)(_?oM|_(Engine|UI|Adapter))\\.*\.cs$")]
-        public static Span HasSingleNamespace(NamespaceDeclarationSyntax node)
+        public static Span HasSingleNamespace(this NamespaceDeclarationSyntax node)
         {
             if (!node.SyntaxTree.HasCompilationUnitRoot) return null;
             CompilationUnitSyntax root = node.SyntaxTree.GetRoot() as CompilationUnitSyntax;

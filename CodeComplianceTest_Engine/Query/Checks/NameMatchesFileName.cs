@@ -37,7 +37,7 @@ namespace BH.Engine.Test.CodeCompliance.Checks
         [Message("Class name must match file name")]
         [Path(@"([a-zA-Z0-9]+)_?oM\\.*\.cs$")]
         [IsPublic()]
-        public static Span NameMatchesFileName(ClassDeclarationSyntax node)
+        public static Span NameMatchesFileName(this ClassDeclarationSyntax node)
         {
             string filePath = node.SyntaxTree.FilePath;
             if (!string.IsNullOrEmpty(filePath))
@@ -58,7 +58,7 @@ namespace BH.Engine.Test.CodeCompliance.Checks
         [Path(@"([a-zA-Z0-9]+)_Engine\\Create\\.*\.cs$", false)]
         [Path(@"([a-zA-Z0-9]+)_Engine\\Objects\\.*\.cs$", false)]
         [IsPublic()]
-        public static Span NameMatchesFileName(MethodDeclarationSyntax node)
+        public static Span NameMatchesFileName(this MethodDeclarationSyntax node)
         {
             string name = node.IGetName();
             string filePath = node.SyntaxTree.FilePath;
