@@ -37,7 +37,7 @@ namespace BH.Engine.Test.CodeCompliance.Checks
         [Message("Modify methods must return the same type as their first parameter")]
         [Path(@"([a-zA-Z0-9]+)_Engine\\Modify\\.*\.cs$")]
         [IsPublic()]
-        public static Span ModifyReturnsSameType(MethodDeclarationSyntax node)
+        public static Span ModifyReturnsSameType(this MethodDeclarationSyntax node)
         {
             ParameterSyntax param = node.ParameterList.Parameters.FirstOrDefault();
             if (param == null || !param.Type.IsEquivalentTo(node.ReturnType))

@@ -38,7 +38,7 @@ namespace BH.Engine.Test.CodeCompliance.Checks
         [Path(@"([a-zA-Z0-9]+)_Engine\\.*\.cs$")]
         [Path(@"([a-zA-Z0-9]+)_Engine\\Objects\\.*\.cs$", false)]
         [IsPublic()]
-        public static Span HasDescriptionAttribute(MethodDeclarationSyntax node)
+        public static Span HasDescriptionAttribute(this MethodDeclarationSyntax node)
         {
             return (node.IsDeprecated() || node.HasAttribute("Description")) ? null : node.Identifier.Span.ToSpan();
         }
@@ -47,7 +47,7 @@ namespace BH.Engine.Test.CodeCompliance.Checks
         [ErrorLevel(ErrorLevel.Warning)]
         [Path(@"([a-zA-Z0-9]+)_Adapter\\.*\.cs$")]
         [IsPublic()]
-        public static Span HasDescriptionAttribute(ConstructorDeclarationSyntax node)
+        public static Span HasDescriptionAttribute(this ConstructorDeclarationSyntax node)
         {
             return (node.IsDeprecated() || node.HasAttribute("Description")) ? null : node.Identifier.Span.ToSpan();
         }

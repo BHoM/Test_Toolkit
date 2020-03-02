@@ -39,7 +39,7 @@ namespace BH.Engine.Test.CodeCompliance.Checks
         [Path(@"([a-zA-Z0-9]+)_Engine\\Objects\\.*\.cs$", false)]
         [IsPublic(false)]
         [Output("A span that represents where this error resides or null if there is no error")]
-        public static Span IsPublicClass(ClassDeclarationSyntax node)
+        public static Span IsPublicClass(this ClassDeclarationSyntax node)
         {
             return node.Modifiers.Span.ToSpan();
         }

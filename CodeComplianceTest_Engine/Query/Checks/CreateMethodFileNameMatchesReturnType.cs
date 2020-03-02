@@ -38,7 +38,7 @@ namespace BH.Engine.Test.CodeCompliance.Checks
         [Message("Create file  must match the create method(s) return type. Either part of the path or the filename must be an exact match of the return type of the method. If the file name does not match the return type file name must match the method name.")]
         [Path(@"([a-zA-Z0-9]+)_Engine\\Create\\.*\.cs$")]
         [IsPublic()]
-        public static Span CreateMethodFileNameMatchesReturnType(MethodDeclarationSyntax node)
+        public static Span CreateMethodFileNameMatchesReturnType(this MethodDeclarationSyntax node)
         {
             string filePath = node.SyntaxTree.FilePath;
             var type = node.ReturnType;

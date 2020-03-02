@@ -39,7 +39,7 @@ namespace BH.Engine.Test.CodeCompliance.Checks
         [Path(@"([a-zA-Z0-9]+)_Engine\\.*\.cs$")]
         [Path(@"([a-zA-Z0-9]+)_Engine\\Objects\\.*\.cs$", false)]
         [IsPublic()]
-        public static Span HasOutputAttribute(MethodDeclarationSyntax node)
+        public static Span HasOutputAttribute(this MethodDeclarationSyntax node)
         {
             bool isvoid = false;
             if(node.ReturnType is PredefinedTypeSyntax)
@@ -53,7 +53,7 @@ namespace BH.Engine.Test.CodeCompliance.Checks
         [ErrorLevel(ErrorLevel.Warning)]
         [Path(@"([a-zA-Z0-9]+)_Adapter\\.*\.cs$")]
         [IsPublic()]
-        public static Span HasOutputAttribute(ConstructorDeclarationSyntax node)
+        public static Span HasOutputAttribute(this ConstructorDeclarationSyntax node)
         {
             return node.HasAttribute("Output") || node.HasAttribute("MultiOutput") || node.IsDeprecated() ? null : node.Identifier.Span.ToSpan();
         }

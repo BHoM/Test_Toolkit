@@ -36,7 +36,7 @@ namespace BH.Engine.Test.CodeCompliance.Checks
         [Message("Invalid Engine class name")]
         [Path(@"([a-zA-Z0-9]+)_Engine\\.*\.cs$")]
         [Path(@"([a-zA-Z0-9]+)_Engine\\Objects\\.*\.cs$", false)]
-        public static Span IsValidEngineClassName(ClassDeclarationSyntax node)
+        public static Span IsValidEngineClassName(this ClassDeclarationSyntax node)
         {
             List<string> validEngineClassNames = new List<string>() { "Create", "Convert", "Query", "Modify", "Compute" };
             return validEngineClassNames.Contains(node.Identifier.Text) ? null : node.Identifier.Span.ToSpan();
