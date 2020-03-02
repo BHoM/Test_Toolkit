@@ -132,6 +132,7 @@
     <Compile Include="EngineTests\CreateMethodFileNameMatchesReturnType.cs" />
     <Compile Include="EngineTests\HasSingleClass.cs" />
     <Compile Include="EngineTests\InputAttributeIsUnique.cs" />
+    <Compile Include="EngineTests\IsExtensionMethod.cs" />
     <Compile Include="EngineTests\MethodNameStartsUpper.cs" />
     <Compile Include="EngineTests\IsUniqueOutputAttribute.cs" />
     <Compile Include="EngineTests\IsUniqueDescriptionAttribute.cs" />
