@@ -152,6 +152,7 @@
     <Compile Include="Query\Checks\InputAttributeMatchesParameter.cs" />
     <Compile Include="Query\Checks\IsUniqueOutputAttribute.cs" />
     <Compile Include="Query\Checks\IsUniqueDescriptionAttribute.cs" />
+    <Compile Include="Query\Checks\IsExtensionMethod.cs" />
     <Compile Include="Query\Checks\NameMatchesFileName.cs" />
     <Compile Include="Query\Checks\ModifyReturnsSameType.cs" />
     <Compile Include="Query\AllChecks.cs" />
