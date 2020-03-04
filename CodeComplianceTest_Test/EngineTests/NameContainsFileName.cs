@@ -1,4 +1,4 @@
-/*
+﻿/*
  * This file is part of the Buildings and Habitats object Model (BHoM)
  * Copyright (c) 2015 - 2020, the respective contributors. All rights reserved.
  *
@@ -20,37 +20,22 @@
  * along with this code. If not, see <https://www.gnu.org/licenses/lgpl-3.0.html>.      
  */
 
-using BH.oM.Test;
-using BH.oM.Test.Attributes;
-using Microsoft.CodeAnalysis.CSharp.Syntax;
 using System;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BH.Engine.Test.CodeCompliance.Checks
+namespace BH.Test.Test
 {
-    public static partial class Query
+    public partial class Test_Engine
     {
-
-        [Message("Class (object) name must match file name")]
-        [Path(@"([a-zA-Z0-9]+)_?oM\\.*\.cs$")]
-        [IsPublic()]
-        public static Span NameMatchesFileName(this ClassDeclarationSyntax node)
+        [TestMethod]
+        public void NameContainsFileName()
         {
-            string filePath = node.SyntaxTree.FilePath;
-            if (!string.IsNullOrEmpty(filePath))
-            {
-                string filename = System.IO.Path.GetFileNameWithoutExtension(filePath);
-                if (node.IGetName() != filename)
-                {
-                    return node.Identifier.Span.ToSpan();
-                }
-            }
-
-            return null;
+            Test.RunTest("NameContainsFileName", GetChangedObjectFiles());
         }
     }
 }
-
