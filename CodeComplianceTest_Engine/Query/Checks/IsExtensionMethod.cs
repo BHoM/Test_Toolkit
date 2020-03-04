@@ -37,6 +37,7 @@ namespace BH.Engine.Test.CodeCompliance.Checks
 
         [Message("Method must be an extension method")]
         [Path(@"([a-zA-Z0-9]+)_Engine\\.*\.cs$")]
+        [Path(@"([a-zA-Z0-9]+)_Engine\\Compute\\.*\.cs$", false)]
         [Path(@"([a-zA-Z0-9]+)_Engine\\Create\\.*\.cs$", false)]
         [IsPublic()]
         public static Span IsExtensionMethod(this MethodDeclarationSyntax node)
