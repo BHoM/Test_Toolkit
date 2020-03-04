@@ -61,7 +61,19 @@ namespace BH.Test.Test
             }
 
             if (r.Status == ResultStatus.CriticalFail)
-                Assert.Fail(r.Errors.Select(x => x.ToText() + "\n").Aggregate((a, b) => a + b));
+            {
+                Dictionary<string, List<Error>> errors = r.Errors.GroupBy(x => x.Message).ToDictionary(x => x.Key, x => x.ToList());
+                string errorMessage = "";
+                foreach (KeyValuePair<string, List<Error>> kvp in errors)
+                {
+
+                    errorMessage += kvp.Key + "\n";
+                    foreach (Error e in kvp.Value)
+                        errorMessage += $" - in {e.Location.FilePath} at line {e.Location.Line.Start.Line}, column {e.Location.Line.Start.Column} \n";
+                }
+
+                Assert.Fail(errorMessage);
+            }
             else
                 Assert.IsTrue(true);
         }
