@@ -1,4 +1,4 @@
-/*
+﻿/*
  * This file is part of the Buildings and Habitats object Model (BHoM)
  * Copyright (c) 2015 - 2020, the respective contributors. All rights reserved.
  *
@@ -33,20 +33,22 @@ namespace BH.Engine.Test.CodeCompliance.Checks
 {
     public static partial class Query
     {
-
-        [Message("Class (object) name must match file name")]
-        [Path(@"([a-zA-Z0-9]+)_?oM\\.*\.cs$")]
+        [Message("Method name must start with or end with the name of the file")]
+        [Path(@"([a-zA-Z0-9]+)_Engine\\.*\.cs$")]
+        [Path(@"([a-zA-Z0-9]+)_Engine\\Convert\\.*\.cs$", false)]
+        [Path(@"([a-zA-Z0-9]+)_Engine\\Create\\.*\.cs$", false)]
+        [Path(@"([a-zA-Z0-9]+)_Engine\\Objects\\.*\.cs$", false)]
         [IsPublic()]
-        public static Span NameMatchesFileName(this ClassDeclarationSyntax node)
+        public static Span NameContainsFileName(this MethodDeclarationSyntax node)
         {
+            string name = node.IGetName();
             string filePath = node.SyntaxTree.FilePath;
             if (!string.IsNullOrEmpty(filePath))
             {
-                string filename = System.IO.Path.GetFileNameWithoutExtension(filePath);
-                if (node.IGetName() != filename)
-                {
+                string filename = System.IO.Path.GetFileName(filePath);
+                filename = filename.Remove(filename.LastIndexOf('.'));
+                if (!name.StartsWith(filename) && !name.EndsWith(filename) && !name.StartsWith("I" + filename))
                     return node.Identifier.Span.ToSpan();
-                }
             }
 
             return null;
