@@ -35,7 +35,7 @@ namespace BH.Test.Test
         [TestMethod]
         public void HasMatchingInputDescription()
         {
-            Test.RunTest("HasMatchingInputDescription", GetChangedObjectFiles());
+            Test.RunTest("HasMatchingInputDescription", GetChangedObjectFiles(), GetProjectName());
         }
     }
 }

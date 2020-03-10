@@ -35,7 +35,7 @@ namespace BH.Test.Test
         [TestMethod]
         public void InputAttributeMatchesParameter()
         {
-            Test.RunTest("InputAttributeMatchesParameter", GetChangedObjectFiles());
+            Test.RunTest("InputAttributeMatchesParameter", GetChangedObjectFiles(), GetProjectName());
         }
     }
 }

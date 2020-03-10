@@ -35,7 +35,7 @@ namespace BH.Test.Test
         [TestMethod]
         public void HasSingleClass()
         {
-            Test.RunTest("HasSingleClass", GetChangedObjectFiles());
+            Test.RunTest("HasSingleClass", GetChangedObjectFiles(), GetProjectName());
         }
     }
 }

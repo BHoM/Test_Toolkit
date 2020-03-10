@@ -35,7 +35,7 @@ namespace BH.Test.Test
         [TestMethod]
         public void MethodNameStartsUpper()
         {
-            Test.RunTest("MethodNameStartsUpper", GetChangedObjectFiles());
+            Test.RunTest("MethodNameStartsUpper", GetChangedObjectFiles(), GetProjectName());
         }
     }
 }

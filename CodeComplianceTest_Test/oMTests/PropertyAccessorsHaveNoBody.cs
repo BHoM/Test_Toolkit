@@ -35,7 +35,7 @@ namespace BH.Test.Test
         [TestMethod]
         public void PropertyAccessorsHaveNoBody()
         {
-            Test.RunTest("PropertyAccessorsHaveNoBody", GetChangedObjectFiles());
+            Test.RunTest("PropertyAccessorsHaveNoBody", GetChangedObjectFiles(), GetProjectName());
         }
     }
 }

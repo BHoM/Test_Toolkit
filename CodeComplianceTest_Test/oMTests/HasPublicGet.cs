@@ -35,7 +35,7 @@ namespace BH.Test.Test
         [TestMethod]
         public void HasPublicGet()
         {
-            Test.RunTest("HasPublicGet", GetChangedObjectFiles());
+            Test.RunTest("HasPublicGet", GetChangedObjectFiles(), GetProjectName());
         }
     }
 }

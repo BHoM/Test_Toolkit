@@ -35,7 +35,7 @@ namespace BH.Test.Test
         [TestMethod]
         public void IsStaticClass()
         {
-            Test.RunTest("IsStaticClass", GetChangedObjectFiles());
+            Test.RunTest("IsStaticClass", GetChangedObjectFiles(), GetProjectName());
         }
     }
 }

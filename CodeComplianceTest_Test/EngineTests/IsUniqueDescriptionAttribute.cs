@@ -35,7 +35,7 @@ namespace BH.Test.Test
         [TestMethod]
         public void IsUniqueDescriptionAttribute()
         {
-            Test.RunTest("IsUniqueDescriptionAttribute", GetChangedObjectFiles());
+            Test.RunTest("IsUniqueDescriptionAttribute", GetChangedObjectFiles(), GetProjectName());
         }
     }
 }

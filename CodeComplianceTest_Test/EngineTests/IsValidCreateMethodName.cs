@@ -35,7 +35,7 @@ namespace BH.Test.Test
         [TestMethod]
         public void IsValidCreateMethodName()
         {
-            Test.RunTest("IsValidCreateMethodName", GetChangedObjectFiles());
+            Test.RunTest("IsValidCreateMethodName", GetChangedObjectFiles(), GetProjectName());
         }
     }
 }

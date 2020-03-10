@@ -35,7 +35,7 @@ namespace BH.Test.Test
         [TestMethod]
         public void IsUniqueOutputAttribute()
         {
-            Test.RunTest("IsUniqueOutputAttribute", GetChangedObjectFiles());
+            Test.RunTest("IsUniqueOutputAttribute", GetChangedObjectFiles(), GetProjectName());
         }
     }
 }

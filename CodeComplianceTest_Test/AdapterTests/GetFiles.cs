@@ -76,5 +76,10 @@ namespace BH.Test.Test
             string pathToOM = Path.Combine(build, "PRTestFiles", projectName, projectSplit + "_Adapter");
             return Directory.EnumerateFiles(pathToOM, "*.cs", SearchOption.AllDirectories).ToList();
         }
+
+        private string GetProjectName()
+        {
+            return TestContext.Properties["projectName"].ToString();
+        }
     }
 }

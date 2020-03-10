@@ -35,7 +35,7 @@ namespace BH.Test.Test
         [TestMethod]
         public void InputAttributeIsUnique()
         {
-            Test.RunTest("InputAttributeIsUnique", GetChangedObjectFiles());
+            Test.RunTest("InputAttributeIsUnique", GetChangedObjectFiles(), GetProjectName());
         }
     }
 }

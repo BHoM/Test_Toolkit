@@ -35,7 +35,7 @@ namespace BH.Test.Test
         [TestMethod]
         public void EngineClassMatchesFilePath()
         {
-            Test.RunTest("EngineClassMatchesFilePath", GetChangedObjectFiles());
+            Test.RunTest("EngineClassMatchesFilePath", GetChangedObjectFiles(), GetProjectName());
         }
     }
 }

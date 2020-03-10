@@ -35,7 +35,7 @@ namespace BH.Test.Test
         [TestMethod]
         public void HasDescriptionAttribute()
         {
-            Test.RunTest("HasDescriptionAttribute", GetChangedObjectFiles());
+            Test.RunTest("HasDescriptionAttribute", GetChangedObjectFiles(), GetProjectName());
         }
     }
 }

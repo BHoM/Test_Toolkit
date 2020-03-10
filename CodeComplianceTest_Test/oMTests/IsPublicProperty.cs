@@ -35,7 +35,7 @@ namespace BH.Test.Test
         [TestMethod]
         public void IsPublicProperty()
         {
-            Test.RunTest("IsPublicProperty", GetChangedObjectFiles());
+            Test.RunTest("IsPublicProperty", GetChangedObjectFiles(), GetProjectName());
         }
     }
 }

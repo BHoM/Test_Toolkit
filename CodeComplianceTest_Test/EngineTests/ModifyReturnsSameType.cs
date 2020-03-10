@@ -35,7 +35,7 @@ namespace BH.Test.Test
         [TestMethod]
         public void ModifyReturnsSameType()
         {
-            Test.RunTest("ModifyReturnsSameType", GetChangedObjectFiles());
+            Test.RunTest("ModifyReturnsSameType", GetChangedObjectFiles(), GetProjectName());
         }
     }
 }
