@@ -33,7 +33,7 @@ using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 namespace BH.Engine.Test.CodeCompliance
 {
-    public static partial class Query
+    public static partial class Compute
     {
         public static string IGetClass(this SyntaxNode node)
         {
