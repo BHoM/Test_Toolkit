@@ -35,7 +35,7 @@ namespace BH.Test.Test
         [TestMethod]
         public void IsValidConvertMethodName()
         {
-            Test.RunTest("IsValidConvertMethodName", GetChangedObjectFiles());
+            Test.RunTest("IsValidConvertMethodName", GetChangedObjectFiles(), GetProjectName());
         }
     }
 }

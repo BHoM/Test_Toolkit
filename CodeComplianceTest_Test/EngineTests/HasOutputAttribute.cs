@@ -35,7 +35,7 @@ namespace BH.Test.Test
         [TestMethod]
         public void HasOutputAttribute()
         {
-            Test.RunTest("HasOutputAttribute", GetChangedObjectFiles());
+            Test.RunTest("HasOutputAttribute", GetChangedObjectFiles(), GetProjectName());
         }
     }
 }

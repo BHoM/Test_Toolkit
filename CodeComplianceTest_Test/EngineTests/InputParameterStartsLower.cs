@@ -35,7 +35,7 @@ namespace BH.Test.Test
         [TestMethod]
         public void InputParameterStartsLower()
         {
-            Test.RunTest("InputParameterStartsLower", GetChangedObjectFiles());
+            Test.RunTest("InputParameterStartsLower", GetChangedObjectFiles(), GetProjectName());
         }
     }
 }

@@ -36,11 +36,17 @@ namespace BH.Test.Test
 {
     public static partial class Test
     {
-
-        public static void RunTest(string name, List<string> files)
+        public static void RunTest(string name, List<string> files, string projectName)
         {
             List<string> changedFiles = files;
-            if (changedFiles == null) { Assert.IsTrue(true); return; }
+            if (changedFiles == null)
+            { 
+                Assert.IsTrue(true);
+                return;
+            }
+
+            if (projectName == null)
+                projectName = "";
 
             ComplianceResult r = Create.ComplianceResult(ResultStatus.Pass);
             foreach (string s in changedFiles)
@@ -54,9 +60,7 @@ namespace BH.Test.Test
                     SyntaxTree st = BH.Engine.Test.CodeCompliance.Convert.ToSyntaxTree(file, s);
                     List<System.Reflection.MethodInfo> o = Query.AllChecks().ToList();
                     foreach (var check in o.Where(x => x.Name == name))
-                    {
                         r = r.Merge(check.Check(st.GetRoot()));
-                    }
                 }
             }
 
@@ -69,7 +73,7 @@ namespace BH.Test.Test
 
                     errorMessage += kvp.Key + "\n";
                     foreach (Error e in kvp.Value)
-                        errorMessage += $" - in {e.Location.FilePath} at line {e.Location.Line.Start.Line}, column {e.Location.Line.Start.Column} \n";
+                        errorMessage += $" - in {e.Location.FilePath.Substring(e.Location.FilePath.IndexOf(projectName))} at line {e.Location.Line.Start.Line}, column {e.Location.Line.Start.Column} \n";
                 }
 
                 Assert.Fail(errorMessage);

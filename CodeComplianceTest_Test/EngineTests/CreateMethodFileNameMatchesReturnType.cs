@@ -35,7 +35,7 @@ namespace BH.Test.Test
         [TestMethod]
         public void CreateMethodFileNameMatchesReturnType()
         {
-            Test.RunTest("CreateMethodFileNameMatchesReturnType", GetChangedObjectFiles());
+            Test.RunTest("CreateMethodFileNameMatchesReturnType", GetChangedObjectFiles(), GetProjectName());
         }
     }
 }

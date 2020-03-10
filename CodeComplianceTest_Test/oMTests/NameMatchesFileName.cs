@@ -35,7 +35,7 @@ namespace BH.Test.Test
         [TestMethod]
         public void NameMatchesFileName()
         {
-            Test.RunTest("NameMatchesFileName", GetChangedObjectFiles());
+            Test.RunTest("NameMatchesFileName", GetChangedObjectFiles(), GetProjectName());
         }
     }
 }

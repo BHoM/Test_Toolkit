@@ -35,7 +35,7 @@ namespace BH.Test.Test
         [TestMethod]
         public void IsValidEngineClassName()
         {
-            Test.RunTest("IsValidEngineClassName", GetChangedObjectFiles());
+            Test.RunTest("IsValidEngineClassName", GetChangedObjectFiles(), GetProjectName());
         }
     }
 }
