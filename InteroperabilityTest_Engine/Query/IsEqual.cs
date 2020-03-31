@@ -58,7 +58,6 @@ namespace BH.Engine.Test
 
             comparer.Config.MembersToIgnore = config.PropertiesToIgnore;
 
-          
 
 
             comparer.Config.DoublePrecision = config.NumericTolerance;
