@@ -60,7 +60,6 @@ namespace BH.Engine.Test
 
           
 
-           
 
             comparer.Config.DoublePrecision = config.NumericTolerance;
 
