@@ -96,7 +96,6 @@ namespace BH.Engine.Test
             comparer.Config.DoublePrecision = config.NumericTolerance;
 
 
-            comparer.Config.TypesToIgnore.Add(typeof(Guid));
 
             ComparisonResult result = comparer.Compare(obj1, obj2);
             dict = result.Differences.ToDictionary(diff => diff.PropertyName, diff => new Tuple<object, object>(diff.Object1, diff.Object2));
