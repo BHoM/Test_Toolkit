@@ -60,7 +60,7 @@ namespace BH.Engine.Test
 
           
 
-            comparer.Config.TypesToIgnore.Add(typeof(Guid));
+           
 
             comparer.Config.DoublePrecision = config.NumericTolerance;
 
