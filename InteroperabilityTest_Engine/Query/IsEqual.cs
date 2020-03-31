@@ -58,11 +58,9 @@ namespace BH.Engine.Test
 
             comparer.Config.MembersToIgnore = config.PropertiesToIgnore;
 
-            if (config.IgnoreCustomData)
-                comparer.Config.MembersToIgnore.Add("CustomData");
+            comparer.Config.MembersToIgnore.Add("CustomData");
 
-            if (config.IgnoreGuid)
-                comparer.Config.TypesToIgnore.Add(typeof(Guid));
+            comparer.Config.TypesToIgnore.Add(typeof(Guid));
 
             comparer.Config.DoublePrecision = config.NumericTolerance;
 
@@ -99,13 +97,9 @@ namespace BH.Engine.Test
             comparer.Config.MembersToIgnore = config.PropertiesToIgnore;
             comparer.Config.DoublePrecision = config.NumericTolerance;
 
-            if (config.IgnoreCustomData)
-            {
-                comparer.Config.MembersToIgnore.Add("CustomData");
-            }
+            comparer.Config.MembersToIgnore.Add("CustomData");
 
-            if (config.IgnoreGuid)
-                comparer.Config.TypesToIgnore.Add(typeof(Guid));
+            comparer.Config.TypesToIgnore.Add(typeof(Guid));
 
             ComparisonResult result = comparer.Compare(obj1, obj2);
             dict = result.Differences.ToDictionary(diff => diff.PropertyName, diff => new Tuple<object, object>(diff.Object1, diff.Object2));
