@@ -35,9 +35,9 @@ namespace BH.oM.Test.Results
         /**** Public Properties                         ****/
         /***************************************************/
 
-        public bool IsEqual { get; set; } = false;
+        public virtual bool IsEqual { get; set; } = false;
 
-        public List<PropertyDifference> Differences { get; set; } = new List<PropertyDifference>();
+        public virtual List<PropertyDifference> Differences { get; set; } = new List<PropertyDifference>();
 
         /***************************************************/
 

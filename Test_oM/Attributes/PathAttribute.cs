@@ -34,7 +34,7 @@ namespace BH.oM.Test.Attributes
     [AttributeUsage(AttributeTargets.Method, AllowMultiple = true)]
     public class PathAttribute : ConditionAttribute, IImmutable
     {
-        public Regex Pattern { get; }
+        public virtual Regex Pattern { get; }
 
         public PathAttribute(string pattern, bool expect = true) : base(expect)
         {

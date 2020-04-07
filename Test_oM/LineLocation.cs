@@ -31,8 +31,8 @@ namespace BH.oM.Test
 {
     public class LineLocation : IObject
     {
-        public int Line { get; set; }
-        public int Column { get; set; }
+        public virtual int Line { get; set; }
+        public virtual int Column { get; set; }
     }
 }
 
