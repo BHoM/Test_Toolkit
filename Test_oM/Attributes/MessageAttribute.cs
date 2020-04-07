@@ -33,7 +33,7 @@ namespace BH.oM.Test.Attributes
     [AttributeUsage(AttributeTargets.Method, AllowMultiple = false)]
     public class MessageAttribute : Attribute, IImmutable
     {
-        public string Message { get; }
+        public virtual string Message { get; }
 
         public MessageAttribute(string message)
         {

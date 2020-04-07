@@ -31,8 +31,8 @@ namespace BH.oM.Test
 {
     public class ComplianceResult : BHoMObject
     {
-        public ResultStatus Status { get; set; } = ResultStatus.Undefined;
-        public List<Error> Errors { get; set; } = new List<Error>();
+        public virtual ResultStatus Status { get; set; } = ResultStatus.Undefined;
+        public virtual List<Error> Errors { get; set; } = new List<Error>();
     }
 }
 

@@ -31,8 +31,8 @@ namespace BH.oM.Test
 {
     public class Span : IObject
     {
-        public int Start { get; set; }
-        public int Length { get; set; }
+        public virtual int Start { get; set; }
+        public virtual int Length { get; set; }
     }
 }
 

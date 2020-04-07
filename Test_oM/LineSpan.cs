@@ -31,8 +31,8 @@ namespace BH.oM.Test
 {
     public class LineSpan : IObject
     {
-        public LineLocation Start { get; set; }
-        public LineLocation End { get; set; }
+        public virtual LineLocation Start { get; set; }
+        public virtual LineLocation End { get; set; }
     }
 }
 

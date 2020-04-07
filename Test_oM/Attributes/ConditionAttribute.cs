@@ -33,7 +33,7 @@ namespace BH.oM.Test.Attributes
     [AttributeUsage(AttributeTargets.Method)]
     public abstract class ConditionAttribute : Attribute, IImmutable
     {
-        public bool Expect { get; } = true;
+        public virtual bool Expect { get; } = true;
         public ConditionAttribute(bool expect = true)
         {
             Expect = expect;

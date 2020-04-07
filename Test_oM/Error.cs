@@ -31,9 +31,9 @@ namespace BH.oM.Test
 {
     public class Error : BHoMObject
     {
-        public ErrorLevel Level { get; set; }
-        public string Message { get; set; }
-        public Location Location { get; set; }
+        public virtual ErrorLevel Level { get; set; }
+        public virtual string Message { get; set; }
+        public virtual Location Location { get; set; }
     }
 }
 

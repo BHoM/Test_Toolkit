@@ -33,7 +33,7 @@ namespace BH.oM.Test.Attributes
     [AttributeUsage(AttributeTargets.Method, AllowMultiple = false)]
     public class ErrorLevelAttribute : Attribute, IImmutable
     {
-        public ErrorLevel Level { get; }
+        public virtual ErrorLevel Level { get; }
 
         public ErrorLevelAttribute(ErrorLevel level)
         {

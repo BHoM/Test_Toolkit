@@ -35,13 +35,13 @@ namespace BH.oM.Test.Results
         /**** Public Properties                         ****/
         /***************************************************/
 
-        public bool PushSuccess { get; set; } = false;
-        public bool PullSuccess { get; set; } = false;
+        public virtual bool PushSuccess { get; set; } = false;
+        public virtual bool PullSuccess { get; set; } = false;
 
-        public List<string> PushMessages { get; set; } = new List<string>();
-        public List<string> PullMessages { get; set; } = new List<string>();
+        public virtual List<string> PushMessages { get; set; } = new List<string>();
+        public virtual List<string> PullMessages { get; set; } = new List<string>();
 
-        public List<DiffingResult> DiffingResults { get; set; } = new List<DiffingResult>();
+        public virtual List<DiffingResult> DiffingResults { get; set; } = new List<DiffingResult>();
 
         /***************************************************/
     }

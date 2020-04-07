@@ -35,8 +35,8 @@ namespace BH.oM.Test.Results
         /**** Public Properties                         ****/
         /***************************************************/
 
-        public string FirstItemValue { get; set; }
-        public string SecondItemValue { get; set; }
+        public virtual string FirstItemValue { get; set; }
+        public virtual string SecondItemValue { get; set; }
 
         /***************************************************/
     }
