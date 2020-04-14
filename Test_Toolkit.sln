@@ -15,6 +15,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CodeComplianceTest_Test", "
 		{F758FC9C-CEDF-430D-AEFF-2B1E196F677B} = {F758FC9C-CEDF-430D-AEFF-2B1E196F677B}
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Test_Engine", "Test_Engine\Test_Engine.csproj", "{5FC85409-DBC5-4B0D-A2AA-1D9542F0763B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		ComplianceTestBuild|Any CPU = ComplianceTestBuild|Any CPU
@@ -45,6 +47,12 @@ Global
 		{9991DC89-7BD1-485F-B756-510CEF48E4F0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9991DC89-7BD1-485F-B756-510CEF48E4F0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9991DC89-7BD1-485F-B756-510CEF48E4F0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5FC85409-DBC5-4B0D-A2AA-1D9542F0763B}.ComplianceTestBuild|Any CPU.ActiveCfg = Release|Any CPU
+		{5FC85409-DBC5-4B0D-A2AA-1D9542F0763B}.ComplianceTestBuild|Any CPU.Build.0 = Release|Any CPU
+		{5FC85409-DBC5-4B0D-A2AA-1D9542F0763B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5FC85409-DBC5-4B0D-A2AA-1D9542F0763B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5FC85409-DBC5-4B0D-A2AA-1D9542F0763B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5FC85409-DBC5-4B0D-A2AA-1D9542F0763B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
