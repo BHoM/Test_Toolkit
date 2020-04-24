@@ -64,15 +64,20 @@ namespace BH.Engine.Test.CodeCompliance
                     "Common",
                     "Data",
                     "Diffing",
+                    "Dimensional",
                     "Environment",
                     "Geometry",
                     "Graphics",
                     "Humans",
                     "Library",
+                    "Matter",
+                    "MEP",
                     "Physical",
                     "Planning",
+                    "Quantities",
                     "Reflection",
                     "Serialiser",
+                    "Spatial",
                     "Structure",
                 };
 
@@ -109,7 +114,7 @@ namespace BH.Engine.Test.CodeCompliance
                     else if (hintPathEnding == "Engine" || hintPathEnding == "BHoM_Engine") hintPathFolder = "BHoM_Engine";
                     else if (hintPathEnding == "Adapter" || hintPathEnding == "BHoM_Adapter") hintPathFolder = "BHoM_Adapter";
 
-                    if (reference == "BHoM")
+                    if ((reference + "_" + hintPathEnding) == "BHoM")
                     {
                         hintPath = "..\\..\\" + hintPathFolder + "\\Build\\" + reference + ".dll";
                         referenceError = reference;
