@@ -34,7 +34,7 @@ namespace BH.Engine.Test.CodeCompliance.Checks
     public static partial class Query
     {
         [Message("Method cannot contain more than one Output attribute")]
-        [ErrorLevel(ErrorLevel.Warning)]
+        [ErrorLevel(ErrorLevel.Error)]
         [Path(@"([a-zA-Z0-9]+)_(Engine|Adapter)\\.*\.cs$")]
         public static Span HasUniqueOutputAttribute(this AttributeSyntax node)
         {
