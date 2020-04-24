@@ -154,7 +154,7 @@
     <Compile Include="Query\Checks\InputParameterStartsLower.cs" />
     <Compile Include="Query\Checks\MethodNameStartsUpper.cs" />
     <Compile Include="Query\Checks\HasOutputAttribute.cs" />
-    <Compile Include="Query\Checks\InputAttributeMatchesParameter.cs" />
+    <Compile Include="Query\Checks\InputAttributeHasMatchingParameter.cs" />
     <Compile Include="Query\Checks\IsUniqueOutputAttribute.cs" />
     <Compile Include="Query\Checks\IsUniqueDescriptionAttribute.cs" />
     <Compile Include="Query\Checks\IsExtensionMethod.cs" />
