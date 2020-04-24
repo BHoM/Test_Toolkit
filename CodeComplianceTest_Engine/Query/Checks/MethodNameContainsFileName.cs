@@ -1,4 +1,4 @@
-/*
+﻿/*
  * This file is part of the Buildings and Habitats object Model (BHoM)
  * Copyright (c) 2015 - 2020, the respective contributors. All rights reserved.
  *
@@ -20,22 +20,39 @@
  * along with this code. If not, see <https://www.gnu.org/licenses/lgpl-3.0.html>.      
  */
 
+using BH.oM.Test;
+using BH.oM.Test.Attributes;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
 using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BH.Test.Test
+namespace BH.Engine.Test.CodeCompliance.Checks
 {
-    public partial class Test_oM
+    public static partial class Query
     {
-        [TestMethod]
-        public void NameMatchesFileName()
+        [Message("Method name must start with or end with the name of the file")]
+        [Path(@"([a-zA-Z0-9]+)_Engine\\.*\.cs$")]
+        [Path(@"([a-zA-Z0-9]+)_Engine\\Convert\\.*\.cs$", false)]
+        [Path(@"([a-zA-Z0-9]+)_Engine\\Create\\.*\.cs$", false)]
+        [Path(@"([a-zA-Z0-9]+)_Engine\\Objects\\.*\.cs$", false)]
+        [IsPublic()]
+        public static Span MethodNameContainsFileName(this MethodDeclarationSyntax node)
         {
-            Test.RunTest("NameMatchesFileName", GetChangedObjectFiles(), GetProjectName());
+            string name = node.IGetName();
+            string filePath = node.SyntaxTree.FilePath;
+            if (!string.IsNullOrEmpty(filePath))
+            {
+                string filename = System.IO.Path.GetFileName(filePath);
+                filename = filename.Remove(filename.LastIndexOf('.'));
+                if (!name.StartsWith(filename) && !name.EndsWith(filename) && !name.StartsWith("I" + filename))
+                    return node.Identifier.Span.ToSpan();
+            }
+
+            return null;
         }
     }
 }
+
