@@ -141,7 +141,9 @@ namespace BH.Engine.Test.CodeCompliance
 
             foreach(XElement xe in projDefinition.Element(msbuild + "Project").Elements(msbuild + "PropertyGroup"))
             {
-                if (xe.Element(msbuild + "OutputPath") == null || xe.Element(msbuild + "OutputPath").Value != "..\\Build\\")
+                if (xe.Element(msbuild + "OutputPath") == null) continue;
+
+                if (xe.Element(msbuild + "OutputPath").Value != "..\\Build\\")
                     finalResult = finalResult.Merge(Create.ComplianceResult(ResultStatus.CriticalFail, new List<Error> { Create.Error($"Output path for all build configurations should be set to '..\\Build\\'", Create.Location(csProjFilePath, Create.LineSpan(1, 1))) }));
             }
 
