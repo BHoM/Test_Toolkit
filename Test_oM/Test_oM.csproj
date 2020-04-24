@@ -64,7 +64,7 @@
     <Compile Include="Attributes\MessageAttribute.cs" />
     <Compile Include="Attributes\ConditionAttribute.cs" />
     <Compile Include="ComplianceResult.cs" />
-    <Compile Include="ErrorLevel1.cs" />
+    <Compile Include="ErrorLevel.cs" />
     <Compile Include="LineLocation.cs" />
     <Compile Include="Location.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
