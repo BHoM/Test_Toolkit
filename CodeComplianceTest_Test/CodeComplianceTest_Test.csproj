@@ -144,7 +144,7 @@
     <Compile Include="EngineTests\IsValidConvertMethodName.cs" />
     <Compile Include="EngineTests\IsStaticClass.cs" />
     <Compile Include="EngineTests\IsPublicClass.cs" />
-    <Compile Include="EngineTests\InputAttributeMatchesParameter.cs" />
+    <Compile Include="EngineTests\InputAttributeHasMatchingParameter.cs" />
     <Compile Include="EngineTests\EngineClassMatchesFilePath.cs" />
     <Compile Include="EngineTests\HasDescriptionAttribute.cs" />
     <Compile Include="EngineTests\HasValidCopyright.cs" />
