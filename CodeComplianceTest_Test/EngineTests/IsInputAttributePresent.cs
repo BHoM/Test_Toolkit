@@ -33,9 +33,9 @@ namespace BH.Test.Test
     public partial class Test_Engine
     {
         [TestMethod]
-        public void HasMatchingInputDescription()
+        public void IsInputAttributePresent()
         {
-            Test.RunTest("HasMatchingInputDescription", GetChangedObjectFiles(), GetProjectName());
+            Test.RunTest("IsInputAttributePresent", GetChangedObjectFiles(), GetProjectName());
         }
     }
 }

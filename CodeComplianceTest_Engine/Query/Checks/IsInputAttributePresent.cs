@@ -35,7 +35,7 @@ namespace BH.Engine.Test.CodeCompliance.Checks
     {
         [Message("Input parameter requires a matching Input attribute")]
         [ErrorLevel(ErrorLevel.Warning)]
-        public static Span HasMatchingInputDescription(this ParameterSyntax node)
+        public static Span IsInputAttributePresent(this ParameterSyntax node)
         {
             var method = node.Parent.Parent as BaseMethodDeclarationSyntax;
             
