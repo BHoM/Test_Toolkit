@@ -148,7 +148,7 @@
     <Compile Include="Query\Checks\CreateMethodFileNameMatchesReturnType.cs" />
     <Compile Include="Query\Checks\HasDescriptionAttribute.cs" />
     <Compile Include="Query\Checks\EngineClassMatchesFilePath.cs" />
-    <Compile Include="Query\Checks\HasMatchingInputDescription.cs" />
+    <Compile Include="Query\Checks\IsInputAttributePresent.cs" />
     <Compile Include="Query\Checks\HasSingleClass.cs" />
     <Compile Include="Query\Checks\InputAttributeIsUnique.cs" />
     <Compile Include="Query\Checks\InputParameterStartsLower.cs" />
