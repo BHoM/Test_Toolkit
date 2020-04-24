@@ -56,7 +56,7 @@ namespace BH.Test.Test
 
             if (projectOM == null) return null;
 
-            return Directory.EnumerateFiles(projectOM, "*.cs", SearchOption.AllDirectories).ToList();
+            return Directory.EnumerateFiles(projectOM, "*.cs*", SearchOption.AllDirectories).ToList();
         }
 
         private List<string> GetChangedObjectFiles()
@@ -74,7 +74,7 @@ namespace BH.Test.Test
             string build = Environment.GetEnvironmentVariable("BUILD_SOURCESDIRECTORY").ToString();
 
             string pathToOM = Path.Combine(build, "PRTestFiles", projectName, projectSplit + "_Engine");
-            return Directory.EnumerateFiles(pathToOM, "*.cs", SearchOption.AllDirectories).ToList();
+            return Directory.EnumerateFiles(pathToOM, "*.cs*", SearchOption.AllDirectories).ToList();
         }
 
         private string GetProjectName()
