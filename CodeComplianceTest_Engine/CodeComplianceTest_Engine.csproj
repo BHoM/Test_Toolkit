@@ -156,7 +156,6 @@
     <Compile Include="Query\Checks\HasOutputAttribute.cs" />
     <Compile Include="Query\Checks\InputAttributeHasMatchingParameter.cs" />
     <Compile Include="Query\Checks\IsUniqueOutputAttribute.cs" />
-    <Compile Include="Query\Checks\IsUniqueDescriptionAttribute.cs" />
     <Compile Include="Query\Checks\IsExtensionMethod.cs" />
     <Compile Include="Query\Checks\MethodNameContainsFileName.cs" />
     <Compile Include="Query\Checks\ObjectNameMatchesFileName.cs" />
