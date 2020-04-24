@@ -135,7 +135,6 @@
     <Compile Include="EngineTests\IsExtensionMethod.cs" />
     <Compile Include="EngineTests\MethodNameStartsUpper.cs" />
     <Compile Include="EngineTests\IsUniqueOutputAttribute.cs" />
-    <Compile Include="EngineTests\IsUniqueDescriptionAttribute.cs" />
     <Compile Include="EngineTests\IsInputAttributePresent.cs" />
     <Compile Include="EngineTests\HasOutputAttribute.cs" />
     <Compile Include="EngineTests\ModifyReturnsSameType.cs" />
