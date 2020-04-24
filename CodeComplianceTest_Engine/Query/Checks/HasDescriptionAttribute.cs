@@ -40,9 +40,6 @@ namespace BH.Engine.Test.CodeCompliance.Checks
         [Path(@"([a-zA-Z0-9]+)_Engine\\.*\.cs$")]
         [Path(@"([a-zA-Z0-9]+)_Engine\\Objects\\.*\.cs$", false)]
         [IsPublic()]
-        [Input("notNode", "Not a node test")]
-        [Output("blah", "blah")]
-        [MultiOutput(0, "Blah", "blah")]
         public static Span HasDescriptionAttribute(this MethodDeclarationSyntax node)
         {
             return (node.IsDeprecated() || node.HasAttribute("Description")) ? null : node.Identifier.Span.ToSpan();
