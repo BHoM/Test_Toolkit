@@ -33,9 +33,9 @@ namespace BH.Test.Test
     public partial class Test_Engine
     {
         [TestMethod]
-        public void IsUniqueOutputAttribute()
+        public void HasUniqueOutputAttribute()
         {
-            Test.RunTest("IsUniqueOutputAttribute", GetChangedObjectFiles(), GetProjectName());
+            Test.RunTest("HasUniqueOutputAttribute", GetChangedObjectFiles(), GetProjectName());
         }
     }
 }
