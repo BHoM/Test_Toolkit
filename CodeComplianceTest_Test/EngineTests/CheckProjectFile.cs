@@ -43,7 +43,7 @@ namespace BH.Test.Test
         [TestMethod]
         public void CheckProjectFile()
         {
-            List<string> changedFiles = GetChangedObjectFiles();
+            List<string> changedFiles = GetChangedObjectFiles(true);
             if (changedFiles == null || changedFiles.Where(x => Path.GetExtension(x).EndsWith("csproj")).Count() == 0) { Assert.IsTrue(true); return; }
 
             changedFiles = changedFiles.Where(x => Path.GetExtension(x).EndsWith("csproj")).ToList();

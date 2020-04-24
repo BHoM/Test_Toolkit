@@ -43,7 +43,7 @@ namespace BH.Test.Test
             set { testContextInstance = value; }
         }
 
-        private List<string> GetAllObjectFiles()
+        private List<string> GetAllObjectFiles(bool includeCsproj = false)
         {
             string projectName = TestContext.Properties["projectName"].ToString();
 
@@ -56,10 +56,14 @@ namespace BH.Test.Test
 
             if (projectOM == null) return null;
 
-            return Directory.EnumerateFiles(projectOM, "*.cs*", SearchOption.AllDirectories).ToList();
+            string filterFiles = "*.cs";
+            if (includeCsproj)
+                filterFiles += "*";
+
+            return Directory.EnumerateFiles(projectOM, filterFiles, SearchOption.AllDirectories).ToList();
         }
 
-        private List<string> GetChangedObjectFiles()
+        private List<string> GetChangedObjectFiles(bool includeCsproj = false)
         {
             string projectName = TestContext.Properties["projectName"].ToString();
 
@@ -73,8 +77,12 @@ namespace BH.Test.Test
 
             string build = Environment.GetEnvironmentVariable("BUILD_SOURCESDIRECTORY").ToString();
 
+            string filterFiles = "*.cs";
+            if (includeCsproj)
+                filterFiles += "*";
+
             string pathToOM = Path.Combine(build, "PRTestFiles", projectName, projectSplit + "_Engine");
-            return Directory.EnumerateFiles(pathToOM, "*.cs*", SearchOption.AllDirectories).ToList();
+            return Directory.EnumerateFiles(pathToOM, filterFiles, SearchOption.AllDirectories).ToList();
         }
 
         private string GetProjectName()
