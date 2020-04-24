@@ -146,7 +146,7 @@
     <Compile Include="Query\Checks\AttributeHasEndingPunctuation.cs" />
     <Compile Include="Query\Checks\HasValidCopyright.cs" />
     <Compile Include="Query\Checks\CreateMethodFileNameMatchesReturnType.cs" />
-    <Compile Include="Query\Checks\HasDescriptionAttribute.cs" />
+    <Compile Include="Query\Checks\HasDescriptionAttribute1.cs" />
     <Compile Include="Query\Checks\EngineClassMatchesFilePath.cs" />
     <Compile Include="Query\Checks\IsInputAttributePresent.cs" />
     <Compile Include="Query\Checks\HasSingleClass.cs" />
