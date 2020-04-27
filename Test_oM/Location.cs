@@ -31,7 +31,7 @@ namespace BH.oM.Test
 {
     public class Location : IObject
     {
-        public string FilePath { get; set; } = "";
+        public virtual string FilePath { get; set; } = "";
         public virtual LineSpan Line { get; set; } = new LineSpan();
     }
 }
