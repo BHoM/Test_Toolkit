@@ -160,6 +160,7 @@
     <Compile Include="oMTests\HasValidCopyright.cs" />
     <Compile Include="oMTests\GetFiles.cs" />
     <Compile Include="oMTests\IsPublicClass.cs" />
+    <Compile Include="oMTests\IsVirtualProperty.cs" />
     <Compile Include="oMTests\ObjectNameMatchesFileName.cs" />
     <Compile Include="oMTests\PropertyAccessorsHaveNoBody.cs" />
     <Compile Include="oMTests\HasPublicGet.cs" />
