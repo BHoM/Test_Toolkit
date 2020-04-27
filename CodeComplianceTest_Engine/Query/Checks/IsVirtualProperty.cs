@@ -38,7 +38,7 @@ namespace BH.Engine.Test.CodeCompliance.Checks
         [Path(@"([a-zA-Z0-9]+)_Engine\\.*\.cs$", false)]
         [Path(@"([a-zA-Z0-9]+)_Adapter\\.*\.cs$", false)]
         [Path(@"([a-zA-Z0-9]+)_UI\\.*\.cs$", false)]
-        [IsPublic(false)]
+        [IsPublic()]
         public static Span IsVirtualProperty(this PropertyDeclarationSyntax node)
         {
             return node.Modifiers.ContainsToken("virtual") ? null : node.Modifiers.Span.ToSpan();
