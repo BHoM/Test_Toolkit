@@ -70,6 +70,7 @@ namespace BH.Engine.Test.CodeCompliance
                     "Graphics",
                     "Humans",
                     "Library",
+                    "LifeCycleAssessment",
                     "Matter",
                     "MEP",
                     "Physical",
