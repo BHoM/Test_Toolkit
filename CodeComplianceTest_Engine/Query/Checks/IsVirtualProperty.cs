@@ -39,8 +39,12 @@ namespace BH.Engine.Test.CodeCompliance.Checks
         [Path(@"([a-zA-Z0-9]+)_Adapter\\.*\.cs$", false)]
         [Path(@"([a-zA-Z0-9]+)_UI\\.*\.cs$", false)]
         [IsPublic()]
-        public static Span IsVirtualProperty(this MemberDeclarationSyntax node)
+        public static Span IsVirtualProperty(this PropertyDeclarationSyntax node)
         {
+            var type = node.GetDeclaringType();
+            if (type is InterfaceDeclarationSyntax)
+                return null; //Don't run the check on an interface property
+
             return node.Modifiers.ContainsToken("virtual") ? null : node.Modifiers.Span.ToSpan();
         }
     }
