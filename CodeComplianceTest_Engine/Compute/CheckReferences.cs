@@ -66,6 +66,7 @@ namespace BH.Engine.Test.CodeCompliance
                     "Diffing",
                     "Dimensional",
                     "Environment",
+                    "File_Adapter",
                     "Geometry",
                     "Graphics",
                     "Humans",
@@ -77,10 +78,19 @@ namespace BH.Engine.Test.CodeCompliance
                     "Planning",
                     "Quantities",
                     "Reflection",
+                    "Results",
                     "Serialiser",
                     "Spatial",
                     "Structure",
                 };
+
+            List<string> adapterCore = new List<string>
+            {
+                "Adapter_Engine",
+                "Adapter_oM",
+                "File_Adapter",
+                "StructureModules_AdapterModules", //Renamed this way due to the logic below where we strip _Adapter and then readd it for the check of Adapter projects so this is valid
+            };
 
             foreach(XElement x in referenceElements)
             {
@@ -125,6 +135,15 @@ namespace BH.Engine.Test.CodeCompliance
                         hintPath = "..\\..\\" + hintPathFolder + "\\Build\\" + reference + "_" + hintPathEnding + ".dll";
                         referenceError = reference + "_" + hintPathEnding;
                     }
+                }
+                else if (adapterCore.IndexOf(reference + "_" + hintPathEnding) != -1)
+                {
+                    string hintPathFolder = "BHoM_Adapter";
+                    if (reference == "StructureModules")
+                        reference = "Structure";
+
+                    hintPath = "..\\..\\" + hintPathFolder + "\\Build\\" + reference + "_" + hintPathEnding + ".dll";
+                    referenceError = reference;
                 }
                 else if(!referenceHintPath.Contains("packages"))
                 {
