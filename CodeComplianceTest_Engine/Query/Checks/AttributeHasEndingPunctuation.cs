@@ -49,11 +49,19 @@ namespace BH.Engine.Test.CodeCompliance.Checks
                 if (!args.Last().GetText().ToString().StringEndsWithPunctuation())
                     return node.Span.ToSpan();
             }
-            else if (name == "Input" || name.Contains("Output"))
+            else if (name == "Input" || name == "Output")
             {
                 if(args.Count > 1)
                 {
                     if (!args[1].GetText().ToString().StringEndsWithPunctuation())
+                        return node.Span.ToSpan();
+                }
+            }
+            else if(name == "MultiOutput")
+            {
+                if(args.Count > 2)
+                {
+                    if (!args[2].GetText().ToString().StringEndsWithPunctuation())
                         return node.Span.ToSpan();
                 }
             }
