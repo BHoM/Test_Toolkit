@@ -135,6 +135,7 @@
     <Compile Include="EngineTests\CheckProjectFile.cs" />
     <Compile Include="EngineTests\CreateMethodFileNameMatchesReturnType.cs" />
     <Compile Include="EngineTests\HasSingleClass.cs" />
+    <Compile Include="EngineTests\HasSingleNamespace.cs" />
     <Compile Include="EngineTests\InputAttributeIsUnique.cs" />
     <Compile Include="EngineTests\IsExtensionMethod.cs" />
     <Compile Include="EngineTests\MethodNameStartsUpper.cs" />
@@ -157,6 +158,7 @@
     <Compile Include="oMTests\AttributeHasEndingPunctuation.cs" />
     <Compile Include="oMTests\CheckProjectFile.cs" />
     <Compile Include="oMTests\HasSingleClass.cs" />
+    <Compile Include="oMTests\HasSingleNamespace.cs" />
     <Compile Include="oMTests\HasValidCopyright.cs" />
     <Compile Include="oMTests\GetFiles.cs" />
     <Compile Include="oMTests\IsPublicClass.cs" />
