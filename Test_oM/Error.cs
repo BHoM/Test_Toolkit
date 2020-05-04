@@ -32,7 +32,7 @@ namespace BH.oM.Test
     public class Error : BHoMObject
     {
         public virtual ErrorLevel Level { get; set; }
-        public virtual string Message { get; set; }
+        public string Message { get; set; }
         public virtual Location Location { get; set; }
         public virtual string DocumentationLink { get; set; }
     }
