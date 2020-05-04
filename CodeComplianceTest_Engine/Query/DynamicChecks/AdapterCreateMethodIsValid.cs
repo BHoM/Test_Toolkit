@@ -36,7 +36,7 @@ namespace BH.Engine.Test.CodeCompliance.DynamicChecks
 {
     public static partial class Query
     {
-        [Message("Adapter Create method must take an IObject or IEnumerable<IObject> as its first parameter")]
+        [Message("Adapter Create method must take an IObject or IEnumerable<IObject> as its first parameter", null)]
         [ErrorLevel(ErrorLevel.Error)]
         public static bool AdapterCreateMethodIsValid(this MethodInfo method)
         {

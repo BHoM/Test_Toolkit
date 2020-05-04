@@ -43,6 +43,8 @@ namespace BH.Engine.Test.CodeCompliance
         {
             ComplianceResult finalResult = Create.ComplianceResult(ResultStatus.Pass);
 
+            string documentationLink = "Project-References-and-Build-Paths";
+
             List<string> exceptionalRepos = new List<string>
             {
                 "BHoM",
@@ -56,9 +58,9 @@ namespace BH.Engine.Test.CodeCompliance
 
             string[] toolkitParts = toolkit.Split('_');
             if(toolkitParts.Length == 1 && !exceptionalRepos.Contains(toolkit))
-                finalResult = finalResult.Merge(Create.ComplianceResult(ResultStatus.CriticalFail, new List<Error> { Create.Error("Project not a valid project name. Project should end in '_Toolkit'", Create.Location(projectDirectory, Create.LineSpan(1, 1))) }));
+                finalResult = finalResult.Merge(Create.ComplianceResult(ResultStatus.CriticalFail, new List<Error> { Create.Error("Project not a valid project name. Project should end in '_Toolkit'", Create.Location(projectDirectory, Create.LineSpan(1, 1)), documentationLink) }));
             else if (toolkitParts.Length == 2 && toolkitParts[1] != "Toolkit")
-                finalResult = finalResult.Merge(Create.ComplianceResult(ResultStatus.CriticalFail, new List<Error> { Create.Error("Project not a valid project name. Project should end in '_Toolkit'", Create.Location(projectDirectory, Create.LineSpan(1, 1))) }));
+                finalResult = finalResult.Merge(Create.ComplianceResult(ResultStatus.CriticalFail, new List<Error> { Create.Error("Project not a valid project name. Project should end in '_Toolkit'", Create.Location(projectDirectory, Create.LineSpan(1, 1)), documentationLink) }));
             else if(toolkitParts.Length > 1)
             {
                 string[] subFolders = Directory.GetDirectories(projectDirectory);
@@ -74,11 +76,11 @@ namespace BH.Engine.Test.CodeCompliance
                     containsObject = false;
 
                 if (!containsObject)
-                    finalResult = finalResult.Merge(Create.ComplianceResult(ResultStatus.Fail, new List<Error> { Create.Error($"If the project requires an oM, the project should be titled '{toolkitParts[0]}_oM'", Create.Location(projectDirectory, Create.LineSpan(1, 1))) }));
+                    finalResult = finalResult.Merge(Create.ComplianceResult(ResultStatus.Fail, new List<Error> { Create.Error($"If the project requires an oM, the project should be titled '{toolkitParts[0]}_oM'", Create.Location(projectDirectory, Create.LineSpan(1, 1)), documentationLink) }));
                 if (!containsAdapter)
-                    finalResult = finalResult.Merge(Create.ComplianceResult(ResultStatus.Fail, new List<Error> { Create.Error($"If the project requires an Adapter, the project should be titled '{toolkitParts[0]}_Adapter'", Create.Location(projectDirectory, Create.LineSpan(1, 1))) }));
+                    finalResult = finalResult.Merge(Create.ComplianceResult(ResultStatus.Fail, new List<Error> { Create.Error($"If the project requires an Adapter, the project should be titled '{toolkitParts[0]}_Adapter'", Create.Location(projectDirectory, Create.LineSpan(1, 1)), documentationLink) }));
                 if (!containsEngine)
-                    finalResult = finalResult.Merge(Create.ComplianceResult(ResultStatus.CriticalFail, new List<Error> { Create.Error($"If the project requires an Engine, the project should be titled '{toolkitParts[0]}_Engine'", Create.Location(projectDirectory, Create.LineSpan(1, 1))) }));
+                    finalResult = finalResult.Merge(Create.ComplianceResult(ResultStatus.CriticalFail, new List<Error> { Create.Error($"If the project requires an Engine, the project should be titled '{toolkitParts[0]}_Engine'", Create.Location(projectDirectory, Create.LineSpan(1, 1)), documentationLink) }));
 
                 List<string> allowedEngineFolders = new List<string>
                 {
@@ -97,14 +99,14 @@ namespace BH.Engine.Test.CodeCompliance
                     {
                         string[] engineFolders = Directory.GetDirectories(projectDirectory + "\\" + toolkitParts[0] + "_Engine");
                         if (engineFolders.Length > allowedEngineFolders.Count)
-                            finalResult = finalResult.Merge(Create.ComplianceResult(ResultStatus.CriticalFail, new List<Error> { Create.Error($"The Engine project should only contain Compute, Convert, Create, Modify, and Query sub-folders", Create.Location(projectDirectory, Create.LineSpan(1, 1))) }));
+                            finalResult = finalResult.Merge(Create.ComplianceResult(ResultStatus.CriticalFail, new List<Error> { Create.Error($"The Engine project should only contain Compute, Convert, Create, Modify, and Query sub-folders", Create.Location(projectDirectory, Create.LineSpan(1, 1)), documentationLink) }));
                         else
                         {
                             foreach (string st in engineFolders)
                             {
                                 string[] pr = st.Split('\\');
                                 if (!allowedEngineFolders.Contains(pr.Last()))
-                                    finalResult = finalResult.Merge(Create.ComplianceResult(ResultStatus.CriticalFail, new List<Error> { Create.Error($"{st} is not a valid Engine sub folder", Create.Location(projectDirectory, Create.LineSpan(1, 1))) }));
+                                    finalResult = finalResult.Merge(Create.ComplianceResult(ResultStatus.CriticalFail, new List<Error> { Create.Error($"{st} is not a valid Engine sub folder", Create.Location(projectDirectory, Create.LineSpan(1, 1)), documentationLink) }));
                             }
                         }
                     }

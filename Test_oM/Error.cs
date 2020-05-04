@@ -34,6 +34,7 @@ namespace BH.oM.Test
         public virtual ErrorLevel Level { get; set; }
         public virtual string Message { get; set; }
         public virtual Location Location { get; set; }
+        public virtual string DocumentationLink { get; set; }
     }
 }
 

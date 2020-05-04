@@ -34,7 +34,7 @@ namespace BH.Engine.Test.CodeCompliance.Checks
     public static partial class Query
     {
 
-        [Message("Class (object) name must match file name")]
+        [Message("Class (object) name must match file name", "ObjectNameMatchesFileName")]
         [Path(@"([a-zA-Z0-9]+)_?oM\\.*\.cs$")]
         [IsPublic()]
         public static Span ObjectNameMatchesFileName(this ClassDeclarationSyntax node)

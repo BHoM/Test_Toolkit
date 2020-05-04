@@ -33,7 +33,7 @@ namespace BH.Engine.Test.CodeCompliance.Checks
 {
     public static partial class Query
     {
-        [Message("Input parameter requires a matching Input attribute")]
+        [Message("Input parameter requires a matching Input attribute", "IsInputAttributePresent")]
         [ErrorLevel(ErrorLevel.Warning)]
         public static Span IsInputAttributePresent(this ParameterSyntax node)
         {

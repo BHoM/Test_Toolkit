@@ -33,7 +33,7 @@ namespace BH.Engine.Test.CodeCompliance.Checks
 {
     public static partial class Query
     {
-        [Message("Copyright message is invalid")]
+        [Message("Copyright message is invalid", "HasValidCopyright")]
         public static Span HasValidCopyright(this CompilationUnitSyntax node)
         {
             Error error = Test.CodeCompliance.Query.HasValidCopyright(node.GetLeadingTrivia(), -1).Errors.FirstOrDefault();

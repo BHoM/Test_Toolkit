@@ -34,7 +34,7 @@ namespace BH.Engine.Test.CodeCompliance.Checks
 {
     public static partial class Query
     {
-        [Message("Method must contain an Output or MultiOutput attribute")]
+        [Message("Method must contain an Output or MultiOutput attribute", "HasOutputAttribute")]
         [ErrorLevel(ErrorLevel.Warning)]
         [Path(@"([a-zA-Z0-9]+)_Engine\\.*\.cs$")]
         [Path(@"([a-zA-Z0-9]+)_Engine\\Objects\\.*\.cs$", false)]
@@ -49,7 +49,7 @@ namespace BH.Engine.Test.CodeCompliance.Checks
             return  isvoid || node.HasAttribute("Output") || node.HasAttribute("MultiOutput") || node.IsDeprecated()  ? null : node.Identifier.Span.ToSpan();
         }
 
-        [Message("Method must contain an Output or MultiOutput attribute")]
+        [Message("Method must contain an Output or MultiOutput attribute", "HasOutputAttribute")]
         [ErrorLevel(ErrorLevel.Warning)]
         [Path(@"([a-zA-Z0-9]+)_Adapter\\.*\.cs$")]
         [IsPublic()]

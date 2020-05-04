@@ -34,10 +34,12 @@ namespace BH.oM.Test.Attributes
     public class MessageAttribute : Attribute, IImmutable
     {
         public virtual string Message { get; }
+        public virtual string DocumentationLink { get; }
 
-        public MessageAttribute(string message)
+        public MessageAttribute(string message, string documentationLink)
         {
             Message = message;
+            DocumentationLink = documentationLink;
         }
     }
 }

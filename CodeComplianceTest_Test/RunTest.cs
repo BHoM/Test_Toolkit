@@ -72,6 +72,7 @@ namespace BH.Test.Test
                 {
 
                     errorMessage += kvp.Key + "\n";
+                    errorMessage += "More information about this can be found at https://github.com/BHoM/documentation/wiki/" + kvp.Value[0].DocumentationLink + "\n";
                     foreach (Error e in kvp.Value)
                         errorMessage += $" - in {e.Location.FilePath.Substring(e.Location.FilePath.IndexOf(projectName))} at line {e.Location.Line.Start.Line}, column {e.Location.Line.Start.Column} \n";
                 }

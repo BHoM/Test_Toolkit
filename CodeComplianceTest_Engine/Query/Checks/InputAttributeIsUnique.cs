@@ -33,7 +33,7 @@ namespace BH.Engine.Test.CodeCompliance.Checks
 {
     public static partial class Query
     {
-        [Message("Input attribute is not unique")]
+        [Message("Input attribute is not unique", "InputAttributeIsUnique")]
         [ErrorLevel(ErrorLevel.Error)]
         [Path(@"([a-zA-Z0-9]+)_(Engine|Adapter)\\.*\.cs$")]
         public static Span InputAttributeIsUnique(this AttributeSyntax node)

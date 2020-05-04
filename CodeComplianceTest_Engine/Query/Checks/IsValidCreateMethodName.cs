@@ -34,7 +34,7 @@ namespace BH.Engine.Test.CodeCompliance.Checks
 {
     public static partial class Query
     {
-        [Message("Invalid Create method name: Method name must start with or end with the same name as its return type")]
+        [Message("Invalid Create method name: Method name must start with or end with the same name as its return type", "IsValidCreateMethodName")]
         [Path(@"([a-zA-Z0-9]+)_Engine\\Create\\.*\.cs$")]
         [IsPublic()]
         public static Span IsValidCreateMethodName(this MethodDeclarationSyntax node)

@@ -33,7 +33,7 @@ namespace BH.Engine.Test.CodeCompliance.Checks
 {
     public static partial class Query
     {
-        [Message("Invalid oM property: Object properties must have a public getter")]
+        [Message("Invalid oM property: Object properties must have a public getter", "HasPublicGet")]
         [Path(@"([a-zA-Z0-9]+)_?oM\\.*\.cs$")]
         [Path(@"([a-zA-Z0-9]+)_Engine\\.*\.cs$", false)]
         [Path(@"([a-zA-Z0-9]+)_Adapter\\.*\.cs$", false)]
