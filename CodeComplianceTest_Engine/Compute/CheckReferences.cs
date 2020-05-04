@@ -35,6 +35,8 @@ using System.IO;
 
 using System.Xml.Linq;
 
+using BH.oM.Test.Attributes;
+
 namespace BH.Engine.Test.CodeCompliance
 {
     public static partial class Compute
@@ -45,6 +47,8 @@ namespace BH.Engine.Test.CodeCompliance
                 return Create.ComplianceResult(ResultStatus.Pass);
 
             ComplianceResult finalResult = Create.ComplianceResult(ResultStatus.Pass);
+
+            string documentationLink = "Project-References-and-Build-Paths";
 
             XNamespace msbuild = "http://schemas.microsoft.com/developer/msbuild/2003";
             XDocument projDefinition = XDocument.Load(csProjFilePath);
@@ -100,7 +104,7 @@ namespace BH.Engine.Test.CodeCompliance
 
                 if (include.Contains("Version") || include.Contains("Culture") || include.Contains("processorArchitecture"))
                 {
-                    finalResult = finalResult.Merge(Create.ComplianceResult(ResultStatus.CriticalFail, new List<Error> { Create.Error("Project references for BHoM DLLs should not include Version, Culture, or Processor Architecture", Create.Location(csProjFilePath, Create.LineSpan(1, 1))) }));
+                    finalResult = finalResult.Merge(Create.ComplianceResult(ResultStatus.CriticalFail, new List<Error> { Create.Error("Project references for BHoM DLLs should not include Version, Culture, or Processor Architecture", Create.Location(csProjFilePath, Create.LineSpan(1, 1)), documentationLink) }));
                     continue; //Difficult to check rest of reference due to string parsing if this bit is wrong
                 }
 
@@ -109,7 +113,7 @@ namespace BH.Engine.Test.CodeCompliance
 
                 if (x.Element(msbuild + "HintPath") == null)
                 {
-                    finalResult = finalResult.Merge(Create.ComplianceResult(ResultStatus.CriticalFail, new List<Error> { Create.Error($"HintPath for reference to '{reference}' must be set", Create.Location(csProjFilePath, Create.LineSpan(1, 1))) }));
+                    finalResult = finalResult.Merge(Create.ComplianceResult(ResultStatus.CriticalFail, new List<Error> { Create.Error($"HintPath for reference to '{reference}' must be set", Create.Location(csProjFilePath, Create.LineSpan(1, 1)), documentationLink) }));
                     continue;
                 }
 
@@ -153,10 +157,10 @@ namespace BH.Engine.Test.CodeCompliance
                 }
 
                 if (referenceHintPath != hintPath)
-                    finalResult = finalResult.Merge(Create.ComplianceResult(ResultStatus.CriticalFail, new List<Error> { Create.Error($"Project references for '{referenceError}' should be set to '{hintPath}'", Create.Location(csProjFilePath, Create.LineSpan(1, 1))) }));
+                    finalResult = finalResult.Merge(Create.ComplianceResult(ResultStatus.CriticalFail, new List<Error> { Create.Error($"Project references for '{referenceError}' should be set to '{hintPath}'", Create.Location(csProjFilePath, Create.LineSpan(1, 1)), documentationLink) }));
 
                 if(x.Element(msbuild + "Private") == null || x.Element(msbuild + "Private").Value.ToString().ToLower() != "false")
-                    finalResult = finalResult.Merge(Create.ComplianceResult(ResultStatus.CriticalFail, new List<Error> { Create.Error($"Project references for '{x.Attribute("Include").Value}' should be set to NOT copy local", Create.Location(csProjFilePath, Create.LineSpan(1, 1))) }));
+                    finalResult = finalResult.Merge(Create.ComplianceResult(ResultStatus.CriticalFail, new List<Error> { Create.Error($"Project references for '{x.Attribute("Include").Value}' should be set to NOT copy local", Create.Location(csProjFilePath, Create.LineSpan(1, 1)), documentationLink) }));
             }
 
             foreach(XElement xe in projDefinition.Element(msbuild + "Project").Elements(msbuild + "PropertyGroup"))
@@ -164,7 +168,7 @@ namespace BH.Engine.Test.CodeCompliance
                 if (xe.Element(msbuild + "OutputPath") == null) continue;
 
                 if (xe.Element(msbuild + "OutputPath").Value != "..\\Build\\")
-                    finalResult = finalResult.Merge(Create.ComplianceResult(ResultStatus.CriticalFail, new List<Error> { Create.Error($"Output path for all build configurations should be set to '..\\Build\\'", Create.Location(csProjFilePath, Create.LineSpan(1, 1))) }));
+                    finalResult = finalResult.Merge(Create.ComplianceResult(ResultStatus.CriticalFail, new List<Error> { Create.Error($"Output path for all build configurations should be set to '..\\Build\\'", Create.Location(csProjFilePath, Create.LineSpan(1, 1)), documentationLink) }));
             }
 
             return finalResult;

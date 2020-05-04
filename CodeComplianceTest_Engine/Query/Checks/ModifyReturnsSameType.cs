@@ -34,7 +34,7 @@ namespace BH.Engine.Test.CodeCompliance.Checks
     public static partial class Query
     {
 
-        [Message("Modify methods must return the same type as their first parameter")]
+        [Message("Modify methods must return the same type as their first parameter", "ModifyReturnsSameType")]
         [Path(@"([a-zA-Z0-9]+)_Engine\\Modify\\.*\.cs$")]
         [IsPublic()]
         public static Span ModifyReturnsSameType(this MethodDeclarationSyntax node)

@@ -36,7 +36,7 @@ namespace BH.Engine.Test.CodeCompliance.DynamicChecks
 {
     public static partial class Query
     {
-        [Message("Adapter Read method must return an IObject or IEnumerable<IObject>")]
+        [Message("Adapter Read method must return an IObject or IEnumerable<IObject>", null)]
         [ErrorLevel(ErrorLevel.Error)]
         public static bool AdapterReadMethodIsValid(this MethodInfo method)
         {

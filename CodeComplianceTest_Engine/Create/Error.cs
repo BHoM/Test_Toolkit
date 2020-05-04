@@ -31,14 +31,15 @@ namespace BH.Engine.Test.CodeCompliance
 {
     public static partial class Create
     {
-        public static Error Error(string message, Location location, ErrorLevel level = ErrorLevel.Error, string name = "")
+        public static Error Error(string message, Location location, string documentationLink, ErrorLevel level = ErrorLevel.Error, string name = "")
         {
             return new Error
             {
                 Message = message,
                 Level = level,
                 Name = name,
-                Location = location
+                Location = location,
+                DocumentationLink = documentationLink,
             };
         }
     }

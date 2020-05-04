@@ -35,7 +35,7 @@ namespace BH.Engine.Test.CodeCompliance.Checks
 {
     public static partial class Query
     {
-        [Message("Engine Method must contain a Description attribute")]
+        [Message("Engine Method must contain a Description attribute", "HasDescriptionAttribute")]
         [ErrorLevel(ErrorLevel.Warning)]
         [Path(@"([a-zA-Z0-9]+)_Engine\\.*\.cs$")]
         [Path(@"([a-zA-Z0-9]+)_Engine\\Objects\\.*\.cs$", false)]
@@ -45,7 +45,7 @@ namespace BH.Engine.Test.CodeCompliance.Checks
             return (node.IsDeprecated() || node.HasAttribute("Description")) ? null : node.Identifier.Span.ToSpan();
         }
 
-        [Message("Adapter constructor must contain a Description attribute")]
+        [Message("Adapter constructor must contain a Description attribute", "HasDescriptionAttribute")]
         [ErrorLevel(ErrorLevel.Warning)]
         [Path(@"([a-zA-Z0-9]+)_Adapter\\.*\.cs$")]
         [IsPublic()]

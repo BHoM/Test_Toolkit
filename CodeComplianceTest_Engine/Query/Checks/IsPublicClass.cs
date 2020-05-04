@@ -34,7 +34,7 @@ namespace BH.Engine.Test.CodeCompliance.Checks
 {
     public static partial class Query
     {
-        [Message("Invalid Engine class: Engine classes must be public")]
+        [Message("Invalid Engine class: Engine classes must be public", "IsPublicClass")]
         [Path(@"([a-zA-Z0-9]+)_Engine\\.*\.cs$")]
         [Path(@"([a-zA-Z0-9]+)_Engine\\Objects\\.*\.cs$", false)]
         [IsPublic(false)]

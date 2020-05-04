@@ -33,7 +33,7 @@ namespace BH.Engine.Test.CodeCompliance.Checks
 {
     public static partial class Query
     {
-        [Message("Method name should start with an uppercase letter")]
+        [Message("Method name should start with an uppercase letter", "MethodNameStartsUpper")]
         [ErrorLevel(ErrorLevel.Error)]
         [Path(@"([a-zA-Z0-9]+)_(Engine|Adapter)\\.*\.cs$")]
         public static Span MethodNameStartsUpper(this MethodDeclarationSyntax node)

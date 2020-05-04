@@ -56,11 +56,13 @@ namespace BH.Engine.Test.CodeCompliance
                 if (result != null)
                 {
                     string message = method.GetCustomAttribute<MessageAttribute>()?.Message ?? "";
+                    string documentation = method.GetCustomAttribute<MessageAttribute>()?.DocumentationLink ?? "";
+
                     ErrorLevel errLevel = method.GetCustomAttribute<ErrorLevelAttribute>()?.Level ?? ErrorLevel.Error;
                     finalResult = finalResult.Merge(Create.ComplianceResult(
                         errLevel == ErrorLevel.Error ? ResultStatus.CriticalFail : ResultStatus.Fail,
                         new List<Error> {
-                        Create.Error(message, Create.Location(path, result.ToLineSpan(node.SyntaxTree.GetRoot().ToFullString())), errLevel, method.Name)
+                        Create.Error(message, Create.Location(path, result.ToLineSpan(node.SyntaxTree.GetRoot().ToFullString())), documentation, errLevel, method.Name)
                         }));
                 }
             }

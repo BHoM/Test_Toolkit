@@ -33,7 +33,7 @@ namespace BH.Engine.Test.CodeCompliance.Checks
 {
     public static partial class Query
     {
-        [Message("Files cannot contain more than one class")]
+        [Message("Files cannot contain more than one class", "HasSingleClass")]
         [Path(@"([a-zA-Z0-9]+)(_?oM|_(Engine|UI|Adapter))\\.*\.cs$")]
         public static Span HasSingleClass(this BaseTypeDeclarationSyntax node)
         {
