@@ -80,6 +80,7 @@ namespace BH.Engine.Test.CodeCompliance
                     "MEP",
                     "Physical",
                     "Planning",
+                    "Programming",
                     "Quantities",
                     "Reflection",
                     "Results",
@@ -94,6 +95,13 @@ namespace BH.Engine.Test.CodeCompliance
                 "Adapter_oM",
                 "File_Adapter",
                 "StructureModules_AdapterModules", //Renamed this way due to the logic below where we strip _Adapter and then readd it for the check of Adapter projects so this is valid
+            };
+
+            List<string> uiCore = new List<string>()
+            {
+                "BHoM_UI",
+                "UI_Engine",
+                "UI_oM",
             };
 
             foreach(XElement x in referenceElements)
@@ -146,6 +154,12 @@ namespace BH.Engine.Test.CodeCompliance
                     if (reference == "StructureModules")
                         reference = "Structure";
 
+                    hintPath = "..\\..\\" + hintPathFolder + "\\Build\\" + reference + "_" + hintPathEnding + ".dll";
+                    referenceError = reference;
+                }
+                else if(uiCore.IndexOf(reference + "_" + hintPathEnding) != -1)
+                {
+                    string hintPathFolder = "BHoM_UI";
                     hintPath = "..\\..\\" + hintPathFolder + "\\Build\\" + reference + "_" + hintPathEnding + ".dll";
                     referenceError = reference;
                 }
