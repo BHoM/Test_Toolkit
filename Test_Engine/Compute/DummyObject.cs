@@ -27,6 +27,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using System.Text.RegularExpressions;
 
 namespace BH.Engine.Test
 {
@@ -113,6 +114,8 @@ namespace BH.Engine.Test
                     return Guid.NewGuid();
                 else if (type == typeof(string))
                     return "test";
+                else if (type == typeof(Regex))
+                    return new Regex("test");
                 else if (type.IsEnum)
                 {
                     Array values = Enum.GetValues(type);
@@ -121,7 +124,7 @@ namespace BH.Engine.Test
                 else if (type == typeof(System.Drawing.Color))
                     return System.Drawing.Color.FromArgb(1, 2, 3, 4);
                 else if (type == typeof(System.Drawing.Bitmap))
-                    return new System.Drawing.Bitmap(10, 10);
+                    return null;
                 else if (type == typeof(System.Data.DataTable))
                 {
                     System.Data.DataTable table = new System.Data.DataTable("test");
