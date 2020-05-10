@@ -34,7 +34,6 @@ namespace BH.Engine.Test.CodeCompliance
 {
     public static partial class Query
     {
-        [MultiOutput(0, "Blah", "Blah")]
         public static string IGetName(this MemberDeclarationSyntax node)
         {
             return GetName(node as dynamic);
