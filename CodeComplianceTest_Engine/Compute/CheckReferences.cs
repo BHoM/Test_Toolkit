@@ -134,9 +134,13 @@ namespace BH.Engine.Test.CodeCompliance
 
                 string hintPath = "";
                 string referenceError = "";
+                bool shouldBeProjectReference = false;
 
                 if (coreProjects.IndexOf(reference) != -1)
                 {
+                    if ((csProjFilePath.Contains("\\BHoM\\") && (hintPathEnding == "oM" || hintPathEnding == "BHoM")) || (csProjFilePath.Contains("\\BHoM_Engine\\") && (hintPathEnding == "Engine" || hintPathEnding == "BHoM_Engine")))
+                        shouldBeProjectReference = true;
+
                     string hintPathFolder = "";
                     if (hintPathEnding == "oM" || hintPathEnding == "BHoM") hintPathFolder = "BHoM";
                     else if (hintPathEnding == "Engine" || hintPathEnding == "BHoM_Engine") hintPathFolder = "BHoM_Engine";
@@ -159,17 +163,26 @@ namespace BH.Engine.Test.CodeCompliance
                     if (reference == "StructureModules")
                         reference = "Structure";
 
+                    if (csProjFilePath.Contains("\\BHoM_Adapter\\"))
+                        shouldBeProjectReference = true;
+
                     hintPath = "..\\..\\" + hintPathFolder + "\\Build\\" + reference + "_" + hintPathEnding + ".dll";
                     referenceError = reference;
                 }
                 else if(uiCore.IndexOf(reference + "_" + hintPathEnding) != -1)
                 {
+                    if (csProjFilePath.Contains("\\BHoM_UI\\"))
+                        shouldBeProjectReference = true;
+
                     string hintPathFolder = "BHoM_UI";
                     hintPath = "..\\..\\" + hintPathFolder + "\\Build\\" + reference + "_" + hintPathEnding + ".dll";
                     referenceError = reference;
                 }
                 else if(localisationToolkit.IndexOf(reference + "_" + hintPathEnding) != -1)
                 {
+                    if (csProjFilePath.Contains("\\Localisation_Toolkit\\"))
+                        shouldBeProjectReference = true;
+
                     string hintPathFolder = "Localisation_Toolkit";
                     hintPath = "..\\..\\" + hintPathFolder + "\\Build\\" + reference + "_" + hintPathEnding + ".dll";
                     referenceError = reference;
@@ -177,12 +190,21 @@ namespace BH.Engine.Test.CodeCompliance
                 else if(!referenceHintPath.Contains("packages"))
                 {
                     string hintPathFolder = reference + "_Toolkit";
+
+                    if (csProjFilePath.Contains("\\" + hintPathFolder + "\\"))
+                        shouldBeProjectReference = true;
+
                     hintPath = "..\\..\\" + hintPathFolder + "\\Build\\" + reference + "_" + hintPathEnding + ".dll";
                     referenceError = reference + "_" + hintPathEnding;
                 }
 
                 if (referenceHintPath != hintPath)
-                    finalResult = finalResult.Merge(Create.ComplianceResult(ResultStatus.CriticalFail, new List<Error> { Create.Error($"Project references for '{referenceError}' should be set to '{hintPath}'", Create.Location(csProjFilePath, Create.LineSpan(1, 1)), documentationLink) }));
+                {
+                    if (shouldBeProjectReference)
+                        finalResult = finalResult.Merge(Create.ComplianceResult(ResultStatus.CriticalFail, new List<Error> { Create.Error($"Project references for '{referenceError}' should be set as a project reference rather than as a DLL reference", Create.Location(csProjFilePath, Create.LineSpan(1, 1)), documentationLink) }));
+                    else
+                        finalResult = finalResult.Merge(Create.ComplianceResult(ResultStatus.CriticalFail, new List<Error> { Create.Error($"Project references for '{referenceError}' should be set to '{hintPath}'", Create.Location(csProjFilePath, Create.LineSpan(1, 1)), documentationLink) }));
+                }
 
                 if(x.Element(msbuild + "Private") == null || x.Element(msbuild + "Private").Value.ToString().ToLower() != "false")
                     finalResult = finalResult.Merge(Create.ComplianceResult(ResultStatus.CriticalFail, new List<Error> { Create.Error($"Project references for '{x.Attribute("Include").Value}' should be set to NOT copy local", Create.Location(csProjFilePath, Create.LineSpan(1, 1)), documentationLink) }));
