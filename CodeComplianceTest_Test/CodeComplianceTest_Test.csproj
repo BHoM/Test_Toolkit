@@ -128,6 +128,7 @@
     <Compile Include="AdapterTests\HasValidCopyright.cs" />
     <Compile Include="AdapterTests\GetFiles.cs" />
     <Compile Include="AdapterTests\HasSingleClass.cs" />
+    <Compile Include="AdapterTests\HasValidOutputAttribute.cs" />
     <Compile Include="AdapterTests\InputAttributeIsUnique.cs" />
     <Compile Include="AdapterTests\InputParameterStartsLower.cs" />
     <Compile Include="AdapterTests\MethodNameStartsUpper.cs" />
@@ -136,6 +137,7 @@
     <Compile Include="EngineTests\CreateMethodFileNameMatchesReturnType.cs" />
     <Compile Include="EngineTests\HasSingleClass.cs" />
     <Compile Include="EngineTests\HasSingleNamespace.cs" />
+    <Compile Include="EngineTests\HasValidOutputAttributecs.cs" />
     <Compile Include="EngineTests\InputAttributeIsUnique.cs" />
     <Compile Include="EngineTests\IsExtensionMethod.cs" />
     <Compile Include="EngineTests\MethodNameStartsUpper.cs" />
