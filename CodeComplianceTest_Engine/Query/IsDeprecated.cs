@@ -37,7 +37,7 @@ namespace BH.Engine.Test.CodeCompliance
     {
         public static bool IsDeprecated(this MemberDeclarationSyntax node)
         {
-            return node.HasAttribute("Deprecated");
+            return node.HasAttribute("Deprecated") || node.HasAttribute("ToBeRemoved") || node.HasAttribute("Replaced");
         }
     }
 }

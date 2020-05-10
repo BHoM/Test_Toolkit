@@ -1,4 +1,4 @@
-/*
+﻿/*
  * This file is part of the Buildings and Habitats object Model (BHoM)
  * Copyright (c) 2015 - 2020, the respective contributors. All rights reserved.
  *
@@ -34,27 +34,26 @@ namespace BH.Engine.Test.CodeCompliance.Checks
 {
     public static partial class Query
     {
-        [Message("Method must contain an Output or MultiOutput attribute", "HasOutputAttribute")]
-        [ErrorLevel(ErrorLevel.Warning)]
+        [Message("Methods returning a type of Output<t1, ..., tn> should be using the MultiOutput documentation attribute. Methods returning a single type should be using the Output documentation attribute.", "HasValidOutputAttribute")]
+        [ErrorLevel(ErrorLevel.Error)]
         [Path(@"([a-zA-Z0-9]+)_Engine\\.*\.cs$")]
         [Path(@"([a-zA-Z0-9]+)_Engine\\Objects\\.*\.cs$", false)]
         [IsPublic()]
-        public static Span HasOutputAttribute(this MethodDeclarationSyntax node)
+        public static Span HasValidOutputAttribute(this MethodDeclarationSyntax node)
         {
             bool isvoid = false;
-            if(node.ReturnType is PredefinedTypeSyntax)
+            if (node.ReturnType is PredefinedTypeSyntax)
                 isvoid = ((PredefinedTypeSyntax)node.ReturnType).Keyword.Kind() == SyntaxKind.VoidKeyword;
 
-            return  isvoid || node.HasAttribute("Output") || node.HasAttribute("MultiOutput") || node.IsDeprecated()  ? null : node.Identifier.Span.ToSpan();
-        }
+            if (isvoid || node.IsDeprecated() || node.HasOutputAttribute() != null)
+                return null; //Don't care about void return types or deprecated methods or methods with no output attribute at all
 
-        [Message("Method must contain an Output or MultiOutput attribute", "HasOutputAttribute")]
-        [ErrorLevel(ErrorLevel.Warning)]
-        [Path(@"([a-zA-Z0-9]+)_Adapter\\.*\.cs$")]
-        [IsPublic()]
-        public static Span HasOutputAttribute(this ConstructorDeclarationSyntax node)
-        {
-            return node.HasAttribute("Output") || node.HasAttribute("MultiOutput") || node.IsDeprecated() ? null : node.Identifier.Span.ToSpan();
+            string returnType = node.ReturnType.ToString();
+
+            if (returnType.StartsWith("Output<"))
+                return node.HasAttribute("MultiOutput") ? null : node.Identifier.Span.ToSpan();
+            else
+                return node.HasAttribute("Output") ? null : node.Identifier.Span.ToSpan();
         }
     }
 }
