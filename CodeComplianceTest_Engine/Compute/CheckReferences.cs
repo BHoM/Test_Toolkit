@@ -104,6 +104,11 @@ namespace BH.Engine.Test.CodeCompliance
                 "UI_oM",
             };
 
+            List<string> localisationToolkit = new List<string>()
+            {
+                "Units_Engine",
+            };
+
             foreach(XElement x in referenceElements)
             {
                 if (x == null) continue;
@@ -160,6 +165,12 @@ namespace BH.Engine.Test.CodeCompliance
                 else if(uiCore.IndexOf(reference + "_" + hintPathEnding) != -1)
                 {
                     string hintPathFolder = "BHoM_UI";
+                    hintPath = "..\\..\\" + hintPathFolder + "\\Build\\" + reference + "_" + hintPathEnding + ".dll";
+                    referenceError = reference;
+                }
+                else if(localisationToolkit.IndexOf(reference + "_" + hintPathEnding) != -1)
+                {
+                    string hintPathFolder = "Localisation_Toolkit";
                     hintPath = "..\\..\\" + hintPathFolder + "\\Build\\" + reference + "_" + hintPathEnding + ".dll";
                     referenceError = reference;
                 }
