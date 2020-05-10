@@ -149,6 +149,7 @@
     <Compile Include="Query\Checks\IsValidCreateMethod.cs" />
     <Compile Include="Query\Checks\HasDescriptionAttribute.cs" />
     <Compile Include="Query\Checks\EngineClassMatchesFilePath.cs" />
+    <Compile Include="Query\Checks\HasValidOutputAttribute.cs" />
     <Compile Include="Query\Checks\IsInputAttributePresent.cs" />
     <Compile Include="Query\Checks\HasSingleClass.cs" />
     <Compile Include="Query\Checks\InputAttributeIsUnique.cs" />
