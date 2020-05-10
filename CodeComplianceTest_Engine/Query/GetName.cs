@@ -28,11 +28,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using BH.oM.Reflection.Attributes;
 
 namespace BH.Engine.Test.CodeCompliance
 {
     public static partial class Query
     {
+        [MultiOutput(0, "Blah", "Blah")]
         public static string IGetName(this MemberDeclarationSyntax node)
         {
             return GetName(node as dynamic);
