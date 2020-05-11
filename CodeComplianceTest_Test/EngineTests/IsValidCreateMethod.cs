@@ -33,9 +33,9 @@ namespace BH.Test.Test
     public partial class Test_Engine
     {
         [TestMethod]
-        public void CreateMethodFileNameMatchesReturnType()
+        public void IsValidCreateMethod()
         {
-            Test.RunTest("CreateMethodFileNameMatchesReturnType", GetChangedObjectFiles(), GetProjectName());
+            Test.RunTest("IsValidCreateMethod", GetChangedObjectFiles(), GetProjectName());
         }
     }
 }

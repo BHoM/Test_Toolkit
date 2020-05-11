@@ -64,7 +64,6 @@ namespace BH.Engine.Test.CodeCompliance.Checks
 
             return values;
         }
-
     }
 }
 
