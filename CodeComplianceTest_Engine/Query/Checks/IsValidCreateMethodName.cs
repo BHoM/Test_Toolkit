@@ -34,29 +34,17 @@ namespace BH.Engine.Test.CodeCompliance.Checks
 {
     public static partial class Query
     {
-        [Message("Invalid Create method name: Method name must start with or end with the same name as its return type", "IsValidCreateMethodName")]
+        [Message("Invalid Create method name: Method name must match the filename for create methods", "IsValidCreateMethodName")]
         [Path(@"([a-zA-Z0-9]+)_Engine\\Create\\.*\.cs$")]
         [IsPublic()]
         public static Span IsValidCreateMethodName(this MethodDeclarationSyntax node)
         {
-            string name = node.Identifier.Text;
-            var type = node.ReturnType;
-            if (type is QualifiedNameSyntax) type = ((QualifiedNameSyntax)type).Right;
-            string returnType = type.ToString();
-
-            if (!name.StartsWith(returnType) && !name.EndsWith(returnType))
+            string filePath = node.SyntaxTree.FilePath;
+            if (!string.IsNullOrEmpty(filePath))
             {
-                List<string> returnSplit = CamelCaseSplit(name);
-                List<string> nameSplit = CamelCaseSplit(name);
-
-                if (returnSplit[0] == "List") // Takes care of the case of lists
-                {
-                    returnSplit = returnSplit.Skip(1).ToList();
-                    returnSplit[returnSplit.Count - 1] += 's';
-                }
-
-                if (returnSplit.First() != nameSplit.First() && returnSplit.Last() != nameSplit.Last())
-                    return node.Identifier.Span.ToSpan(); //Name is not compliant
+                string filename = System.IO.Path.GetFileNameWithoutExtension(filePath);
+                if (node.IGetName() != filename)
+                    return node.Identifier.Span.ToSpan();
             }
 
             return null;
