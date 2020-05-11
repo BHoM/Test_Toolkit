@@ -133,7 +133,7 @@
     <Compile Include="AdapterTests\MethodNameStartsUpper.cs" />
     <Compile Include="EngineTests\AttributeHasEndingPunctuation.cs" />
     <Compile Include="EngineTests\CheckProjectFile.cs" />
-    <Compile Include="EngineTests\CreateMethodFileNameMatchesReturnType.cs" />
+    <Compile Include="EngineTests\IsValidCreateMethod.cs" />
     <Compile Include="EngineTests\HasSingleClass.cs" />
     <Compile Include="EngineTests\HasSingleNamespace.cs" />
     <Compile Include="EngineTests\InputAttributeIsUnique.cs" />
