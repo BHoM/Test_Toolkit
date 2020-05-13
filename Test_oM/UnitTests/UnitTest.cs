@@ -27,18 +27,18 @@ using System.ComponentModel;
 
 namespace BH.oM.Test.UnitTests
 {
-    [Description("Defines a datadriven unit test for a specific method. Class defines inputs, method to be run and expected output.")]
+    [Description("Defines a data-driven unit test for a specific method. Class defines inputs, method to be run and expected output.")]
     public class UnitTest : BHoMObject
     {
         /***************************************************/
         /**** Properties                                ****/
         /***************************************************/
 
-        [Description("The method to be tested.")]
-        public MethodBase Method { get; set; } = null;
+        [Description("The method to be tested. For BHoM methods this can be extracted from the BHoMMethodList method in the Reflection_Engine.")]
+        public virtual MethodBase Method { get; set; } = null;
 
-        [Description("List of input-output pairs to test the method for. Each TestData item corresponds to one run of the method.")]
-        public List<TestData> Data { get; set; } = new List<TestData>();
+        [Description("List of input/output pairs to test the method for. Each TestData item corresponds to one run of the method.")]
+        public virtual List<TestData> Data { get; set; } = new List<TestData>();
 
 
         /***************************************************/
