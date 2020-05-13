@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.28307.852
+# Visual Studio Express 14 for Windows Desktop
+VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Test_oM", "Test_oM\Test_oM.csproj", "{F758FC9C-CEDF-430D-AEFF-2B1E196F677B}"
 EndProject
@@ -16,6 +16,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CodeComplianceTest_Test", "
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Test_Engine", "Test_Engine\Test_Engine.csproj", "{5FC85409-DBC5-4B0D-A2AA-1D9542F0763B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTest_Engine", "UnitTest_Engine\UnitTest_Engine.csproj", "{768934CA-E6CF-44D3-9F74-611D4E58B1AE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -53,6 +55,12 @@ Global
 		{5FC85409-DBC5-4B0D-A2AA-1D9542F0763B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5FC85409-DBC5-4B0D-A2AA-1D9542F0763B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5FC85409-DBC5-4B0D-A2AA-1D9542F0763B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{768934CA-E6CF-44D3-9F74-611D4E58B1AE}.ComplianceTestBuild|Any CPU.ActiveCfg = Release|Any CPU
+		{768934CA-E6CF-44D3-9F74-611D4E58B1AE}.ComplianceTestBuild|Any CPU.Build.0 = Release|Any CPU
+		{768934CA-E6CF-44D3-9F74-611D4E58B1AE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{768934CA-E6CF-44D3-9F74-611D4E58B1AE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{768934CA-E6CF-44D3-9F74-611D4E58B1AE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{768934CA-E6CF-44D3-9F74-611D4E58B1AE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
