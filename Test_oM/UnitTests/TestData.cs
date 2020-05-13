@@ -39,7 +39,7 @@ namespace BH.oM.Test.UnitTests
         public virtual ReadOnlyCollection<object> Inputs { get; set; }
 
         [Description("The expected outputs from the method for the provided inputs.\n" +
-                     "The length of this collection will only be greater than one if the method being tested returns an Output<T1,..,Tn>, for which the indecies will match the ones of the Output<>.\n" +
+                     "The length of this collection will only be greater than one if the method being tested returns an Output<T1,..,Tn>, for which the indices will match the ones of the Output<>.\n" +
                      "This means methods returning a collection will be seen as returning one object, where the object is the collection.")]
         public virtual ReadOnlyCollection<object> Outputs { get; set; } = null;
 
