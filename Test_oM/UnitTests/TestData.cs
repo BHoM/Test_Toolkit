@@ -22,24 +22,36 @@
 
 using BH.oM.Base;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Linq;
 
 
 namespace BH.oM.Test.UnitTests
 {
     [Description("Defines input data and expected output data for a particular unit test.")]
-    public class TestData : BHoMObject
+    public class TestData : BHoMObject, IImmutable
     {
         /***************************************************/
         /**** Properties                                ****/
         /***************************************************/
 
         [Description("Inputs to the method. Inputs are matched based on index in the list, i.e. index 0 in this list will be used as the first parameter of the method tested.")]
-        public List<object> Inputs { get; set; } = new List<object>();
+        public virtual ReadOnlyCollection<object> Inputs { get; set; }
 
-        [Description("The expected output from the method for the provided inputs.")]
-        public object Output { get; set; } = null;
+        [Description("The expected outputs from the method for the provided inputs.\n" +
+                     "The length of this collection will only be greater than one if the method being tested returns an Output<T1,..,Tn>, for which the indecies will match the ones of the output.\n" +
+                     "This means methods returning a collection will be seen as returning one object, where the object is the collection.")]
+        public virtual ReadOnlyCollection<object> Outputs { get; set; } = null;
 
+
+        /***************************************************/
+
+        public TestData(IEnumerable<object> inputs, IEnumerable<object> outputs)
+        {
+            Inputs = new ReadOnlyCollection<object>(inputs == null ? new List<object>() : inputs.ToList());
+            Outputs = new ReadOnlyCollection<object>(outputs == null ? new List<object>() : outputs.ToList());
+        }
 
         /***************************************************/
     }
