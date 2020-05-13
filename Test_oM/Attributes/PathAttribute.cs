@@ -36,7 +36,7 @@ namespace BH.oM.Test.Attributes
     {
         public virtual Regex Pattern { get; }
 
-        public PathAttribute(Regex pattern, bool expect = true, object typeId = null) : base(expect)
+        public PathAttribute(Regex pattern, bool expect = true) : base(expect)
         {
             Pattern = pattern;
         }
