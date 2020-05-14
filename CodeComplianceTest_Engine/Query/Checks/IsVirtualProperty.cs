@@ -45,6 +45,9 @@ namespace BH.Engine.Test.CodeCompliance.Checks
             if (type is InterfaceDeclarationSyntax)
                 return null; //Don't run the check on an interface property
 
+            if (node.Modifiers.ContainsToken("override") || node.Modifiers.ContainsToken("abstract"))
+                return null; //Overriden or abstract properties cannot be virtual
+
             return node.Modifiers.ContainsToken("virtual") ? null : node.Modifiers.Span.ToSpan();
         }
     }
