@@ -35,7 +35,7 @@ namespace BH.Engine.Test.CodeCompliance.Checks
     public static partial class Query
     {
 
-        [Message("A Create method return type must either match its file name, (e.g. Engine/Create/Panel.cs returning a type of Panel), OR the file must sit in a sub-folder of Create which matches the return type (e.g. Engine/Create/Panel/MyNewPanel.cs).", "CreateMethodFileNameMatchesReturnType")]
+        [Message("A Create method return type must either match its file name, (e.g. Engine/Create/Panel.cs returning a type of Panel), OR the file must sit in a sub-folder of Create which matches the return type (e.g. Engine/Create/Panel/MyNewPanel.cs).", "IsValidCreateMethod")]
         [Path(@"([a-zA-Z0-9]+)_Engine\\Create\\.*\.cs$")]
         [IsPublic()]
         public static Span IsValidCreateMethod(this MethodDeclarationSyntax node)
@@ -62,8 +62,15 @@ namespace BH.Engine.Test.CodeCompliance.Checks
             if (createIndex == -1)
                 return node.Identifier.Span.ToSpan(); //Evidently this create method isn't working for some reason - even though it should but this is as a protection/precaution
 
-            if (Regex.Match(returnType, $"((List|IEnumerable)<)?I?{pathSplit[createIndex + 1]}(<.*>)?>?$").Success)
-                return null; //The folder path after the 'Create' folder matches the return type so this is valid. IsValidCreateMethodName will check if the method name matches the file name
+            try
+            {
+                if (Regex.Match(returnType, $"((List|IEnumerable)<)?I?{pathSplit[createIndex + 1]}(<.*>)?>?$").Success || Regex.Match(returnType, $"((List|IEnumerable)<)?I?{pathSplit[createIndex + 2]}(<.*>)?>?$").Success)
+                    return null; //The folder path after the 'Create' folder matches the return type so this is valid. IsValidCreateMethodName will check if the method name matches the file name
+            }
+            catch
+            { 
+                //In case createIndex + 1 || createIndex + 2 result in an out of bounds error - it means the check has failed and something isn't compliant so can pass through to returning the span
+            }
 
             return node.Identifier.Span.ToSpan(); //Create method file (name/path) and return type do not match as required
         }
