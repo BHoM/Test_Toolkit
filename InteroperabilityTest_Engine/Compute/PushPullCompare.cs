@@ -32,6 +32,7 @@ using BH.oM.Data.Collections;
 using BH.oM.Test.Results;
 using BH.Adapter;
 using BH.oM.Adapter.Commands;
+using BH.oM.Diffing;
 
 
 namespace BH.Engine.Test.Interoperability
@@ -94,6 +95,9 @@ namespace BH.Engine.Test.Interoperability
             List<IBHoMObject> pushedObjects = new List<IBHoMObject>();
             List<IBHoMObject> pulledObjects = new List<IBHoMObject>();
 
+            DiffConfig config = new DiffConfig();
+            config.PropertiesToIgnore.Add("CustomData");
+
             //Push objects
             try
             {
@@ -138,7 +142,7 @@ namespace BH.Engine.Test.Interoperability
 
             foreach (Tuple<IBHoMObject, IBHoMObject> pair in diagram.Intersection)
             {
-                var equalityResult = Engine.Test.Query.IsEqual(pair.Item1, pair.Item2);
+                var equalityResult = Engine.Test.Query.IsEqual(pair.Item1, pair.Item2, config);
                 DiffingResult diff = new DiffingResult { Name = pair.Item1.Name, IsEqual = equalityResult.Item1 };
 
                 for (int i = 0; i < equalityResult.Item2.Count; i++)
