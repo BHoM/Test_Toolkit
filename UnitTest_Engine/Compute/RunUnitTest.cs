@@ -72,7 +72,7 @@ namespace BH.Engine.UnitTest
                         else
                         {
                             List<object> outputs = new List<object>();
-                            for (int i = 0; i < output.IOutputCount(); i++)
+                            for (int i = 0; i < output.OutputCount(); i++)
                             {
                                 outputs.Add(output.IItem(i));
                             }
