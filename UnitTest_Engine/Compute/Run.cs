@@ -46,58 +46,70 @@ namespace BH.Engine.UnitTest
         [Description("")]
         [Input("", "")]
         [Output("", "")]
-        public static Output<List<List<object>>, Dictionary<string, List<string>>> RunUnitTest(this UT.UnitTest test)
-        {
-                    
+        public static Output<List<List<object>>, List<string>> Run(this UT.UnitTest test)
+        {                   
             List<List<object>> results = new List<List<object>>();
-            Dictionary<string, List<string>> errors = new Dictionary<string, List<string>>();
+            List<string> errors = new List<string>();
             MethodBase method = test.Method;
             foreach (UT.TestData data in test.Data)
             {
-                object result = null;
-                try
+                var result = Run(method, data);
+                results.Add(result.Item1);
+                errors.AddRange(result.Item2);
+            }
+            return new Output<List<List<object>>, List<string>> { Item1 = results, Item2 = errors };
+        }
+
+        /***************************************************/
+
+        [Description("Executes the method with the corresponding inputdata in the provided TestData and returns the result of the objects and any errors encountered during the execution.")]
+        [Input("method", "The method to run.")]
+        [Input("data", "The data to invoke the method with. Only the Input part of the test data will be used by this method.")]
+        [MultiOutput(0, "result", "The result from the execution of the test data.")]
+        [MultiOutput(1, "errors", "Any errors encountered during the execution of the method.")]
+        public static Output<List<object>, List<string>> Run(MethodBase method, UT.TestData data)
+        {
+            List<object> result = new List<object>();
+            List<string> errors = new List<string>();
+            try
+            {
+                ParameterInfo[] parameters = method.GetParameters();
+                if (data.Inputs.Count == parameters.Length)
                 {
-                    ParameterInfo[] parameters = method.GetParameters();
-                    if (data.Inputs.Count == parameters.Length)
-                    {
-                        List<object> inputs = new List<object>();
-                        for (int i = 0; i < parameters.Length; i++)
-                            inputs.Add(CastToType(data.Inputs[i], parameters[i].ParameterType));
-                        result = method.Invoke(null, inputs.ToArray());
+                    List<object> inputs = new List<object>();
+                    for (int i = 0; i < parameters.Length; i++)
+                        inputs.Add(CastToType(data.Inputs[i], parameters[i].ParameterType));
 
-                        IOutput output = result as IOutput;
+                    object resultObject = method.Invoke(null, inputs.ToArray());
 
-                        if (output == null)
-                            results.Add(new List<object> { result });
-                        else
-                        {
-                            List<object> outputs = new List<object>();
-                            for (int i = 0; i < output.OutputCount(); i++)
-                            {
-                                outputs.Add(output.IItem(i));
-                            }
-                            results.Add(outputs);
-                        }
-                    }
+                    IOutput output = result as IOutput;
+
+                    if (output == null)
+                        result.Add(resultObject);
                     else
                     {
-                        AddError(errors, "The number of inputs is not matching the number of parameters", method);
-                        continue;
+                        for (int i = 0; i < output.OutputCount(); i++)
+                        {
+                            result.Add(output.IItem(i));
+                        }
                     }
                 }
-                catch (Exception e)
+                else
                 {
-                    string message = "Failed to run with the given inputs";
-                    if (e is NotImplementedException || e.InnerException is NotImplementedException)
-                        message = "The method is not implements";
-                    else if (e is RuntimeBinderException || e.InnerException is RuntimeBinderException)
-                        message = "The method with the correct input types cannot be found";
-                    AddError(errors, message, method);
-                    continue;
+                    errors.Add("The number of inputs is not matching the number of parameters");
                 }
             }
+            catch (Exception e)
+            {
+                string message = "Failed to run with the given inputs";
+                if (e is NotImplementedException || e.InnerException is NotImplementedException)
+                    message = "The method is not implements";
+                else if (e is RuntimeBinderException || e.InnerException is RuntimeBinderException)
+                    message = "The method with the correct input types cannot be found";
+                errors.Add(message);
+            }
 
-            return new Output<List<List<object>>, Dictionary<string, List<string>>> { Item1 = results, Item2 = errors };
+            return new Output<List<object>, List<string>> { Item1 = result, Item2 = errors };
         }
 
         /***************************************************/
@@ -138,32 +150,5 @@ namespace BH.Engine.UnitTest
 
         /***************************************************/
 
-        private static string CreateErrorMessage(Dictionary<string, List<string>> errors)
-        {
-            string message = "";
-            foreach (var kvp in errors.OrderBy(x => x.Key))
-            {
-                if (kvp.Value.Count > 0)
-                {
-                    message += "\n- " + kvp.Key;
-                    foreach (string typeName in kvp.Value.Distinct())
-                        message += "\n\t- " + typeName;
-                }
-            }
-
-            return message;
-        }
-
-
-        /*******************************************/
-
-        private static void AddError(Dictionary<string, List<string>> errors, string message, MethodBase method)
-        {
-            if (!errors.ContainsKey(message))
-                errors[message] = new List<string>();
-            errors[message].Add(method.ToText(true, "(", ",", ")", false));
-        }
-
-        /***************************************************/
     }
 }
