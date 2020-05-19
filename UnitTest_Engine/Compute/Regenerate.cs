@@ -22,27 +22,51 @@
 
 using System;
 using System.Linq;
+using System.Reflection;
 using System.Collections.Generic;
+using System.Collections;
 using System.ComponentModel;
 using BH.oM.Reflection.Attributes;
+using BH.Engine.Serialiser;
 using BH.oM.Base;
-using BH.oM.Test.UnitTests;
+using BH.Engine.Reflection;
+using Microsoft.CSharp.RuntimeBinder;
+using UT = BH.oM.Test.UnitTests;
+using BH.oM.Reflection.Interface;
+using BH.oM.Reflection;
 
 namespace BH.Engine.UnitTest
 {
-    public static partial class Create
+    public static partial class Compute
     {
         /***************************************************/
         /**** Public Methods                            ****/
         /***************************************************/
 
-        [Description("Creates a set of test data corresponding to one execution of a unit test.")]
-        [InputFromProperty("inputs")]
-        [InputFromProperty("outputs")]
-        [Output("data", "The created test data.")]
-        public static TestData TestData(IEnumerable<object> inputs, IEnumerable<object> outputs)
+        [Description("Runs a unit test with inputs in the testdata, and construct new testdata with the result from the execution of the method. Returns a new UnitTest object with outputs in the testdata updated to the result of the execution of the method.")]
+        [Input("test", "The unit test to rerun and assign new ouputs.")]
+        [MultiOutput(0, "test", "The unit test with kept method and inputs, but replaced outputs to the result of the execution of the method.")]
+        [MultiOutput(1, "errors", "Any errors encountered during the execution of the method.")]
+        public static Output<UT.UnitTest, List<string>> Regenerate(UT.UnitTest test)
         {
-            return new TestData(inputs, outputs);
+            List<UT.TestData> newTestData = new List<UT.TestData>();
+            List<string> errors = new List<string>();
+            MethodBase method = test.Method;
+            foreach (UT.TestData data in test.Data)
+            {
+                var result = Run(method, data);
+                //Check if no errors occured during the execution
+                if (result.Item2.Count == 0)
+                    newTestData.Add(new UT.TestData(data.Inputs, result.Item1));
+                else
+                    errors.AddRange(result.Item2);
+            }
+
+            return new Output<UT.UnitTest, List<string>>
+            {
+                Item1 = new UT.UnitTest { Method = method, Data = newTestData },
+                Item2 = errors
+            };
         }
 
         /***************************************************/
