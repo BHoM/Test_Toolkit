@@ -43,9 +43,10 @@ namespace BH.Engine.UnitTest
         /**** Public Methods                            ****/
         /***************************************************/
 
-        [Description("")]
-        [Input("", "")]
-        [Output("", "")]
+        [Description("Runs through the method in the unit test with all corresponding testdata and returns the result of the method and any errors encountered during the execution.")]
+        [Input("test", "The test to run, containing the method to be executed as well as the data to test on.")]
+        [MultiOutput(0, "result", "The result from the execution of the test data. Each outer list corresponds to one execution of the method and each inner list to the outputs from the method call.")]
+        [MultiOutput(1, "errors", "Any errors encountered during the execution of the method.")]
         public static Output<List<List<object>>, List<string>> Run(this UT.UnitTest test)
         {                   
             List<List<object>> results = new List<List<object>>();
@@ -62,7 +63,7 @@ namespace BH.Engine.UnitTest
 
         /***************************************************/
 
-        [Description("Executes the method with the corresponding inputdata in the provided TestData and returns the result of the objects and any errors encountered during the execution.")]
+        [Description("Executes the method with the corresponding inputdata in the provided TestData and returns the result of the method and any errors encountered during the execution.")]
         [Input("method", "The method to run.")]
         [Input("data", "The data to invoke the method with. Only the Input part of the test data will be used by this method.")]
         [MultiOutput(0, "result", "The result from the execution of the test data.")]
