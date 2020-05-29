@@ -43,9 +43,9 @@ namespace BH.Engine.UnitTest
         /**** Public Methods                            ****/
         /***************************************************/
 
-        [Description("Runs a unit test with inputs in the testdata, and construct new testdata with the result from the execution of the method. Returns a new UnitTest object with outputs in the testdata updated to the result of the execution of the method.")]
-        [Input("test", "The unit test to rerun and assign new ouputs.")]
-        [MultiOutput(0, "test", "The unit test with kept method and inputs, but replaced outputs to the result of the execution of the method.")]
+        [Description("Recalculates the outputs stored in the UnitTest testdata by executing the method for each corresponding item in the existing inputs. Returns a new UnitTest object with updated outputs.")]
+        [Input("test", "The unit test to rerun and assign new outputs.")]
+        [MultiOutput(0, "test", "The unit test with original method and inputs, but replaced outputs to the result of the execution of the method.")]
         [MultiOutput(1, "errors", "Any errors encountered during the execution of the method.")]
         public static Output<UT.UnitTest, List<string>> Regenerate(UT.UnitTest test)
         {
