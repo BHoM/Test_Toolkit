@@ -36,9 +36,9 @@ namespace BH.Engine.UnitTest
         /**** Public Methods                            ****/
         /***************************************************/
 
-        [Description("Clears all the outputs from each TestData item in the Data of the provided UnitTest.")]
+        [Description("Clears all the stored outputs from each TestData item in the data of the provided UnitTest.")]
         [Input("test", "The test to clear all output data from.")]
-        [Output("test", "Test with kept method and inputs but cleared outputs.")]
+        [Output("test", "Test with original method and inputs, but unassigned outputs.")]
         public static UT.UnitTest ClearOutputData(this UT.UnitTest test)
         {
             List<UT.TestData> data = new List<UT.TestData>();
