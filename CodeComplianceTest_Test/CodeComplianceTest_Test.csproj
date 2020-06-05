@@ -51,13 +51,11 @@
   <ItemGroup>
     <Reference Include="BHoM">
 <HintPath>C:\ProgramData\BHoM\Assemblies\BHoM.dll</HintPath>
-      <Private>False</Private>
       <Private>True</Private>
     </Reference>
     <Reference Include="BHoM_Engine">
       <SpecificVersion>False</SpecificVersion>
 <HintPath>C:\ProgramData\BHoM\Assemblies\BHoM_Engine.dll</HintPath>
-      <Private>False</Private>
     </Reference>
     <Reference Include="CodeComplianceTest_Engine">
       <SpecificVersion>False</SpecificVersion>
@@ -71,13 +69,12 @@
     </Reference>
     <Reference Include="netstandard, Version=2.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-<HintPath>C:\ProgramData\BHoM\Assemblies\netstandard.dll</HintPath>
+      <HintPath>..\..\..\..\..\..\..\Windows\Microsoft.NET\assembly\GAC_MSIL\netstandard\v4.0_2.0.0.0__cc7b13ffcd2ddd51\netstandard.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="Reflection_Engine">
       <SpecificVersion>False</SpecificVersion>
 <HintPath>C:\ProgramData\BHoM\Assemblies\Reflection_Engine.dll</HintPath>
-      <Private>False</Private>
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
@@ -108,8 +105,7 @@
     </Reference>
     <Reference Include="Test_oM">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Build\Test_oM.dll</HintPath>
-      <Private>False</Private>
+      <HintPath>C:\ProgramData\BHoM\Assemblies\Test_oM.dll</HintPath>
     </Reference>
   </ItemGroup>
   <Choose>
@@ -212,7 +208,7 @@
   </Target>
   <PropertyGroup>
     <PostBuildEvent>
-xcopy "$(TargetDir)$(TargetFileName)"  "C:\ProgramData\BHoM\Assemblies" /C /Y
+xcopy "$(TargetDir)$(TargetFileName)"  "C:\ProgramData\BHoM\Assemblies" /Y
     </PostBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
