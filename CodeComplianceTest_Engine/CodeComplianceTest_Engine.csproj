@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="..\packages\Microsoft.CodeAnalysis.Analyzers.2.9.4\build\Microsoft.CodeAnalysis.Analyzers.props" Condition="Exists('..\packages\Microsoft.CodeAnalysis.Analyzers.2.9.4\build\Microsoft.CodeAnalysis.Analyzers.props')" />
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
@@ -45,32 +45,32 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Diffing_oM">
-<HintPath>C:\ProgramData\BHoM\Assemblies\Diffing_oM.dll</HintPath>
+      <HintPath>C:\ProgramData\BHoM\Assemblies\Diffing_oM.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="netstandard" />
     <Reference Include="BHoM">
-<HintPath>C:\ProgramData\BHoM\Assemblies\BHoM.dll</HintPath>
+      <HintPath>C:\ProgramData\BHoM\Assemblies\BHoM.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="BHoM_Adapter">
-<HintPath>C:\ProgramData\BHoM\Assemblies\BHoM_Adapter.dll</HintPath>
+      <HintPath>C:\ProgramData\BHoM\Assemblies\BHoM_Adapter.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="BHoM_Engine">
-<HintPath>C:\ProgramData\BHoM\Assemblies\BHoM_Engine.dll</HintPath>
+      <HintPath>C:\ProgramData\BHoM\Assemblies\BHoM_Engine.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="Data_Engine">
-<HintPath>C:\ProgramData\BHoM\Assemblies\Data_Engine.dll</HintPath>
+      <HintPath>C:\ProgramData\BHoM\Assemblies\Data_Engine.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="Data_oM">
-<HintPath>C:\ProgramData\BHoM\Assemblies\Data_oM.dll</HintPath>
+      <HintPath>C:\ProgramData\BHoM\Assemblies\Data_oM.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="Library_Engine">
-<HintPath>C:\ProgramData\BHoM\Assemblies\Library_Engine.dll</HintPath>
+      <HintPath>C:\ProgramData\BHoM\Assemblies\Library_Engine.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="Microsoft.CodeAnalysis, Version=3.4.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
@@ -81,15 +81,15 @@
     </Reference>
     <Reference Include="Quantities_oM">
       <SpecificVersion>False</SpecificVersion>
-<HintPath>C:\ProgramData\BHoM\Assemblies\Quantities_oM.dll</HintPath>
+      <HintPath>C:\ProgramData\BHoM\Assemblies\Quantities_oM.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="Reflection_Engine">
-<HintPath>C:\ProgramData\BHoM\Assemblies\Reflection_Engine.dll</HintPath>
+      <HintPath>C:\ProgramData\BHoM\Assemblies\Reflection_Engine.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="Reflection_oM">
-<HintPath>C:\ProgramData\BHoM\Assemblies\Reflection_oM.dll</HintPath>
+      <HintPath>C:\ProgramData\BHoM\Assemblies\Reflection_oM.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="System" />
@@ -239,9 +239,17 @@
     <Error Condition="!Exists('..\packages\Microsoft.CodeAnalysis.Analyzers.2.9.4\build\Microsoft.CodeAnalysis.Analyzers.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.CodeAnalysis.Analyzers.2.9.4\build\Microsoft.CodeAnalysis.Analyzers.props'))" />
   </Target>
   <PropertyGroup>
-    <PostBuildEvent>
-xcopy "$(TargetDir)$(TargetFileName)"  "C:\ProgramData\BHoM\Assemblies" /Y
-    </PostBuildEvent>
+    <PostBuildEvent>xcopy "$(TargetDir)$(TargetFileName)"  "C:\ProgramData\BHoM\Assemblies" /Y
+xcopy "$(TargetDir)Microsoft.CodeAnalysis.dll"  "C:\ProgramData\BHoM\Assemblies" /Y
+xcopy "$(TargetDir)Microsoft.CodeAnalysis.CSharp.dll"  "C:\ProgramData\BHoM\Assemblies" /Y
+xcopy "$(TargetDir)System.Buffers.dll"  "C:\ProgramData\BHoM\Assemblies" /Y
+xcopy "$(TargetDir)System.Collections.Immutable.dll"  "C:\ProgramData\BHoM\Assemblies" /Y
+xcopy "$(TargetDir)System.Memory.dll"  "C:\ProgramData\BHoM\Assemblies" /Y
+xcopy "$(TargetDir)System.Numerics.Vectors.dll"  "C:\ProgramData\BHoM\Assemblies" /Y
+xcopy "$(TargetDir)System.Reflection.Metadata.dll"  "C:\ProgramData\BHoM\Assemblies" /Y
+xcopy "$(TargetDir)System.Runtime.CompilerServices.Unsafe.dll"  "C:\ProgramData\BHoM\Assemblies" /Y
+xcopy "$(TargetDir)System.Text.Encoding.CodePages.dll"  "C:\ProgramData\BHoM\Assemblies" /Y
+xcopy "$(TargetDir)System.Threading.Tasks.Extensions.dll"  "C:\ProgramData\BHoM\Assemblies" /Y</PostBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
