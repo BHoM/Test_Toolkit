@@ -314,7 +314,7 @@ namespace BH.Engine.Test
             {
                 try
                 {
-                    if (!type.IsAbstract && !type.IsInterface && !type.IsEnum)
+                    if (!type.IsAbstract && !type.IsInterface && !type.IsEnum && !type.IsDeprecated())
                     {
                         foreach (Type inter in type.GetInterfaces())
                         {
