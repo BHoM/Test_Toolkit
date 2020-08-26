@@ -37,6 +37,11 @@ using System.Xml.Linq;
 
 using BH.oM.Test.Attributes;
 
+using BH.oM.XML.CSProject;
+using BH.Adapter.XML;
+using BH.oM.Adapter;
+using BH.oM.Adapters.XML;
+
 namespace BH.Engine.Test.CodeCompliance
 {
     public static partial class Compute
@@ -47,141 +52,112 @@ namespace BH.Engine.Test.CodeCompliance
                 return Create.ComplianceResult(ResultStatus.Pass);
 
             ComplianceResult finalResult = Create.ComplianceResult(ResultStatus.Pass);
-
             string documentationLink = "Project-References-and-Build-Paths";
 
-            XNamespace msbuild = "http://schemas.microsoft.com/developer/msbuild/2003";
-            XDocument projDefinition = XDocument.Load(csProjFilePath);
-            List<XElement> referenceElements = projDefinition
-                .Element(msbuild + "Project")
-                .Elements(msbuild + "ItemGroup")
-                .Elements(msbuild + "Reference")
-                .Select(refElem => (refElem.Attribute("Include") != null && (refElem.Attribute("Include").Value.Contains("_oM") || refElem.Attribute("Include").Value.Contains("_Engine") || refElem.Attribute("Include").Value.Contains("_Adapter")) ? refElem : null))
-                .ToList();
+            List<string> fileLines = ReadCSProjFile(csProjFilePath);
 
-            List<string> coreProjects = new List<string> {
-                    "Acoustic",
-                    "Analytical",
-                    "Architecture",
-                    "BHoM",
-                    "BHoM_Adapter",
-                    "Common",
-                    "Data",
-                    "Diffing",
-                    "Dimensional",
-                    "Environment",
-                    "File_Adapter",
-                    "Geometry",
-                    "Graphics",
-                    "Humans",
-                    "Library",
-                    "LifeCycleAssessment",
-                    "Matter",
-                    "MEP",
-                    "Physical",
-                    "Planning",
-                    "Programming",
-                    "Quantities",
-                    "Reflection",
-                    "Results",
-                    "Serialiser",
-                    "Spatial",
-                    "Structure",
-                };
-
-            List<string> adapterCore = new List<string>
+            FileSettings fileSettings = new FileSettings()
             {
-                "Adapter_Engine",
-                "Adapter_oM",
-                "File_Adapter",
-                "StructureModules_AdapterModules", //Renamed this way due to the logic below where we strip _Adapter and then readd it for the check of Adapter projects so this is valid
+                Directory = Path.GetDirectoryName(csProjFilePath),
+                FileName = Path.GetFileName(csProjFilePath),
             };
 
-            List<string> uiCore = new List<string>()
+            XMLAdapter adapter = new XMLAdapter(fileSettings);
+            XMLConfig config = new XMLConfig();
+            config.Schema = oM.Adapters.XML.Enums.Schema.CSProject;
+
+            List<Project> xmlData = adapter.Pull(null, PullType.AdapterDefault, config).Select(x => x as Project).ToList();
+
+            if (xmlData.Count <= 0)
+                return finalResult;
+
+            Project csProject = xmlData[0];
+
+            //Check the output path
+            finalResult = CheckOutputPath(csProject, new List<string>(fileLines), finalResult, csProjFilePath, documentationLink);
+
+            return finalResult;
+        }
+
+        private static List<string> ReadCSProjFile(string fileName)
+        {
+            StreamReader sr = new StreamReader(fileName);
+
+            List<string> lines = new List<string>();
+
+            string line = "";
+            while ((line = sr.ReadLine()) != null)
+                lines.Add(line);
+
+            sr.Close();
+
+            return lines;
+        }
+
+        private static ComplianceResult CheckOutputPath(this Project csProject, List<string> fileLines, ComplianceResult finalResult, string csProjFilePath, string documentationLink)
+        {
+            int foundCounter = 1; //Start at one because the index from the list is not the line of the file (0 index + 1 to get the line number)
+
+            foreach (PropertyGroup group in csProject.PropertyGroups)
             {
-                "BHoM_UI",
-                "UI_Engine",
-                "UI_oM",
-            };
-
-            List<string> localisationToolkit = new List<string>()
-            {
-                "Units_Engine",
-            };
-
-            foreach(XElement x in referenceElements)
-            {
-                if (x == null) continue;
-
-                string include = x.Attribute("Include").Value;
-
-                if (include.Contains("Version") || include.Contains("Culture") || include.Contains("processorArchitecture"))
+                if (group.OutputPath != null)
                 {
-                    finalResult = finalResult.Merge(Create.ComplianceResult(ResultStatus.CriticalFail, new List<Error> { Create.Error("Project references for BHoM DLLs should not include Version, Culture, or Processor Architecture", Create.Location(csProjFilePath, Create.LineSpan(1, 1)), documentationLink) }));
-                    continue; //Difficult to check rest of reference due to string parsing if this bit is wrong
-                }
+                    if (group.OutputPath != "..\\Build\\")
+                    {
+                        int index = fileLines.IndexOf(fileLines.Where(x => x.Contains(group.OutputPath)).FirstOrDefault());
+                        if (index == -1)
+                            index = 1;
+                        else
+                        {
+                            index += foundCounter;
+                            foundCounter++; //For the second search, we remove the line so the index is one away from where it should be
+                            fileLines.RemoveAt(index); //So we don't have to find it again
+                        }
 
-                string reference = include.Replace("_oM", "").Replace("_Engine", "").Replace("_Adapter", "");
-                string hintPathEnding = include.Split('_').Last();
-
-                if (x.Element(msbuild + "HintPath") == null)
-                {
-                    finalResult = finalResult.Merge(Create.ComplianceResult(ResultStatus.CriticalFail, new List<Error> { Create.Error($"HintPath for reference to '{reference}' must be set", Create.Location(csProjFilePath, Create.LineSpan(1, 1)), documentationLink) }));
-                    continue;
+                        finalResult = finalResult.Merge(Create.ComplianceResult(ResultStatus.CriticalFail, new List<Error> { Create.Error($"Output path for all build configurations should be set to '..\\Build\\'", Create.Location(csProjFilePath, Create.LineSpan(index, index)), documentationLink) }));
+                    }
                 }
-
-                string referenceHintPath = x.Element(msbuild + "HintPath").Value;
-
-                string hintPath = @"C:\ProgramData\BHoM\Assemblies\" + reference + "_" + hintPathEnding + ".dll";
-                bool shouldBeProjectReference = false;
-
-                if (coreProjects.IndexOf(reference) != -1)
-                {
-                    if ((csProjFilePath.Contains("\\BHoM\\") && (hintPathEnding == "oM" || hintPathEnding == "BHoM")) || (csProjFilePath.Contains("\\BHoM_Engine\\") && (hintPathEnding == "Engine" || hintPathEnding == "BHoM_Engine")))
-                        shouldBeProjectReference = true;
-                }
-                else if (adapterCore.IndexOf(reference + "_" + hintPathEnding) != -1)
-                {
-                    if (csProjFilePath.Contains("\\BHoM_Adapter\\"))
-                        shouldBeProjectReference = true;
-                }
-                else if(uiCore.IndexOf(reference + "_" + hintPathEnding) != -1)
-                {
-                    if (csProjFilePath.Contains("\\BHoM_UI\\"))
-                        shouldBeProjectReference = true;
-                }
-                else if(localisationToolkit.IndexOf(reference + "_" + hintPathEnding) != -1)
-                {
-                    if (csProjFilePath.Contains("\\Localisation_Toolkit\\"))
-                        shouldBeProjectReference = true;
-                }
-                else if(!referenceHintPath.Contains("packages"))
-                {
-                    string hintPathFolder = reference + "_Toolkit";
-
-                    if (csProjFilePath.Contains("\\" + hintPathFolder + "\\"))
-                        shouldBeProjectReference = true;
-                }
-
-                if (referenceHintPath != hintPath)
-                {
-                    if (shouldBeProjectReference)
-                        finalResult = finalResult.Merge(Create.ComplianceResult(ResultStatus.CriticalFail, new List<Error> { Create.Error($"Project references for '{include}' should be set as a project reference rather than as a DLL reference", Create.Location(csProjFilePath, Create.LineSpan(1, 1)), documentationLink) }));
-                    else
-                        finalResult = finalResult.Merge(Create.ComplianceResult(ResultStatus.CriticalFail, new List<Error> { Create.Error($"Project references for '{include}' should be set to '{hintPath}'", Create.Location(csProjFilePath, Create.LineSpan(1, 1)), documentationLink) }));
-                }
-
-                if(x.Element(msbuild + "Private") == null || x.Element(msbuild + "Private").Value.ToString().ToLower() != "false")
-                    finalResult = finalResult.Merge(Create.ComplianceResult(ResultStatus.CriticalFail, new List<Error> { Create.Error($"Project references for '{include}' should be set to NOT copy local", Create.Location(csProjFilePath, Create.LineSpan(1, 1)), documentationLink) }));
             }
 
-            //Check Output Path
-            foreach(XElement xe in projDefinition.Element(msbuild + "Project").Elements(msbuild + "PropertyGroup"))
-            {
-                if (xe.Element(msbuild + "OutputPath") == null) continue;
+            return finalResult;
+        }
 
-                if (xe.Element(msbuild + "OutputPath").Value != "..\\Build\\")
-                    finalResult = finalResult.Merge(Create.ComplianceResult(ResultStatus.CriticalFail, new List<Error> { Create.Error($"Output path for all build configurations should be set to '..\\Build\\'", Create.Location(csProjFilePath, Create.LineSpan(1, 1)), documentationLink) }));
+        private static ComplianceResult CheckReferences(this Project csProject, List<string> fileLines, ComplianceResult finalResult, string csProjFilePath, string documentationLink)
+        {
+            foreach(ItemGroup group in csProject.ItemGroups)
+            {
+                foreach(Reference reference in group.References)
+                {
+                    string includeName = reference.IncludeName.ToLower();
+                    string refName = reference.IncludeName.Split(',')[0];
+
+                    if (includeName != "bhom" && !includeName.Contains("_om") && !includeName.Contains("_engine") || !includeName.Contains("_adapter") && !includeName.Contains("_ui"))
+                        continue; //Not a BHoM DLL so no point worrying
+
+                    if(includeName.Contains("culture") || includeName.Contains("version") || includeName.Contains("processorarchitecture"))
+                    {
+                        int index = fileLines.IndexOf(fileLines.Where(x => x.Contains(reference.IncludeName)).FirstOrDefault());
+                        if (index == -1)
+                            index = 1;
+                        else
+                            index += 1; //To account for 0 indexing of the list
+
+                        finalResult = finalResult.Merge(Create.ComplianceResult(ResultStatus.CriticalFail, new List<Error> { Create.Error("Project references for BHoM DLLs should not include Version, Culture, or Processor Architecture", Create.Location(csProjFilePath, Create.LineSpan(index, index)), documentationLink) }));
+                    }
+
+                    string hintPath = @"C:\ProgramData\BHoM\Assemblies\" + refName + ".dll";
+
+                    if(reference.HintPath != hintPath)
+                    {
+                        int index = fileLines.IndexOf(fileLines.Where(x => x.Contains(reference.HintPath)).FirstOrDefault());
+                        if (index == -1)
+                            index = 1;
+                        else
+                            index += 1;
+                        
+                        finalResult = finalResult.Merge(Create.ComplianceResult(ResultStatus.CriticalFail, new List<Error> { Create.Error($"Project reference for '{refName}' should be set to '{hintPath}'", Create.Location(csProjFilePath, Create.LineSpan(index, index)), documentationLink) }));
+                    }
+                }
             }
 
             return finalResult;
