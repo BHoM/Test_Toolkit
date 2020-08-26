@@ -275,7 +275,8 @@ xcopy "$(TargetDir)System.Memory.dll"  "C:\ProgramData\BHoM\Assemblies" /Y
 xcopy "$(TargetDir)System.Numerics.Vectors.dll"  "C:\ProgramData\BHoM\Assemblies" /Y
 xcopy "$(TargetDir)System.Reflection.Metadata.dll"  "C:\ProgramData\BHoM\Assemblies" /Y
 xcopy "$(TargetDir)System.Runtime.CompilerServices.Unsafe.dll"  "C:\ProgramData\BHoM\Assemblies" /Y
-xcopy "$(TargetDir)System.Text.Encoding.CodePages.dll"  "C:\ProgramData\BHoM\Assemblies" /Y</PostBuildEvent>
+xcopy "$(TargetDir)System.Text.Encoding.CodePages.dll"  "C:\ProgramData\BHoM\Assemblies" /Y
+xcopy "$(TargetDir)System.Threading.Tasks.Extensions.dll"  "C:\ProgramData\BHoM\Assemblies" /Y</PostBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
