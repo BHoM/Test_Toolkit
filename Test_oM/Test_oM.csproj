@@ -79,9 +79,7 @@
     <Compile Include="UnitTests\TestData.cs" />
     <Compile Include="UnitTests\UnitTest.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="CSProject\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>
