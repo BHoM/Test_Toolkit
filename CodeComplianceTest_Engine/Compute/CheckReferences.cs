@@ -41,6 +41,7 @@ using BH.oM.XML.CSProject;
 using BH.Adapter.XML;
 using BH.oM.Adapter;
 using BH.oM.Adapters.XML;
+using BH.oM.Data.Requests;
 
 namespace BH.Engine.Test.CodeCompliance
 {
@@ -66,7 +67,7 @@ namespace BH.Engine.Test.CodeCompliance
             XMLConfig config = new XMLConfig();
             config.Schema = oM.Adapters.XML.Enums.Schema.CSProject;
 
-            List<Project> xmlData = adapter.Pull(null, PullType.AdapterDefault, config).Select(x => x as Project).ToList();
+            List<Project> xmlData = adapter.Pull(new FilterRequest(), PullType.AdapterDefault, config).Select(x => x as Project).ToList();
 
             if (xmlData.Count <= 0)
                 return finalResult;
