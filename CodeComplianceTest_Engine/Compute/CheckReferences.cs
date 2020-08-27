@@ -170,21 +170,18 @@ namespace BH.Engine.Test.CodeCompliance
                             index = 1;
                         else
                         {
-                            bool giveUp = false;
-                            while(!giveUp)
+                            while(true)
                             {
                                 if(fileLines[index + 1].Contains("<Private>"))
                                 {
                                     index = index + 1;
-                                    giveUp = true;
+                                    break;
                                 }
                                 else if(fileLines[index + 1].Contains("</Reference>"))
                                 {
-                                    index = -1;
-                                    giveUp = true;
+                                    index = 1;
+                                    break;
                                 }
-
-                                index++;
                             }
 
                             finalResult = finalResult.Merge(Create.ComplianceResult(ResultStatus.CriticalFail, new List<Error> { Create.Error($"Project reference for '{refName}' should be set to not copy local", Create.Location(csProjFilePath, Create.LineSpan(index, index)), documentationLink) }));
