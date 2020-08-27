@@ -170,24 +170,25 @@ namespace BH.Engine.Test.CodeCompliance
                             index = 1;
                         else
                         {
-                            while(true)
+                            while (true)
                             {
-                                if(fileLines[index + 1].Contains("<Private>"))
+                                if (fileLines[index + 1].Contains("<Private>"))
                                 {
-                                    index = index + 1;
+                                    index += 2; //To account for the 0 index list
                                     break;
                                 }
-                                else if(fileLines[index + 1].Contains("</Reference>"))
+                                else if (fileLines[index + 1].Contains("</Reference>"))
                                 {
                                     index = fileLines.IndexOf(fileLines.Where(x => x.Contains(reference.IncludeName)).FirstOrDefault());
+                                    index += 1;
                                     break;
                                 }
 
                                 index++;
                             }
-
-                            finalResult = finalResult.Merge(Create.ComplianceResult(ResultStatus.CriticalFail, new List<Error> { Create.Error($"Project reference for '{refName}' should be set to not copy local", Create.Location(csProjFilePath, Create.LineSpan(index, index)), documentationLink) }));
                         }
+
+                        finalResult = finalResult.Merge(Create.ComplianceResult(ResultStatus.CriticalFail, new List<Error> { Create.Error($"Project reference for '{refName}' should be set to not copy local", Create.Location(csProjFilePath, Create.LineSpan(index, index)), documentationLink) }));
                     }
                 }
             }
