@@ -162,6 +162,32 @@ namespace BH.Engine.Test.CodeCompliance
                         
                         finalResult = finalResult.Merge(Create.ComplianceResult(ResultStatus.CriticalFail, new List<Error> { Create.Error($"Project reference for '{refName}' should be set to '{hintPath}'", Create.Location(csProjFilePath, Create.LineSpan(index, index)), documentationLink) }));
                     }
+
+                    if(reference.IsCopyLocal == null || reference.IsCopyLocal.ToLower() != "false")
+                    {
+                        int index = fileLines.IndexOf(fileLines.Where(x => x.Contains(reference.IncludeName)).FirstOrDefault());
+                        if (index == -1)
+                            index = 1;
+                        else
+                        {
+                            bool giveUp = false;
+                            while(!giveUp)
+                            {
+                                if(fileLines[index + 1].Contains("<Private>"))
+                                {
+                                    index = index + 1;
+                                    giveUp = true;
+                                }
+                                else if(fileLines[index + 1].Contains("</Reference>"))
+                                {
+                                    index = -1;
+                                    giveUp = true;
+                                }
+                            }
+
+                            finalResult = finalResult.Merge(Create.ComplianceResult(ResultStatus.CriticalFail, new List<Error> { Create.Error($"Project reference for '{refName}' should be set to not copy local", Create.Location(csProjFilePath, Create.LineSpan(index, index)), documentationLink) }));
+                        }
+                    }
                 }
             }
 
