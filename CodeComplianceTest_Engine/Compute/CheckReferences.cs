@@ -179,7 +179,7 @@ namespace BH.Engine.Test.CodeCompliance
                                 }
                                 else if (fileLines[index + 1].Contains("</Reference>"))
                                 {
-                                    index = fileLines.IndexOf(fileLines.Where(x => x.Contains(reference.IncludeName)).FirstOrDefault());
+                                    index = fileLines.IndexOf(fileLines.Where(x => x.Contains("<Reference Include=") && x.Contains(reference.IncludeName)).FirstOrDefault());
                                     index += 1;
                                     break;
                                 }
