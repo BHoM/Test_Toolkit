@@ -76,6 +76,7 @@ namespace BH.Engine.Test.CodeCompliance
 
             //Check the output path
             finalResult = CheckOutputPath(csProject, new List<string>(fileLines), finalResult, csProjFilePath, documentationLink);
+            finalResult = CheckReferences(csProject, new List<string>(fileLines), finalResult, csProjFilePath, documentationLink);
 
             return finalResult;
         }
@@ -127,12 +128,15 @@ namespace BH.Engine.Test.CodeCompliance
         {
             foreach(ItemGroup group in csProject.ItemGroups)
             {
+                if (group.References == null)
+                    continue;
+
                 foreach(Reference reference in group.References)
                 {
                     string includeName = reference.IncludeName.ToLower();
                     string refName = reference.IncludeName.Split(',')[0];
 
-                    if (includeName != "bhom" && !includeName.Contains("_om") && !includeName.Contains("_engine") || !includeName.Contains("_adapter") && !includeName.Contains("_ui"))
+                    if (includeName != "bhom" && !includeName.Contains("_om") && !includeName.Contains("_engine") && !includeName.Contains("_adapter") && !includeName.Contains("_ui"))
                         continue; //Not a BHoM DLL so no point worrying
 
                     if(includeName.Contains("culture") || includeName.Contains("version") || includeName.Contains("processorarchitecture"))
