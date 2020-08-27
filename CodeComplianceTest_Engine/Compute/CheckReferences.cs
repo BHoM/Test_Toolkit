@@ -183,6 +183,8 @@ namespace BH.Engine.Test.CodeCompliance
                                     index = -1;
                                     giveUp = true;
                                 }
+
+                                index++;
                             }
 
                             finalResult = finalResult.Merge(Create.ComplianceResult(ResultStatus.CriticalFail, new List<Error> { Create.Error($"Project reference for '{refName}' should be set to not copy local", Create.Location(csProjFilePath, Create.LineSpan(index, index)), documentationLink) }));
