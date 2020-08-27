@@ -165,7 +165,7 @@ namespace BH.Engine.Test.CodeCompliance
 
                     if(reference.IsCopyLocal == null || reference.IsCopyLocal.ToLower() != "false")
                     {
-                        int index = fileLines.IndexOf(fileLines.Where(x => x.Contains(reference.IncludeName)).FirstOrDefault());
+                        int index = fileLines.IndexOf(fileLines.Where(x => x.Contains("<Reference Include=") && x.Contains(reference.IncludeName)).FirstOrDefault());
                         if (index == -1)
                             index = 1;
                         else
