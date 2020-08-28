@@ -46,7 +46,7 @@
   <ItemGroup>
     <Reference Include="Adapter_oM, Version=3.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>C:ProgramData\BHoM\Assemblies\Adapter_oM.dll</HintPath>
+      <HintPath>C:\ProgramData\BHoM\Assemblies\Adapter_oM.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="Diffing_oM">
