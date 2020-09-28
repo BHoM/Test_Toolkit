@@ -122,7 +122,7 @@
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>C:\Windows\System32\xcopy "$(SolutionDir)DataSets\*.*" "$(Appdata)\BHoM\DataSets" /Y /I /E
+    <PostBuildEvent>C:\Windows\System32\xcopy "$(SolutionDir)DataSets\*.*" "C:\ProgramData\BHoM\DataSets" /Y /I /E
 xcopy "$(TargetDir)$(TargetFileName)"  "C:\ProgramData\BHoM\Assemblies" /Y
 xcopy "$(TargetDir)KellermanSoftware.Compare-NET-Objects.dll"  "C:\ProgramData\BHoM\Assemblies" /Y
 </PostBuildEvent>
