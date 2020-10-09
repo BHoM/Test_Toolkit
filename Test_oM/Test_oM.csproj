@@ -59,6 +59,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Attributes\ComplianceTypeAttributecs.cs" />
     <Compile Include="Attributes\ErrorLevelAttribute.cs" />
     <Compile Include="Attributes\IsPublicAttribute.cs" />
     <Compile Include="Attributes\PathAttribute.cs" />

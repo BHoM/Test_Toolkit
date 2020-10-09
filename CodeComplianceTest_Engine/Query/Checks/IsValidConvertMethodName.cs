@@ -37,6 +37,7 @@ namespace BH.Engine.Test.CodeCompliance.Checks
         [Path(@"([a-zA-Z0-9]+)_Engine\\Convert\\.*\.cs$")]
         [Path(@"([a-zA-Z0-9]+)_Adapter\\Convert\\.*\.cs$")]
         [IsPublic()]
+        [ComplianceType("code")]
         public static Span IsValidConvertMethodName(this MethodDeclarationSyntax node)
         {
             string name = node.Identifier.Text;

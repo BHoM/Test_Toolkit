@@ -39,6 +39,7 @@ namespace BH.Engine.Test.CodeCompliance.Checks
         [Path(@"([a-zA-Z0-9]+)_Engine\\Create\\.*\.cs$", false)]
         [Path(@"([a-zA-Z0-9]+)_Engine\\Objects\\.*\.cs$", false)]
         [IsPublic()]
+        [ComplianceType("code")]
         public static Span MethodNameContainsFileName(this MethodDeclarationSyntax node)
         {
             string name = node.IGetName();

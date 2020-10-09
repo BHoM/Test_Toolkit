@@ -39,6 +39,7 @@ namespace BH.Engine.Test.CodeCompliance.Checks
         [Path(@"([a-zA-Z0-9]+)_Engine\\.*\.cs$")]
         [Path(@"([a-zA-Z0-9]+)_Engine\\Objects\\.*\.cs$", false)]
         [IsPublic()]
+        [ComplianceType("documentation")]
         public static Span HasValidOutputAttribute(this MethodDeclarationSyntax node)
         {
             bool isvoid = false;

@@ -37,6 +37,7 @@ namespace BH.Engine.Test.CodeCompliance.Checks
         [Message("Incorrect Engine class name based on file path", "EngineClassMatchesFilePath")]
         [Path(@"([A-Za-z0-9]+)_Engine\\.*\.cs$")]
         [Path(@"([a-zA-Z0-9]+)_Engine\\Objects\\.*\.cs$", false)]
+        [ComplianceType("code")]
         public static Span EngineClassMatchesFilePath(this ClassDeclarationSyntax node)
         {
             string path = node.SyntaxTree.FilePath;

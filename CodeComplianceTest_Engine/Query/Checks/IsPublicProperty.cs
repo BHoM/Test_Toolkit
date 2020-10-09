@@ -39,6 +39,7 @@ namespace BH.Engine.Test.CodeCompliance.Checks
         [Path(@"([a-zA-Z0-9]+)_Adapter\\.*\.cs$", false)]
         [Path(@"([a-zA-Z0-9]+)_UI\\.*\.cs$", false)]
         [IsPublic(false)]
+        [ComplianceType("code")]
         public static Span IsPublicProperty(this PropertyDeclarationSyntax node)
         {
             return node.Modifiers.Count > 0 ? node.Modifiers.Span.ToSpan() : node.Span.ToSpan();

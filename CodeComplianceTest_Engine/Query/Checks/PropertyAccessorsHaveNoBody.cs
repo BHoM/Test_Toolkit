@@ -39,6 +39,7 @@ namespace BH.Engine.Test.CodeCompliance.Checks
         [Path(@"([a-zA-Z0-9]+)_Adapter\\.*\.cs$", false)]
         [Path(@"([a-zA-Z0-9]+)_UI\\.*\.cs$", false)]
         [IsPublic()]
+        [ComplianceType("code")]
         public static Span PropertyAccessorsHaveNoBody(this PropertyDeclarationSyntax node)
         {
             if (node.AccessorList == null)

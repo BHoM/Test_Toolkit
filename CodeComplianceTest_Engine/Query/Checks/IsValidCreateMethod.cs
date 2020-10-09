@@ -38,6 +38,7 @@ namespace BH.Engine.Test.CodeCompliance.Checks
         [Message("A Create method return type must either match its file name, (e.g. Engine/Create/Panel.cs returning a type of Panel), OR the file must sit in a sub-folder of Create which matches the return type (e.g. Engine/Create/Panel/MyNewPanel.cs).", "IsValidCreateMethod")]
         [Path(@"([a-zA-Z0-9]+)_Engine\\Create\\.*\.cs$")]
         [IsPublic()]
+        [ComplianceType("code")]
         public static Span IsValidCreateMethod(this MethodDeclarationSyntax node)
         {
             string filePath = node.SyntaxTree.FilePath;
