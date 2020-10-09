@@ -40,6 +40,7 @@ namespace BH.Engine.Test.CodeCompliance.Checks
         [Path(@"([a-zA-Z0-9]+)_Engine\\Compute\\.*\.cs$", false)]
         [Path(@"([a-zA-Z0-9]+)_Engine\\Create\\.*\.cs$", false)]
         [IsPublic()]
+        [ComplianceType("code")]
         public static Span IsExtensionMethod(this MethodDeclarationSyntax node)
         {
             var parameters = node.ParameterList.Parameters;

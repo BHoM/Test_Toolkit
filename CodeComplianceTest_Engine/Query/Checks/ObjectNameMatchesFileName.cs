@@ -37,6 +37,7 @@ namespace BH.Engine.Test.CodeCompliance.Checks
         [Message("Class (object) name must match file name", "ObjectNameMatchesFileName")]
         [Path(@"([a-zA-Z0-9]+)_?oM\\.*\.cs$")]
         [IsPublic()]
+        [ComplianceType("code")]
         public static Span ObjectNameMatchesFileName(this ClassDeclarationSyntax node)
         {
             string filePath = node.SyntaxTree.FilePath;

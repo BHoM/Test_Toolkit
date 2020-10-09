@@ -37,6 +37,7 @@ namespace BH.Engine.Test.CodeCompliance.Checks
         [Message("Invalid Create method name: Method name must match the filename for create methods", "IsValidCreateMethodName")]
         [Path(@"([a-zA-Z0-9]+)_Engine\\Create\\.*\.cs$")]
         [IsPublic()]
+        [ComplianceType("code")]
         public static Span IsValidCreateMethodName(this MethodDeclarationSyntax node)
         {
             string filePath = node.SyntaxTree.FilePath;

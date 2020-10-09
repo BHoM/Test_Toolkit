@@ -38,7 +38,7 @@ namespace BH.Engine.Test.CodeCompliance
 {
     public static partial class Compute
     {
-        public static ComplianceResult RunChecks(this SyntaxNode node)
+        public static ComplianceResult RunChecks(this SyntaxNode node, string checkType = null)
         {
             string path = node.SyntaxTree.FilePath;
             if (Path.GetFileName(path) == "AssemblyInfo.cs")
@@ -47,9 +47,27 @@ namespace BH.Engine.Test.CodeCompliance
             ComplianceResult finalResult = Create.ComplianceResult(ResultStatus.Pass);
             foreach(MethodInfo method in Query.AllChecks())
             {
-                finalResult = finalResult.Merge(method.Check(node));
+                finalResult = finalResult.Merge(method.Check(node, checkType));
             }
             return finalResult;
+        }
+
+        public static ComplianceResult RunChecks(this string filePath, string checkType)
+        {
+            StreamReader sr = new StreamReader(filePath);
+            string file = sr.ReadToEnd();
+            sr.Close();
+
+            ComplianceResult r = Create.ComplianceResult(ResultStatus.Pass);
+
+            if (file != null)
+            {
+                SyntaxTree st = BH.Engine.Test.CodeCompliance.Convert.ToSyntaxTree(file, filePath);
+                
+                r = r.Merge(RunChecks(st.GetRoot(), checkType));
+            }
+
+            return r;
         }
     }
 }

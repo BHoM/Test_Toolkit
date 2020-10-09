@@ -38,7 +38,7 @@ namespace BH.Engine.Test.CodeCompliance
 {
     public static partial class Compute
     {
-        public static ComplianceResult Check(this MethodInfo method, SyntaxNode node)
+        public static ComplianceResult Check(this MethodInfo method, SyntaxNode node, string checkType = null)
         {
             ComplianceResult finalResult = Create.ComplianceResult(ResultStatus.Pass);
             string path = node.SyntaxTree.FilePath;
@@ -49,7 +49,8 @@ namespace BH.Engine.Test.CodeCompliance
             if (method.GetParameters()[0].ParameterType.IsAssignableFrom(type) &&
                 !(typeof(MemberDeclarationSyntax).IsAssignableFrom(node.GetType())
                 && ((MemberDeclarationSyntax)node).IsDeprecated()) &&
-                method.GetCustomAttributes<ConditionAttribute>().All(condition => condition.IPasses(node)))
+                method.GetCustomAttributes<ConditionAttribute>().All(condition => condition.IPasses(node)) &&
+                (checkType != null && method.GetCustomAttribute<ComplianceTypeAttribute>().ComplianceType == checkType))
             {
                 Func<object[], object> fn = method.ToFunc();
                 Span result = fn(new object[] { node }) as Span;

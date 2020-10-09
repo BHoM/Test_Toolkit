@@ -1,4 +1,4 @@
-/*
+﻿/*
  * This file is part of the Buildings and Habitats object Model (BHoM)
  * Copyright (c) 2015 - 2020, the respective contributors. All rights reserved.
  *
@@ -20,29 +20,24 @@
  * along with this code. If not, see <https://www.gnu.org/licenses/lgpl-3.0.html>.      
  */
 
-using BH.oM.Reflection.Attributes;
-using BH.oM.Test;
-using BH.oM.Test.Attributes;
-using Microsoft.CodeAnalysis.CSharp.Syntax;
+using BH.oM.Base;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BH.Engine.Test.CodeCompliance.Checks
+namespace BH.oM.Test.Attributes
 {
-    public static partial class Query
+    [AttributeUsage(AttributeTargets.Method, AllowMultiple = false)]
+    public class ComplianceTypeAttribute : Attribute, IImmutable
     {
-        [Message("Invalid Engine class: Engine classes must be public", "IsPublicClass")]
-        [Path(@"([a-zA-Z0-9]+)_Engine\\.*\.cs$")]
-        [Path(@"([a-zA-Z0-9]+)_Engine\\Objects\\.*\.cs$", false)]
-        [IsPublic(false)]
-        [ComplianceType("code")]
-        [Output("A span that represents where this error resides or null if there is no error")]
-        public static Span IsPublicClass(this ClassDeclarationSyntax node)
+        public virtual string ComplianceType { get; }
+
+        public ComplianceTypeAttribute(string complianceType)
         {
-            return node.Modifiers.Span.ToSpan();
+            ComplianceType = complianceType;
         }
     }
 }
