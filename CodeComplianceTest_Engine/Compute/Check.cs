@@ -46,11 +46,12 @@ namespace BH.Engine.Test.CodeCompliance
                 return finalResult;
 
             Type type = node.GetType();
+                    
             if (method.GetParameters()[0].ParameterType.IsAssignableFrom(type) &&
-                !(typeof(MemberDeclarationSyntax).IsAssignableFrom(node.GetType())
-                && ((MemberDeclarationSyntax)node).IsDeprecated()) &&
-                method.GetCustomAttributes<ConditionAttribute>().All(condition => condition.IPasses(node)) &&
-                (checkType != null && method.GetCustomAttribute<ComplianceTypeAttribute>().ComplianceType == checkType))
+                    !(typeof(MemberDeclarationSyntax).IsAssignableFrom(node.GetType())
+                    && ((MemberDeclarationSyntax)node).IsDeprecated()) &&
+                    method.GetCustomAttributes<ConditionAttribute>().All(condition => condition.IPasses(node)) &&
+                    (checkType != null && method.GetCustomAttribute<ComplianceTypeAttribute>()?.ComplianceType == checkType))
             {
                 Func<object[], object> fn = method.ToFunc();
                 Span result = fn(new object[] { node }) as Span;
@@ -63,19 +64,20 @@ namespace BH.Engine.Test.CodeCompliance
                     finalResult = finalResult.Merge(Create.ComplianceResult(
                         errLevel == ErrorLevel.Error ? ResultStatus.CriticalFail : ResultStatus.Fail,
                         new List<Error> {
-                        Create.Error(message, Create.Location(path, result.ToLineSpan(node.SyntaxTree.GetRoot().ToFullString())), documentation, errLevel, method.Name)
+                Create.Error(message, Create.Location(path, result.ToLineSpan(node.SyntaxTree.GetRoot().ToFullString())), documentation, errLevel, method.Name)
                         }));
                 }
             }
-            return finalResult.Merge(method.Check(node.ChildNodes()));
+
+            return finalResult.Merge(method.Check(node.ChildNodes(), checkType));
         }
 
-        public static ComplianceResult Check(this MethodInfo method, IEnumerable<SyntaxNode> nodes)
+        public static ComplianceResult Check(this MethodInfo method, IEnumerable<SyntaxNode> nodes, string checkType = null)
         {
             ComplianceResult finalResult = Create.ComplianceResult(ResultStatus.Pass);
             foreach(var node in nodes)
             {
-                finalResult = finalResult.Merge(method.Check(node));
+                finalResult = finalResult.Merge(method.Check(node, checkType));
             }
             return finalResult;
         }
