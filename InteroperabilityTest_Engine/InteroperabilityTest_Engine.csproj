@@ -59,6 +59,10 @@
       <HintPath>C:\ProgramData\BHoM\Assemblies\BHoM_Adapter.dll</HintPath>
       <Private>False</Private>
     </Reference>
+    <Reference Include="BHoM_Engine, Version=3.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\ProgramData\BHoM\Assemblies\BHoM_Engine.dll</HintPath>
+    </Reference>
     <Reference Include="Data_Engine">
       <HintPath>C:\ProgramData\BHoM\Assemblies\Data_Engine.dll</HintPath>
       <Private>False</Private>
@@ -101,10 +105,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Compute\DispatchResultDifferences.cs" />
     <Compile Include="Compute\PushPullCompare.cs" />
     <Compile Include="Objects\EqualityComparers\AdapterIdComparer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Compute\ComputeInputOutputComparisonDiffings.cs" />
+    <Compile Include="Query\Comparer.cs" />
     <Compile Include="Query\TestDataOfType.cs" />
+    <Compile Include="Query\TestSummary.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
