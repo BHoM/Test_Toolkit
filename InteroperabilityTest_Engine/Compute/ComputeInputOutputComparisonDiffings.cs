@@ -81,7 +81,22 @@ namespace BH.Engine.Test.Interoperability
                             comparisonResults.Add(CreateComparison(comparison, match.res, InputOutputComparisonDiffingType.Equal));
                     }
 
+                    //If not fully equal, compare the two comparisons
                     comparisonResults.AddRange(Compare(comparison, reference));
+
+                }
+                else
+                {
+                    //No results found in the same reference set
+                    if (comparison.Results.Any())
+                    {
+                        for (int i = 0; i < comparison.Results.Count; i++)
+                        {
+                            comparisonResults.Add(CreateComparison(comparison.Results[i], null, InputOutputComparisonDiffingType.NoAvailableReferenceSet));
+                        }
+                    }
+                    else
+                        comparisonResults.Add(CreateComparison(comparison, null, InputOutputComparisonDiffingType.NoAvailableReferenceSet));
 
                 }
             }
