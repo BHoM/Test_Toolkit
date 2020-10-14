@@ -36,6 +36,7 @@ using BH.oM.Reflection.Interface;
 using BH.oM.Reflection;
 using BH.oM.Diffing;
 using BH.oM.Test.Results;
+using BH.Engine.Base;
 
 namespace BH.Engine.UnitTest
 {
@@ -49,18 +50,22 @@ namespace BH.Engine.UnitTest
         [Input("test", "The test to run, containing the method to be executed as well as the data to test on.")]
         [MultiOutput(0, "results", "Results from the comparison of the run data with the expected output.")]
         [MultiOutput(1, "errors", "Any errors encountered during the execution of the method or during the comparison of the expected output data with the result of running the method.")]
-        public static Output<List<DiffingResult>, List<string>> CheckTest(this UT.UnitTest test)
+        public static Output<List<InputOutputComparison>, List<string>> CheckTest(this UT.UnitTest test)
         {
 
             List<List<object>> results = new List<List<object>>();
             List<string> errors = new List<string>();
-            List<DiffingResult> comparisonResults = new List<DiffingResult>();
+            List<InputOutputComparison> comparisonResults = new List<InputOutputComparison>();
             MethodBase method = test.Method;
             DiffConfig diffConfig = new DiffConfig();
+
+            //Calcualte timestamp
+            double timestep = DateTime.UtcNow.ToOADate();
+
             foreach (UT.TestData data in test.Data)
             {
                 var result = Run(method, data);
-
+                
                 if (result.Item2.Count != 0)
                     errors.AddRange(result.Item2);
                 else
@@ -80,14 +85,18 @@ namespace BH.Engine.UnitTest
 
                             var diffResult = Engine.Test.Query.IsEqual(resultObj, refObject, diffConfig);
 
-                            DiffingResult diff = new DiffingResult { Name = "Output " + i, IsEqual = diffResult.Item1 };
+                            string hash = (resultObj is IObject) ? (resultObj as IObject).Hash() : resultObj.GetHashCode().ToString();
+
+                            List<InputOutputDifference> differences = new List<InputOutputDifference>();
 
                             for (int j = 0; j < diffResult.Item2.Count; j++)
                             {
-                                diff.Differences.Add(new PropertyDifference { Name = diffResult.Item2[j], FirstItemValue = diffResult.Item3[j], SecondItemValue = diffResult.Item4[j] });
+                                differences.Add(new InputOutputDifference(hash, data.Name, diffResult.Item2[j], timestep, resultObj.GetType(), diffResult.Item3[j], diffResult.Item4[j]));
                             }
 
-                            comparisonResults.Add(diff);
+                            InputOutputComparisonType type = diffResult.Item1 ? InputOutputComparisonType.Equal : InputOutputComparisonType.Difference;
+
+                            comparisonResults.Add(new InputOutputComparison(hash, data.Name, timestep, resultObj.GetType(), type, differences));
                         }
 
                     }
@@ -98,7 +107,7 @@ namespace BH.Engine.UnitTest
                 }
 
             }
-            return new Output<List<DiffingResult>, List<string>> { Item1 = comparisonResults, Item2 = errors };
+            return new Output<List<InputOutputComparison>, List<string>> { Item1 = comparisonResults, Item2 = errors };
         }
     
 
