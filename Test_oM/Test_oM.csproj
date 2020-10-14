@@ -41,6 +41,9 @@
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Analytical_oM">
+      <HintPath>C:\ProgramData\BHoM\Assemblies\Analytical_oM.dll</HintPath>
+    </Reference>
     <Reference Include="BHoM">
       <HintPath>C:\ProgramData\BHoM\Assemblies\BHoM.dll</HintPath>
       <Private>False</Private>
@@ -67,20 +70,27 @@
     <Compile Include="Attributes\ConditionAttribute.cs" />
     <Compile Include="ComplianceResult.cs" />
     <Compile Include="ErrorLevel.cs" />
+    <Compile Include="Interoperability\Enums\ComparerType.cs" />
+    <Compile Include="Interoperability\PushPullCompareConfig.cs" />
     <Compile Include="LineLocation.cs" />
     <Compile Include="Location.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Error.cs" />
     <Compile Include="LineSpan.cs" />
     <Compile Include="ResultStatus.cs" />
+    <Compile Include="Results\Enums\InputOutputComparisonType.cs" />
+    <Compile Include="Results\Enums\InputOutputComparisonDiffingType.cs" />
+    <Compile Include="Results\InputOutputComparison.cs" />
+    <Compile Include="Results\InputOutputComparisonSummary.cs" />
+    <Compile Include="Results\InputOutputDifference.cs" />
+    <Compile Include="Results\InputOutputComparisonDiffing.cs" />
     <Compile Include="Span.cs" />
-    <Compile Include="Results\DiffingResults.cs" />
-    <Compile Include="Results\PropertyDifference.cs" />
-    <Compile Include="Results\PushPullSetDiffing.cs" />
     <Compile Include="UnitTests\TestData.cs" />
     <Compile Include="UnitTests\UnitTest.cs" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <WCFMetadata Include="Service References\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>
