@@ -22,7 +22,10 @@
 
 using System;
 using System.Collections.Generic;
+using System.Collections;
+using System.Linq;
 using BH.oM.Base;
+using BH.Engine.Base;
 
 namespace BH.Engine.Test.Interoperability
 {
@@ -32,9 +35,9 @@ namespace BH.Engine.Test.Interoperability
         /**** Constructors                              ****/
         /***************************************************/
 
-        public AdapterIdComparer(string adapterId)
+        public AdapterIdComparer(Type adapterIdFragmentType)
         {
-            m_adapterId = adapterId;
+            m_adapterIdFragmentType = adapterIdFragmentType;
         }
 
         /***************************************************/
@@ -51,17 +54,42 @@ namespace BH.Engine.Test.Interoperability
                 return false;
 
             //Check if the adapter id are the same
-            object obj1Id;
-            object obj2Id;
+            IFragment fragment1;
+            IFragment fragment2;
 
             //Check if ID exists
-            if (!obj1.CustomData.TryGetValue(m_adapterId, out obj1Id))
+            if (!obj1.Fragments.TryGetValue(m_adapterIdFragmentType, out fragment1))
                 return false;
 
-            if (!obj2.CustomData.TryGetValue(m_adapterId, out obj2Id))
+            if (!obj2.Fragments.TryGetValue(m_adapterIdFragmentType, out fragment2))
                 return false;
 
-            return obj1Id.ToString() == obj2Id.ToString();
+            object id1 = ((IAdapterId)fragment1).Id;
+            object id2 = ((IAdapterId)fragment2).Id;
+
+            bool id1IsEnumerable = (!(id1 is string) && id1 is IEnumerable);
+            bool id2IsEnumerable = (!(id2 is string) && id2 is IEnumerable);
+
+            if (id1IsEnumerable || id2IsEnumerable)
+            {
+                IEnumerable<object> ids1;
+                IEnumerable<object> ids2;
+
+                if (id1IsEnumerable)
+                    ids1 = (id1 as IEnumerable).Cast<object>();
+                else
+                    ids1 = new List<object> { id1 };
+
+                if (id2IsEnumerable)
+                    ids2 = (id1 as IEnumerable).Cast<object>();
+                else
+                    ids2 = new List<object> { id2 };
+
+                return ids1.Zip(ids2, (x, y) => x.ToString() == y.ToString()).All(x => x);
+            }
+
+
+            return ((IAdapterId)fragment1).Id.ToString() == ((IAdapterId)fragment2).Id.ToString();
         }
 
         /***************************************************/
@@ -72,12 +100,13 @@ namespace BH.Engine.Test.Interoperability
             if (Object.ReferenceEquals(obj, null)) return 0;
 
             //Check if identifier exists
-            object id;
+            IFragment fragment;
 
-            if (!obj.CustomData.TryGetValue(m_adapterId, out id))
+            //Check if ID exists
+            if (!obj.Fragments.TryGetValue(m_adapterIdFragmentType, out fragment))
                 return 0;
 
-            return id.ToString().GetHashCode();
+            return ((IAdapterId)fragment).Id.ToString().GetHashCode();
         }
 
 
@@ -85,7 +114,7 @@ namespace BH.Engine.Test.Interoperability
         /**** Private Fields                            ****/
         /***************************************************/
 
-        private string m_adapterId;
+        private Type m_adapterIdFragmentType;
 
         /***************************************************/
     }

@@ -75,7 +75,7 @@ namespace BH.Engine.Test.Interoperability
 
             //Set up comparer and request
             FilterRequest request = new FilterRequest { Type = type };
-            IEqualityComparer<IBHoMObject> comparer = config.Comparer(adapter.AdapterIdName);
+            IEqualityComparer<IBHoMObject> comparer = config.Comparer(adapter.AdapterIdFragmentType);
 
             //List for storing output
 
@@ -121,7 +121,7 @@ namespace BH.Engine.Test.Interoperability
 
             config = config ?? new PushPullCompareConfig();
 
-            IEqualityComparer<IBHoMObject> comparer = config.Comparer(adapter.AdapterIdName);
+            IEqualityComparer<IBHoMObject> comparer = config.Comparer(adapter.AdapterIdFragmentType);
 
             List<InputOutputComparison> results = new List<InputOutputComparison>();
             List<Event> events = new List<Event>();
@@ -175,6 +175,7 @@ namespace BH.Engine.Test.Interoperability
 
             DiffConfig config = new DiffConfig();
             config.PropertiesToIgnore.Add("CustomData");
+            config.PropertiesToIgnore.Add("Fragments");
 
             //Push objects
             try
