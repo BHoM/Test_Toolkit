@@ -1,4 +1,4 @@
-/*
+﻿/*
  * This file is part of the Buildings and Habitats object Model (BHoM)
  * Copyright (c) 2015 - 2020, the respective contributors. All rights reserved.
  *
@@ -20,9 +20,9 @@
  * along with this code. If not, see <https://www.gnu.org/licenses/lgpl-3.0.html>.      
  */
 
-using BH.oM.Reflection.Attributes;
 using BH.oM.Test;
 using BH.oM.Test.Attributes;
+using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using System;
 using System.Collections.Generic;
@@ -34,27 +34,35 @@ namespace BH.Engine.Test.CodeCompliance.Checks
 {
     public static partial class Query
     {
-        [Message("Method cannot contain more than one Output attribute", "HasUniqueOutputAttribute")]
+        [Message("Methods returning a type of Output<t1, ..., tn> should have a matching number of MultiOutput attributes.", "HasValidMultiOutputAttribute")]
         [ErrorLevel(ErrorLevel.Error)]
-        [Path(@"([a-zA-Z0-9]+)_(Engine|Adapter)\\.*\.cs$")]
+        [Path(@"([a-zA-Z0-9]+)_Engine\\.*\.cs$")]
+        [Path(@"([a-zA-Z0-9]+)_Engine\\Objects\\.*\.cs$", false)]
+        [IsPublic()]
         [ComplianceType("documentation")]
-        public static Span HasUniqueOutputAttribute(this AttributeSyntax node)
+        public static Span HasValidMultiOutputAttribute(this MethodDeclarationSyntax node)
         {
-            string name = node.Name.ToString();
-            if (name != "Output" && name != "MultiOutput") return null;
+            bool isvoid = false;
+            if (node.ReturnType is PredefinedTypeSyntax)
+                isvoid = ((PredefinedTypeSyntax)node.ReturnType).Keyword.Kind() == SyntaxKind.VoidKeyword;
 
-            var method = node.Parent.Parent as BaseMethodDeclarationSyntax;
-            if (method != null && method.IsPublic() && (method.IsEngineMethod() || method.IsAdapterConstructor()))
-            {
-                var outattrs = method.GetAttributes("Output");
-                if (outattrs.Count > 0 && outattrs[0] != node)
-                    return node.Span.ToSpan();
+            if (isvoid || node.IsDeprecated() || node.HasOutputAttribute() != null)
+                return null; //Don't care about void return types or deprecated methods or methods with no output attribute at all
 
-                List<AttributeSyntax> multiOutAttrs = method.GetAttributes("MultiOutput");
-                if (multiOutAttrs.Where(x => x == node).Count() > 1)
-                    return node.Span.ToSpan();
-            }
-            return null;
+            string returnType = node.ReturnType.ToString();
+
+            if (!returnType.StartsWith("Output<"))
+                return null; //Not a multi output return type
+
+            returnType = returnType.Substring(7);//Trim the 'Output<' from the string
+
+            string[] returnOptions = returnType.Split(',');
+            List<AttributeSyntax> multiOutAttrs = node.GetAttributes("MultiOutput");
+
+            if (returnOptions.Length != multiOutAttrs.Count)
+                return node.Identifier.Span.ToSpan();
+            else
+                return null;
         }
     }
 }

@@ -173,6 +173,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Query\Checks\AttributeHasEndingPunctuation.cs" />
     <Compile Include="Query\Checks\HasValidCopyright.cs" />
+    <Compile Include="Query\Checks\HasValidMultiOutputAttributes.cs" />
     <Compile Include="Query\Checks\IsValidCreateMethod.cs" />
     <Compile Include="Query\Checks\HasDescriptionAttribute.cs" />
     <Compile Include="Query\Checks\EngineClassMatchesFilePath.cs" />
