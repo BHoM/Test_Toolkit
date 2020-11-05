@@ -193,6 +193,8 @@
     <Compile Include="Query\Checks\ObjectNameMatchesFileName.cs" />
     <Compile Include="Query\Checks\ModifyReturnsSameType.cs" />
     <Compile Include="Query\AllChecks.cs" />
+    <Compile Include="Query\Checks\PreviousInputNamesAttributeHasMatchingParameter.cs" />
+    <Compile Include="Query\Checks\PreviousInputNamesAttributeIsUnique.cs" />
     <Compile Include="Query\DescriptionAttribute.cs" />
     <Compile Include="Query\DirectlyInherits.cs" />
     <Compile Include="Query\DynamicChecks\AdapterCreateMethodIsValid.cs" />
@@ -229,6 +231,7 @@
     <Compile Include="Query\InputAttributes.cs" />
     <Compile Include="Query\IsConstructor.cs" />
     <Compile Include="Query\OutputAttribute.cs" />
+    <Compile Include="Query\PreviousInputNamesAttributes.cs" />
     <Compile Include="Query\PropertyGetAccessor.cs" />
     <Compile Include="Query\IsPrivate.cs" />
     <Compile Include="Query\IsStatic.cs" />

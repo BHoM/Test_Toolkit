@@ -1,4 +1,4 @@
-/*
+﻿/*
  * This file is part of the Buildings and Habitats object Model (BHoM)
  * Copyright (c) 2015 - 2020, the respective contributors. All rights reserved.
  *
@@ -21,36 +21,23 @@
  */
 
 using BH.oM.Test;
-using BH.oM.Test.Attributes;
-using Microsoft.CodeAnalysis.CSharp.Syntax;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BH.Engine.Test.CodeCompliance.Checks
+using Microsoft.CodeAnalysis;
+using Microsoft.CodeAnalysis.CSharp;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
+
+namespace BH.Engine.Test.CodeCompliance
 {
     public static partial class Query
     {
-        [Message("Input attribute is not unique", "InputAttributeIsUnique")]
-        [ErrorLevel(ErrorLevel.Error)]
-        [Path(@"([a-zA-Z0-9]+)_(Engine|Adapter)\\.*\.cs$")]
-        [ComplianceType("documentation")]
-        public static Span InputAttributeIsUnique(this AttributeSyntax node)
+        public static List<AttributeSyntax> PreviousInputNamesAttributes(this BaseMethodDeclarationSyntax node)
         {
-            if (node.Name.ToString() != "Input")
-                return null;
-
-            var method = node.Parent.Parent as BaseMethodDeclarationSyntax;
-            if (method != null && method.IsPublic() && (method.IsEngineMethod() || method.IsAdapterConstructor()))
-            {
-                string paramname = node.ArgumentList.Arguments[0].Expression.GetFirstToken().Value.ToString();
-                var firstOfName = method.InputAttributes().First(attr => attr.ArgumentList.Arguments[0].Expression.GetFirstToken().Value.ToString() == paramname);
-                if (firstOfName != node)
-                    return node.Span.ToSpan();
-            }
-            return null;
+            return node.GetAttributes("PreviousInputNames");
         }
     }
 }
