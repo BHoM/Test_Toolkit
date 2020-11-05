@@ -39,7 +39,8 @@ namespace BH.Engine.Test.CodeCompliance.Checks
         [ComplianceType("documentation")]
         public static Span InputAttributeHasMatchingParameter(this AttributeSyntax node)
         {
-            if (node.Name.ToString() != "Input") return null;
+            if (node.Name.ToString() != "Input")
+                return null;
 
             var method = node.Parent.Parent as BaseMethodDeclarationSyntax;
             if (method != null && method.IsPublic() && (method.IsEngineMethod() || method.IsAdapterConstructor()))
@@ -47,8 +48,10 @@ namespace BH.Engine.Test.CodeCompliance.Checks
                 if (node.ArgumentList.Arguments.Count >= 2)
                 {
                     string paramname = node.ArgumentList.Arguments[0].Expression.GetFirstToken().Value.ToString();
-                    if (method.ParameterList.Parameters.Any((p) => p.Identifier.Text == paramname)) return null;
-                    else return node.ArgumentList.Arguments[0].Span.ToSpan();
+                    if (method.ParameterList.Parameters.Any((p) => p.Identifier.Text == paramname))
+                        return null;
+                    else
+                        return node.ArgumentList.Arguments[0].Span.ToSpan();
                 }
                 return node.Span.ToSpan();
             }
