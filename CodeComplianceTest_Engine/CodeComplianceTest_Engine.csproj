@@ -175,6 +175,7 @@
     <Compile Include="Query\Checks\HasUniqueMultiOutputAttributes.cs" />
     <Compile Include="Query\Checks\HasValidCopyright.cs" />
     <Compile Include="Query\Checks\HasValidMultiOutputAttributes.cs" />
+    <Compile Include="Query\Checks\HasValidPreviousVersionAttribute.cs" />
     <Compile Include="Query\Checks\IsUsingCustomData.cs" />
     <Compile Include="Query\Checks\IsValidCreateMethod.cs" />
     <Compile Include="Query\Checks\HasDescriptionAttribute.cs" />
