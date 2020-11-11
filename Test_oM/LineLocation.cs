@@ -27,7 +27,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BH.oM.Test
+namespace BH.oM.CodeComplianceTest
 {
     public class LineLocation : IObject
     {

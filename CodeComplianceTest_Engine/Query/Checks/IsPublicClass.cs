@@ -21,8 +21,8 @@
  */
 
 using BH.oM.Reflection.Attributes;
-using BH.oM.Test;
-using BH.oM.Test.Attributes;
+using BH.oM.CodeComplianceTest;
+using BH.oM.CodeComplianceTest.Attributes;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using System;
 using System.Collections.Generic;
