@@ -27,7 +27,7 @@ using System.Text;
 using System.Threading.Tasks;
 using BH.oM.Base;
 
-namespace BH.oM.CodeComplianceTest.Interoperability
+namespace BH.oM.Test.Interoperability
 {
     public class PushPullCompareConfig : BHoMObject
     {

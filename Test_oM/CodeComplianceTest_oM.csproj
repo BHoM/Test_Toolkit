@@ -70,8 +70,6 @@
     <Compile Include="Attributes\ConditionAttribute.cs" />
     <Compile Include="ComplianceResult.cs" />
     <Compile Include="ErrorLevel.cs" />
-    <Compile Include="Interoperability\Enums\ComparerType.cs" />
-    <Compile Include="Interoperability\PushPullCompareConfig.cs" />
     <Compile Include="LineLocation.cs" />
     <Compile Include="Location.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
