@@ -29,7 +29,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
-namespace BH.oM.Test.Attributes
+namespace BH.oM.CodeComplianceTest.Attributes
 {
     [AttributeUsage(AttributeTargets.Method, AllowMultiple = true)]
     public class IsPublicAttribute : ConditionAttribute, IImmutable

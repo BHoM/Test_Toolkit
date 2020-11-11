@@ -21,7 +21,7 @@
  */
 
 using BH.Engine.Reflection;
-using BH.oM.Test;
+using BH.oM.CodeComplianceTest;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using System;

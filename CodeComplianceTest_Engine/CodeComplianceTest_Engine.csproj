@@ -245,13 +245,6 @@
     <Compile Include="Query\StringEndsWithPunctuation.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Test_oM\Test_oM.csproj">
-      <Project>{F758FC9C-CEDF-430D-AEFF-2B1E196F677B}</Project>
-      <Name>Test_oM</Name>
-      <Private>False</Private>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
@@ -259,6 +252,11 @@
     <Analyzer Include="..\packages\Microsoft.CodeAnalysis.Analyzers.2.9.4\analyzers\dotnet\cs\Microsoft.CodeAnalysis.CSharp.Analyzers.dll" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Test_oM\CodeComplianceTest_oM.csproj">
+      <Project>{f758fc9c-cedf-430d-aeff-2b1e196f677b}</Project>
+      <Name>CodeComplianceTest_oM</Name>
+      <Private>False</Private>
+    </ProjectReference>
     <ProjectReference Include="..\Test_oM\Test_oM.csproj">
       <Project>{f758fc9c-cedf-430d-aeff-2b1e196f677b}</Project>
       <Name>Test_oM</Name>

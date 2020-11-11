@@ -21,7 +21,7 @@
  */
 
 using BH.Engine.Reflection;
-using BH.oM.Test;
+using BH.oM.CodeComplianceTest;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using System;
@@ -35,7 +35,7 @@ using System.IO;
 
 using System.Xml.Linq;
 
-using BH.oM.Test.Attributes;
+using BH.oM.CodeComplianceTest.Attributes;
 
 using BH.oM.XML.CSProject;
 using BH.Adapter.XML;

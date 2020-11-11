@@ -27,7 +27,7 @@ using System.IO;
 using System.Collections.Generic;
 using System.Linq;
 
-using BH.oM.Test;
+using BH.oM.CodeComplianceTest;
 using BH.Engine.Test.CodeCompliance;
 
 using Microsoft.CodeAnalysis;

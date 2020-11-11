@@ -28,7 +28,7 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BH.oM.Test.Attributes
+namespace BH.oM.CodeComplianceTest.Attributes
 {
     [AttributeUsage(AttributeTargets.Method, AllowMultiple = false)]
     public class MessageAttribute : Attribute, IImmutable
