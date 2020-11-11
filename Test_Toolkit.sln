@@ -3,8 +3,6 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30503.244
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CodeComplianceTest_oM", "Test_oM\CodeComplianceTest_oM.csproj", "{F758FC9C-CEDF-430D-AEFF-2B1E196F677B}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InteroperabilityTest_Engine", "InteroperabilityTest_Engine\InteroperabilityTest_Engine.csproj", "{DF4047D7-2883-4763-83C0-B1D3B391D454}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CodeComplianceTest_Engine", "CodeComplianceTest_Engine\CodeComplianceTest_Engine.csproj", "{5E17BA6F-F159-47DD-865C-F2DAA235AAC7}"
@@ -21,6 +19,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTest_Engine", "UnitTest
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InteroperabilityTest_oM", "InteroperabilityTest_oM\InteroperabilityTest_oM.csproj", "{8AA8B55E-0C55-4356-BF8B-98B98F6C346C}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CodeComplianceTest_oM", "CodeCompliance_oM\CodeComplianceTest_oM.csproj", "{F758FC9C-CEDF-430D-AEFF-2B1E196F677B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		ComplianceTestBuild|Any CPU = ComplianceTestBuild|Any CPU
@@ -28,12 +28,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{F758FC9C-CEDF-430D-AEFF-2B1E196F677B}.ComplianceTestBuild|Any CPU.ActiveCfg = ComplianceTestBuild|Any CPU
-		{F758FC9C-CEDF-430D-AEFF-2B1E196F677B}.ComplianceTestBuild|Any CPU.Build.0 = ComplianceTestBuild|Any CPU
-		{F758FC9C-CEDF-430D-AEFF-2B1E196F677B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{F758FC9C-CEDF-430D-AEFF-2B1E196F677B}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{F758FC9C-CEDF-430D-AEFF-2B1E196F677B}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{F758FC9C-CEDF-430D-AEFF-2B1E196F677B}.Release|Any CPU.Build.0 = Release|Any CPU
 		{DF4047D7-2883-4763-83C0-B1D3B391D454}.ComplianceTestBuild|Any CPU.ActiveCfg = ComplianceTestBuild|Any CPU
 		{DF4047D7-2883-4763-83C0-B1D3B391D454}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{DF4047D7-2883-4763-83C0-B1D3B391D454}.Debug|Any CPU.Build.0 = Debug|Any CPU
@@ -69,6 +63,12 @@ Global
 		{8AA8B55E-0C55-4356-BF8B-98B98F6C346C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8AA8B55E-0C55-4356-BF8B-98B98F6C346C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8AA8B55E-0C55-4356-BF8B-98B98F6C346C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F758FC9C-CEDF-430D-AEFF-2B1E196F677B}.ComplianceTestBuild|Any CPU.ActiveCfg = ComplianceTestBuild|Any CPU
+		{F758FC9C-CEDF-430D-AEFF-2B1E196F677B}.ComplianceTestBuild|Any CPU.Build.0 = ComplianceTestBuild|Any CPU
+		{F758FC9C-CEDF-430D-AEFF-2B1E196F677B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F758FC9C-CEDF-430D-AEFF-2B1E196F677B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F758FC9C-CEDF-430D-AEFF-2B1E196F677B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F758FC9C-CEDF-430D-AEFF-2B1E196F677B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
