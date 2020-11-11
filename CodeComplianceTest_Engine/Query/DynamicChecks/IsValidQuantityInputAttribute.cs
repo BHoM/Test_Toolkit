@@ -28,7 +28,7 @@ using System.Threading.Tasks;
 
 using System.Reflection;
 using BH.oM.Reflection.Attributes;
-using BH.oM.CodeComplianceTest;
+using BH.oM.Test.CodeCompliance;
 using BH.oM.Quantities.Attributes;
 
 namespace BH.Engine.Test.CodeCompliance.DynamicChecks

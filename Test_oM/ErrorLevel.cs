@@ -27,7 +27,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BH.oM.CodeComplianceTest
+namespace BH.oM.Test.CodeCompliance
 {
     public enum ErrorLevel
     {

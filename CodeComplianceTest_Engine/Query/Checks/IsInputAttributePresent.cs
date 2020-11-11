@@ -20,8 +20,8 @@
  * along with this code. If not, see <https://www.gnu.org/licenses/lgpl-3.0.html>.      
  */
 
-using BH.oM.CodeComplianceTest;
-using BH.oM.CodeComplianceTest.Attributes;
+using BH.oM.Test.CodeCompliance;
+using BH.oM.Test.CodeCompliance.Attributes;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using System;
 using System.Collections.Generic;

@@ -28,7 +28,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-using BH.oM.CodeComplianceTest;
+using BH.oM.Test.CodeCompliance;
 using BH.Engine.Test.CodeCompliance;
 
 using Microsoft.CodeAnalysis;

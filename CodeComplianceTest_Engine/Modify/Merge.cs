@@ -21,7 +21,7 @@
  */
 
 using BH.Engine.Base;
-using BH.oM.CodeComplianceTest;
+using BH.oM.Test.CodeCompliance;
 using Microsoft.CodeAnalysis;
 using System;
 using System.Collections.Generic;

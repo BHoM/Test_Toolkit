@@ -29,8 +29,8 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
-using BH.oM.CodeComplianceTest.Attributes;
-using BH.oM.CodeComplianceTest;
+using BH.oM.Test.CodeCompliance.Attributes;
+using BH.oM.Test.CodeCompliance;
 
 namespace BH.Engine.Test.CodeCompliance.DynamicChecks
 {
