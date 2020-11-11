@@ -124,6 +124,10 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\InteroperabilityTest_oM\InteroperabilityTest_oM.csproj">
+      <Project>{8aa8b55e-0c55-4356-bf8b-98b98f6c346c}</Project>
+      <Name>InteroperabilityTest_oM</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Test_Engine\Test_Engine.csproj">
       <Project>{5fc85409-dbc5-4b0d-a2aa-1d9542f0763b}</Project>
       <Name>Test_Engine</Name>

@@ -36,7 +36,7 @@ using BH.oM.Adapter.Commands;
 using BH.oM.Diffing;
 using BH.Engine.Base;
 using BH.oM.Reflection.Debugging;
-using BH.oM.CodeComplianceTest.Interoperability;
+using BH.oM.Test.Interoperability;
 
 
 namespace BH.Engine.Test.Interoperability

@@ -19,6 +19,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Test_Engine", "Test_Engine\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTest_Engine", "UnitTest_Engine\UnitTest_Engine.csproj", "{768934CA-E6CF-44D3-9F74-611D4E58B1AE}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InteroperabilityTest_oM", "InteroperabilityTest_oM\InteroperabilityTest_oM.csproj", "{8AA8B55E-0C55-4356-BF8B-98B98F6C346C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		ComplianceTestBuild|Any CPU = ComplianceTestBuild|Any CPU
@@ -61,6 +63,12 @@ Global
 		{768934CA-E6CF-44D3-9F74-611D4E58B1AE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{768934CA-E6CF-44D3-9F74-611D4E58B1AE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{768934CA-E6CF-44D3-9F74-611D4E58B1AE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8AA8B55E-0C55-4356-BF8B-98B98F6C346C}.ComplianceTestBuild|Any CPU.ActiveCfg = Debug|Any CPU
+		{8AA8B55E-0C55-4356-BF8B-98B98F6C346C}.ComplianceTestBuild|Any CPU.Build.0 = Debug|Any CPU
+		{8AA8B55E-0C55-4356-BF8B-98B98F6C346C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8AA8B55E-0C55-4356-BF8B-98B98F6C346C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8AA8B55E-0C55-4356-BF8B-98B98F6C346C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8AA8B55E-0C55-4356-BF8B-98B98F6C346C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

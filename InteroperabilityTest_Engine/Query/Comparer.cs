@@ -26,7 +26,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using BH.oM.Reflection.Attributes;
 using BH.oM.Base;
-using BH.oM.CodeComplianceTest.Interoperability;
+using BH.oM.Test.Interoperability;
 
 namespace BH.Engine.Test.Interoperability
 {
