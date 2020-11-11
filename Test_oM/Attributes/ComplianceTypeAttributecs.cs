@@ -28,7 +28,7 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BH.oM.CodeComplianceTest.Attributes
+namespace BH.oM.Test.CodeCompliance.Attributes
 {
     [AttributeUsage(AttributeTargets.Method, AllowMultiple = false)]
     public class ComplianceTypeAttribute : Attribute, IImmutable

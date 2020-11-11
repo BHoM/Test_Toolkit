@@ -20,7 +20,7 @@
  * along with this code. If not, see <https://www.gnu.org/licenses/lgpl-3.0.html>.      
  */
 
-using BH.oM.CodeComplianceTest;
+using BH.oM.Test.CodeCompliance;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -30,7 +30,7 @@ using System.Threading.Tasks;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
-using BH.oM.CodeComplianceTest.Attributes;
+using BH.oM.Test.CodeCompliance.Attributes;
 
 namespace BH.Engine.Test.CodeCompliance
 {

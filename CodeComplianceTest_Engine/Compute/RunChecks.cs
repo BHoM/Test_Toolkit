@@ -21,7 +21,7 @@
  */
 
 using BH.Engine.Reflection;
-using BH.oM.CodeComplianceTest;
+using BH.oM.Test.CodeCompliance;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using System;
@@ -32,7 +32,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 using System.IO;
-using BH.oM.CodeComplianceTest.Attributes;
+using BH.oM.Test.CodeCompliance.Attributes;
 
 namespace BH.Engine.Test.CodeCompliance
 {
