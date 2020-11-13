@@ -41,9 +41,9 @@ namespace BH.Engine.Test.CodeCompliance.DynamicChecks
 
             foreach(InputAttribute ia in inputAttributes)
             {
-                if(ia.Quantity != null)
+                if(ia.Classification != null)
                 {
-                    if (!typeof(QuantityAttribute).IsAssignableFrom(ia.Quantity.GetType()))
+                    if (!typeof(InputClassificationAttribute).IsAssignableFrom(ia.Classification.GetType()))
                         return false;
                 }
             }
