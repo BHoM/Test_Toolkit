@@ -44,7 +44,7 @@ namespace BH.Engine.Test.CodeCompliance.Checks
             {
                 foreach (var ab in method.InputAttributes())
                 {
-                    if (ab.Name.ToString() == "Input" && ab.ArgumentList.Arguments.Count >= 2)
+                    if ((ab.Name.ToString() == "Input" && ab.ArgumentList.Arguments.Count >= 2) || (ab.Name.ToString() == "InputFromProperty" && ab.ArgumentList.Arguments.Count >= 1))
                     {
                         string paramname = ab.ArgumentList.Arguments[0].Expression.GetFirstToken().Value.ToString();
                         if (paramname == node.Identifier.ToString())
