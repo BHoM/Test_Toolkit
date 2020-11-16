@@ -37,7 +37,9 @@ namespace BH.Engine.Test.CodeCompliance
     {
         public static List<AttributeSyntax> InputAttributes(this BaseMethodDeclarationSyntax node)
         {
-            return node.GetAttributes("Input");
+            List<AttributeSyntax> attrs = node.GetAttributes("Input");
+            attrs.AddRange(node.GetAttributes("InputFromProperty"));
+            return attrs;
         }
     }
 }
