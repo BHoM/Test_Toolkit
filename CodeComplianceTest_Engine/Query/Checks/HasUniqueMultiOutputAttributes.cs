@@ -34,13 +34,13 @@ namespace BH.Engine.Test.CodeCompliance.Checks
 {
     public static partial class Query
     {
-        [Message("Methods returning a type of Output<t1, ..., tn> should have a matching number of MultiOutput attributes that identify each output object uniquely.", "HasUniqueMultiOutputAttribute")]
+        [Message("Methods returning a type of Output<t1, ..., tn> should have a matching number of MultiOutput attributes that identify each output object uniquely.", "HasUniqueMultiOutputAttributes")]
         [ErrorLevel(ErrorLevel.Error)]
         [Path(@"([a-zA-Z0-9]+)_Engine\\.*\.cs$")]
         [Path(@"([a-zA-Z0-9]+)_Engine\\Objects\\.*\.cs$", false)]
         [IsPublic()]
         [ComplianceType("documentation")]
-        public static Span HasUniqueMultiOutputAttribute(this MethodDeclarationSyntax node)
+        public static Span HasUniqueMultiOutputAttributes(this MethodDeclarationSyntax node)
         {
             bool isvoid = false;
             if (node.ReturnType is PredefinedTypeSyntax)
