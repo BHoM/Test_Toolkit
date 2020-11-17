@@ -49,7 +49,7 @@ namespace BH.Engine.Test.CodeCompliance.Checks
 
             List<ConstructorDeclarationSyntax> constructors = node.Members.Where(x => x.IsConstructor()).Select(x => x as ConstructorDeclarationSyntax).ToList();
             List<PropertyDeclarationSyntax> properties = node.Members.Where(x => x is PropertyDeclarationSyntax).Select(x => x as PropertyDeclarationSyntax).ToList();
-            properties = properties.Where(x => x.AccessorList.Accessors.Where(y => y.ToString() == "set").Count() == 0).ToList(); //Obtain the 'get' only properties
+            properties = properties.Where(x => x.AccessorList.Accessors.Where(y => y.ToString() == "set;").Count() == 0).ToList(); //Obtain the 'get' only properties
             List<string> propertyNames = properties.Select(x => x.Identifier.ToString().ToLower()).ToList();
 
             List<bool> results = new List<bool>();
