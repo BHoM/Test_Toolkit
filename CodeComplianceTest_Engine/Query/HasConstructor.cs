@@ -1,4 +1,4 @@
-/*
+﻿/*
  * This file is part of the Buildings and Habitats object Model (BHoM)
  * Copyright (c) 2015 - 2020, the respective contributors. All rights reserved.
  *
@@ -35,14 +35,9 @@ namespace BH.Engine.Test.CodeCompliance
 {
     public static partial class Query
     {
-        public static bool IsConstructor(this BaseMethodDeclarationSyntax node)
+        public static bool HasAConstructor(this ClassDeclarationSyntax node)
         {
-            return node is ConstructorDeclarationSyntax;
-        }
-
-        public static bool IsConstructor(this MemberDeclarationSyntax node)
-        {
-            return node is ConstructorDeclarationSyntax;
+            return node.Members.Where(x => x.IsConstructor()).FirstOrDefault() != null;
         }
     }
 }

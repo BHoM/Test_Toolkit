@@ -1,4 +1,4 @@
-/*
+﻿/*
  * This file is part of the Buildings and Habitats object Model (BHoM)
  * Copyright (c) 2015 - 2020, the respective contributors. All rights reserved.
  *
@@ -20,29 +20,38 @@
  * along with this code. If not, see <https://www.gnu.org/licenses/lgpl-3.0.html>.      
  */
 
+using BH.oM.Reflection.Attributes;
 using BH.oM.Test.CodeCompliance;
+using BH.oM.Test.CodeCompliance.Attributes;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-using Microsoft.CodeAnalysis;
-using Microsoft.CodeAnalysis.CSharp;
-using Microsoft.CodeAnalysis.CSharp.Syntax;
-
-namespace BH.Engine.Test.CodeCompliance
+namespace BH.Engine.Test.CodeCompliance.Checks
 {
     public static partial class Query
     {
-        public static bool IsConstructor(this BaseMethodDeclarationSyntax node)
+        [Message("BHoM objects should not contain multiple constructors taking inputs.", "HasOneConstructor")]
+        [Path(@"([a-zA-Z0-9]+)_?oM\\.*\.cs$")]
+        [Path(@"([a-zA-Z0-9]+)_Engine\\.*\.cs$", false)]
+        [Path(@"([a-zA-Z0-9]+)_Adapter\\.*\.cs$", false)]
+        [Path(@"([a-zA-Z0-9]+)_UI\\.*\.cs$", false)]
+        [ComplianceType("code")]
+        [ErrorLevel(ErrorLevel.Error)]
+        [Output("A span that represents where this error resides or null if there is no error")]
+        public static Span HasOneConstructor(this ClassDeclarationSyntax node)
         {
-            return node is ConstructorDeclarationSyntax;
-        }
+            if(node.Members.Where(x => x.IsConstructor()).Count() > 1)
+            {
+                List<ConstructorDeclarationSyntax> constructors = node.Members.Where(x => x.IsConstructor()).Select(x => x as ConstructorDeclarationSyntax).ToList();
+                if (constructors.Where(x => x.ParameterList.Parameters.Count > 0).Count() > 1)
+                    return constructors.Where(x => x.ParameterList.Parameters.Count > 0).First().Span.ToSpan(); //More than one constructor which has at least 1 input or more (accepting only an empty constructor when we have 2 constructors)
+            }
 
-        public static bool IsConstructor(this MemberDeclarationSyntax node)
-        {
-            return node is ConstructorDeclarationSyntax;
+            return null;
         }
     }
 }

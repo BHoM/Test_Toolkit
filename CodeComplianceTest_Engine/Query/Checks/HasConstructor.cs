@@ -1,4 +1,4 @@
-/*
+﻿/*
  * This file is part of the Buildings and Habitats object Model (BHoM)
  * Copyright (c) 2015 - 2020, the respective contributors. All rights reserved.
  *
@@ -20,29 +20,37 @@
  * along with this code. If not, see <https://www.gnu.org/licenses/lgpl-3.0.html>.      
  */
 
+using BH.oM.Reflection.Attributes;
 using BH.oM.Test.CodeCompliance;
+using BH.oM.Test.CodeCompliance.Attributes;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-using Microsoft.CodeAnalysis;
-using Microsoft.CodeAnalysis.CSharp;
-using Microsoft.CodeAnalysis.CSharp.Syntax;
-
-namespace BH.Engine.Test.CodeCompliance
+namespace BH.Engine.Test.CodeCompliance.Checks
 {
     public static partial class Query
     {
-        public static bool IsConstructor(this BaseMethodDeclarationSyntax node)
+        [Message("BHoM objects should not contain a constructor unless they are implementing the IImmutable interface. If the object is implementing the IImutable interface then it must contain a constructor.", "HasConstructor")]
+        [Path(@"([a-zA-Z0-9]+)_?oM\\.*\.cs$")]
+        [Path(@"([a-zA-Z0-9]+)_Engine\\.*\.cs$", false)]
+        [Path(@"([a-zA-Z0-9]+)_Adapter\\.*\.cs$", false)]
+        [Path(@"([a-zA-Z0-9]+)_UI\\.*\.cs$", false)]
+        [ComplianceType("code")]
+        [ErrorLevel(ErrorLevel.Error)]
+        [Output("A span that represents where this error resides or null if there is no error")]
+        public static Span HasConstructor(this ClassDeclarationSyntax node)
         {
-            return node is ConstructorDeclarationSyntax;
-        }
+            if (node.HasAConstructor() && node.BaseList.Types.Where(x => x.Type.ToString().ToLower() == "iimmutable").FirstOrDefault() == null)
+                return node.Members.Where(x => x.IsConstructor()).FirstOrDefault().Span.ToSpan(); //Has a constructor but isn't implementing the Immutable interface, this is not good
 
-        public static bool IsConstructor(this MemberDeclarationSyntax node)
-        {
-            return node is ConstructorDeclarationSyntax;
+            if (!node.HasAConstructor() && node.BaseList.Types.Where(x => x.Type.ToString().ToLower() == "iimmutable").FirstOrDefault() != null)
+                return node.Span.ToSpan(); //Has no constructor, but is implementing the Immutable interface, this is not good
+
+            return null;
         }
     }
 }
