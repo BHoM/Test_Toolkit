@@ -188,6 +188,7 @@
     <Compile Include="Query\Checks\HasSingleClass.cs" />
     <Compile Include="Query\Checks\InputAttributeIsUnique.cs" />
     <Compile Include="Query\Checks\InputParameterStartsLower.cs" />
+    <Compile Include="Query\Checks\IsValidIImmutableObject.cs" />
     <Compile Include="Query\Checks\IsVirtualProperty.cs" />
     <Compile Include="Query\Checks\MethodNameStartsUpper.cs" />
     <Compile Include="Query\Checks\HasOutputAttribute.cs" />
