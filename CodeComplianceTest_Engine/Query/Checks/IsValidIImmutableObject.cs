@@ -48,7 +48,7 @@ namespace BH.Engine.Test.CodeCompliance.Checks
                 return null; //Not an IImmutable object so not relevant
 
             List<PropertyDeclarationSyntax> properties = node.Members.Where(x => x is PropertyDeclarationSyntax).Select(x => x as PropertyDeclarationSyntax).ToList();
-            properties = properties.Where(x => x.AccessorList.Accessors.Where(y => y.ToString() == "set").Count() == 0).ToList(); //Obtain the 'get' only properties
+            properties = properties.Where(x => x.AccessorList.Accessors.Where(y => y.ToString() == "set;").Count() == 0).ToList(); //Obtain the 'get' only properties
 
             if (properties.Count == 0)
                 return node.Span.ToSpan(); //Object has no `get` only properties, not valid to be IImmutable
