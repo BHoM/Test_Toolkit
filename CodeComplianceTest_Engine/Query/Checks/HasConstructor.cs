@@ -44,10 +44,10 @@ namespace BH.Engine.Test.CodeCompliance.Checks
         [Output("A span that represents where this error resides or null if there is no error")]
         public static Span HasConstructor(this ClassDeclarationSyntax node)
         {
-            if (node.HasAConstructor() && node.BaseList.Types.Where(x => x.Type.ToString().ToLower() == "iimmutable").FirstOrDefault() == null)
+            if (node.HasAConstructor() && (node.BaseList != null && node.BaseList.Types.Where(x => x.Type.ToString().ToLower() == "iimmutable").FirstOrDefault() == null))
                 return node.Members.Where(x => x.IsConstructor()).FirstOrDefault().Span.ToSpan(); //Has a constructor but isn't implementing the Immutable interface, this is not good
 
-            if (!node.HasAConstructor() && node.BaseList.Types.Where(x => x.Type.ToString().ToLower() == "iimmutable").FirstOrDefault() != null)
+            if (!node.HasAConstructor() && (node.BaseList != null && node.BaseList.Types.Where(x => x.Type.ToString().ToLower() == "iimmutable").FirstOrDefault() != null))
                 return node.Span.ToSpan(); //Has no constructor, but is implementing the Immutable interface, this is not good
 
             return null;
