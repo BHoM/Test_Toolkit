@@ -56,16 +56,16 @@ namespace BH.Engine.Test
         [MultiOutput(1, "DiffProperty", "List of the names of the properties found to be different")]
         [MultiOutput(2, "Obj1DiffValue", "List of the values deemed different for object 1")]
         [MultiOutput(3, "Obj2DiffValue", "List of the values deemed different for object 2")]
-        public static Output<bool, List<string>, List<string>, List<string>> IsEqual(this object obj1, object obj2, DiffConfig config = null)
+        public static Output<bool, List<string>, List<string>, List<string>> IsEqual(this object obj1, object obj2, BH.oM.Base.ComparisonConfig config = null)
         {
             //Use default config if null
-            config = config ?? new DiffConfig();
+            config = config ?? new oM.Base.ComparisonConfig();
 
             CompareLogic comparer = new CompareLogic();
 
             comparer.Config.MaxDifferences = 1000;
 
-            comparer.Config.MembersToIgnore = config.PropertiesToIgnore;
+            comparer.Config.MembersToIgnore = config.PropertyNameExceptions;
 
             comparer.Config.DoublePrecision = config.NumericTolerance;
 
@@ -89,17 +89,17 @@ namespace BH.Engine.Test
         [Description("Checks two BHoMObjects property by property and returns the differences")]
         [Input("config", "Config to be used for the comparison. Can set numeric tolerance, wheter to check the guid, if custom data should be ignored and if any additional properties should be ignored")]
         [Output("Dictionary whose key is the name of the property, and value is a tuple with its value in obj1 and obj2.")]
-        public static Dictionary<string, Tuple<object, object>> DifferentProperties(this IBHoMObject obj1, IBHoMObject obj2, DiffConfig config = null)
+        public static Dictionary<string, Tuple<object, object>> DifferentProperties(this IBHoMObject obj1, IBHoMObject obj2, BH.oM.Base.ComparisonConfig config = null)
         {
             var dict = new Dictionary<string, Tuple<object, object>>();
 
             //Use default config if null
-            config = config ?? new DiffConfig();
+            config = config ?? new BH.oM.Base.ComparisonConfig();
 
             CompareLogic comparer = new CompareLogic();
 
             comparer.Config.MaxDifferences = 1000;
-            comparer.Config.MembersToIgnore = config.PropertiesToIgnore;
+            comparer.Config.MembersToIgnore = config.PropertyNameExceptions;
             comparer.Config.DoublePrecision = config.NumericTolerance;
 
 

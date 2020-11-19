@@ -57,7 +57,7 @@ namespace BH.Engine.UnitTest
             List<string> errors = new List<string>();
             List<InputOutputComparison> comparisonResults = new List<InputOutputComparison>();
             MethodBase method = test.Method;
-            DiffConfig diffConfig = new DiffConfig();
+            BH.oM.Base.ComparisonConfig comparisonConfig = new BH.oM.Base.ComparisonConfig();
 
             //Calcualte timestamp
             double timestep = DateTime.UtcNow.ToOADate();
@@ -83,7 +83,7 @@ namespace BH.Engine.UnitTest
                             object resultObj = result.Item1[i];
                             object refObject = CastToType(data.Outputs[i], resultObj.GetType());
 
-                            var diffResult = Engine.Test.Query.IsEqual(resultObj, refObject, diffConfig);
+                            var diffResult = Engine.Test.Query.IsEqual(resultObj, refObject, comparisonConfig);
 
                             string hash = (resultObj is IObject) ? (resultObj as IObject).Hash() : resultObj.GetHashCode().ToString();
 

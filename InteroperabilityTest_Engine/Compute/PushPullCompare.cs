@@ -173,9 +173,9 @@ namespace BH.Engine.Test.Interoperability
             List<IBHoMObject> pushedObjects = new List<IBHoMObject>();
             List<IBHoMObject> pulledObjects = new List<IBHoMObject>();
 
-            DiffConfig config = new DiffConfig();
-            config.PropertiesToIgnore.Add("CustomData");
-            config.PropertiesToIgnore.Add("Fragments");
+            BH.oM.Base.ComparisonConfig config = new BH.oM.Base.ComparisonConfig();
+            config.PropertyNameExceptions.Add("CustomData");
+            config.PropertyNameExceptions.Add("Fragments");
 
             //Push objects
             try
