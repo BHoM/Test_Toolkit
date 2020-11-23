@@ -65,7 +65,7 @@ namespace BH.Engine.Test
 
             comparer.Config.MaxDifferences = 1000;
 
-            comparer.Config.MembersToIgnore = config.PropertyNameExceptions;
+            comparer.Config.MembersToIgnore = config.PropertyExceptions;
 
             comparer.Config.DoublePrecision = config.NumericTolerance;
 
@@ -99,7 +99,7 @@ namespace BH.Engine.Test
             CompareLogic comparer = new CompareLogic();
 
             comparer.Config.MaxDifferences = 1000;
-            comparer.Config.MembersToIgnore = config.PropertyNameExceptions;
+            comparer.Config.MembersToIgnore = config.PropertyExceptions;
             comparer.Config.DoublePrecision = config.NumericTolerance;
 
 
