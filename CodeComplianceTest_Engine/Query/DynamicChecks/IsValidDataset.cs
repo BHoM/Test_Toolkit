@@ -37,6 +37,7 @@ namespace BH.Engine.Test.CodeCompliance.DynamicChecks
     {
         public static ComplianceResult IsValidDataset(string filePath)
         {
+            string documentationLink = "https://github.com/BHoM/documentation/wiki/IsValidDataset";
             //Read the dataset
             StreamReader sr = new StreamReader(filePath);
             string json = sr.ReadToEnd();
@@ -54,7 +55,7 @@ namespace BH.Engine.Test.CodeCompliance.DynamicChecks
                 return Create.ComplianceResult(ResultStatus.CriticalFail,
                     new List<Error>() { Create.Error("Dataset file did not deserialise into a BH.oM.Data.Library.Dataset object successfully.",
                         Create.Location(filePath, Create.LineSpan(1, 1)),
-                        "",
+                        documentationLink,
                         ErrorLevel.Error,
                         "Dataset deserialisation error"
                     ) });
@@ -66,7 +67,7 @@ namespace BH.Engine.Test.CodeCompliance.DynamicChecks
                 return Create.ComplianceResult(ResultStatus.Fail,
                     new List<Error>() { Create.Error("Dataset file does not contain any source information.",
                         Create.Location(filePath, Create.LineSpan(1, 1)),
-                        "",
+                        documentationLink,
                         ErrorLevel.Warning,
                         "Dataset source error"
                     ) });
@@ -78,9 +79,9 @@ namespace BH.Engine.Test.CodeCompliance.DynamicChecks
                 return Create.ComplianceResult(ResultStatus.Fail,
                     new List<Error>() { Create.Error("Dataset file does not contain an author in the source information.",
                         Create.Location(filePath, Create.LineSpan(1, 1)),
-                        "",
+                        documentationLink,
                         ErrorLevel.Warning,
-                        "Dataset source error"
+                        "Dataset source author error"
                     ) });
             }
 
@@ -90,9 +91,9 @@ namespace BH.Engine.Test.CodeCompliance.DynamicChecks
                 return Create.ComplianceResult(ResultStatus.Fail,
                     new List<Error>() { Create.Error("Dataset file does not contain a title in the source information.",
                         Create.Location(filePath, Create.LineSpan(1, 1)),
-                        "",
+                        documentationLink,
                         ErrorLevel.Warning,
-                        "Dataset source error"
+                        "Dataset source title error"
                     ) });
             }
 
