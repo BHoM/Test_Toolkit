@@ -37,7 +37,7 @@ namespace BH.Engine.Test.CodeCompliance.DynamicChecks
     {
         public static ComplianceResult IsValidDataset(string filePath)
         {
-            string documentationLink = "https://github.com/BHoM/documentation/wiki/IsValidDataset";
+            string documentationLink = "IsValidDataset";
             //Read the dataset
             StreamReader sr = new StreamReader(filePath);
             string json = sr.ReadToEnd();
@@ -53,7 +53,7 @@ namespace BH.Engine.Test.CodeCompliance.DynamicChecks
             {
                 //Dataset did not deserialise successfully
                 return Create.ComplianceResult(ResultStatus.CriticalFail,
-                    new List<Error>() { Create.Error("Dataset file did not deserialise into a BH.oM.Data.Library.Dataset object successfully.",
+                    new List<Error>() { Create.Error("Dataset file did not deserialise into a BH.oM.Data.Library.Dataset object successfully. For more information see https://github.com/BHoM/documentation/wiki/IsValidDataset",
                         Create.Location(filePath, Create.LineSpan(1, 1)),
                         documentationLink,
                         ErrorLevel.Error,
@@ -65,7 +65,7 @@ namespace BH.Engine.Test.CodeCompliance.DynamicChecks
             {
                 //Source information is not set
                 return Create.ComplianceResult(ResultStatus.Fail,
-                    new List<Error>() { Create.Error("Dataset file does not contain any source information.",
+                    new List<Error>() { Create.Error("Dataset file does not contain any source information.For more information see https://github.com/BHoM/documentation/wiki/IsValidDataset",
                         Create.Location(filePath, Create.LineSpan(1, 1)),
                         documentationLink,
                         ErrorLevel.Warning,
@@ -77,7 +77,7 @@ namespace BH.Engine.Test.CodeCompliance.DynamicChecks
             {
                 //Source information does not contain an author
                 return Create.ComplianceResult(ResultStatus.Fail,
-                    new List<Error>() { Create.Error("Dataset file does not contain an author in the source information.",
+                    new List<Error>() { Create.Error("Dataset file does not contain an author in the source information. For more information see https://github.com/BHoM/documentation/wiki/IsValidDataset",
                         Create.Location(filePath, Create.LineSpan(1, 1)),
                         documentationLink,
                         ErrorLevel.Warning,
@@ -89,7 +89,7 @@ namespace BH.Engine.Test.CodeCompliance.DynamicChecks
             {
                 //Source information does not contain an author
                 return Create.ComplianceResult(ResultStatus.Fail,
-                    new List<Error>() { Create.Error("Dataset file does not contain a title in the source information.",
+                    new List<Error>() { Create.Error("Dataset file does not contain a title in the source information. For more information see https://github.com/BHoM/documentation/wiki/IsValidDataset",
                         Create.Location(filePath, Create.LineSpan(1, 1)),
                         documentationLink,
                         ErrorLevel.Warning,

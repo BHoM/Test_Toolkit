@@ -41,6 +41,9 @@ namespace BH.Engine.Test.CodeCompliance.Checks
         [ComplianceType("documentation")]
         public static Span AttributeHasEndingPunctuation(this AttributeSyntax node)
         {
+            if (node == null || node.ArgumentList == null || node.ArgumentList.Arguments == null)
+                return null;
+
             List<AttributeArgumentSyntax> args = node.ArgumentList.Arguments.ToList();
 
             string name = node.Name.ToString();
