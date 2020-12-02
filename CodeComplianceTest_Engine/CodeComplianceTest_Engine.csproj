@@ -208,6 +208,8 @@
     <Compile Include="Query\DirectlyInherits.cs" />
     <Compile Include="Query\DynamicChecks\AdapterCreateMethodIsValid.cs" />
     <Compile Include="Query\DynamicChecks\AdapterReadMethodIsValid.cs" />
+    <Compile Include="Query\DynamicChecks\ImplementsBaseOption.cs" />
+    <Compile Include="Query\DynamicChecks\InputFromPropertyMatchesProperty.cs" />
     <Compile Include="Query\DynamicChecks\IsValidDataset.cs" />
     <Compile Include="Query\DynamicChecks\IsValidQuantityInputAttribute.cs" />
     <Compile Include="Query\GetAttributes.cs" />
@@ -252,6 +254,7 @@
     <Compile Include="Query\GetFileRoot.cs" />
     <Compile Include="Query\IsValidBHoMObject.cs" />
     <Compile Include="Query\GetText.cs" />
+    <Compile Include="Query\Signature.cs" />
     <Compile Include="Query\StringEndsWithPunctuation.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -265,6 +268,10 @@
     <ProjectReference Include="..\CodeCompliance_oM\CodeComplianceTest_oM.csproj">
       <Project>{f758fc9c-cedf-430d-aeff-2b1e196f677b}</Project>
       <Name>CodeComplianceTest_oM</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Test_Engine\Test_Engine.csproj">
+      <Project>{5fc85409-dbc5-4b0d-a2aa-1d9542f0763b}</Project>
+      <Name>Test_Engine</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
