@@ -22,7 +22,7 @@ namespace TestRunner
 
             if (args.Length == 0)
             {
-                Console.WriteLine("Please provide a filter for the methods yo uwant to run. This can be either the name of the method or its namespace (after 'BH.Test')");
+                Console.WriteLine("Please provide a filter for the methods you want to run. This can be either the name of the method or its namespace (after 'BH.Test')");
                 return;
             }
 
