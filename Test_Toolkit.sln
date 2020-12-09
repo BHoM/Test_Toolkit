@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.30503.244
+# Visual Studio 15
+VisualStudioVersion = 15.0.28307.1259
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InteroperabilityTest_Engine", "InteroperabilityTest_Engine\InteroperabilityTest_Engine.csproj", "{DF4047D7-2883-4763-83C0-B1D3B391D454}"
 EndProject
@@ -20,6 +20,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InteroperabilityTest_oM", "InteroperabilityTest_oM\InteroperabilityTest_oM.csproj", "{8AA8B55E-0C55-4356-BF8B-98B98F6C346C}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CodeComplianceTest_oM", "CodeCompliance_oM\CodeComplianceTest_oM.csproj", "{F758FC9C-CEDF-430D-AEFF-2B1E196F677B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestRunner", "TestRunner\TestRunner.csproj", "{3F911D8A-55E4-4293-8FCF-DE37B3D79E72}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -69,6 +71,12 @@ Global
 		{F758FC9C-CEDF-430D-AEFF-2B1E196F677B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F758FC9C-CEDF-430D-AEFF-2B1E196F677B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F758FC9C-CEDF-430D-AEFF-2B1E196F677B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3F911D8A-55E4-4293-8FCF-DE37B3D79E72}.ComplianceTestBuild|Any CPU.ActiveCfg = Release|Any CPU
+		{3F911D8A-55E4-4293-8FCF-DE37B3D79E72}.ComplianceTestBuild|Any CPU.Build.0 = Release|Any CPU
+		{3F911D8A-55E4-4293-8FCF-DE37B3D79E72}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3F911D8A-55E4-4293-8FCF-DE37B3D79E72}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3F911D8A-55E4-4293-8FCF-DE37B3D79E72}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3F911D8A-55E4-4293-8FCF-DE37B3D79E72}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
