@@ -50,7 +50,7 @@ namespace BH.Engine.Test.CodeCompliance.Checks
             if (multiOutAttrs.Count > 1)
                 return node.Identifier.Span.ToSpan();
 
-            string currentVersion = "4.0"; //Update each milestone
+            string currentVersion = "4.1"; //Update each milestone
             string givenVersion = multiOutAttrs.First().ArgumentList.Arguments[0].Expression.GetFirstToken().Value.ToString();
 
             if (givenVersion != currentVersion)
