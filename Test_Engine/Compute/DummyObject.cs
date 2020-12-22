@@ -51,6 +51,20 @@ namespace BH.Engine.Test
 
         private static object InitialiseObject(Type type, int depth = 0)
         {
+            if (depth > m_MaxDepth)
+            {
+                Reflection.Compute.RecordWarning($"Breaking cycle after reaching depth of {depth}.");
+                return null;
+            }
+
+            if (type.IsInterface)
+            {
+                if (m_ImplementingTypes.ContainsKey(type))
+                    type = m_ImplementingTypes[type];
+                else
+                    return null;
+            }
+
             try
             {
                 // Create object
@@ -74,7 +88,13 @@ namespace BH.Engine.Test
                 foreach (PropertyInfo prop in type.GetProperties())
                 {
                     if (prop.CanWrite && prop.SetMethod.GetParameters().Count() == 1)
-                        prop.SetValue(obj, GetValue(prop.PropertyType, depth));
+                    {
+                        try
+                        {
+                            prop.SetValue(obj, GetValue(prop.PropertyType, depth));
+                        }
+                        catch { }
+                    }     
                 }
 
                 return obj;
@@ -235,32 +255,41 @@ namespace BH.Engine.Test
                 }
                 else if (type == typeof(Type))
                 {
-                    return typeof(BHoMObject);
+                    return typeof(object);
                 }
                 else if (type == typeof(MethodBase))
                 {
-                    return typeof(BH.Engine.Reflection.Query).GetMethods().First();
+                    return typeof(object).GetMethods().First();
                 }
+                else if (type == typeof(IComparable))
+                    return "Comparable";
                 else if (type.IsInterface || type.IsAbstract)
                 {
-                    if (depth > 50 || !m_ImplementingTypes.ContainsKey(type))
+                    if (depth > m_MaxDepth || !m_ImplementingTypes.ContainsKey(type))
+                    {
+                        Reflection.Compute.RecordWarning($"Breaking infinite loop after {m_MaxDepth} cycles on {type.FullName}");
                         return null;
+                    }
                     else
                         return GetValue(m_ImplementingTypes[type], depth + 1);
                 }
+                else if (type.Namespace.StartsWith("System.Windows"))
+                    return null;
                 else if (type == typeof(DateTimeOffset))
                 {
                     return new DateTimeOffset(636694884850000000, new TimeSpan());
                 }
-                else
+                else if (depth > m_MaxDepth)
                 {
-                    if (depth > 20) return null;
-                    return InitialiseObject(type, depth + 1);
+                    Reflection.Compute.RecordWarning($"Breaking infinite loop after {m_MaxDepth} cycles on {type.FullName}");
+                    return null;
                 }
+                else
+                    return InitialiseObject(type, depth + 1);
             }
             catch
             {
-                Reflection.Compute.RecordWarning("Failed to generate value for type " + type.FullName);
+                Reflection.Compute.RecordWarning($"Failed to generate value for type {type.FullName}");
                 return null;
             }
         }
@@ -271,7 +300,24 @@ namespace BH.Engine.Test
         {
             ConstructorInfo ctor = type.GetConstructors().OrderByDescending(x => x.GetParameters().Count()).First();
             object[] parameters = ctor.GetParameters().Select(x => GetValue(x.ParameterType, depth)).ToArray();
-            return ctor.Invoke(parameters);
+            object obj = null;
+            try
+            {
+                obj = ctor.Invoke(parameters);
+            }
+            catch {}
+
+            if (obj == null)
+                return null;
+
+            // Set its public properties
+            foreach (PropertyInfo prop in type.GetProperties())
+            {
+                if (prop.CanWrite && prop.SetMethod.GetParameters().Count() == 1 && prop.Name != "Fragments")
+                    prop.SetValue(obj, GetValue(prop.PropertyType, depth));
+            }
+
+            return obj;
         }
 
         /***************************************************/
@@ -280,10 +326,16 @@ namespace BH.Engine.Test
         {
             try
             {
-                if (type.Name.StartsWith("IComparable`1"))
+                if (type.Name.StartsWith("IComparable"))
                     return typeof(int);
                 else if (type.IsInterface || type.IsAbstract)
-                    return m_ImplementingTypes[type];
+                {
+                    if (m_ImplementingTypes.ContainsKey(type))
+                        return m_ImplementingTypes[type];
+                    else
+                        return null;
+                }
+                    
                 else if (type.ContainsGenericParameters)
                 {
                     List<Type> actuals = new List<Type>();
@@ -314,7 +366,7 @@ namespace BH.Engine.Test
             {
                 try
                 {
-                    if (!type.IsAbstract && !type.IsInterface && !type.IsEnum && !type.IsDeprecated())
+                    if (!type.IsAbstract && !type.IsInterface && !type.IsEnum)
                     {
                         foreach (Type inter in type.GetInterfaces())
                         {
@@ -329,7 +381,7 @@ namespace BH.Engine.Test
                 }
                 catch (Exception e)
                 {
-                    throw e;
+                    Reflection.Compute.RecordWarning(e.ToString());
                 }
             }
         }
@@ -340,6 +392,7 @@ namespace BH.Engine.Test
         /*******************************************/
 
         private static Dictionary<Type, Type> m_ImplementingTypes = new Dictionary<Type, Type>();
+        private static int m_MaxDepth = 20;
 
         /***************************************************/
     }
