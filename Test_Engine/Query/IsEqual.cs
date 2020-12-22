@@ -31,6 +31,7 @@ using BH.oM.Diffing;
 using System.ComponentModel;
 using BH.oM.Reflection.Attributes;
 using KellermanSoftware.CompareNetObjects;
+using BH.Engine.Reflection;
 
 namespace BH.Engine.Test
 {
@@ -42,6 +43,9 @@ namespace BH.Engine.Test
 
         public static bool IsEqual(this object a, object b)
         {
+            if (a == null || b == null)
+                return a == b;
+
             if (a.GetType() != b.GetType())
                 return false;
 
@@ -62,28 +66,35 @@ namespace BH.Engine.Test
             config = config ?? new oM.Base.ComparisonConfig();
 
             CompareLogic comparer = new CompareLogic();
-
             comparer.Config.MaxDifferences = 1000;
-
             comparer.Config.MembersToIgnore = config.PropertyExceptions;
-
             comparer.Config.DoublePrecision = config.NumericTolerance;
 
-
-            ComparisonResult result = comparer.Compare(obj1, obj2);
-
-            List<string> propsDifferent = result.Differences.Select(x => x.PropertyName).ToList();
-            List<string> obj1DiffValues = result.Differences.Select(x => x.Object1Value).ToList();
-            List<string> obj2DiffValues = result.Differences.Select(x => x.Object2Value).ToList();
-
-            return new Output<bool, List<string>, List<string>, List<string>>
+            Output<bool, List<string>, List<string>, List<string>> output = new Output<bool, List<string>, List<string>, List<string>>
             {
-                Item1 = result.AreEqual,
-                Item2 = propsDifferent,
-                Item3 = obj1DiffValues,
-                Item4 = obj2DiffValues
+                Item1 = false,
+                Item2 = new List<string>(),
+                Item3 = new List<string>(),
+                Item4 = new List<string>()
             };
 
+            if (obj1 == null || obj2 == null)
+                return output;
+
+            try
+            {
+                ComparisonResult result = comparer.Compare(obj1, obj2);
+                output.Item1 = result.AreEqual;
+                output.Item2 = result.Differences.Select(x => x.PropertyName).ToList();
+                output.Item3 = result.Differences.Select(x => x.Object1Value).ToList();
+                output.Item4 = result.Differences.Select(x => x.Object2Value).ToList();
+            }
+            catch (Exception e)
+            {
+                Engine.Reflection.Compute.RecordError($"Comparison between {obj1.IToText()} and {obj2.IToText()} failed:\n{e.Message}");
+            }
+
+            return output;
         }
 
         [Description("Checks two BHoMObjects property by property and returns the differences")]
@@ -102,8 +113,6 @@ namespace BH.Engine.Test
             comparer.Config.MembersToIgnore = config.PropertyExceptions;
             comparer.Config.DoublePrecision = config.NumericTolerance;
 
-
-
             ComparisonResult result = comparer.Compare(obj1, obj2);
             dict = result.Differences.ToDictionary(diff => diff.PropertyName, diff => new Tuple<object, object>(diff.Object1, diff.Object2));
 
@@ -113,7 +122,6 @@ namespace BH.Engine.Test
             return dict;
         }
 
-        /***************************************************/
 
         /***************************************************/
         /**** Private Static Fields                     ****/
