@@ -73,6 +73,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Compute\CheckTest.cs" />
+    <Compile Include="Compute\MergeUnitTests.cs" />
     <Compile Include="Compute\Regenerate.cs" />
     <Compile Include="Compute\Run.cs" />
     <Compile Include="Create\TestData.cs" />
