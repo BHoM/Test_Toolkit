@@ -27,7 +27,6 @@ using System.ComponentModel;
 using BH.oM.Reflection.Attributes;
 using BH.oM.Base;
 using BH.oM.Test.UnitTests;
-using BH.Engine.Reflection;
 
 namespace BH.Engine.UnitTest
 {
@@ -37,9 +36,9 @@ namespace BH.Engine.UnitTest
         /**** Public Methods                            ****/
         /***************************************************/
 
-        [Description("Merges all tests that share the same method into one unit test object.")]
-        [Input("", "")]
-        [Output("mergedTests", "")]
+        [Description("Merges all tests that share the same method into one unit test object. This is, this method will return one UnitTest per unique provided method, with the test data corresponding to all provided UnitTests of that type of method.")]
+        [Input("testsToMerge", "The UnitTests to merge into unique UnitTests based on the method.")]
+        [Output("mergedTests", "The list of merged UnitTests.")]
         public static List<oM.Test.UnitTests.UnitTest> MergeUnitTests(List<oM.Test.UnitTests.UnitTest> testsToMerge)
         {
             List<oM.Test.UnitTests.UnitTest> mergedTests = new List<oM.Test.UnitTests.UnitTest>();
