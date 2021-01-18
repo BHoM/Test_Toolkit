@@ -27,6 +27,7 @@ using System.ComponentModel;
 using BH.oM.Reflection.Attributes;
 using BH.oM.Base;
 using BH.oM.Test.UnitTests;
+using BH.Engine.Reflection;
 
 namespace BH.Engine.UnitTest
 {
@@ -43,7 +44,7 @@ namespace BH.Engine.UnitTest
         {
             List<oM.Test.UnitTests.UnitTest> mergedTests = new List<oM.Test.UnitTests.UnitTest>();
 
-            foreach (var group in mergedTests.GroupBy(x => x.Method))
+            foreach (var group in testsToMerge.GroupBy(x => x.Method))
             {
                 mergedTests.Add(new oM.Test.UnitTests.UnitTest { Method = group.Key, Data = group.SelectMany(x => x.Data).ToList() });
             }
