@@ -62,7 +62,7 @@ namespace TestRunner
                         TestResult result = method.Invoke(null, new object[] { }) as TestResult;
 
                         Console.WriteLine(result.Description + " --> " + result.Status.ToString());
-                        foreach (Event e in result.Events.OrderBy(x => x.Message))
+                        foreach (Event e in result.Information.OrderBy(x => x.Message))
                             Console.WriteLine("  - " + e.Message);
                     }
                     catch (Exception e)
