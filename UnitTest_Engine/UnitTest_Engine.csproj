@@ -35,10 +35,13 @@
       <HintPath>C:\ProgramData\BHoM\Assemblies\BHoM.dll</HintPath>
       <Private>False</Private>
     </Reference>
-    <Reference Include="BHoM_Engine, Version=3.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
+    <Reference Include="BHoM_Engine">
       <HintPath>C:\ProgramData\BHoM\Assemblies\BHoM_Engine.dll</HintPath>
       <Private>False</Private>
+    </Reference>
+    <Reference Include="Data_oM">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>C:\ProgramData\BHoM\Assemblies\Data_oM.dll</HintPath>
     </Reference>
     <Reference Include="Diffing_oM">
       <SpecificVersion>False</SpecificVersion>
@@ -84,6 +87,10 @@
     <ProjectReference Include="..\Test_Engine\Test_Engine.csproj">
       <Project>{5fc85409-dbc5-4b0d-a2aa-1d9542f0763b}</Project>
       <Name>Test_Engine</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\UnitTest_oM\UnitTest_oM.csproj">
+      <Project>{1f163cfa-e407-4c7a-9daf-1c19207a8983}</Project>
+      <Name>UnitTest_oM</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
