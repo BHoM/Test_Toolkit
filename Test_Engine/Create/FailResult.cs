@@ -30,6 +30,7 @@ using System.Reflection;
 using System.Text.RegularExpressions;
 using BH.oM.Test.Results;
 using BH.oM.Reflection.Debugging;
+using BH.oM.Test;
 
 namespace BH.Engine.Test
 {
@@ -41,9 +42,9 @@ namespace BH.Engine.Test
 
         public static TestResult FailResult(string errorMessage, string description = "", bool isCritical = false)
         {
-            ResultStatus status = isCritical ? ResultStatus.CriticalFail : ResultStatus.Fail;
-            List<Event> events = new List<Event> { new Event { Type = EventType.Error, Message = errorMessage } };
-            return new TestResult(status, events, description);
+            TestStatus status = isCritical ? TestStatus.Error : TestStatus.Warning;
+            //List<Event> events = new List<Event> { new Event { Type = EventType.Error, Message = errorMessage } };
+            return new TestResult() { Status = status, Description = description, Message = errorMessage };
         }
 
         /***************************************************/

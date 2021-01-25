@@ -30,6 +30,7 @@ using System.Reflection;
 using System.Text.RegularExpressions;
 using BH.oM.Test.Results;
 using BH.oM.Reflection.Debugging;
+using BH.oM.Test;
 
 namespace BH.Engine.Test
 {
@@ -41,7 +42,7 @@ namespace BH.Engine.Test
 
         public static TestResult PassResult(string description = "")
         {
-            return new TestResult(ResultStatus.Pass, new List<Event>(), description);
+            return new TestResult() { Status = TestStatus.Pass, Description = description };
         }
 
         /***************************************************/
