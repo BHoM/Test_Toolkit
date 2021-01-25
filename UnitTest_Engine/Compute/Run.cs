@@ -104,7 +104,7 @@ namespace BH.Engine.UnitTest
             {
                 string message = "Failed to run with the given inputs";
                 if (e is NotImplementedException || e.InnerException is NotImplementedException)
-                    message = "The method is not implements";
+                    message = "The method is not implemented.";
                 else if (e is RuntimeBinderException || e.InnerException is RuntimeBinderException)
                     message = "The method with the correct input types cannot be found";
                 errors.Add(message);
