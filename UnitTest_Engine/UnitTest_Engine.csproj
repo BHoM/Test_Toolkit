@@ -82,6 +82,7 @@
     <Compile Include="Create\TestData.cs" />
     <Compile Include="Modify\ClearOutputData.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Query\FullMessage.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Test_Engine\Test_Engine.csproj">
