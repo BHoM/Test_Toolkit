@@ -99,11 +99,16 @@ namespace BH.Engine.UnitTest
         public static TestResult CheckTest(this UT.UnitTest test)
         {
             MethodBase method = test.Method;
-            TestResult testResult = new TestResult { Description = $"UnitTest: Method: {method.ToText()}" };
 
+            string description = $"UnitTest: Method: {method.ToText()}" + (!string.IsNullOrWhiteSpace(test.Name) ? $" ,name: {test.Name}." : ".");
+
+            TestResult testResult = new TestResult { Description = description };
+
+            int counter = 0;
             foreach (UT.TestData data in test.Data)
             {
-                testResult.Information.Add(CheckTest(method, data));
+                testResult.Information.Add(CheckTest(method, data, counter));
+                counter++;
             }
 
             testResult.Status = testResult.Information.MostSevereStatus();
@@ -122,9 +127,10 @@ namespace BH.Engine.UnitTest
         /**** Private Methods                           ****/
         /***************************************************/
 
-        private static TestResult CheckTest(MethodBase method, UT.TestData data)
+        private static TestResult CheckTest(MethodBase method, UT.TestData data, int index)
         {
-            TestResult testResult = new TestResult { Description = $"UnitTest: Method: {method.ToText()}, Data: {data.Name}." };
+            string description = "Data: " + (!string.IsNullOrWhiteSpace(data.Name) ? $"name: {data.Name}," : "") + $"index: {index}";
+            TestResult testResult = new TestResult { Description = description };
             var result = Run(method, data);
 
             //Check if critical errors where raised while running the unit test
