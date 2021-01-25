@@ -99,7 +99,7 @@ namespace BH.Engine.UnitTest
         public static TestResult CheckTest(this UT.UnitTest test)
         {
             MethodBase method = test.Method;
-            TestResult testResult = new TestResult { Description = $"UnitTest: Method: {method.Name}" };
+            TestResult testResult = new TestResult { Description = $"UnitTest: Method: {method.ToText()}" };
 
             foreach (UT.TestData data in test.Data)
             {
@@ -124,7 +124,7 @@ namespace BH.Engine.UnitTest
 
         private static TestResult CheckTest(MethodBase method, UT.TestData data)
         {
-            TestResult testResult = new TestResult { Description = $"UnitTest: Method: {method.Name}, Data: {data.Name}." };
+            TestResult testResult = new TestResult { Description = $"UnitTest: Method: {method.ToText()}, Data: {data.Name}." };
             var result = Run(method, data);
 
             //Check if critical errors where raised while running the unit test
