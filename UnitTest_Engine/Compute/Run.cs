@@ -83,7 +83,7 @@ namespace BH.Engine.UnitTest
 
                     object resultObject = method.Invoke(null, inputs.ToArray());
 
-                    IOutput output = result as IOutput;
+                    IOutput output = resultObject as IOutput;
 
                     if (output == null)
                         result.Add(resultObject);
