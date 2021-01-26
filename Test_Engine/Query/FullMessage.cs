@@ -51,22 +51,22 @@ namespace BH.Engine.Test
             string message = result.Description + Environment.NewLine;
             message += result.Message + Environment.NewLine;
 
-            if (maxDepth > 0 && result.Information.Count > 0)
+            //Filter out only info that passes the severity level
+            List<ITestInformation> innerInfo = result.Information.Where(x => x.Status.IsEqualOrMoreSevere(minSeverity)).ToList();
+
+            if (maxDepth > 0 && innerInfo.Count > 0)
             {
                 message += "Inner results:" + Environment.NewLine;
 
-                foreach (ITestInformation info in result.Information)
+                foreach (ITestInformation info in innerInfo)
                 {
-                    //Add messages from inner testresults that match the severity level.
-                    if (info.Status.IsEqualOrMoreSevere(minSeverity))
+                    string innerMessage = IFullMessage(info, maxDepth - 1, minSeverity);
+                    string[] arr = innerMessage.Split(new string[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries);
+                    foreach (string s in arr)
                     {
-                        string innerMessage= IFullMessage(info, maxDepth - 1, minSeverity);
-                        string[] arr = innerMessage.Split(new string[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries);
-                        foreach (string s in arr)
-                        {
-                            message += "\t" + s + Environment.NewLine;
-                        }
+                        message += "\t" + s + Environment.NewLine;
                     }
+
                 }
             }
 
