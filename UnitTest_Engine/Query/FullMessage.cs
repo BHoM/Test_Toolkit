@@ -41,7 +41,7 @@ namespace BH.Engine.UnitTest
         [Description("")]
         [Input("", "")]
         [Output("", "")]
-        public static string FullMessage(ComparisonDifference difference, int maxDepth = 3, TestStatus minSeverity = TestStatus.Warning)
+        public static string FullMessage(ComparisonDifference difference, int maxDepth = 3, TestStatus minSeverity = TestStatus.Pass)
         {
             if (!difference.Status.IsEqualOrMoreSevere(minSeverity))
                 return "";
