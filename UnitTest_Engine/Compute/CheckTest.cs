@@ -129,7 +129,7 @@ namespace BH.Engine.UnitTest
 
         private static TestResult CheckTest(MethodBase method, UT.TestData data, int index)
         {
-            string description = "Data: " + (!string.IsNullOrWhiteSpace(data.Name) ? $"name: {data.Name}," : "") + $"index: {index}";
+            string description = "TestData: " + (!string.IsNullOrWhiteSpace(data.Name) ? $"name: {data.Name}," : "") + $"index: {index}";
             TestResult testResult = new TestResult { Description = description };
             var result = Run(method, data);
 
@@ -235,4 +235,3 @@ namespace BH.Engine.UnitTest
 
     }
 }
-
