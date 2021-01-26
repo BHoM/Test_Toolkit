@@ -42,7 +42,7 @@ namespace BH.Engine.Test
         [Input("maxDepth", "Maximum level of recursiveness for inner TestInformation.")]
         [Input("minSeverity", "The minimum level of severity of the information to report back.")]
         [Output("message", "Full message for the TestResult")]
-        public static string FullMessage(this TestResult result, int maxDepth = 3, TestStatus minSeverity = TestStatus.Warning)
+        public static string FullMessage(this TestResult result, int maxDepth = 3, TestStatus minSeverity = TestStatus.Pass)
         {
             //Return an empty string if the status is not at least as severe as the provided minimum.
             if (!result.Status.IsEqualOrMoreSevere(minSeverity))
@@ -77,7 +77,7 @@ namespace BH.Engine.Test
         /**** Public Methods - Interface                ****/
         /***************************************************/
 
-        public static string IFullMessage(this ITestInformation result, int maxDepth = 3, TestStatus minSeverity = TestStatus.Warning)
+        public static string IFullMessage(this ITestInformation result, int maxDepth = 3, TestStatus minSeverity = TestStatus.Pass)
         {
             return FullMessage(result, maxDepth, minSeverity);
         }
@@ -86,7 +86,7 @@ namespace BH.Engine.Test
         /**** Private Methods - Fallback                ****/
         /***************************************************/
 
-        public static string FullMessage(this ITestInformation result, int maxDepth = 3, TestStatus minSeverity = TestStatus.Warning)
+        public static string FullMessage(this ITestInformation result, int maxDepth = 3, TestStatus minSeverity = TestStatus.Pass)
         {
             object ret = Reflection.Compute.RunExtensionMethod(result, "FullMessage", new object[] { maxDepth, minSeverity });
 
