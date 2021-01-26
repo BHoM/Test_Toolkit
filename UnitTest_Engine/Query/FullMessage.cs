@@ -38,9 +38,11 @@ namespace BH.Engine.UnitTest
         /**** Public Methods                            ****/
         /***************************************************/
 
-        [Description("")]
-        [Input("", "")]
-        [Output("", "")]
+        [Description("Returns a full concatenated message for the ComparisonDifference, only giving messages worse or equal to the provided severity level.")]
+        [Input("result", "The ComparisonDifference to give the full message for.")]
+        [Input("maxDepth", "Maximum level of recursiveness for inner TestInformation. Not in use for this object type.")]
+        [Input("minSeverity", "The minimum level of severity of the information to report back. Returns an empty string if the ComparisonDifference does not pass this check.")]
+        [Output("message", "Full message for the ComparisonDifference")]
         public static string FullMessage(ComparisonDifference difference, int maxDepth = 3, TestStatus minSeverity = TestStatus.Pass)
         {
             if (!difference.Status.IsEqualOrMoreSevere(minSeverity))
