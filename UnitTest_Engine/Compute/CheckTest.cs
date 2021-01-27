@@ -54,7 +54,17 @@ namespace BH.Engine.UnitTest
         [Output("results", "Results from the comparison of the run data with the expected output.")]
         public static TestResult CheckTests(this Dataset testDataSet)
         {
-            TestResult testResult = new TestResult { Description = $"Unit test set: {testDataSet.Name}"};
+            if (testDataSet == null)
+                return new TestResult { Status = oM.Test.TestStatus.Error, Description = "Unit test set", Message = "The provided Dataset was null and could not be evaluated." };
+
+            string name = !string.IsNullOrWhiteSpace(testDataSet.Name) ? testDataSet.Name : !string.IsNullOrWhiteSpace(testDataSet.SourceInformation?.Title) ? testDataSet.SourceInformation.Title : "Unnamed dataset";
+
+            string description = $"Unit test set: {name}.";
+
+            if (!string.IsNullOrWhiteSpace(testDataSet.SourceInformation?.Author))
+                description += $" Author: {testDataSet.SourceInformation.Author}";
+
+            TestResult testResult = new TestResult { Description = description};
 
             List<UT.UnitTest> unitTests = testDataSet.Data.OfType<UT.UnitTest>().ToList();
 
@@ -98,7 +108,14 @@ namespace BH.Engine.UnitTest
         [Output("result", "Results from the comparison of the run data with the expected output.")]
         public static TestResult CheckTest(this UT.UnitTest test)
         {
+            if (test == null)
+                return new TestResult { Status = oM.Test.TestStatus.Error, Description = "UnitTest", Message = "The provided UnitTest was null and could not be evaluated." };
+
             MethodBase method = test.Method;
+
+            if (method == null)
+                return new TestResult { Status = oM.Test.TestStatus.Error, Description = "UnitTest", Message = "The method of the provided UnitTest was null and could not be evaluated." };
+
 
             string description = $"UnitTest: Method: {method.ToText()}" + (!string.IsNullOrWhiteSpace(test.Name) ? $" ,name: {test.Name}." : ".");
 
@@ -129,6 +146,9 @@ namespace BH.Engine.UnitTest
 
         private static TestResult CheckTest(MethodBase method, UT.TestData data, int index)
         {
+            if (data == null)
+                return new TestResult { Status = oM.Test.TestStatus.Error, Description = "TestData", Message = "The provided TestData was null and could not be evaluated." };
+
             string description = "TestData: " + (!string.IsNullOrWhiteSpace(data.Name) ? $"name: {data.Name}," : "") + $"index: {index}";
             TestResult testResult = new TestResult { Description = description };
             var result = Run(method, data);
