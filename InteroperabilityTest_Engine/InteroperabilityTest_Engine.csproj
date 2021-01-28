@@ -109,6 +109,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Compute\ComputePushPullCompareDifferences.cs" />
     <Compile Include="Compute\DispatchResultDifferences.cs" />
     <Compile Include="Compute\PushPullCompare.cs" />
     <Compile Include="Convert\ToEventMessage.cs" />
@@ -131,6 +132,10 @@
     <ProjectReference Include="..\Test_Engine\Test_Engine.csproj">
       <Project>{5fc85409-dbc5-4b0d-a2aa-1d9542f0763b}</Project>
       <Name>Test_Engine</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\UnitTest_oM\UnitTest_oM.csproj">
+      <Project>{1f163cfa-e407-4c7a-9daf-1c19207a8983}</Project>
+      <Name>UnitTest_oM</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
