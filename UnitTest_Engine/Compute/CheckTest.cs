@@ -131,11 +131,11 @@ namespace BH.Engine.UnitTest
             testResult.Status = testResult.Information.MostSevereStatus();
 
             if (testResult.Status == oM.Test.TestStatus.Error)
-                testResult.Message = "The unit test did not pass.";
+                testResult.Message = "The UnitTest did not pass.";
             else if (testResult.Status == oM.Test.TestStatus.Pass)
-                testResult.Message = "No errors or warnings reported from running the UnitTest.";
+                testResult.Message = "No errors or warnings were reported from running the UnitTest.";
             else
-                testResult.Message = "Warnings reported during the execution of the unit test.";
+                testResult.Message = "Warnings were reported during the execution of the UnitTest.";
 
             return testResult;
         }
@@ -170,7 +170,7 @@ namespace BH.Engine.UnitTest
                 if (result.Item1.Count != data.Outputs.Count)
                 {
                     testResult.Status = oM.Test.TestStatus.Error;
-                    testResult.Message = "Running of the method returned a different number of results compared to the expected output.";
+                    testResult.Message = "Execution of the method returned a different number of results compared to the expected output.";
                     return testResult;
                 }
 
@@ -189,12 +189,12 @@ namespace BH.Engine.UnitTest
                 }
 
                 return testResult;
-
             }
-            catch
+            catch(Exception e)
             {
                 testResult.Status = oM.Test.TestStatus.Error;
-                testResult.Message = "Failed to execute the comparison of the execution of the method with the expected outputs.";
+                testResult.Message = "Failed to run the comparison of the result of execution of the method with the expected outputs." + Environment.NewLine;
+                testResult.Message += $"Exception thrown: {e.Message}";
                 return testResult;
             }
             
