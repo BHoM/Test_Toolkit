@@ -241,6 +241,13 @@ namespace BH.Engine.Test.Interoperability
 
             setResult.Status = setResult.Information.OfType<TestResult>().MostSevereStatus();
 
+            if (setResult.Status == oM.Test.TestStatus.Error)
+                setResult.Message = "Errors where raised trying to run the test";
+            else if (setResult.Status == oM.Test.TestStatus.Pass)
+                setResult.Message = "All objects where sucessfully pushed, pulled and compared without any differences.";
+            else
+                setResult.Message = "All objects where sucessfully pushed, but some differences were found.";
+
             return setResult;
         }
 
@@ -281,7 +288,7 @@ namespace BH.Engine.Test.Interoperability
                 {
                     result.Information.Add(new PushPullObjectComparison
                     {
-                        Message = "Difference found in object.",
+                        Message = $"Difference found in {type.Name}. {equalityResult.Item2[i]} was {equalityResult.Item3[i]} on the pushed item and {equalityResult.Item4[i]} on the pulled item.",
                         ObjectType = type,
                         PropertyId = equalityResult.Item2[i],
                         PushedItem = equalityResult.Item3[i],
