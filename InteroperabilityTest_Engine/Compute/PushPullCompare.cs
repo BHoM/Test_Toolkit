@@ -37,6 +37,7 @@ using BH.oM.Diffing;
 using BH.Engine.Base;
 using BH.oM.Reflection.Debugging;
 using BH.oM.Test.Interoperability;
+using BH.oM.Test.Interoperability.Results;
 
 
 namespace BH.Engine.Test.Interoperability
@@ -152,6 +153,176 @@ namespace BH.Engine.Test.Interoperability
         /**** Private Methods                           ****/
         /***************************************************/
 
+        private static TestResult RunOneSet(BHoMAdapter adapter, string setName, List<IBHoMObject> objects, IRequest request, IEqualityComparer<IBHoMObject> comparer, bool resetModelBetweenRuns)
+        {
+
+            if (adapter == null)
+            {
+                return new TestResult { Description = "PushPullCompare", Message = "Adapter is null, could not preform test", Status = oM.Test.TestStatus.Error };
+            }
+
+            TestResult setResult = new TestResult { Description = $"PushPullCompare: Adapter: {adapter.GetType().Name}, test set: {setName}.", ID = setName };
+
+            bool success = true;
+
+            //Calcualte timestamp
+            double timestep = DateTime.UtcNow.ToOADate();
+
+            //CalculateObjectHashes
+            objects = objects.Select(x => x.GetShallowClone()).ToList();
+            objects.ForEach(x => x.CustomData["PushPull_Hash"] = x.Hash());
+
+            //Start up an empty model
+            if (resetModelBetweenRuns)
+                adapter.Execute(new NewModel());
+
+            List<IBHoMObject> pushedObjects = new List<IBHoMObject>();
+            List<IBHoMObject> pulledObjects = new List<IBHoMObject>();
+
+            BH.oM.Base.ComparisonConfig config = new BH.oM.Base.ComparisonConfig();
+            config.PropertyExceptions.Add("CustomData");
+            config.PropertyExceptions.Add("Fragments");
+
+            //Push objects
+            try
+            {
+                Engine.Reflection.Compute.ClearCurrentEvents();
+                pushedObjects = adapter.Push(objects).Cast<IBHoMObject>().ToList();
+                success &= pushedObjects.Count == objects.Count;
+            }
+            catch (Exception e)
+            {
+                Engine.Reflection.Compute.RecordError(e.Message);
+                setResult.Message = "The adapter crashed trying to push the objects.";
+                setResult.Status = oM.Test.TestStatus.Error;
+                return setResult;
+            }
+            finally
+            {
+                setResult.Information.AddRange(Engine.Reflection.Query.CurrentEvents().Select(x => x.ToEventMessage()));
+            }
+
+            if (pushedObjects.Count != objects.Count)
+            {
+                setResult.Information.AddRange(objects.Where(x => !pushedObjects.Any(y => x.Name == y.Name)).Select(x => TestFailedResult(x, "Object could not be pushed.")));
+            }
+
+            //Pull objects
+            try
+            {
+                Engine.Reflection.Compute.ClearCurrentEvents();
+                pulledObjects = adapter.Pull(request).Cast<IBHoMObject>().ToList();
+                success &= pulledObjects.Count == pushedObjects.Count;
+            }
+            catch (Exception e)
+            {
+                Engine.Reflection.Compute.RecordError(e.Message);
+                setResult.Message = "The adapter crashed trying to pull the objects.";
+                setResult.Status = oM.Test.TestStatus.Error;
+                return setResult;
+            }
+            finally
+            {
+                setResult.Information.AddRange(Engine.Reflection.Query.CurrentEvents().Select(x => x.ToEventMessage()));
+            }
+
+            //Compare pushed and pulled objects
+            VennDiagram<IBHoMObject> diagram = Engine.Data.Create.VennDiagram(pushedObjects, pulledObjects, comparer);
+
+            //Check that all pushed objects found a match in pulled obejcts
+            //result.PullSuccess = diagram.OnlySet1.Count == 0;
+
+            foreach (Tuple<IBHoMObject, IBHoMObject> pair in diagram.Intersection)
+            {
+                setResult.Information.Add(ComparePushedAndPulledObject(pair.Item1, pair.Item2, config));
+            }
+
+            setResult.Information.AddRange(diagram.OnlySet1.Select(x => TestFailedResult(x, "Unable to compare the object.")));
+
+            //Close the model
+            if (resetModelBetweenRuns)
+                adapter.Execute(new Close { SaveBeforeClose = false });
+
+            //Clear events
+            Engine.Reflection.Compute.ClearCurrentEvents();
+
+            return setResult;
+        }
+
+        /***************************************************/
+
+        private static TestResult TestResultFromPushedObject(IBHoMObject obj)
+        {
+            return new TestResult
+            {
+                Description = $"Test object of type {obj.GetType().Name} with name {obj.Name}",
+                ID = obj.CustomData["PushPull_Hash"].ToString(),
+            };
+        }
+
+        /***************************************************/
+
+        private static TestResult TestFailedResult(IBHoMObject obj, string message = "")
+        {
+            TestResult result = TestResultFromPushedObject(obj);
+            result.Message = message;
+            result.Status = oM.Test.TestStatus.Error;
+            return result;
+        }
+
+        /***************************************************/
+
+        private static TestResult ComparePushedAndPulledObject(IBHoMObject pushedObj, IBHoMObject pulledObj, ComparisonConfig config)
+        {
+            TestResult result = TestResultFromPushedObject(pushedObj);
+
+            try
+            {
+                var equalityResult = Engine.Test.Query.IsEqual(pushedObj, pulledObj, config);
+
+                Type type = pushedObj.GetType();
+
+                for (int i = 0; i < equalityResult.Item2.Count; i++)
+                {
+                    result.Information.Add(new PushPullObjectComparison
+                    {
+                        Message = "Difference found in object.",
+                        ObjectType = type,
+                        PropertyId = equalityResult.Item2[i],
+                        PushedItem = equalityResult.Item3[i],
+                        ReturnedItem = equalityResult.Item4[i],
+                        Status = oM.Test.TestStatus.Warning
+                    });
+                }
+            }
+            catch (Exception e)
+            {
+                result.Status = oM.Test.TestStatus.Error;
+                result.Message = "Failed to run the comparison of the Pushed and Pulled object." + Environment.NewLine;
+                result.Message += $"Exception thrown: {e.Message}";
+                return result;
+            }
+
+            if (result.Information.Count == 0)
+            {
+                result.Status = oM.Test.TestStatus.Pass;
+                result.Message = "No differences found between the pushed and pulled object";
+            }
+            else
+            {
+                result.Status = oM.Test.TestStatus.Warning;
+                result.Message = "Differences found between the pushed and the pulled object.";
+            }
+
+            return result;
+        }
+
+        private static List<InputOutputComparison> TestFailedResults(string setName, IEnumerable<IBHoMObject> objects, InputOutputComparisonType type, double timeStep)
+        {
+            return objects.Select(x => new InputOutputComparison(x.CustomData["PushPull_Hash"].ToString(), setName, timeStep, x.GetType(), type, new List<InputOutputDifference>())).ToList();
+            //return objects.Select(x => new InputOutputDifference(x.CustomData["PushPull_Hash"].ToString(), setName, x.GetType().ToString(), timeStep, x.GetType(), type, x.ToString(), null)).ToList();
+        }
+
         private static bool RunOneSet(BHoMAdapter adapter, string setName, List<IBHoMObject> objects, IRequest request, IEqualityComparer<IBHoMObject> comparer, bool resetModelBetweenRuns, out List<InputOutputComparison> results, out List<Event> events)
         {
             bool success = true;
@@ -256,11 +427,7 @@ namespace BH.Engine.Test.Interoperability
 
         /***************************************************/
 
-        private static List<InputOutputComparison> TestFailedResults(string setName, IEnumerable<IBHoMObject> objects, InputOutputComparisonType type, double timeStep)
-        {
-            return objects.Select(x => new InputOutputComparison(x.CustomData["PushPull_Hash"].ToString(), setName, timeStep, x.GetType(), type, new List<InputOutputDifference>())).ToList();
-            //return objects.Select(x => new InputOutputDifference(x.CustomData["PushPull_Hash"].ToString(), setName, x.GetType().ToString(), timeStep, x.GetType(), type, x.ToString(), null)).ToList();
-        }
+
 
     }
 }
