@@ -37,11 +37,11 @@ namespace BH.Engine.Test
         /**** Public Methods                            ****/
         /***************************************************/
 
-        [Description("Returns a full concatenated message for the test results and its inner result to the target max depth, only giving messages worse or equal to the provided severity level.")]
+        [Description("Returns a full concatenated message for a test result and its inner result to the target max depth, only giving messages worse or equal to the provided severity level.")]
         [Input("result", "The TestResult to give the full message for.")]
         [Input("maxDepth", "Maximum level of recursiveness for inner TestInformation.")]
         [Input("minSeverity", "The minimum level of severity of the information to report back.")]
-        [Output("message", "Full message for the TestResult")]
+        [Output("message", "Full message for the TestResult.")]
         public static string FullMessage(this TestResult result, int maxDepth = 3, TestStatus minSeverity = TestStatus.Pass)
         {
             //Return an empty string if the status is not at least as severe as the provided minimum.

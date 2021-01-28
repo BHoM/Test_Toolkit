@@ -64,7 +64,7 @@ namespace BH.Engine.UnitTest
             if (!string.IsNullOrWhiteSpace(testDataSet.SourceInformation?.Author))
                 description += $" Author: {testDataSet.SourceInformation.Author}";
 
-            TestResult testResult = new TestResult { Description = description};
+            TestResult testResult = new TestResult { Description = description };
 
             List<UT.UnitTest> unitTests = testDataSet.Data.OfType<UT.UnitTest>().ToList();
 
