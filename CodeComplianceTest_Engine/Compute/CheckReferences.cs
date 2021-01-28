@@ -43,16 +43,19 @@ using BH.oM.Adapter;
 using BH.oM.Adapters.XML;
 using BH.oM.Data.Requests;
 
+using BH.oM.Test;
+using BH.oM.Test.Results;
+
 namespace BH.Engine.Test.CodeCompliance
 {
     public static partial class Compute
     {
-        public static ComplianceResult CheckReferences(this string csProjFilePath)
+        public static TestResult CheckReferences(this string csProjFilePath)
         {
             if (Path.GetExtension(csProjFilePath) != ".csproj")
-                return Create.ComplianceResult(ResultStatus.Pass);
+                return Create.TestResult(TestStatus.Pass);
 
-            ComplianceResult finalResult = Create.ComplianceResult(ResultStatus.Pass);
+            TestResult finalResult = Create.TestResult(TestStatus.Pass);
             string documentationLink = "Project-References-and-Build-Paths";
 
             List<string> fileLines = ReadCSProjFile(csProjFilePath);
@@ -96,7 +99,7 @@ namespace BH.Engine.Test.CodeCompliance
             return lines;
         }
 
-        private static ComplianceResult CheckOutputPath(this Project csProject, List<string> fileLines, ComplianceResult finalResult, string csProjFilePath, string documentationLink)
+        private static TestResult CheckOutputPath(this Project csProject, List<string> fileLines, TestResult finalResult, string csProjFilePath, string documentationLink)
         {
             int foundCounter = 1; //Start at one because the index from the list is not the line of the file (0 index + 1 to get the line number)
 
@@ -116,7 +119,7 @@ namespace BH.Engine.Test.CodeCompliance
                             fileLines.RemoveAt(index); //So we don't have to find it again
                         }
 
-                        finalResult = finalResult.Merge(Create.ComplianceResult(ResultStatus.CriticalFail, new List<Error> { Create.Error($"Output path for all build configurations should be set to '..\\Build\\'", Create.Location(csProjFilePath, Create.LineSpan(index, index)), documentationLink) }));
+                        finalResult = finalResult.Merge(Create.TestResult(TestStatus.Error, new List<Error> { Create.Error($"Output path for all build configurations should be set to '..\\Build\\'", Create.Location(csProjFilePath, Create.LineSpan(index, index)), documentationLink) }));
                     }
                 }
             }
@@ -124,7 +127,7 @@ namespace BH.Engine.Test.CodeCompliance
             return finalResult;
         }
 
-        private static ComplianceResult CheckReferences(this Project csProject, List<string> fileLines, ComplianceResult finalResult, string csProjFilePath, string documentationLink)
+        private static TestResult CheckReferences(this Project csProject, List<string> fileLines, TestResult finalResult, string csProjFilePath, string documentationLink)
         {
             foreach(ItemGroup group in csProject.ItemGroups)
             {
@@ -147,7 +150,7 @@ namespace BH.Engine.Test.CodeCompliance
                         else
                             index += 1; //To account for 0 indexing of the list
 
-                        finalResult = finalResult.Merge(Create.ComplianceResult(ResultStatus.CriticalFail, new List<Error> { Create.Error("Project references for BHoM DLLs should not include Version, Culture, or Processor Architecture", Create.Location(csProjFilePath, Create.LineSpan(index, index)), documentationLink) }));
+                        finalResult = finalResult.Merge(Create.TestResult(TestStatus.Error, new List<Error> { Create.Error("Project references for BHoM DLLs should not include Version, Culture, or Processor Architecture", Create.Location(csProjFilePath, Create.LineSpan(index, index)), documentationLink) }));
                     }
 
                     string hintPath = @"C:\ProgramData\BHoM\Assemblies\" + refName + ".dll";
@@ -160,7 +163,7 @@ namespace BH.Engine.Test.CodeCompliance
                         else
                             index += 1;
                         
-                        finalResult = finalResult.Merge(Create.ComplianceResult(ResultStatus.CriticalFail, new List<Error> { Create.Error($"Project reference for '{refName}' should be set to '{hintPath}'", Create.Location(csProjFilePath, Create.LineSpan(index, index)), documentationLink) }));
+                        finalResult = finalResult.Merge(Create.TestResult(TestStatus.Error, new List<Error> { Create.Error($"Project reference for '{refName}' should be set to '{hintPath}'", Create.Location(csProjFilePath, Create.LineSpan(index, index)), documentationLink) }));
                     }
 
                     if(reference.IsCopyLocal == null || reference.IsCopyLocal.ToLower() != "false")
@@ -188,7 +191,7 @@ namespace BH.Engine.Test.CodeCompliance
                             }
                         }
 
-                        finalResult = finalResult.Merge(Create.ComplianceResult(ResultStatus.CriticalFail, new List<Error> { Create.Error($"Project reference for '{refName}' should be set to not copy local", Create.Location(csProjFilePath, Create.LineSpan(index, index)), documentationLink) }));
+                        finalResult = finalResult.Merge(Create.TestResult(TestStatus.Error, new List<Error> { Create.Error($"Project reference for '{refName}' should be set to not copy local", Create.Location(csProjFilePath, Create.LineSpan(index, index)), documentationLink) }));
                     }
                 }
             }

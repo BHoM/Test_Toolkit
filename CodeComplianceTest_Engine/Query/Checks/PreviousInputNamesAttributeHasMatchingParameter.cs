@@ -29,12 +29,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+using BH.oM.Test;
+
 namespace BH.Engine.Test.CodeCompliance.Checks
 {
     public static partial class Query
     {
         [Message("Previous Input Name attribute does not match any of the given parameters.", "PreviousInputNamesAttributeHasMatchingParameter")]
-        [ErrorLevel(ErrorLevel.Error)]
+        [ErrorLevel(TestStatus.Error)]
         [Path(@"([a-zA-Z0-9]+)_(Engine|Adapter)\\.*\.cs$")]
         [ComplianceType("documentation")]
         public static Span PreviousInputNamesAttributeHasMatchingParameter(this AttributeSyntax node)

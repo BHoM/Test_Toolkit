@@ -31,11 +31,14 @@ using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 
+using BH.oM.Test;
+using BH.oM.Test.Results;
+
 namespace BH.Engine.Test.CodeCompliance
 {
     public static partial class Query
     {
-        public static ComplianceResult IsValidBHoMObject(this SyntaxTriviaList leadingTrivia, string copyrightStatement)
+        public static TestResult IsValidBHoMObject(this SyntaxTriviaList leadingTrivia, string copyrightStatement)
         {
             return null;
         }

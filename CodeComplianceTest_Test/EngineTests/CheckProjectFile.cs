@@ -48,13 +48,13 @@ namespace BH.Test.Test
 
             changedFiles = changedFiles.Where(x => Path.GetExtension(x).EndsWith("csproj")).ToList();
 
-            ComplianceResult r = Create.ComplianceResult(ResultStatus.Pass);
+            ComplianceResult r = Create.ComplianceResult(TestStatus.Pass);
             foreach (string s in changedFiles)
             {
                 r = r.Merge(BH.Engine.Test.CodeCompliance.Compute.CheckReferences(s));
             }
 
-            if (r.Status == ResultStatus.CriticalFail)
+            if (r.Status == TestStatus.Error)
                 Assert.Fail(r.Errors.Select(x => x.ToText() + "\n").Aggregate((a, b) => a + b));
             else*/
                 Assert.IsTrue(true);

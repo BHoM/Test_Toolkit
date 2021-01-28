@@ -29,12 +29,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+using BH.oM.Test;
+
 namespace BH.Engine.Test.CodeCompliance.Checks
 {
     public static partial class Query
     {
         [Message("Input parameter requires a matching Input attribute", "IsInputAttributePresent")]
-        [ErrorLevel(ErrorLevel.Warning)]
+        [ErrorLevel(TestStatus.Warning)]
         [ComplianceType("documentation")]
         public static Span IsInputAttributePresent(this ParameterSyntax node)
         {

@@ -30,12 +30,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+using BH.oM.Test;
+
 namespace BH.Engine.Test.CodeCompliance.Checks
 {
     public static partial class Query
     {
         [Message("Methods returning a type of Output<t1, ..., tn> should be using the MultiOutput documentation attribute. Methods returning a single type should be using the Output documentation attribute.", "HasValidOutputAttribute")]
-        [ErrorLevel(ErrorLevel.Error)]
+        [ErrorLevel(TestStatus.Error)]
         [Path(@"([a-zA-Z0-9]+)_Engine\\.*\.cs$")]
         [Path(@"([a-zA-Z0-9]+)_Engine\\Objects\\.*\.cs$", false)]
         [IsPublic()]

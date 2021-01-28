@@ -31,12 +31,14 @@ using System.Threading.Tasks;
 
 using BH.oM.Reflection.Attributes;
 
+using BH.oM.Test;
+
 namespace BH.Engine.Test.CodeCompliance.Checks
 {
     public static partial class Query
     {
         [Message("Engine Method must contain a Description attribute", "HasDescriptionAttribute")]
-        [ErrorLevel(ErrorLevel.Warning)]
+        [ErrorLevel(TestStatus.Warning)]
         [Path(@"([a-zA-Z0-9]+)_Engine\\.*\.cs$")]
         [Path(@"([a-zA-Z0-9]+)_Engine\\Objects\\.*\.cs$", false)]
         [IsPublic()]
@@ -47,7 +49,7 @@ namespace BH.Engine.Test.CodeCompliance.Checks
         }
 
         [Message("Adapter constructor must contain a Description attribute", "HasDescriptionAttribute")]
-        [ErrorLevel(ErrorLevel.Warning)]
+        [ErrorLevel(TestStatus.Warning)]
         [Path(@"([a-zA-Z0-9]+)_Adapter\\.*\.cs$")]
         [IsPublic()]
         [ComplianceType("documentation")]

@@ -30,6 +30,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+using BH.oM.Test;
+
 namespace BH.Engine.Test.CodeCompliance.Checks
 {
     public static partial class Query
@@ -40,7 +42,7 @@ namespace BH.Engine.Test.CodeCompliance.Checks
         [Path(@"([a-zA-Z0-9]+)_Adapter\\.*\.cs$", false)]
         [Path(@"([a-zA-Z0-9]+)_UI\\.*\.cs$", false)]
         [ComplianceType("code")]
-        [ErrorLevel(ErrorLevel.Error)]
+        [ErrorLevel(TestStatus.Error)]
         [Output("A span that represents where this error resides or null if there is no error")]
         public static Span HasOneConstructor(this ClassDeclarationSyntax node)
         {

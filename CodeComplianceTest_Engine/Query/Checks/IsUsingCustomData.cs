@@ -29,12 +29,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+using BH.oM.Test;
+
 namespace BH.Engine.Test.CodeCompliance.Checks
 {
     public static partial class Query
     {
         [Message("The use of CustomData within the code is discouraged except in circumstances where volatile data is being used.", "IsUsingCustomData")]
-        [ErrorLevel(ErrorLevel.Warning)]
+        [ErrorLevel(TestStatus.Warning)]
         [Path(@"([a-zA-Z0-9]+)_(Engine|Adapter)\\.*\.cs$")]
         [ComplianceType("code")]
         public static Span IsUsingCustomData(this StatementSyntax node)
