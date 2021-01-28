@@ -31,11 +31,14 @@ using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 
+using BH.oM.Test;
+using BH.oM.Test.Results;
+
 namespace BH.Engine.Test.CodeCompliance
 {
     public static partial class Query
     {
-        public static ComplianceResult HasValidCopyright(this SyntaxTriviaList leadingTrivia, int year = -1, string filePath = "")
+        public static TestResult HasValidCopyright(this SyntaxTriviaList leadingTrivia, int year = -1, string filePath = "")
         {
             bool checkAllYears = false;
             if (year == -1)
@@ -79,8 +82,8 @@ namespace BH.Engine.Test.CodeCompliance
 
             if(split.Length < copyrightSplit.Length)
             {
-                Error e = Create.Error("Copyright message is not accurate at line " + 1, Create.Location(filePath, Create.LineSpan(1,2)), documentationLink, ErrorLevel.Error);
-                return Create.ComplianceResult(ResultStatus.CriticalFail, new List<Error> { e });
+                Error e = Create.Error("Copyright message is not accurate at line " + 1, Create.Location(filePath, Create.LineSpan(1,2)), documentationLink, TestStatus.Error);
+                return Create.TestResult(TestStatus.Error, new List<Error> { e });
             }
 
             if (!checkAllYears)
@@ -89,8 +92,8 @@ namespace BH.Engine.Test.CodeCompliance
                 {
                     if (split[x].TrimEnd() != copyrightSplit[x].TrimEnd())
                     {
-                        Error e = Create.Error("Copyright message is not accurate at line " + (x + 1), Create.Location(filePath, Create.LineSpan(x + 1, x + 2)), documentationLink, ErrorLevel.Error);
-                        return Create.ComplianceResult(ResultStatus.CriticalFail, new List<Error> { e });
+                        Error e = Create.Error("Copyright message is not accurate at line " + (x + 1), Create.Location(filePath, Create.LineSpan(x + 1, x + 2)), documentationLink, TestStatus.Error);
+                        return Create.TestResult(TestStatus.Error, new List<Error> { e });
                     }
                 }
             }
@@ -106,8 +109,8 @@ namespace BH.Engine.Test.CodeCompliance
 
                     if (split[x].TrimEnd() != copyrightSplit[x].TrimEnd())
                     {
-                        Error e = Create.Error("Copyright message is not accurate at line " + (x + 1), Create.Location(filePath, Create.LineSpan(x + 1, x + 2)), documentationLink, ErrorLevel.Error);
-                        return Create.ComplianceResult(ResultStatus.CriticalFail, new List<Error> { e });
+                        Error e = Create.Error("Copyright message is not accurate at line " + (x + 1), Create.Location(filePath, Create.LineSpan(x + 1, x + 2)), documentationLink, TestStatus.Error);
+                        return Create.TestResult(TestStatus.Error, new List<Error> { e });
                     }
                 }
 
@@ -121,12 +124,12 @@ namespace BH.Engine.Test.CodeCompliance
 
                 if (!validOnOneYear)
                 {
-                    Error e = Create.Error("Copyright message is not accurate at line 3", Create.Location(filePath, Create.LineSpan(3, 4)), documentationLink, ErrorLevel.Error);
-                    return Create.ComplianceResult(ResultStatus.CriticalFail, new List<Error> { e });
+                    Error e = Create.Error("Copyright message is not accurate at line 3", Create.Location(filePath, Create.LineSpan(3, 4)), documentationLink, TestStatus.Error);
+                    return Create.TestResult(TestStatus.Error, new List<Error> { e });
                 }
             }
 
-            return Create.ComplianceResult( ResultStatus.Pass);
+            return Create.TestResult(TestStatus.Pass);
         }
     }
 }

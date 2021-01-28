@@ -34,13 +34,16 @@ using System.Threading.Tasks;
 using System.IO;
 using BH.oM.Test.CodeCompliance.Attributes;
 
+using BH.oM.Test;
+using BH.oM.Test.Results;
+
 namespace BH.Engine.Test.CodeCompliance
 {
     public static partial class Compute
     {
-        public static ComplianceResult Check(this MethodInfo method, SyntaxNode node, string checkType = null)
+        public static TestResult Check(this MethodInfo method, SyntaxNode node, string checkType = null)
         {
-            ComplianceResult finalResult = Create.ComplianceResult(ResultStatus.Pass);
+            TestResult finalResult = Create.TestResult(TestStatus.Pass);
             string path = node.SyntaxTree.FilePath;
             if (Path.GetFileName(path) == "AssemblyInfo.cs")
                 return finalResult;
@@ -60,9 +63,9 @@ namespace BH.Engine.Test.CodeCompliance
                     string message = method.GetCustomAttribute<MessageAttribute>()?.Message ?? "";
                     string documentation = method.GetCustomAttribute<MessageAttribute>()?.DocumentationLink ?? "";
 
-                    ErrorLevel errLevel = method.GetCustomAttribute<ErrorLevelAttribute>()?.Level ?? ErrorLevel.Error;
-                    finalResult = finalResult.Merge(Create.ComplianceResult(
-                        errLevel == ErrorLevel.Error ? ResultStatus.CriticalFail : ResultStatus.Fail,
+                    TestStatus errLevel = method.GetCustomAttribute<ErrorLevelAttribute>()?.Level ?? TestStatus.Error;
+                    finalResult = finalResult.Merge(Create.TestResult(
+                        errLevel == TestStatus.Error ? TestStatus.Error : TestStatus.Warning,
                         new List<Error> {
                 Create.Error(message, Create.Location(path, result.ToLineSpan(node.SyntaxTree.GetRoot().ToFullString())), documentation, errLevel, method.Name)
                         }));
@@ -72,9 +75,9 @@ namespace BH.Engine.Test.CodeCompliance
             return finalResult.Merge(method.Check(node.ChildNodes(), checkType));
         }
 
-        public static ComplianceResult Check(this MethodInfo method, IEnumerable<SyntaxNode> nodes, string checkType = null)
+        public static TestResult Check(this MethodInfo method, IEnumerable<SyntaxNode> nodes, string checkType = null)
         {
-            ComplianceResult finalResult = Create.ComplianceResult(ResultStatus.Pass);
+            TestResult finalResult = Create.TestResult(TestStatus.Pass);
             foreach(var node in nodes)
             {
                 finalResult = finalResult.Merge(method.Check(node, checkType));

@@ -34,17 +34,20 @@ using System.Threading.Tasks;
 using System.IO;
 using BH.oM.Test.CodeCompliance.Attributes;
 
+using BH.oM.Test;
+using BH.oM.Test.Results;
+
 namespace BH.Engine.Test.CodeCompliance
 {
     public static partial class Compute
     {
-        public static ComplianceResult RunChecks(this SyntaxNode node, string checkType = null)
+        public static TestResult RunChecks(this SyntaxNode node, string checkType = null)
         {
             string path = node.SyntaxTree.FilePath;
             if (Path.GetFileName(path) == "AssemblyInfo.cs")
-                return Create.ComplianceResult(ResultStatus.Pass);
+                return Create.TestResult(TestStatus.Pass);
 
-            ComplianceResult finalResult = Create.ComplianceResult(ResultStatus.Pass);
+            TestResult finalResult = Create.TestResult(TestStatus.Pass);
             foreach(MethodInfo method in Query.AllChecks())
             {
                 finalResult = finalResult.Merge(method.Check(node, checkType));
@@ -52,13 +55,13 @@ namespace BH.Engine.Test.CodeCompliance
             return finalResult;
         }
 
-        public static ComplianceResult RunChecks(this string filePath, string checkType)
+        public static TestResult RunChecks(this string filePath, string checkType)
         {
             StreamReader sr = new StreamReader(filePath);
             string file = sr.ReadToEnd();
             sr.Close();
 
-            ComplianceResult r = Create.ComplianceResult(ResultStatus.Pass);
+            TestResult r = Create.TestResult(TestStatus.Pass);
 
             if (file != null)
             {

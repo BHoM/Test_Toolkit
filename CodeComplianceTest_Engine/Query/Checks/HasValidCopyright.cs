@@ -37,7 +37,7 @@ namespace BH.Engine.Test.CodeCompliance.Checks
         [ComplianceType("copyright")]
         public static Span HasValidCopyright(this CompilationUnitSyntax node)
         {
-            Error error = Test.CodeCompliance.Query.HasValidCopyright(node.GetLeadingTrivia(), DateTime.Now.Year).Errors.FirstOrDefault();
+            Error error = Test.CodeCompliance.Query.HasValidCopyright(node.GetLeadingTrivia(), DateTime.Now.Year).Information.FirstOrDefault() as Error;
             
             if (error != null)
                 return error.Location.Line.ToSpan(node.GetLeadingTrivia().ToString());

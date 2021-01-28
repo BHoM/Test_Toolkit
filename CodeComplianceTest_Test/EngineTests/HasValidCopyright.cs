@@ -36,6 +36,9 @@ using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 using System.IO;
 
+using BH.oM.Test;
+using BH.oM.Test.Results;
+
 namespace BH.Test.Test
 {
     public partial class Test_Engine
@@ -46,7 +49,7 @@ namespace BH.Test.Test
             List<string> changedFiles = GetChangedObjectFiles();
             if (changedFiles == null) { Assert.IsTrue(true); return; }
 
-            ComplianceResult r = Create.ComplianceResult(ResultStatus.Pass);
+            TestResult r = Create.TestResult(TestStatus.Pass);
             foreach (string s in changedFiles)
             {
                 StreamReader sr = new StreamReader(s);
@@ -60,8 +63,8 @@ namespace BH.Test.Test
                 }
             }
 
-            if (r.Status == ResultStatus.CriticalFail)
-                Assert.Fail(r.Errors.Select(x => x.ToText() + "\n").Aggregate((a, b) => a + b));
+            if (r.Status == TestStatus.Error)
+                Assert.Fail(r.Information.Select(x => x as Error).Select(x => x.ToText() + "\n").Aggregate((a, b) => a + b));
             else
                 Assert.IsTrue(true);
         }

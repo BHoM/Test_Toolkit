@@ -30,12 +30,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+using BH.oM.Test;
+
 namespace BH.Engine.Test.CodeCompliance.Checks
 {
     public static partial class Query
     {
         [Message("Method must contain an Output or MultiOutput attribute", "HasOutputAttribute")]
-        [ErrorLevel(ErrorLevel.Warning)]
+        [ErrorLevel(TestStatus.Warning)]
         [Path(@"([a-zA-Z0-9]+)_Engine\\.*\.cs$")]
         [Path(@"([a-zA-Z0-9]+)_Engine\\Objects\\.*\.cs$", false)]
         [IsPublic()]
@@ -50,7 +52,7 @@ namespace BH.Engine.Test.CodeCompliance.Checks
         }
 
         [Message("Method must contain an Output or MultiOutput attribute", "HasOutputAttribute")]
-        [ErrorLevel(ErrorLevel.Warning)]
+        [ErrorLevel(TestStatus.Warning)]
         [Path(@"([a-zA-Z0-9]+)_Adapter\\.*\.cs$")]
         [IsPublic()]
         [ComplianceType("documentation")]

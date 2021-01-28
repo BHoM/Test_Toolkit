@@ -27,16 +27,18 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+using BH.oM.Test;
+
 namespace BH.Engine.Test.CodeCompliance
 {
     public static partial class Create
     {
-        public static Error Error(string message, Location location, string documentationLink, ErrorLevel level = ErrorLevel.Error, string name = "")
+        public static Error Error(string message, Location location, string documentationLink, TestStatus level = TestStatus.Error, string name = "")
         {
             return new Error
             {
                 Message = message,
-                Level = level,
+                Status = level,
                 Name = name,
                 Location = location,
                 DocumentationLink = documentationLink,

@@ -32,15 +32,18 @@ using BH.oM.Reflection.Attributes;
 using System.Reflection;
 using BH.Engine.Reflection;
 
+using BH.oM.Test;
+using BH.oM.Test.Results;
+
 namespace BH.Engine.Test.CodeCompliance.DynamicChecks
 {
     public static partial class Query
     {
-        public static ComplianceResult InputFromPropertyMatchesProperty(MethodInfo method)
+        public static TestResult InputFromPropertyMatchesProperty(MethodInfo method)
         {
             IEnumerable<InputFromProperty> inputFromPropDesc = method.GetCustomAttributes<InputFromProperty>();
             if(inputFromPropDesc.Count() == 0)
-                return Create.ComplianceResult(ResultStatus.Pass); //All is good with no properties
+                return Create.TestResult(TestStatus.Pass); //All is good with no properties
 
             List<Error> errors = new List<Error>();
             IEnumerable<PropertyInfo> properties = method.ReturnType.GetProperties();
@@ -51,7 +54,7 @@ namespace BH.Engine.Test.CodeCompliance.DynamicChecks
                 {
                     //This input from property does not match a property of the returned object
                     Error e = new Error();
-                    e.Level = ErrorLevel.Error;
+                    e.Status = TestStatus.Error;
                     e.Location = Create.Location(method.Signature(), Create.LineSpan(1, 1));
                     e.DocumentationLink = ""; //ToDo - provide this
                     e.Message = "InputFromProperty attribute with input name " + p.InputName + " and property name " + p.PropertyName + " does not match any of the properties of the return type " + method.ReturnType.Name + ".";
@@ -60,9 +63,9 @@ namespace BH.Engine.Test.CodeCompliance.DynamicChecks
             }
 
             if (errors.Count == 0)
-                return Create.ComplianceResult(ResultStatus.Pass); //Everything is good
+                return Create.TestResult(TestStatus.Pass); //Everything is good
             else
-                return Create.ComplianceResult(ResultStatus.CriticalFail, errors);
+                return Create.TestResult(TestStatus.Error, errors);
         }
     }
 }

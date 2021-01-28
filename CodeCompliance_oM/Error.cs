@@ -27,14 +27,19 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+using BH.oM.Test;
+
 namespace BH.oM.Test.CodeCompliance
 {
-    public class Error : BHoMObject
+    public class Error : BHoMObject, ITestInformation
     {
-        public virtual ErrorLevel Level { get; set; }
+        //public virtual ErrorLevel Level { get; set; }
         public virtual string Message { get; set; }
         public virtual Location Location { get; set; }
         public virtual string DocumentationLink { get; set; }
+
+        public virtual TestStatus Status { get; set; } = TestStatus.Error;
+        public virtual DateTime UTCTime { get; set; } = DateTime.UtcNow;
     }
 }
 

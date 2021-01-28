@@ -32,12 +32,14 @@ using System.Threading.Tasks;
 using BH.oM.Test.CodeCompliance.Attributes;
 using BH.oM.Test.CodeCompliance;
 
+using BH.oM.Test;
+
 namespace BH.Engine.Test.CodeCompliance.DynamicChecks
 {
     public static partial class Query
     {
         [Message("Adapter Read method must return an IObject or IEnumerable<IObject>", null)]
-        [ErrorLevel(ErrorLevel.Error)]
+        [ErrorLevel(TestStatus.Error)]
         public static bool AdapterReadMethodIsValid(this MethodInfo method)
         {
             string name = method.Name;

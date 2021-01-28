@@ -30,13 +30,14 @@ using System.Text;
 using System.Threading.Tasks;
 
 using BH.Engine.Test.CodeCompliance;
+using BH.oM.Test;
 
 namespace BH.Engine.Test.CodeCompliance.Checks
 {
     public static partial class Query
     {
         [Message("Documentation attribute should end with grammatically correct punctuation (., !, or ?)", "AttributeHasEndingPunctuation")]
-        [ErrorLevel(ErrorLevel.Warning)]
+        [ErrorLevel(TestStatus.Warning)]
         [Path(@"([a-zA-Z0-9]+)_(Engine|Adapter)\\.*\.cs$")]
         [ComplianceType("documentation")]
         public static Span AttributeHasEndingPunctuation(this AttributeSyntax node)

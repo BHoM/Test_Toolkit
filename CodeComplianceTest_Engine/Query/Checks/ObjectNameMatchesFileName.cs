@@ -29,13 +29,15 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+using BH.oM.Test;
+
 namespace BH.Engine.Test.CodeCompliance.Checks
 {
     public static partial class Query
     {
 
         [Message("Class (object) name must match file name", "ObjectNameMatchesFileName")]
-        [ErrorLevel(ErrorLevel.Error)]
+        [ErrorLevel(TestStatus.Error)]
         [Path(@"([a-zA-Z0-9]+)_?oM\\.*\.cs$")]
         [Path(@"([a-zA-Z0-9]+)_Engine\\.*\.cs$", false)]
         [Path(@"([a-zA-Z0-9]+)_Adapter\\.*\.cs$", false)]

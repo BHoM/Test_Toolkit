@@ -27,18 +27,21 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+using BH.oM.Test;
+using BH.oM.Test.Results;
+
 namespace BH.Engine.Test.CodeCompliance
 {
     public static partial class Create
     {
-        public static ComplianceResult ComplianceResult(ResultStatus status, List<Error> errors = null)
+        public static TestResult TestResult(TestStatus status, List<Error> errors = null)
         {
             if (errors == null) errors = new List<Error>();
 
-            return new ComplianceResult
+            return new TestResult
             {
                 Status = status,
-                Errors = errors,
+                Information = errors.Select(x => x as ITestInformation).ToList(),
             };
         }
     }

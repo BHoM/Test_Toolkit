@@ -30,12 +30,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+using BH.oM.Test;
+
 namespace BH.Engine.Test.CodeCompliance.Checks
 {
     public static partial class Query
     {
         [Message("Methods implementing a PreviousVersion versioning attribute should implement it for the current version of development. Methods with PreviousVersion attributes from previous milestones should have those attributes removed", "HasValidPreviousVersionAttribute")]
-        [ErrorLevel(ErrorLevel.Error)]
+        [ErrorLevel(TestStatus.Error)]
         [Path(@"([a-zA-Z0-9]+)_Engine\\.*\.cs$")]
         [Path(@"([a-zA-Z0-9]+)_Engine\\Objects\\.*\.cs$", false)]
         [IsPublic()]
@@ -60,7 +62,7 @@ namespace BH.Engine.Test.CodeCompliance.Checks
         }
 
         [Message("Methods implementing a PreviousVersion versioning attribute should implement it for the current version of development. Methods with PreviousVersion attributes from previous milestones should have those attributes removed", "HasValidPreviousVersionAttribute")]
-        [ErrorLevel(ErrorLevel.Error)]
+        [ErrorLevel(TestStatus.Error)]
         [Path(@"([a-zA-Z0-9]+)_Adapter\\.*\.cs$")]
         [IsPublic()]
         [ComplianceType("documentation")]

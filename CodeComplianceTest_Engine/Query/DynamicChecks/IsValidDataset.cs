@@ -31,11 +31,14 @@ using System.IO;
 using BH.oM.Data.Library;
 using BH.Engine.Library;
 
+using BH.oM.Test;
+using BH.oM.Test.Results;
+
 namespace BH.Engine.Test.CodeCompliance.DynamicChecks
 {
     public static partial class Query
     {
-        public static ComplianceResult IsValidDataset(string filePath)
+        public static TestResult IsValidDataset(string filePath)
         {
             string documentationLink = "IsValidDataset";
             //Read the dataset
@@ -44,7 +47,7 @@ namespace BH.Engine.Test.CodeCompliance.DynamicChecks
             sr.Close();
 
             if (json == null)
-                return Create.ComplianceResult(ResultStatus.Pass);
+                return Create.TestResult(TestStatus.Pass);
 
             //Check if the dataset deserialises to a dataset object
             Dataset ds = BH.Engine.Serialiser.Convert.FromJson(json) as Dataset;
@@ -52,11 +55,11 @@ namespace BH.Engine.Test.CodeCompliance.DynamicChecks
             if(ds == null)
             {
                 //Dataset did not deserialise successfully
-                return Create.ComplianceResult(ResultStatus.CriticalFail,
+                return Create.TestResult(TestStatus.Error,
                     new List<Error>() { Create.Error("Dataset file did not deserialise into a BH.oM.Data.Library.Dataset object successfully. For more information see https://github.com/BHoM/documentation/wiki/IsValidDataset",
                         Create.Location(filePath, Create.LineSpan(1, 1)),
                         documentationLink,
-                        ErrorLevel.Error,
+                        TestStatus.Error,
                         "Dataset deserialisation error"
                     ) });
             }
@@ -64,11 +67,11 @@ namespace BH.Engine.Test.CodeCompliance.DynamicChecks
             if(ds.SourceInformation == null)
             {
                 //Source information is not set
-                return Create.ComplianceResult(ResultStatus.Fail,
+                return Create.TestResult(TestStatus.Warning,
                     new List<Error>() { Create.Error("Dataset file does not contain any source information.For more information see https://github.com/BHoM/documentation/wiki/IsValidDataset",
                         Create.Location(filePath, Create.LineSpan(1, 1)),
                         documentationLink,
-                        ErrorLevel.Warning,
+                        TestStatus.Warning,
                         "Dataset source error"
                     ) });
             }
@@ -76,11 +79,11 @@ namespace BH.Engine.Test.CodeCompliance.DynamicChecks
             if (ds.SourceInformation.Author == null || ds.SourceInformation.Author == "")
             {
                 //Source information does not contain an author
-                return Create.ComplianceResult(ResultStatus.Fail,
+                return Create.TestResult(TestStatus.Warning,
                     new List<Error>() { Create.Error("Dataset file does not contain an author in the source information. For more information see https://github.com/BHoM/documentation/wiki/IsValidDataset",
                         Create.Location(filePath, Create.LineSpan(1, 1)),
                         documentationLink,
-                        ErrorLevel.Warning,
+                        TestStatus.Warning,
                         "Dataset source author error"
                     ) });
             }
@@ -88,16 +91,16 @@ namespace BH.Engine.Test.CodeCompliance.DynamicChecks
             if (ds.SourceInformation.Title == null || ds.SourceInformation.Title == "")
             {
                 //Source information does not contain an author
-                return Create.ComplianceResult(ResultStatus.Fail,
+                return Create.TestResult(TestStatus.Warning,
                     new List<Error>() { Create.Error("Dataset file does not contain a title in the source information. For more information see https://github.com/BHoM/documentation/wiki/IsValidDataset",
                         Create.Location(filePath, Create.LineSpan(1, 1)),
                         documentationLink,
-                        ErrorLevel.Warning,
+                        TestStatus.Warning,
                         "Dataset source title error"
                     ) });
             }
 
-            return Create.ComplianceResult(ResultStatus.Pass); //All is good
+            return Create.TestResult(TestStatus.Pass); //All is good
         }
     }
 }

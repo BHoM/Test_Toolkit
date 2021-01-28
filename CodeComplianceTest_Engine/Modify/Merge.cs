@@ -29,16 +29,22 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+using BH.oM.Test;
+using BH.oM.Test.Results;
+
 namespace BH.Engine.Test.CodeCompliance
 {
     public static partial class Modify
     {
-        public static ComplianceResult Merge(this ComplianceResult a, ComplianceResult b)
+        public static TestResult Merge(this TestResult a, TestResult b)
         {
-            ComplianceResult merged = a.ShallowClone() as ComplianceResult;
-            if (merged.Errors == null) merged.Errors = new List<Error>();
-            merged.Errors.AddRange(b.Errors);
-            if (b.Status > a.Status) merged.Status = b.Status;
+            TestResult merged = a.ShallowClone();
+            if (merged.Information == null)
+                merged.Information = new List<ITestInformation>();
+
+            merged.Information.AddRange(b.Information);
+            if (b.Status > a.Status)
+                merged.Status = b.Status;
             return merged;
         }
     }
