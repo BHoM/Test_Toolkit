@@ -107,46 +107,39 @@ namespace BH.Engine.Test.Interoperability
                                "If set, the objects will be checked if they can be assigned to the provided type. If not, the execution will stop, if yes, the obejcts will be pulled using a filter request with the provided type.")]
         [Input("config", "Config for the test. Controls whether the adapter should be reset between runs and what comparer to use.")]
         [Input("active", "Toggles whether to run the test")]
-        [MultiOutput(0, "diffingResults", "Diffing results outlining any differences found between the pushed and pulled objects.")]
-        [MultiOutput(1, "adapterLog", "A list of any error or warning messages returned by the adapter in the process.")]
-        public static Output<List<InputOutputComparison>, List<Event>> PushPullCompare(BHoMAdapter adapter, List<IBHoMObject> testObjects, string setName = "", Type enforcedType = null, PushPullCompareConfig config = null, bool activate = false)
+        [Output("testResult", "Diffing results outlining any differences found between the pushed and pulled objects.")]
+        public static List<TestResult> PushPullCompare(BHoMAdapter adapter, List<IBHoMObject> testObjects, string setName = "", Type enforcedType = null, PushPullCompareConfig config = null, bool activate = false)
         {
             if (!activate)
-                return new Output<List<InputOutputComparison>, List<Event>>();
+                return new List<TestResult>();
 
             if (enforcedType != null && testObjects.Any(x => !enforcedType.IsAssignableFrom(x.GetType())))
             {
                 Reflection.Compute.RecordError("The testObjects is not matching the enforced type and are not a subtype of the enforced type.");
-                return new Output<List<InputOutputComparison>, List<Event>>();
+                return new List<TestResult>();
             }
 
             config = config ?? new PushPullCompareConfig();
 
             IEqualityComparer<IBHoMObject> comparer = config.Comparer(adapter.AdapterIdFragmentType);
 
-            List<InputOutputComparison> results = new List<InputOutputComparison>();
-            List<Event> events = new List<Event>();
+            List<TestResult> testResults = new List<TestResult>();
 
             if (enforcedType == null)
             {
                 foreach (var group in testObjects.GroupBy(x => x.GetType()))
                 {
                     FilterRequest request = new FilterRequest { Type = group.Key };
-                    List<InputOutputComparison> tempResults;
-                    List<Event> tempEvents;
-                    RunOneSet(adapter, setName, group.ToList(), request, comparer, config.ResetModelBetweenPushes, out tempResults, out tempEvents);
 
-                    results.AddRange(tempResults);
-                    events.AddRange(tempEvents);
+                    testResults.Add(RunOneSet(adapter, setName, group.ToList(), request, comparer, config.ResetModelBetweenPushes));
                 }
             }
             else
             {
                 FilterRequest request = new FilterRequest { Type = enforcedType };
-                RunOneSet(adapter, setName, testObjects, request, comparer, config.ResetModelBetweenPushes, out results, out events);
+                testResults.Add(RunOneSet(adapter, setName, testObjects, request, comparer, config.ResetModelBetweenPushes));
             }
-
-            return new Output<List<InputOutputComparison>, List<Event>>() { Item1 = results, Item2 = events };
+            return testResults;
         }
 
         /***************************************************/
@@ -245,6 +238,8 @@ namespace BH.Engine.Test.Interoperability
 
             //Clear events
             Engine.Reflection.Compute.ClearCurrentEvents();
+
+            setResult.Status = setResult.Information.OfType<TestResult>().MostSevereStatus();
 
             return setResult;
         }
