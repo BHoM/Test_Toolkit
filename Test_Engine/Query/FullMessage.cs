@@ -86,7 +86,7 @@ namespace BH.Engine.Test
         /**** Private Methods - Fallback                ****/
         /***************************************************/
 
-        public static string FullMessage(this ITestInformation result, int maxDepth = 3, TestStatus minSeverity = TestStatus.Pass)
+        private static string FullMessage(this ITestInformation result, int maxDepth = 3, TestStatus minSeverity = TestStatus.Pass)
         {
             object ret = Reflection.Compute.RunExtensionMethod(result, "FullMessage", new object[] { maxDepth, minSeverity });
 
