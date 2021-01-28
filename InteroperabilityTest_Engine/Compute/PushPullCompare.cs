@@ -154,7 +154,7 @@ namespace BH.Engine.Test.Interoperability
                 return new TestResult { Description = "PushPullCompare", Message = "Adapter is null, could not preform test", Status = oM.Test.TestStatus.Error };
             }
 
-            TestResult setResult = new TestResult { Description = $"PushPullCompare: Adapter: {adapter.GetType().Name}, test set: {setName}.", ID = setName };
+            TestResult setResult = new TestResult { Description = $"PushPullCompare: Adapter: {adapter.GetType().Name}, test set: {setName}.", ID = adapter.GetType().Name + ":" + setName };
 
             bool success = true;
 
@@ -246,7 +246,7 @@ namespace BH.Engine.Test.Interoperability
             else if (setResult.Status == oM.Test.TestStatus.Pass)
                 setResult.Message = "All objects where sucessfully pushed, pulled and compared without any differences.";
             else
-                setResult.Message = "All objects where sucessfully pushed, but some differences were found.";
+                setResult.Message = "All objects where sucessfully pushed and pulled, but some differences were found.";
 
             return setResult;
         }
