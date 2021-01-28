@@ -79,7 +79,7 @@ namespace BH.Engine.Test
 
         public static string IFullMessage(this ITestInformation result, int maxDepth = 3, TestStatus minSeverity = TestStatus.Pass)
         {
-            return FullMessage(result, maxDepth, minSeverity);
+            return FullMessage(result as dynamic, maxDepth, minSeverity);
         }
 
         /***************************************************/

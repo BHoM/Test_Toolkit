@@ -43,7 +43,6 @@ namespace BH.Engine.Test
         public static TestResult FailResult(string errorMessage, string description = "", bool isCritical = false)
         {
             TestStatus status = isCritical ? TestStatus.Error : TestStatus.Warning;
-            //List<Event> events = new List<Event> { new Event { Type = EventType.Error, Message = errorMessage } };
             return new TestResult() { Status = status, Description = description, Message = errorMessage };
         }
 

@@ -29,6 +29,7 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
+using BH.oM.Test;
 
 namespace TestRunner
 {
@@ -62,8 +63,8 @@ namespace TestRunner
                         TestResult result = method.Invoke(null, new object[] { }) as TestResult;
 
                         Console.WriteLine(result.Description + " --> " + result.Status.ToString());
-                        foreach (Event e in result.Information.OrderBy(x => x.Message))
-                            Console.WriteLine("  - " + e.Message);
+                        foreach (ITestInformation testInfo in result.Information.OrderBy(x => x.Message))
+                            Console.WriteLine("  - " + testInfo.Message);
                     }
                     catch (Exception e)
                     {
