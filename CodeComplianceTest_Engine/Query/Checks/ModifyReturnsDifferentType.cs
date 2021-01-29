@@ -34,17 +34,19 @@ namespace BH.Engine.Test.CodeCompliance.Checks
     public static partial class Query
     {
 
-        [Message("Modify methods must return the same type as their first parameter", "ModifyReturnsSameType")]
+        [Message("Modify methods should return void, or their return type should be different to the input type of their first parameter", "ModifyReturnsDifferentType")]
         [Path(@"([a-zA-Z0-9]+)_Engine\\Modify\\.*\.cs$")]
         [IsPublic()]
         [ComplianceType("code")]
-        public static Span ModifyReturnsSameType(this MethodDeclarationSyntax node)
+        public static Span ModifyReturnsDifferentType(this MethodDeclarationSyntax node)
         {
+            if (node.ReturnType.ToString().ToLower() == "void")
+                return null;
+
             ParameterSyntax param = node.ParameterList.Parameters.FirstOrDefault();
-            if (param == null || !param.Type.IsEquivalentTo(node.ReturnType))
-            {
-                return node.ReturnType.Span.ToSpan();
-            }
+            if (param == null || param.Type.IsEquivalentTo(node.ReturnType))
+                return node.ReturnType.Span.ToSpan(); //The return type matches the input type which is not valid for Modify methods, they should be returning void instead
+
             return null;
         }
 

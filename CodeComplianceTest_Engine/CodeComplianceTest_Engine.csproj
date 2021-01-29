@@ -205,7 +205,7 @@
     <Compile Include="Query\Checks\IsExtensionMethod.cs" />
     <Compile Include="Query\Checks\MethodNameContainsFileName.cs" />
     <Compile Include="Query\Checks\ObjectNameMatchesFileName.cs" />
-    <Compile Include="Query\Checks\ModifyReturnsSameType.cs" />
+    <Compile Include="Query\Checks\ModifyReturnsDifferentType.cs" />
     <Compile Include="Query\AllChecks.cs" />
     <Compile Include="Query\Checks\PreviousInputNamesAttributeHasMatchingParameter.cs" />
     <Compile Include="Query\Checks\PreviousInputNamesAttributeIsUnique.cs" />
