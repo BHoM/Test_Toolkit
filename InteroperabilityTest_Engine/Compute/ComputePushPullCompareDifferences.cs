@@ -52,7 +52,7 @@ namespace BH.Engine.Test.Interoperability
             fullResult.Status = fullResult.Information.MostSevereStatus();
 
             if (fullResult.Status == oM.Test.TestStatus.Error)
-                fullResult.Message = "Differences have been introduced, made worse or have changed in at least one of the reference sets.";
+                fullResult.Message = "Differences have been introduced, made worse or have changed in at least one of the result sets.";
             else if (fullResult.Status == oM.Test.TestStatus.Pass)
                 fullResult.Message = "No new differences have been introduced.";
             else
