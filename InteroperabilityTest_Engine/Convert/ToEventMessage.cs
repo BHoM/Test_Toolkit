@@ -26,7 +26,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using BH.oM.Reflection.Attributes;
 using BH.oM.Reflection.Debugging;
-using BH.oM.Test.Interoperability.Results;
+using BH.oM.Test.Results;
 using BH.oM.Test;
 using BH.oM.Base;
 
