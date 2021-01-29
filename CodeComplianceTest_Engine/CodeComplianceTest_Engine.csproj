@@ -177,6 +177,7 @@
     <Compile Include="Create\LineSpan.cs" />
     <Compile Include="Create\Location.cs" />
     <Compile Include="Create\Span.cs" />
+    <Compile Include="Modify\GroupErrors.cs" />
     <Compile Include="Modify\Merge.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Query\Checks\AttributeHasEndingPunctuation.cs" />
@@ -217,6 +218,7 @@
     <Compile Include="Query\DynamicChecks\InputFromPropertyMatchesProperty.cs" />
     <Compile Include="Query\DynamicChecks\IsValidDataset.cs" />
     <Compile Include="Query\DynamicChecks\IsValidQuantityInputAttribute.cs" />
+    <Compile Include="Query\FullMessage.cs" />
     <Compile Include="Query\GetAttributes.cs" />
     <Compile Include="Query\GetDeclaringType.cs" />
     <Compile Include="Query\GetClass.cs" />
