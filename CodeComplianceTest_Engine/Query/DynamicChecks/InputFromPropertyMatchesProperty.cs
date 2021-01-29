@@ -39,7 +39,7 @@ namespace BH.Engine.Test.CodeCompliance.DynamicChecks
 {
     public static partial class Query
     {
-        public static TestResult InputFromPropertyMatchesProperty(MethodInfo method)
+        public static TestResult InputFromPropertyMatchesProperty(this MethodInfo method)
         {
             IEnumerable<InputFromProperty> inputFromPropDesc = method.GetCustomAttributes<InputFromProperty>();
             if(inputFromPropDesc.Count() == 0)

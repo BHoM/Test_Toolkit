@@ -38,7 +38,7 @@ namespace BH.Engine.Test.CodeCompliance.DynamicChecks
 {
     public static partial class Query
     {
-        public static TestResult IsValidDataset(string filePath)
+        public static TestResult IsValidDataset(this string filePath)
         {
             string documentationLink = "IsValidDataset";
             //Read the dataset

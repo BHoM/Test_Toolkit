@@ -75,14 +75,6 @@ namespace BH.Engine.Test.CodeCompliance.Checks
 
             return null;
         }
-
-        public static bool ConTest(this ClassDeclarationSyntax node)
-        {
-            if (node.HasValidConstructor() != null)
-                return false;
-
-            return true;
-        }
     }
 }
 
