@@ -54,7 +54,6 @@
     <Compile Include="Enums\ComparerType.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="PushPullCompareConfig.cs" />
-    <Compile Include="Results\EventMessage.cs" />
     <Compile Include="Results\PushPullObjectComparison.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
