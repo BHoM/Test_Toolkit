@@ -41,7 +41,7 @@ namespace BH.Engine.Test.CodeCompliance.DynamicChecks
 {
     public static partial class Query
     {
-        public static TestResult ImplementsBaseOption(MethodInfo method)
+        public static TestResult ImplementsBaseOption(this MethodInfo method)
         {
             if(!method.Name.StartsWith("I"))
                 return Create.TestResult(TestStatus.Pass); //Method is not an Interface method
