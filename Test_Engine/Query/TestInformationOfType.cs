@@ -47,7 +47,7 @@ namespace BH.Engine.Test
         {
             //Type input here to be able to call it from the UI
             //Check if provided type is null or different from the type restriction on the generics
-            if (type != null || type != typeof(T))
+            if (type != null && type != typeof(T))
             {
                 if (!typeof(T).IsAssignableFrom(type))
                 {
