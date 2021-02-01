@@ -43,8 +43,14 @@ namespace BH.Engine.Test.CodeCompliance
                 merged.Information = new List<ITestInformation>();
 
             merged.Information.AddRange(b.Information);
-            if (b.Status > a.Status)
-                merged.Status = b.Status;
+
+            if (b.Status == TestStatus.Error || a.Status == TestStatus.Error)
+                merged.Status = TestStatus.Error;
+            else if (b.Status == TestStatus.Warning || a.Status == TestStatus.Warning)
+                merged.Status = TestStatus.Warning;
+            else
+                merged.Status = TestStatus.Pass;
+
             return merged;
         }
     }
