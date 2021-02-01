@@ -20,17 +20,11 @@
  * along with this code. If not, see <https://www.gnu.org/licenses/lgpl-3.0.html>.      
  */
 
+using BH.oM.Test;
 using BH.oM.Test.CodeCompliance;
 using BH.oM.Test.CodeCompliance.Attributes;
-using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-using BH.oM.Test;
 
 namespace BH.Engine.Test.CodeCompliance.Checks
 {
@@ -47,16 +41,17 @@ namespace BH.Engine.Test.CodeCompliance.Checks
             if (node.IsDeprecated() || !node.HasAttribute("PreviousVersion"))
                 return null; //Don't care about deprecated methods or if the method does not have the attribute at all
 
-            List<AttributeSyntax> multiOutAttrs = node.GetAttributes("PreviousVersion");
+            List<AttributeSyntax> previousVersionAttributes = node.GetAttributes("PreviousVersion");
 
-            if (multiOutAttrs.Count > 1)
-                return node.Identifier.Span.ToSpan();
+            string currentVersion = "4.1"; //Update each milestone - don't forget the one below!
 
-            string currentVersion = "4.1"; //Update each milestone
-            string givenVersion = multiOutAttrs.First().ArgumentList.Arguments[0].Expression.GetFirstToken().Value.ToString();
+            foreach(AttributeSyntax a in previousVersionAttributes)
+            {
+                string givenVersion = a.ArgumentList.Arguments[0].Expression.GetFirstToken().Value.ToString();
 
-            if (givenVersion != currentVersion)
-                return node.Identifier.Span.ToSpan();
+                if (givenVersion != currentVersion)
+                    return node.Identifier.Span.ToSpan();
+            }
 
             return null; //All ok
         }
@@ -71,16 +66,20 @@ namespace BH.Engine.Test.CodeCompliance.Checks
             if (node.IsDeprecated() || !node.HasAttribute("PreviousVersion"))
                 return null; //Don't care about deprecated methods or if the method does not have the attribute at all
 
-            List<AttributeSyntax> multiOutAttrs = node.GetAttributes("PreviousVersion");
+            List<AttributeSyntax> previousVersionAttributes = node.GetAttributes("PreviousVersion");
 
-            if (multiOutAttrs.Count > 1)
+            if (previousVersionAttributes.Count > 1)
                 return node.Span.ToSpan();
 
-            string currentVersion = "4.0"; //Update each milestone
-            string givenVersion = multiOutAttrs.First().ArgumentList.Arguments[0].Expression.GetFirstToken().Value.ToString();
+            string currentVersion = "4.1"; //Update each milestone - don't forget the one above!
 
-            if (givenVersion != currentVersion)
-                return node.Span.ToSpan();
+            foreach (AttributeSyntax a in previousVersionAttributes)
+            {
+                string givenVersion = a.ArgumentList.Arguments[0].Expression.GetFirstToken().Value.ToString();
+
+                if (givenVersion != currentVersion)
+                    return node.Identifier.Span.ToSpan();
+            }
 
             return null; //All ok
         }
