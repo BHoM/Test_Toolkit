@@ -77,6 +77,7 @@
     <Compile Include="Query\IsEqual.cs" />
     <Compile Include="Query\IsEqualOrMoreSevere.cs" />
     <Compile Include="Query\MostSevereStatus.cs" />
+    <Compile Include="Query\TestInformationOfType.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
