@@ -48,7 +48,7 @@ namespace BH.Engine.Test.Interoperability
         [MultiOutput(2, "passes", "The properties that show up as passes in the test.")]
         public static Output<List<string>, List<string>, List<string>> ExceptionProperties(TestResult pushPullCompareDiffingResults, bool onlyLastProperty = false)
         {
-            List<ComparisonDifference> diffrences = GetComparisonsDiffrences(pushPullCompareDiffingResults);
+            List<ComparisonDifference> diffrences = pushPullCompareDiffingResults.TestInformationOfType<ComparisonDifference>(true);
 
             List<string> errors = new List<string>();
             List<string> warnings = new List<string>();
@@ -77,19 +77,6 @@ namespace BH.Engine.Test.Interoperability
 
         /***************************************************/
         /**** Private Methods                           ****/
-        /***************************************************/
-
-        private static List<ComparisonDifference> GetComparisonsDiffrences(TestResult result)
-        {
-            List<ComparisonDifference> comparisons = result.Information.OfType<ComparisonDifference>().ToList();
-
-            foreach (TestResult res in result.Information.OfType<TestResult>())
-            {
-                comparisons.AddRange(GetComparisonsDiffrences(res));
-            }
-            return comparisons;
-        }
-
         /***************************************************/
 
         private static string ExceptionPropertiesGroupingKey(string propertyId, bool onlyLastProperty)
