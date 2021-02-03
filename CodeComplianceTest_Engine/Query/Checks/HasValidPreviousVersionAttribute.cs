@@ -68,9 +68,6 @@ namespace BH.Engine.Test.CodeCompliance.Checks
 
             List<AttributeSyntax> previousVersionAttributes = node.GetAttributes("PreviousVersion");
 
-            if (previousVersionAttributes.Count > 1)
-                return node.Span.ToSpan();
-
             string currentVersion = "4.1"; //Update each milestone - don't forget the one above!
 
             foreach (AttributeSyntax a in previousVersionAttributes)
