@@ -67,6 +67,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Convert\ToEventMessage.cs" />
+    <Compile Include="Convert\ToTestStatus.cs" />
     <Compile Include="Create\PassResult.cs" />
     <Compile Include="Create\FailResult.cs" />
     <Compile Include="Compute\DummyObject.cs" />
