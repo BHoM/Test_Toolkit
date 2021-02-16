@@ -73,6 +73,7 @@
     <Compile Include="Attributes\PathAttribute.cs" />
     <Compile Include="Attributes\MessageAttribute.cs" />
     <Compile Include="Attributes\ConditionAttribute.cs" />
+    <Compile Include="DatasetSource.cs" />
     <Compile Include="LineLocation.cs" />
     <Compile Include="Location.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

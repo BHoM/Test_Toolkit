@@ -1,4 +1,4 @@
-/*
+﻿/*
  * This file is part of the Buildings and Habitats object Model (BHoM)
  * Copyright (c) 2015 - 2021, the respective contributors. All rights reserved.
  *
@@ -31,12 +31,9 @@ using BH.oM.Test;
 
 namespace BH.oM.Test.CodeCompliance
 {
-    public class Error : BHoMObject, ITestInformation
+    public class DatasetSource : BHoMObject, ITestInformation
     {
         public virtual string Message { get; set; }
-        public virtual Location Location { get; set; }
-        public virtual string DocumentationLink { get; set; }
-
         public virtual TestStatus Status { get; set; } = TestStatus.Error;
         public virtual DateTime UTCTime { get; set; } = DateTime.UtcNow;
     }
