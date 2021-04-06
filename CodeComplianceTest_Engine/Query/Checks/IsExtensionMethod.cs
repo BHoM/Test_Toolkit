@@ -43,11 +43,13 @@ namespace BH.Engine.Test.CodeCompliance.Checks
         [ComplianceType("code")]
         public static Span IsExtensionMethod(this MethodDeclarationSyntax node)
         {
+            if (node == null)
+                return null;
+
             var parameters = node.ParameterList.Parameters;
             if (parameters.Count > 0)
-            {
                 return parameters[0].Modifiers.Any(mod => mod.Kind() == SyntaxKind.ThisKeyword) ? null : parameters[0].Span.ToSpan();
-            }
+
             return null;
         }
 

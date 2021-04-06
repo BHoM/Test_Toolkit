@@ -42,6 +42,9 @@ namespace BH.Engine.Test.CodeCompliance.Checks
         [ComplianceType("code")]
         public static Span HasPublicGet(this PropertyDeclarationSyntax node)
         {
+            if (node == null)
+                return null;
+
             AccessorDeclarationSyntax getter = node.PropertyGetAccessor();
             if (getter == null)
                 return node.Span.ToSpan();

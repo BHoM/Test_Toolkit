@@ -38,7 +38,7 @@ namespace BH.Engine.Test.CodeCompliance.Checks
         [ComplianceType("documentation")]
         public static Span HasValidPreviousVersionAttribute(this MethodDeclarationSyntax node)
         {
-            if (node.IsDeprecated() || !node.HasAttribute("PreviousVersion"))
+            if (node == null || node.IsDeprecated() || !node.HasAttribute("PreviousVersion"))
                 return null; //Don't care about deprecated methods or if the method does not have the attribute at all
 
             List<AttributeSyntax> previousVersionAttributes = node.GetAttributes("PreviousVersion");
@@ -63,7 +63,7 @@ namespace BH.Engine.Test.CodeCompliance.Checks
         [ComplianceType("documentation")]
         public static Span HasValidPreviousVersionAttribute(this ConstructorDeclarationSyntax node)
         {
-            if (node.IsDeprecated() || !node.HasAttribute("PreviousVersion"))
+            if (node == null || node.IsDeprecated() || !node.HasAttribute("PreviousVersion"))
                 return null; //Don't care about deprecated methods or if the method does not have the attribute at all
 
             List<AttributeSyntax> previousVersionAttributes = node.GetAttributes("PreviousVersion");

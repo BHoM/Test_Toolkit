@@ -42,6 +42,9 @@ namespace BH.Engine.Test.CodeCompliance.Checks
         [ComplianceType("code")]
         public static Span IsVirtualProperty(this PropertyDeclarationSyntax node)
         {
+            if (node == null)
+                return null;
+
             var type = node.GetDeclaringType();
             if (type is InterfaceDeclarationSyntax)
                 return null; //Don't run the check on an interface property

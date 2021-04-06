@@ -41,7 +41,7 @@ namespace BH.Engine.Test.CodeCompliance.Checks
         [ComplianceType("documentation")]
         public static Span PreviousInputNamesAttributeHasMatchingParameter(this AttributeSyntax node)
         {
-            if (node.Name.ToString() != "PreviousInputNames")
+            if (node == null || node.Name.ToString() != "PreviousInputNames")
                 return null;
 
             var method = node.Parent.Parent as BaseMethodDeclarationSyntax;
@@ -55,8 +55,10 @@ namespace BH.Engine.Test.CodeCompliance.Checks
                     else
                         return node.ArgumentList.Arguments[0].Span.ToSpan();
                 }
+
                 return node.Span.ToSpan();
             }
+
             return null;
         }
     }

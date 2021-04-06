@@ -42,8 +42,12 @@ namespace BH.Engine.Test.CodeCompliance.Checks
         [ComplianceType("documentation")]
         public static Span HasUniqueOutputAttribute(this AttributeSyntax node)
         {
+            if (node == null)
+                return null;
+
             string name = node.Name.ToString();
-            if (name != "Output" && name != "MultiOutput") return null;
+            if (name != "Output" && name != "MultiOutput")
+                return null;
 
             var method = node.Parent.Parent as BaseMethodDeclarationSyntax;
             if (method != null && method.IsPublic() && (method.IsEngineMethod() || method.IsAdapterConstructor()))
@@ -56,6 +60,7 @@ namespace BH.Engine.Test.CodeCompliance.Checks
                 if (multiOutAttrs.Where(x => x == node).Count() > 1)
                     return node.Span.ToSpan();
             }
+
             return null;
         }
     }

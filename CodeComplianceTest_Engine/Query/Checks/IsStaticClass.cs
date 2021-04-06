@@ -40,7 +40,7 @@ namespace BH.Engine.Test.CodeCompliance.Checks
         [ComplianceType("code")]
         public static Span IsStaticClass(this ClassDeclarationSyntax node)
         {
-            return node.IsStatic() ? null : node.Modifiers.Span.ToSpan();
+            return node == null || node.IsStatic() ? null : node.Modifiers.Span.ToSpan();
         }
     }
 }

@@ -45,7 +45,7 @@ namespace BH.Engine.Test.CodeCompliance.Checks
         [ComplianceType("documentation")]
         public static Span HasDescriptionAttribute(this MethodDeclarationSyntax node)
         {
-            return (node.IsDeprecated() || node.HasAttribute("Description")) ? null : node.Identifier.Span.ToSpan();
+            return (node == null || node.IsDeprecated() || node.HasAttribute("Description")) ? null : node.Identifier.Span.ToSpan();
         }
 
         [Message("Adapter constructor must contain a Description attribute", "HasDescriptionAttribute")]
@@ -55,7 +55,7 @@ namespace BH.Engine.Test.CodeCompliance.Checks
         [ComplianceType("documentation")]
         public static Span HasDescriptionAttribute(this ConstructorDeclarationSyntax node)
         {
-            return (node.IsDeprecated() || node.HasAttribute("Description")) ? null : node.Identifier.Span.ToSpan();
+            return (node == null || node.IsDeprecated() || node.HasAttribute("Description")) ? null : node.Identifier.Span.ToSpan();
         }
     }
 }

@@ -45,14 +45,15 @@ namespace BH.Engine.Test.CodeCompliance.Checks
         [ComplianceType("code")]
         public static Span ObjectNameMatchesFileName(this ClassDeclarationSyntax node)
         {
+            if (node == null)
+                return null;
+
             string filePath = node.SyntaxTree.FilePath;
             if (!string.IsNullOrEmpty(filePath))
             {
                 string filename = System.IO.Path.GetFileNameWithoutExtension(filePath);
                 if (node.IGetName() != filename)
-                {
                     return node.Identifier.Span.ToSpan();
-                }
             }
 
             return null;

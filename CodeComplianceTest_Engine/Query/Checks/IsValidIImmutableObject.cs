@@ -46,7 +46,7 @@ namespace BH.Engine.Test.CodeCompliance.Checks
         [ComplianceType("code")]
         public static Span IsValidIImmutableObject(this ClassDeclarationSyntax node)
         {
-            if (node.BaseList == null || node.BaseList.Types.Where(x => x.Type.ToString().ToLower() == "iimmutable").FirstOrDefault() == null)
+            if (node == null || node.BaseList == null || node.BaseList.Types.Where(x => x.Type.ToString().ToLower() == "iimmutable").FirstOrDefault() == null)
                 return null; //Not an IImmutable object so not relevant
 
             List<PropertyDeclarationSyntax> properties = node.Members.Where(x => x is PropertyDeclarationSyntax).Select(x => x as PropertyDeclarationSyntax).ToList();

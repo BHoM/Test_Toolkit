@@ -41,7 +41,7 @@ namespace BH.Engine.Test.CodeCompliance.Checks
         [ComplianceType("documentation")]
         public static Span InputAttributeIsUnique(this AttributeSyntax node)
         {
-            if (node.Name.ToString() != "Input" && node.Name.ToString() != "InputFromProperty")
+            if (node == null || node.Name.ToString() != "Input" && node.Name.ToString() != "InputFromProperty")
                 return null;
 
             var method = node.Parent.Parent as BaseMethodDeclarationSyntax;
@@ -52,6 +52,7 @@ namespace BH.Engine.Test.CodeCompliance.Checks
                 if (firstOfName != node)
                     return node.Span.ToSpan();
             }
+
             return null;
         }
     }

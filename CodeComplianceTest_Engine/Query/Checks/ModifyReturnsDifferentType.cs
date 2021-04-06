@@ -40,6 +40,9 @@ namespace BH.Engine.Test.CodeCompliance.Checks
         [ComplianceType("code")]
         public static Span ModifyReturnsDifferentType(this MethodDeclarationSyntax node)
         {
+            if (node == null)
+                return null;
+
             if (node.ReturnType.ToString().ToLower() == "void")
                 return null;
 
