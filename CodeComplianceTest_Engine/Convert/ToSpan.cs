@@ -33,6 +33,9 @@ namespace BH.Engine.Test.CodeCompliance
     {
         public static Span ToSpan(this LineSpan lineSpan, string context)
         {
+            if (lineSpan == null)
+                return Create.Span(1, 1);
+
             int start = lineSpan.Start.ToPosition(context);
             int end = lineSpan.End.ToPosition(context);
             return Create.Span(start, end - start);
@@ -40,6 +43,9 @@ namespace BH.Engine.Test.CodeCompliance
 
         public static Span ToSpan(this Microsoft.CodeAnalysis.Text.TextSpan span)
         {
+            if (span == null)
+                return Create.Span(1, 1);
+
             return Create.Span(span.Start, span.Length);
         }
     }
