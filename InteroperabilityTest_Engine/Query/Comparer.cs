@@ -39,12 +39,18 @@ namespace BH.Engine.Test.Interoperability
         [Description("")]
         [Input("", "")]
         [Output("", "")]
-        public static IEqualityComparer<IBHoMObject> Comparer(this PushPullCompareConfig config, Type adapterIdFragmentType)
+        public static IEqualityComparer<IBHoMObject> Comparer(this PushPullCompareConfig config, Type adapterIDFragmentType)
         {
+            if (config == null)
+                return null;
+
             switch (config.ComparerType)
             {
                 case ComparerType.AdapterId:
-                    return new AdapterIdComparer(adapterIdFragmentType);
+                    if (adapterIDFragmentType == null)
+                        return null;
+
+                    return new AdapterIdComparer(adapterIDFragmentType);
                 case ComparerType.Name:
                     return new Base.Objects.BHoMObjectNameComparer();
                 default:
