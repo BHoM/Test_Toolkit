@@ -36,7 +36,8 @@ namespace BH.Engine.Test.CodeCompliance
     {
         public static TestResult TestResult(TestStatus status, List<Error> errors = null)
         {
-            if (errors == null) errors = new List<Error>();
+            if (errors == null)
+                errors = new List<Error>();
 
             return new TestResult
             {

@@ -33,6 +33,9 @@ namespace BH.Engine.Test.CodeCompliance
     {
         public static int ToPosition(this LineLocation location, string context)
         {
+            if (location == null)
+                return 0;
+
             var lines = context.Split('\n');
             int position = 0;
             for (int i = 0; i < (location.Line - 1); i++)
