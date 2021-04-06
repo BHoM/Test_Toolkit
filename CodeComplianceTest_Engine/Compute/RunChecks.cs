@@ -43,6 +43,9 @@ namespace BH.Engine.Test.CodeCompliance
     {
         public static TestResult RunChecks(this SyntaxNode node, string checkType = null)
         {
+            if (node == null)
+                return Create.TestResult(TestStatus.Pass);
+
             string path = node.SyntaxTree.FilePath;
             if (Path.GetFileName(path) == "AssemblyInfo.cs")
                 return Create.TestResult(TestStatus.Pass);
