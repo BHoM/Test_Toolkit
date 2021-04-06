@@ -42,9 +42,13 @@ namespace BH.Engine.Test.CodeCompliance.DynamicChecks
         [ErrorLevel(TestStatus.Error)]
         public static bool AdapterReadMethodIsValid(this MethodInfo method)
         {
+            if (method == null)
+                return true;
+
             string name = method.Name;
 
-            if (!method.IsPublic && name != "Read") return true;
+            if (!method.IsPublic && name != "Read")
+                return true;
 
             return typeof(IObject).IsAssignableFrom(method.ReturnType) || typeof(IEnumerable<IObject>).IsAssignableFrom(method.ReturnType);
         }

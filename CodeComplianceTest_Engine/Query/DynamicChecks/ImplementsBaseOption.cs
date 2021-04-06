@@ -43,7 +43,7 @@ namespace BH.Engine.Test.CodeCompliance.DynamicChecks
     {
         public static TestResult ImplementsBaseOption(this MethodInfo method)
         {
-            if(!method.Name.StartsWith("I"))
+            if(method == null || !method.Name.StartsWith("I"))
                 return Create.TestResult(TestStatus.Pass); //Method is not an Interface method
 
             ParameterInfo firstParam = method.GetParameters()[0];

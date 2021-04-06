@@ -37,6 +37,9 @@ namespace BH.Engine.Test.CodeCompliance.DynamicChecks
     {
         public static bool IsValidQuantityInputAttribute(MemberInfo node)
         {
+            if (node == null)
+                return true;
+
             List<InputAttribute> inputAttributes = node.GetCustomAttributes<InputAttribute>().ToList();
 
             foreach(InputAttribute ia in inputAttributes)

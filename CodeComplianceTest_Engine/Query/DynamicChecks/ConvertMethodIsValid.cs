@@ -35,7 +35,8 @@ namespace BH.Engine.Test.CodeCompliance.DynamicChecks
     {
         public static bool ConvertMethodIsValid(this MethodInfo method)
         {
-            if (!method.IsPublic && method.DeclaringType.Name != "Convert") return true;
+            if (method == null || !method.IsPublic && method.DeclaringType.Name != "Convert")
+                return true;
 
             string name = method.Name;
             if(Regex.Match(name, "I?To.*").Success)
@@ -47,6 +48,7 @@ namespace BH.Engine.Test.CodeCompliance.DynamicChecks
             {
                 return typeof(IObject).IsAssignableFrom(method.ReturnType);
             }
+
             return true;
         }
     }
