@@ -40,6 +40,9 @@ namespace BH.Engine.Test.CodeCompliance.Checks
         [ComplianceType("documentation")]
         public static Span IsInputAttributePresent(this ParameterSyntax node)
         {
+            if (node == null)
+                return null;
+
             var method = node.Parent.Parent as BaseMethodDeclarationSyntax;
             
             if (method != null && method.IsPublic() && (method.IsEngineMethod() || method.IsAdapterConstructor()) && !method.IsDeprecated())
@@ -53,8 +56,10 @@ namespace BH.Engine.Test.CodeCompliance.Checks
                             return null;
                     }
                 }
+
                 return node.Identifier.Span.ToSpan();
             }
+
             return null;
         }
     }

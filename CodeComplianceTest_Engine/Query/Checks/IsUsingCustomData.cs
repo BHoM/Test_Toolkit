@@ -41,6 +41,9 @@ namespace BH.Engine.Test.CodeCompliance.Checks
         [ComplianceType("code")]
         public static Span IsUsingCustomData(this StatementSyntax node)
         {
+            if (node == null)
+                return null;
+
             List<Type> typesToCheck = new List<Type>
             {
                 typeof(BreakStatementSyntax),

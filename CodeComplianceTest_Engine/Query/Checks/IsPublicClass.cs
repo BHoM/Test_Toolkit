@@ -42,6 +42,9 @@ namespace BH.Engine.Test.CodeCompliance.Checks
         [Output("A span that represents where this error resides or null if there is no error")]
         public static Span IsPublicClass(this ClassDeclarationSyntax node)
         {
+            if (node == null)
+                return null;
+
             return node.Modifiers.Span.ToSpan();
         }
     }

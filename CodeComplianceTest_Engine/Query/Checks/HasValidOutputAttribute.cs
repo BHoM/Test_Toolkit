@@ -44,6 +44,9 @@ namespace BH.Engine.Test.CodeCompliance.Checks
         [ComplianceType("documentation")]
         public static Span HasValidOutputAttribute(this MethodDeclarationSyntax node)
         {
+            if (node == null)
+                return null;
+
             bool isvoid = false;
             if (node.ReturnType is PredefinedTypeSyntax)
                 isvoid = ((PredefinedTypeSyntax)node.ReturnType).Keyword.Kind() == SyntaxKind.VoidKeyword;

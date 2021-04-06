@@ -38,9 +38,13 @@ namespace BH.Engine.Test.CodeCompliance.Checks
         [ComplianceType("code")]
         public static Span HasSingleNamespace(this NamespaceDeclarationSyntax node)
         {
-            if (!node.SyntaxTree.HasCompilationUnitRoot) return null;
+            if (node == null || !node.SyntaxTree.HasCompilationUnitRoot)
+                return null;
+
             CompilationUnitSyntax root = node.SyntaxTree.GetRoot() as CompilationUnitSyntax;
-            if (root.Members.OfType<NamespaceDeclarationSyntax>().FirstOrDefault() != node) return node.Name.Span.ToSpan();
+            if (root.Members.OfType<NamespaceDeclarationSyntax>().FirstOrDefault() != node)
+                return node.Name.Span.ToSpan();
+
             return null;
         }
 

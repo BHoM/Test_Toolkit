@@ -46,6 +46,9 @@ namespace BH.Engine.Test.CodeCompliance.Checks
         [Output("A span that represents where this error resides or null if there is no error")]
         public static Span HasConstructor(this ClassDeclarationSyntax node)
         {
+            if (node == null)
+                return null;
+
             if (node.HasAConstructor() && (node.BaseList != null && node.BaseList.Types.Where(x => x.Type.ToString().ToLower() == "iimmutable").FirstOrDefault() == null))
                 return node.Members.Where(x => x.IsConstructor()).FirstOrDefault().Span.ToSpan(); //Has a constructor but isn't implementing the Immutable interface, this is not good
 

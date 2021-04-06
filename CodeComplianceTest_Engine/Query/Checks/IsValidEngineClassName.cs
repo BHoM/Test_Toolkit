@@ -40,7 +40,7 @@ namespace BH.Engine.Test.CodeCompliance.Checks
         public static Span IsValidEngineClassName(this ClassDeclarationSyntax node)
         {
             List<string> validEngineClassNames = new List<string>() { "Create", "Convert", "Query", "Modify", "Compute" };
-            return validEngineClassNames.Contains(node.Identifier.Text) ? null : node.Identifier.Span.ToSpan();
+            return node == null || validEngineClassNames.Contains(node.Identifier.Text) ? null : node.Identifier.Span.ToSpan();
         }
 
     }

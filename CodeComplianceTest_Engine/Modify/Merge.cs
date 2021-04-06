@@ -38,6 +38,22 @@ namespace BH.Engine.Test.CodeCompliance
     {
         public static TestResult Merge(this TestResult a, TestResult b)
         {
+            if(a == null)
+            {
+                if (b != null)
+                    return b;
+
+                return null;
+            }
+
+            if(b == null)
+            {
+                if (a != null)
+                    return a;
+
+                return null;
+            }
+
             TestResult merged = a.ShallowClone();
             if (merged.Information == null)
                 merged.Information = new List<ITestInformation>();

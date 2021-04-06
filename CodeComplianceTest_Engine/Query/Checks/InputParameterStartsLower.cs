@@ -41,7 +41,7 @@ namespace BH.Engine.Test.CodeCompliance.Checks
         [ComplianceType("code")]
         public static Span InputParameterStartsLower(this ParameterSyntax node)
         {
-            if (char.IsUpper(node.Identifier.ToString()[0]))
+            if (node != null && char.IsUpper(node.Identifier.ToString()[0]))
                 return node.Identifier.Span.ToSpan();
             else
                 return null;

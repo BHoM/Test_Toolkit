@@ -38,9 +38,13 @@ namespace BH.Engine.Test.CodeCompliance.Checks
         [ComplianceType("code")]
         public static Span HasSingleClass(this BaseTypeDeclarationSyntax node)
         {
-            if (!node.SyntaxTree.HasCompilationUnitRoot) return null;
+            if (node == null || !node.SyntaxTree.HasCompilationUnitRoot)
+                return null;
+
             CompilationUnitSyntax root = node.SyntaxTree.GetRoot() as CompilationUnitSyntax;
-            if (root.DescendantNodes().OfType<BaseTypeDeclarationSyntax >().FirstOrDefault() != node) return node.Identifier.Span.ToSpan();
+            if (root.DescendantNodes().OfType<BaseTypeDeclarationSyntax >().FirstOrDefault() != node)
+                return node.Identifier.Span.ToSpan();
+
             return null;
         }
 

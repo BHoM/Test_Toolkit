@@ -46,6 +46,9 @@ namespace BH.Engine.Test.CodeCompliance.Checks
         [Output("A span that represents where this error resides or null if there is no error")]
         public static Span HasOneConstructor(this ClassDeclarationSyntax node)
         {
+            if (node == null)
+                return null;
+
             if(node.Members.Where(x => x.IsConstructor()).Count() > 1)
             {
                 List<ConstructorDeclarationSyntax> constructors = node.Members.Where(x => x.IsConstructor()).Select(x => x as ConstructorDeclarationSyntax).ToList();

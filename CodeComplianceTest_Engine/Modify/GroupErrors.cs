@@ -35,6 +35,9 @@ namespace BH.Engine.Test.CodeCompliance
     {
         public static List<Error> GroupErrors(this List<Error> errors, string filePath)
         {
+            if (errors == null)
+                return new List<Error>();
+
             List<Error> groupedErrors = new List<Error>();
 
             Dictionary<int, List<Error>> errorsByLine = new Dictionary<int, List<Error>>();
