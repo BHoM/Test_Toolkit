@@ -41,6 +41,9 @@ namespace BH.Engine.Test
         [Output("message", "resulting test event message.")]
         public static EventMessage ToEventMessage(this Event debugEvent)
         {
+            if (debugEvent == null)
+                return null;
+
             return new EventMessage
             {
                 Message = debugEvent.Message,
