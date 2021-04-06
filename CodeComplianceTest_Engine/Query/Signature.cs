@@ -34,6 +34,9 @@ namespace BH.Engine.Test.CodeCompliance
     {
         public static string Signature(this MethodInfo mi)
         {
+            if (mi == null)
+                return "";
+
             String[] param = mi.GetParameters()
                                .Select(p => String.Format("{0} {1}", p.ParameterType.Name, p.Name))
                                .ToArray();

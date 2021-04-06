@@ -37,12 +37,12 @@ namespace BH.Engine.Test.CodeCompliance
     {
         public static bool IsStatic(this MemberDeclarationSyntax node)
         {
-            return node.HasModifier("static");
+            return node != null && node.HasModifier("static");
         }
 
         public static bool IsStatic(this AccessorDeclarationSyntax node)
         {
-            return node.HasModifier("static");
+            return node != null && node.HasModifier("static");
         }
     }
 }

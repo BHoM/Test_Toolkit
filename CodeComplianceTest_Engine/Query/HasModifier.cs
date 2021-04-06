@@ -37,11 +37,17 @@ namespace BH.Engine.Test.CodeCompliance
     {
         public static bool HasModifier(this MemberDeclarationSyntax node, string value)
         {
+            if (node == null)
+                return false;
+
             return node.Modifiers.ContainsToken(value);
         }
 
         public static bool HasModifier(this AccessorDeclarationSyntax node, string value)
         {
+            if (node == null)
+                return false;
+
             return node.Modifiers.ContainsToken(value);
         }
     }

@@ -37,6 +37,9 @@ namespace BH.Engine.Test.CodeCompliance
     {
         public static SyntaxTriviaList GetLeadingTrivia(this SyntaxNode node)
         {
+            if (node == null)
+                return new SyntaxTriviaList();
+
             return node.GetLeadingTrivia();
         }
     }

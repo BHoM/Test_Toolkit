@@ -38,21 +38,33 @@ namespace BH.Engine.Test.CodeCompliance
     {
         public static bool IPasses(this ConditionAttribute condition, SyntaxNode node)
         {
+            if (condition == null || node == null)
+                return false;
+
             return Passes(condition as dynamic, node as dynamic);
         }
 
         public static bool Passes(this ConditionAttribute condition, SyntaxNode node)
         {
+            if (condition == null)
+                return false;
+
             return condition.Expect;
         }
 
         public static bool Passes(this PathAttribute condition, SyntaxNode node)
         {
+            if (condition == null || node == null)
+                return false;
+
             return condition.Pattern.IsMatch(node.SyntaxTree.FilePath) == condition.Expect;
         }
 
         public static bool Passes(this IsPublicAttribute condition, MemberDeclarationSyntax node)
         {
+            if (condition == null || node == null)
+                return false;
+
             return node.IsPublic() == condition.Expect;
         }
     }

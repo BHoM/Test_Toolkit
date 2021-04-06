@@ -40,6 +40,9 @@ namespace BH.Engine.Test.CodeCompliance
     {
         public static TestResult HasValidCopyright(this SyntaxTriviaList leadingTrivia, int year = -1, string filePath = "")
         {
+            if (leadingTrivia == null)
+                return Create.TestResult(TestStatus.Pass);
+
             bool checkAllYears = false;
             if (year == -1)
             {

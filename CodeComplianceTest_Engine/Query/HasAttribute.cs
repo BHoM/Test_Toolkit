@@ -37,6 +37,9 @@ namespace BH.Engine.Test.CodeCompliance
     {
         public static bool HasAttribute(this MemberDeclarationSyntax node, string value)
         {
+            if (node == null)
+                return false;
+
             return node.GetAttributes(value) != null && node.GetAttributes(value).Count > 0;
         }
     }

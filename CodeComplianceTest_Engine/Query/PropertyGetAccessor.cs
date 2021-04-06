@@ -37,7 +37,7 @@ namespace BH.Engine.Test.CodeCompliance
     {
         public static AccessorDeclarationSyntax PropertyGetAccessor(this PropertyDeclarationSyntax node)
         {
-            if (node.AccessorList == null)
+            if (node == null || node.AccessorList == null)
                 return null;
 
             return node.AccessorList.Accessors.FirstOrDefault(a => a.Keyword.Text == "get");

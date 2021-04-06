@@ -37,11 +37,17 @@ namespace BH.Engine.Test.CodeCompliance
     {
         public static bool IsConstructor(this BaseMethodDeclarationSyntax node)
         {
+            if (node == null)
+                return false;
+
             return node is ConstructorDeclarationSyntax;
         }
 
         public static bool IsConstructor(this MemberDeclarationSyntax node)
         {
+            if (node == null)
+                return false;
+
             return node is ConstructorDeclarationSyntax;
         }
     }

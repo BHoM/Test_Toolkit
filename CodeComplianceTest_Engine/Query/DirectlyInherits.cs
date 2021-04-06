@@ -37,7 +37,7 @@ namespace BH.Engine.Test.CodeCompliance
     {
         public static bool DirectlyInherits(this BaseTypeDeclarationSyntax node, string value)
         {
-            if(node.BaseList != null)
+            if(node != null && node.BaseList != null)
             {
                 return node.BaseList.Types.Any(t => t.Type.ToString() == value);
             }
