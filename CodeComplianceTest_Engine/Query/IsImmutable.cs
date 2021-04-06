@@ -37,6 +37,9 @@ namespace BH.Engine.Test.CodeCompliance
     {
         public static bool IsImmutable(this BaseTypeDeclarationSyntax node)
         {
+            if (node == null)
+                return false;
+
             return node.DirectlyInherits("IImmutable");
         }
     }

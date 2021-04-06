@@ -37,6 +37,9 @@ namespace BH.Engine.Test.CodeCompliance
     {
         public static bool HasBody(this AccessorDeclarationSyntax node)
         {
+            if (node == null)
+                return false;
+
             return node.Body != null;
         }
     }

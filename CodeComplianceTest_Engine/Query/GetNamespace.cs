@@ -37,11 +37,17 @@ namespace BH.Engine.Test.CodeCompliance
     {
         public static string IGetNamespace(this SyntaxNode node)
         {
+            if (node == null)
+                return "";
+
             return GetNamespace(node as dynamic);
         }
 
         public static string GetNamespace(this SyntaxNode node)
         {
+            if (node == null)
+                return "";
+
             return node.Parent.IGetNamespace();
         }
 
@@ -52,8 +58,14 @@ namespace BH.Engine.Test.CodeCompliance
 
         public static string GetNamespace(this NamespaceDeclarationSyntax node)
         {
+            if (node == null)
+                return "";
+
             string within = node.Parent.IGetNamespace();
-            if (string.IsNullOrEmpty(within)) return node.Name.ToString();
+
+            if (string.IsNullOrEmpty(within))
+                return node.Name.ToString();
+
             return within + "." + node.Name.ToString();
         }
     }

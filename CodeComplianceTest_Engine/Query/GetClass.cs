@@ -37,17 +37,26 @@ namespace BH.Engine.Test.CodeCompliance
     {
         public static string IGetClass(this SyntaxNode node)
         {
+            if (node == null)
+                return null;
+
             return GetClass(node as dynamic);
         }
 
         public static string GetClass(this SyntaxNode node)
         {
-            return node.Parent == null ? null : node.Parent.IGetClass();
+            return node == null || node.Parent == null ? null : node.Parent.IGetClass();
         }
         public static string GetClass(this ClassDeclarationSyntax node)
         {
+            if (node == null)
+                return null;
+
             string within = node.Parent.IGetClass();
-            if (string.IsNullOrEmpty(within)) return node.IGetName();
+
+            if (string.IsNullOrEmpty(within))
+                return node.IGetName();
+
             return within + "." + node.IGetName();
         }
     }

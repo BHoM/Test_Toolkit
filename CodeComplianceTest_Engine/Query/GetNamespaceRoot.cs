@@ -37,6 +37,9 @@ namespace BH.Engine.Test.CodeCompliance
     {
         public static List<SyntaxNode> GetNamespaceRoot(this SyntaxNode fullFileNode)
         {
+            if (fullFileNode == null)
+                return new List<SyntaxNode>();
+
             return fullFileNode.ChildNodes().ToList().Where(x => x.GetType() == typeof(NamespaceDeclarationSyntax)).ToList();
         }
     }

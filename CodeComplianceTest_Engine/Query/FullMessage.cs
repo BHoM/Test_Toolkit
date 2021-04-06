@@ -46,7 +46,7 @@ namespace BH.Engine.Test.CodeCompliance
         [Output("message", "Full message for the Error.")]
         public static string FullMessage(this Error error, int maxDepth = 3, TestStatus minSeverity = TestStatus.Pass)
         {
-            if (!error.Status.IsEqualOrMoreSevere(minSeverity))
+            if (error == null || !error.Status.IsEqualOrMoreSevere(minSeverity))
                 return "";
 
             return error.Message + " - For more information see https://github.com/BHoM/documentation/wiki/" + error.DocumentationLink + Environment.NewLine + Environment.NewLine;

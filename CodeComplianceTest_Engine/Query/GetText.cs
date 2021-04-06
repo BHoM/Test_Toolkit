@@ -33,11 +33,17 @@ namespace BH.Engine.Test.CodeCompliance
     {
         public static string GetText(this LineSpan lineSpan, string context)
         {
+            if (lineSpan == null)
+                return "";
+
             return GetText(lineSpan.ToSpan(context), context);
         }
 
         public static string GetText(this Span span, string context)
         {
+            if (span == null)
+                return "";
+
             return context.Substring(span.Start, span.Length);
         }
     }
