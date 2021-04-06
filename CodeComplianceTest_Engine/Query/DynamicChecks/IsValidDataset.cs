@@ -40,6 +40,9 @@ namespace BH.Engine.Test.CodeCompliance.DynamicChecks
     {
         public static TestResult IsValidDataset(this string filePath)
         {
+            if (!File.Exists(filePath))
+                return Create.TestResult(TestStatus.Pass);
+
             string documentationLink = "IsValidDataset";
             //Read the dataset
             StreamReader sr = new StreamReader(filePath);

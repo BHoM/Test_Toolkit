@@ -41,6 +41,9 @@ namespace BH.Engine.Test.CodeCompliance.DynamicChecks
     {
         public static TestResult InputFromPropertyMatchesProperty(this MethodInfo method)
         {
+            if (method == null)
+                return null;
+
             IEnumerable<InputFromProperty> inputFromPropDesc = method.GetCustomAttributes<InputFromProperty>();
             if(inputFromPropDesc.Count() == 0)
                 return Create.TestResult(TestStatus.Pass); //All is good with no properties
