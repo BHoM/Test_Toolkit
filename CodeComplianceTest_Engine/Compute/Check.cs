@@ -44,6 +44,9 @@ namespace BH.Engine.Test.CodeCompliance
         public static TestResult Check(this MethodInfo method, SyntaxNode node, string checkType = null)
         {
             TestResult finalResult = Create.TestResult(TestStatus.Pass);
+            if (method == null || node == null)
+                return finalResult;
+
             string path = node.SyntaxTree.FilePath;
             if (Path.GetFileName(path) == "AssemblyInfo.cs")
                 return finalResult;
@@ -78,6 +81,9 @@ namespace BH.Engine.Test.CodeCompliance
         public static TestResult Check(this MethodInfo method, IEnumerable<SyntaxNode> nodes, string checkType = null)
         {
             TestResult finalResult = Create.TestResult(TestStatus.Pass);
+            if (method == null || nodes == null)
+                return finalResult;
+
             foreach(var node in nodes)
             {
                 finalResult = finalResult.Merge(method.Check(node, checkType));
