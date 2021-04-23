@@ -155,7 +155,17 @@ namespace BH.Engine.Test.CodeCompliance
 
                     string hintPath = @"C:\ProgramData\BHoM\Assemblies\" + refName + ".dll";
 
-                    if(reference.HintPath != hintPath)
+                    if (reference.HintPath == null)
+                    {
+                        int index = fileLines.IndexOf(fileLines.Where(x => x.Contains(reference.IncludeName)).FirstOrDefault());
+                        if (index == -1)
+                            index = 1;
+                        else
+                            index += 1;
+
+                        finalResult = finalResult.Merge(Create.TestResult(TestStatus.Error, new List<Error> { Create.Error($"Project reference for '{refName}' should be set to '{hintPath}'", Create.Location(csProjFilePath, Create.LineSpan(index, index)), documentationLink) }));
+                    }
+                    else if (reference.HintPath != hintPath)
                     {
                         int index = fileLines.IndexOf(fileLines.Where(x => x.Contains(reference.HintPath)).FirstOrDefault());
                         if (index == -1)
