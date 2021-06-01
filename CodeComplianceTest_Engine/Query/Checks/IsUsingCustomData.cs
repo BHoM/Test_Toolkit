@@ -38,6 +38,7 @@ namespace BH.Engine.Test.CodeCompliance.Checks
         [Message("The use of CustomData within the code is discouraged except in circumstances where volatile data is being used.", "IsUsingCustomData")]
         [ErrorLevel(TestStatus.Warning)]
         [Path(@"([a-zA-Z0-9]+)_(Engine|Adapter)\\.*\.cs$")]
+        [Path(@"([a-zA-Z0-9]+)_Engine\\Objects\\.*\.cs$", false)]
         [ComplianceType("code")]
         public static Span IsUsingCustomData(this StatementSyntax node)
         {
