@@ -61,13 +61,52 @@ namespace BH.Engine.Test.CodeCompliance.Checks
 
             returnType = returnType.Substring(7);//Trim the 'Output<' from the string
 
-            string[] returnOptions = returnType.Split(',');
+            List<string> returnOptions = new List<string>();
+            int split = 0;
+            string builtString = "";
+            foreach (char x in returnType)
+            {
+                if (x == '<')
+                    split++;
+
+                if (x == '>')
+                    split--;
+
+                if (x == ',' && split == 0)
+                {
+                    returnOptions.Add(builtString);
+                    builtString = "";
+                }
+                else
+                    builtString += x;
+            }
+
             List<AttributeSyntax> multiOutAttrs = node.GetAttributes("MultiOutput");
 
-            var distinctOutputNumbers = multiOutAttrs.Select(x => x.ToString().Split('(')[1].Split(',')[0]);
+            var distinctOutputNumbers = multiOutAttrs.Select(x =>
+            {
+                string t = x.ToString();
+                string newString = "";
+                int bracketCount = 0;
+                foreach(char i in t)
+                {
+                    if (i == '<')
+                        bracketCount++;
+
+                    if (i == '>')
+                        bracketCount--;
+
+                    if (i == ',' && bracketCount == 0)
+                        return newString;
+                    else
+                        newString += i;
+                }
+
+                return newString; //As a backup
+            });
             distinctOutputNumbers = distinctOutputNumbers.Distinct();
 
-            if (returnOptions.Length != distinctOutputNumbers.Count())
+            if (returnOptions.Count != distinctOutputNumbers.Count())
                 return node.Identifier.Span.ToSpan(); //If someone has used the same index more than once in declaring a multi output
             else
                 return null;
