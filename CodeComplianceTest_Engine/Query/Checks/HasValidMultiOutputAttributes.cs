@@ -61,10 +61,29 @@ namespace BH.Engine.Test.CodeCompliance.Checks
 
             returnType = returnType.Substring(7);//Trim the 'Output<' from the string
 
-            string[] returnOptions = returnType.Split(',');
+            List<string> returnOptions = new List<string>();
+            int split = 0;
+            string builtString = "";
+            foreach (char x in returnType)
+            {
+                if (x == '<')
+                    split++;
+
+                if(x == '>')
+                    split--;
+
+                if (x == ',' && split == 0)
+                {
+                    returnOptions.Add(builtString);
+                    builtString = "";
+                }
+                else
+                    builtString += x;
+            }
+
             List<AttributeSyntax> multiOutAttrs = node.GetAttributes("MultiOutput");
 
-            if (returnOptions.Length != multiOutAttrs.Count)
+            if (returnOptions.Count != multiOutAttrs.Count)
                 return node.Identifier.Span.ToSpan();
             else
                 return null;
