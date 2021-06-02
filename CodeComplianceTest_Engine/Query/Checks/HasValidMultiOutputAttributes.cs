@@ -60,6 +60,7 @@ namespace BH.Engine.Test.CodeCompliance.Checks
                 return null; //Not a multi output return type
 
             returnType = returnType.Substring(7);//Trim the 'Output<' from the string
+            returnType = returnType.Substring(0, returnType.Length - 1); //Trim the final '>' from the string
 
             List<string> returnOptions = new List<string>();
             int split = 0;
@@ -74,12 +75,14 @@ namespace BH.Engine.Test.CodeCompliance.Checks
 
                 if (x == ',' && split == 0)
                 {
+                    //Either splitting at a comma, or end of the string
                     returnOptions.Add(builtString);
                     builtString = "";
                 }
                 else
                     builtString += x;
             }
+            returnOptions.Add(builtString); //Add the last built string that wasn't separated by a comma
 
             List<AttributeSyntax> multiOutAttrs = node.GetAttributes("MultiOutput");
 
