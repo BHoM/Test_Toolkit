@@ -42,6 +42,9 @@ namespace BH.Engine.Test.Interoperability
         [MultiOutput(1, "Set Data", "The data of the extracted test sets. Each inner list corresponds to the set names.")]
         public static Output<List<string>, List<List<IBHoMObject>>> TestDataOfType(Type type)
         {
+            if (type == null)
+                return null;
+
             string nameSpace = type.Namespace;
             string discipline;
 

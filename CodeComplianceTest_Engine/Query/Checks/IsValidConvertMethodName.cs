@@ -40,6 +40,9 @@ namespace BH.Engine.Test.CodeCompliance.Checks
         [ComplianceType("code")]
         public static Span IsValidConvertMethodName(this MethodDeclarationSyntax node)
         {
+            if (node == null)
+                return null;
+
             string name = node.Identifier.Text;
             return ((name.StartsWith("ITo") || name.StartsWith("To")) && !name.StartsWith("ToBHoM")) ||
                 ((name.StartsWith("IFrom") || name.StartsWith("From")) && !name.StartsWith("FromBHoM")) ? null : node.Identifier.Span.ToSpan();

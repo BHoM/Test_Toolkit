@@ -40,6 +40,9 @@ namespace BH.Engine.Test.CodeCompliance.Checks
         [ComplianceType("code")]
         public static Span EngineClassMatchesFilePath(this ClassDeclarationSyntax node)
         {
+            if (node == null)
+                return null;
+
             string path = node.SyntaxTree.FilePath;
             Regex re = new Regex(@"([A-Za-z0-9]+)_Engine\\([^\\]+)\\", RegexOptions.RightToLeft);
             Match match = re.Match(path);

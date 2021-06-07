@@ -37,6 +37,9 @@ namespace BH.Engine.Test.CodeCompliance
     {
         public static List<AttributeSyntax> GetAttributes(this MemberDeclarationSyntax node, string value)
         {
+            if (node == null)
+                return new List<AttributeSyntax>();
+
             return node.AttributeLists.SelectMany(x => x.Attributes.Where(y => y.Name.ToString() == value)).ToList();
         }
     }

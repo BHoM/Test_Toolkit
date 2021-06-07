@@ -62,5 +62,11 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Test_Engine\Test_Engine.csproj">
+      <Project>{5FC85409-DBC5-4B0D-A2AA-1D9542F0763B}</Project>
+      <Name>Test_Engine</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -33,9 +33,9 @@ namespace BH.oM.Test.CodeCompliance.Attributes
     [AttributeUsage(AttributeTargets.Method, AllowMultiple = false)]
     public class ErrorLevelAttribute : Attribute, IImmutable
     {
-        public virtual ErrorLevel Level { get; }
+        public virtual TestStatus Level { get; }
 
-        public ErrorLevelAttribute(ErrorLevel level)
+        public ErrorLevelAttribute(TestStatus level)
         {
             Level = level;
         }

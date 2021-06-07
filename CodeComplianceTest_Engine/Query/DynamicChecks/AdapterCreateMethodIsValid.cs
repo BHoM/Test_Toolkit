@@ -32,21 +32,28 @@ using System.Threading.Tasks;
 using BH.oM.Test.CodeCompliance.Attributes;
 using BH.oM.Test.CodeCompliance;
 
+using BH.oM.Test;
+
 namespace BH.Engine.Test.CodeCompliance.DynamicChecks
 {
     public static partial class Query
     {
         [Message("Adapter Create method must take an IObject or IEnumerable<IObject> as its first parameter", null)]
-        [ErrorLevel(ErrorLevel.Error)]
+        [ErrorLevel(TestStatus.Error)]
         public static bool AdapterCreateMethodIsValid(this MethodInfo method)
         {
+            if (method == null)
+                return true;
+
             string name = method.Name;
 
-            if (!method.IsPublic && name != "Create") return true;
+            if (!method.IsPublic && name != "Create")
+                return true;
             
             List<ParameterInfo> parameters = method.GetParameters().ToList();
 
-            if (parameters.Count == 0) return false; //Create methods must take at least one argument
+            if (parameters.Count == 0)
+                return false; //Create methods must take at least one argument
 
             return parameters[0] != null && (typeof(IObject).IsAssignableFrom(parameters[0].ParameterType) || typeof(IEnumerable<IObject>).IsAssignableFrom(parameters[0].ParameterType));
         }

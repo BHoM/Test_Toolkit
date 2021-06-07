@@ -30,18 +30,23 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+using BH.oM.Test;
+
 namespace BH.Engine.Test.CodeCompliance.Checks
 {
     public static partial class Query
     {
         [Message("Methods returning a type of Output<t1, ..., tn> should have a matching number of MultiOutput attributes that identify each output object uniquely.", "HasUniqueMultiOutputAttributes")]
-        [ErrorLevel(ErrorLevel.Error)]
+        [ErrorLevel(TestStatus.Error)]
         [Path(@"([a-zA-Z0-9]+)_Engine\\.*\.cs$")]
         [Path(@"([a-zA-Z0-9]+)_Engine\\Objects\\.*\.cs$", false)]
         [IsPublic()]
         [ComplianceType("documentation")]
         public static Span HasUniqueMultiOutputAttributes(this MethodDeclarationSyntax node)
         {
+            if (node == null)
+                return null;
+
             bool isvoid = false;
             if (node.ReturnType is PredefinedTypeSyntax)
                 isvoid = ((PredefinedTypeSyntax)node.ReturnType).Keyword.Kind() == SyntaxKind.VoidKeyword;
@@ -55,14 +60,55 @@ namespace BH.Engine.Test.CodeCompliance.Checks
                 return null; //Not a multi output return type
 
             returnType = returnType.Substring(7);//Trim the 'Output<' from the string
+            returnType = returnType.Substring(0, returnType.Length - 1); //Trim the final '>' from the string
 
-            string[] returnOptions = returnType.Split(',');
+            List<string> returnOptions = new List<string>();
+            int split = 0;
+            string builtString = "";
+            foreach (char x in returnType)
+            {
+                if (x == '<')
+                    split++;
+
+                if (x == '>')
+                    split--;
+
+                if (x == ',' && split == 0)
+                {
+                    returnOptions.Add(builtString);
+                    builtString = "";
+                }
+                else
+                    builtString += x;
+            }
+            returnOptions.Add(builtString); //Add the last built string that wasn't separated by a comma
+
             List<AttributeSyntax> multiOutAttrs = node.GetAttributes("MultiOutput");
 
-            var distinctOutputNumbers = multiOutAttrs.Select(x => x.ToString().Split('(')[1].Split(',')[0]);
+            var distinctOutputNumbers = multiOutAttrs.Select(x =>
+            {
+                string t = x.ToString();
+                string newString = "";
+                int bracketCount = 0;
+                foreach(char i in t)
+                {
+                    if (i == '<')
+                        bracketCount++;
+
+                    if (i == '>')
+                        bracketCount--;
+
+                    if (i == ',' && bracketCount == 0)
+                        return newString;
+                    else
+                        newString += i;
+                }
+
+                return newString; //As a backup
+            });
             distinctOutputNumbers = distinctOutputNumbers.Distinct();
 
-            if (returnOptions.Length != distinctOutputNumbers.Count())
+            if (returnOptions.Count != distinctOutputNumbers.Count())
                 return node.Identifier.Span.ToSpan(); //If someone has used the same index more than once in declaring a multi output
             else
                 return null;

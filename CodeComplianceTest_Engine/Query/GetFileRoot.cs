@@ -37,6 +37,9 @@ namespace BH.Engine.Test.CodeCompliance
     {
         public static SyntaxNode GetFileRoot(this SyntaxTree tree)
         {
+            if (tree == null)
+                return null;
+
             return tree.GetRoot();
         }
     }

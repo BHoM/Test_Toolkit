@@ -33,11 +33,17 @@ namespace BH.Engine.Test.CodeCompliance
     {
         public static string ToText(this Location location)
         {
+            if (location == null)
+                return "";
+
             return $"{location.FilePath} at {location.Line.Start.Line}:{location.Line.Start.Column}";
         }
 
         public static string ToText(this Error error)
         {
+            if (error == null)
+                return "";
+
             return $"{error.Message}\n    in {error.Location.ToText()}";
         }
     }

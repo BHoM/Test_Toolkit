@@ -30,18 +30,23 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+using BH.oM.Test;
+
 namespace BH.Engine.Test.CodeCompliance.Checks
 {
     public static partial class Query
     {
         [Message("Methods returning a type of Output<t1, ..., tn> should have a matching number of MultiOutput attributes.", "HasValidMultiOutputAttributes")]
-        [ErrorLevel(ErrorLevel.Error)]
+        [ErrorLevel(TestStatus.Error)]
         [Path(@"([a-zA-Z0-9]+)_Engine\\.*\.cs$")]
         [Path(@"([a-zA-Z0-9]+)_Engine\\Objects\\.*\.cs$", false)]
         [IsPublic()]
         [ComplianceType("documentation")]
         public static Span HasValidMultiOutputAttributes(this MethodDeclarationSyntax node)
         {
+            if (node == null)
+                return null;
+
             bool isvoid = false;
             if (node.ReturnType is PredefinedTypeSyntax)
                 isvoid = ((PredefinedTypeSyntax)node.ReturnType).Keyword.Kind() == SyntaxKind.VoidKeyword;
@@ -55,11 +60,33 @@ namespace BH.Engine.Test.CodeCompliance.Checks
                 return null; //Not a multi output return type
 
             returnType = returnType.Substring(7);//Trim the 'Output<' from the string
+            returnType = returnType.Substring(0, returnType.Length - 1); //Trim the final '>' from the string
 
-            string[] returnOptions = returnType.Split(',');
+            List<string> returnOptions = new List<string>();
+            int split = 0;
+            string builtString = "";
+            foreach (char x in returnType)
+            {
+                if (x == '<')
+                    split++;
+
+                if(x == '>')
+                    split--;
+
+                if (x == ',' && split == 0)
+                {
+                    //Either splitting at a comma, or end of the string
+                    returnOptions.Add(builtString);
+                    builtString = "";
+                }
+                else
+                    builtString += x;
+            }
+            returnOptions.Add(builtString); //Add the last built string that wasn't separated by a comma
+
             List<AttributeSyntax> multiOutAttrs = node.GetAttributes("MultiOutput");
 
-            if (returnOptions.Length != multiOutAttrs.Count)
+            if (returnOptions.Count != multiOutAttrs.Count)
                 return node.Identifier.Span.ToSpan();
             else
                 return null;

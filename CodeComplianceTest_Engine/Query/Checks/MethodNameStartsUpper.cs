@@ -29,17 +29,19 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+using BH.oM.Test;
+
 namespace BH.Engine.Test.CodeCompliance.Checks
 {
     public static partial class Query
     {
         [Message("Method name should start with an uppercase letter", "MethodNameStartsUpper")]
-        [ErrorLevel(ErrorLevel.Error)]
+        [ErrorLevel(TestStatus.Error)]
         [Path(@"([a-zA-Z0-9]+)_(Engine|Adapter)\\.*\.cs$")]
         [ComplianceType("code")]
         public static Span MethodNameStartsUpper(this MethodDeclarationSyntax node)
         {
-            if (!char.IsUpper(node.Identifier.ToString()[0]))
+            if (node != null && !char.IsUpper(node.Identifier.ToString()[0]))
                 return node.Identifier.Span.ToSpan();
             else
                 return null;

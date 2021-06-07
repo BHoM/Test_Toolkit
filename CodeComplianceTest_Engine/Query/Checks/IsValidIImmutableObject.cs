@@ -31,12 +31,14 @@ using System.Threading.Tasks;
 
 using BH.Engine.Test.CodeCompliance;
 
+using BH.oM.Test;
+
 namespace BH.Engine.Test.CodeCompliance.Checks
 {
     public static partial class Query
     {
         [Message("IImutable objects must have at least one property with only a get accessor (no set accessor).", "IsValidIImmutableObject")]
-        [ErrorLevel(ErrorLevel.Error)]
+        [ErrorLevel(TestStatus.Error)]
         [Path(@"([a-zA-Z0-9]+)_?oM\\.*\.cs$")]
         [Path(@"([a-zA-Z0-9]+)_Engine\\.*\.cs$", false)]
         [Path(@"([a-zA-Z0-9]+)_Adapter\\.*\.cs$", false)]
@@ -44,7 +46,7 @@ namespace BH.Engine.Test.CodeCompliance.Checks
         [ComplianceType("code")]
         public static Span IsValidIImmutableObject(this ClassDeclarationSyntax node)
         {
-            if (node.BaseList == null || node.BaseList.Types.Where(x => x.Type.ToString().ToLower() == "iimmutable").FirstOrDefault() == null)
+            if (node == null || node.BaseList == null || node.BaseList.Types.Where(x => x.Type.ToString().ToLower() == "iimmutable").FirstOrDefault() == null)
                 return null; //Not an IImmutable object so not relevant
 
             List<PropertyDeclarationSyntax> properties = node.Members.Where(x => x is PropertyDeclarationSyntax).Select(x => x as PropertyDeclarationSyntax).ToList();

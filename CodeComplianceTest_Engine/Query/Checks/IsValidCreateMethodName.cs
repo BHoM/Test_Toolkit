@@ -40,6 +40,9 @@ namespace BH.Engine.Test.CodeCompliance.Checks
         [ComplianceType("code")]
         public static Span IsValidCreateMethodName(this MethodDeclarationSyntax node)
         {
+            if (node == null)
+                return null;
+
             string filePath = node.SyntaxTree.FilePath;
             if (!string.IsNullOrEmpty(filePath))
             {

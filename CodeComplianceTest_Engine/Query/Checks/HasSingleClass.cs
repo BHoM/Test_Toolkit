@@ -35,12 +35,17 @@ namespace BH.Engine.Test.CodeCompliance.Checks
     {
         [Message("Files cannot contain more than one class", "HasSingleClass")]
         [Path(@"([a-zA-Z0-9]+)(_?oM|_(Engine|UI|Adapter))\\.*\.cs$")]
+        [Path(@"([a-zA-Z0-9]+)_Engine\\Objects\\.*\.cs$", false)]
         [ComplianceType("code")]
         public static Span HasSingleClass(this BaseTypeDeclarationSyntax node)
         {
-            if (!node.SyntaxTree.HasCompilationUnitRoot) return null;
+            if (node == null || !node.SyntaxTree.HasCompilationUnitRoot)
+                return null;
+
             CompilationUnitSyntax root = node.SyntaxTree.GetRoot() as CompilationUnitSyntax;
-            if (root.DescendantNodes().OfType<BaseTypeDeclarationSyntax >().FirstOrDefault() != node) return node.Identifier.Span.ToSpan();
+            if (root.DescendantNodes().OfType<BaseTypeDeclarationSyntax >().FirstOrDefault() != node)
+                return node.Identifier.Span.ToSpan();
+
             return null;
         }
 

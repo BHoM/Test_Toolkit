@@ -20,22 +20,41 @@
  * along with this code. If not, see <https://www.gnu.org/licenses/lgpl-3.0.html>.      
  */
 
-using BH.oM.Base;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Collections.Generic;
+using System.ComponentModel;
+using BH.oM.Reflection.Attributes;
+using BH.oM.Reflection.Debugging;
+using BH.oM.Test;
 
-namespace BH.oM.Test.CodeCompliance
+namespace BH.Engine.Test
 {
-    public enum ResultStatus
+    public static partial class Create
     {
-        Undefined,
-        Pass,
-        Fail,
-        CriticalFail,
+        /***************************************************/
+        /**** Public Methods                            ****/
+        /***************************************************/
+
+        [Description("Convert a debugging event type into a test status.")]
+        [Input("eventType", "Debugging event type to convert")]
+        [Output("status", "resulting test status.")]
+        public static TestStatus ToTestStatus(this EventType eventType)
+        {
+            switch (eventType)
+            {
+                case EventType.Error:
+                    return TestStatus.Error;
+                case EventType.Warning:
+                    return TestStatus.Warning;
+                case EventType.Note:
+                    return TestStatus.Pass;
+                default:
+                    return TestStatus.Pass;
+            }
+        }
+
+        /***************************************************/
     }
 }
-
 

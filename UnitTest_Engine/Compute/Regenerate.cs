@@ -49,6 +49,12 @@ namespace BH.Engine.UnitTest
         [MultiOutput(1, "errors", "Any errors encountered during the execution of the method.")]
         public static Output<UT.UnitTest, List<string>> Regenerate(UT.UnitTest test)
         {
+            if(test == null)
+            {
+                BH.Engine.Reflection.Compute.RecordError("Could not regenerate unit test as test input was null.");
+                return null;
+            }
+
             List<UT.TestData> newTestData = new List<UT.TestData>();
             List<string> errors = new List<string>();
             MethodBase method = test.Method;

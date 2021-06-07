@@ -39,15 +39,18 @@ namespace BH.Engine.Test.CodeCompliance.Checks
         [Path(@"([a-zA-Z0-9]+)_Engine\\.*\.cs$")]
         [Path(@"([a-zA-Z0-9]+)_Engine\\Compute\\.*\.cs$", false)]
         [Path(@"([a-zA-Z0-9]+)_Engine\\Create\\.*\.cs$", false)]
+        [Path(@"([a-zA-Z0-9]+)_Engine\\Objects\\.*\.cs$", false)]
         [IsPublic()]
         [ComplianceType("code")]
         public static Span IsExtensionMethod(this MethodDeclarationSyntax node)
         {
+            if (node == null)
+                return null;
+
             var parameters = node.ParameterList.Parameters;
             if (parameters.Count > 0)
-            {
                 return parameters[0].Modifiers.Any(mod => mod.Kind() == SyntaxKind.ThisKeyword) ? null : parameters[0].Span.ToSpan();
-            }
+
             return null;
         }
 

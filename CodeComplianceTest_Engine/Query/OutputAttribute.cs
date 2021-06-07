@@ -37,11 +37,17 @@ namespace BH.Engine.Test.CodeCompliance
     {
         public static List<AttributeSyntax> OutputAttribute(this MethodDeclarationSyntax node)
         {
+            if (node == null)
+                return new List<AttributeSyntax>(); 
+
             return node.GetAttributes("Output");
         }
 
         public static List<AttributeSyntax> OutputAttribute(this ConstructorDeclarationSyntax node)
         {
+            if (node == null)
+                return new List<AttributeSyntax>();
+
             return node.GetAttributes("Output");
         }
     }

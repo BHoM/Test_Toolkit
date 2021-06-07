@@ -30,6 +30,7 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using BH.oM.Test;
+using BH.Engine.Test;
 
 namespace TestRunner
 {
@@ -61,10 +62,8 @@ namespace TestRunner
                     try
                     {
                         TestResult result = method.Invoke(null, new object[] { }) as TestResult;
-
-                        Console.WriteLine(result.Description + " --> " + result.Status.ToString());
-                        foreach (ITestInformation testInfo in result.Information.OrderBy(x => x.Message))
-                            Console.WriteLine("  - " + testInfo.Message);
+                        Console.WriteLine();
+                        Console.Write(result.FullMessage());
                     }
                     catch (Exception e)
                     {

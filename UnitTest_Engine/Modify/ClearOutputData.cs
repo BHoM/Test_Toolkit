@@ -41,6 +41,12 @@ namespace BH.Engine.UnitTest
         [Output("test", "Test with original method and inputs, but unassigned outputs.")]
         public static UT.UnitTest ClearOutputData(this UT.UnitTest test)
         {
+            if(test == null)
+            {
+                BH.Engine.Reflection.Compute.RecordError("Test cannot be null when clearing output data.");
+                return test;
+            }
+
             List<UT.TestData> data = new List<UT.TestData>();
 
             foreach (UT.TestData inData in test.Data)

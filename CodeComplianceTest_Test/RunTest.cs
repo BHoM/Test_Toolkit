@@ -32,6 +32,9 @@ using BH.Engine.Test.CodeCompliance;
 
 using Microsoft.CodeAnalysis;
 
+using BH.oM.Test;
+using BH.oM.Test.Results;
+
 namespace BH.Test.Test
 {
     public static partial class Test
@@ -48,7 +51,7 @@ namespace BH.Test.Test
             if (projectName == null)
                 projectName = "";
 
-            ComplianceResult r = Create.ComplianceResult(ResultStatus.Pass);
+            TestResult r = Create.TestResult(TestStatus.Pass);
             foreach (string s in changedFiles)
             {
                 StreamReader sr = new StreamReader(s);
@@ -64,9 +67,9 @@ namespace BH.Test.Test
                 }
             }
 
-            if (r.Status == ResultStatus.CriticalFail)
+            if (r.Status == TestStatus.Error)
             {
-                Dictionary<string, List<Error>> errors = r.Errors.GroupBy(x => x.Message).ToDictionary(x => x.Key, x => x.ToList());
+                Dictionary<string, List<Error>> errors = r.Information.GroupBy(x => x.Message).ToDictionary(x => x.Key, x => x.Select(y => y as Error).ToList());
                 string errorMessage = "";
                 foreach (KeyValuePair<string, List<Error>> kvp in errors)
                 {

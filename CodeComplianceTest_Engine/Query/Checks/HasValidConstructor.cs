@@ -30,6 +30,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+using BH.oM.Test;
+
 namespace BH.Engine.Test.CodeCompliance.Checks
 {
     public static partial class Query
@@ -40,11 +42,11 @@ namespace BH.Engine.Test.CodeCompliance.Checks
         [Path(@"([a-zA-Z0-9]+)_Adapter\\.*\.cs$", false)]
         [Path(@"([a-zA-Z0-9]+)_UI\\.*\.cs$", false)]
         [ComplianceType("code")]
-        [ErrorLevel(ErrorLevel.Error)]
+        [ErrorLevel(TestStatus.Error)]
         [Output("A span that represents where this error resides or null if there is no error")]
         public static Span HasValidConstructor(this ClassDeclarationSyntax node)
         {
-            if (!node.HasAConstructor() || node.HasConstructor() != null)
+            if (node == null || !node.HasAConstructor() || node.HasConstructor() != null)
                 return null; //Either the class has no constructor, or the constructor it has is not valid based on Immutable interface
 
             List<ConstructorDeclarationSyntax> constructors = node.Members.Where(x => x.IsConstructor()).Select(x => x as ConstructorDeclarationSyntax).ToList();
@@ -72,14 +74,6 @@ namespace BH.Engine.Test.CodeCompliance.Checks
                 return node.Span.ToSpan(); //None of the constructors contain all of the properties in its parameters, so the class is invalid
 
             return null;
-        }
-
-        public static bool ConTest(this ClassDeclarationSyntax node)
-        {
-            if (node.HasValidConstructor() != null)
-                return false;
-
-            return true;
         }
     }
 }

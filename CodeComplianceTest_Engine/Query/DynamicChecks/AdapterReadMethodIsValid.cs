@@ -32,17 +32,23 @@ using System.Threading.Tasks;
 using BH.oM.Test.CodeCompliance.Attributes;
 using BH.oM.Test.CodeCompliance;
 
+using BH.oM.Test;
+
 namespace BH.Engine.Test.CodeCompliance.DynamicChecks
 {
     public static partial class Query
     {
         [Message("Adapter Read method must return an IObject or IEnumerable<IObject>", null)]
-        [ErrorLevel(ErrorLevel.Error)]
+        [ErrorLevel(TestStatus.Error)]
         public static bool AdapterReadMethodIsValid(this MethodInfo method)
         {
+            if (method == null)
+                return true;
+
             string name = method.Name;
 
-            if (!method.IsPublic && name != "Read") return true;
+            if (!method.IsPublic && name != "Read")
+                return true;
 
             return typeof(IObject).IsAssignableFrom(method.ReturnType) || typeof(IEnumerable<IObject>).IsAssignableFrom(method.ReturnType);
         }

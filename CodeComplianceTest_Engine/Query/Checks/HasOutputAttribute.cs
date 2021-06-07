@@ -30,18 +30,23 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+using BH.oM.Test;
+
 namespace BH.Engine.Test.CodeCompliance.Checks
 {
     public static partial class Query
     {
         [Message("Method must contain an Output or MultiOutput attribute", "HasOutputAttribute")]
-        [ErrorLevel(ErrorLevel.Warning)]
+        [ErrorLevel(TestStatus.Warning)]
         [Path(@"([a-zA-Z0-9]+)_Engine\\.*\.cs$")]
         [Path(@"([a-zA-Z0-9]+)_Engine\\Objects\\.*\.cs$", false)]
         [IsPublic()]
         [ComplianceType("documentation")]
         public static Span HasOutputAttribute(this MethodDeclarationSyntax node)
         {
+            if (node == null)
+                return null;
+
             bool isvoid = false;
             if(node.ReturnType is PredefinedTypeSyntax)
                 isvoid = ((PredefinedTypeSyntax)node.ReturnType).Keyword.Kind() == SyntaxKind.VoidKeyword;
@@ -50,13 +55,13 @@ namespace BH.Engine.Test.CodeCompliance.Checks
         }
 
         [Message("Method must contain an Output or MultiOutput attribute", "HasOutputAttribute")]
-        [ErrorLevel(ErrorLevel.Warning)]
+        [ErrorLevel(TestStatus.Warning)]
         [Path(@"([a-zA-Z0-9]+)_Adapter\\.*\.cs$")]
         [IsPublic()]
         [ComplianceType("documentation")]
         public static Span HasOutputAttribute(this ConstructorDeclarationSyntax node)
         {
-            return node.HasAttribute("Output") || node.HasAttribute("MultiOutput") || node.IsDeprecated() ? null : node.Identifier.Span.ToSpan();
+            return node == null || node.HasAttribute("Output") || node.HasAttribute("MultiOutput") || node.IsDeprecated() ? null : node.Identifier.Span.ToSpan();
         }
     }
 }

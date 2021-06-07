@@ -37,11 +37,15 @@ namespace BH.Engine.Test.CodeCompliance
     {
         public static bool ContainsToken(this SyntaxTokenList list, string value)
         {
+            if (list == null)
+                return false;
+
             foreach(SyntaxToken token in list)
             {
                 if (token.Text == value)
                     return true;
             }
+
             return false;
         }
     }

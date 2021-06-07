@@ -49,6 +49,12 @@ namespace BH.Engine.UnitTest
         [MultiOutput(1, "errors", "Any errors encountered during the execution of the method.")]
         public static Output<List<List<object>>, List<string>> Run(this UT.UnitTest test)
         {                   
+            if(test == null)
+            {
+                BH.Engine.Reflection.Compute.RecordError("Could not run unit test as provided test was null.");
+                return null;
+            }
+
             List<List<object>> results = new List<List<object>>();
             List<string> errors = new List<string>();
             MethodBase method = test.Method;
@@ -70,6 +76,18 @@ namespace BH.Engine.UnitTest
         [MultiOutput(1, "errors", "Any errors encountered during the execution of the method.")]
         public static Output<List<object>, List<string>> Run(MethodBase method, UT.TestData data)
         {
+            if(method == null)
+            {
+                BH.Engine.Reflection.Compute.RecordError("Method to run a test on cannot be null.");
+                return null;
+            }
+
+            if(data == null)
+            {
+                BH.Engine.Reflection.Compute.RecordError("Data to use to test method with cannot be null.");
+                return null;
+            }
+
             List<object> result = new List<object>();
             List<string> errors = new List<string>();
             try

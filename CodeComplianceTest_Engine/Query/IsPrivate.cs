@@ -37,12 +37,12 @@ namespace BH.Engine.Test.CodeCompliance
     {
         public static bool IsPrivate(this MemberDeclarationSyntax node)
         {
-            return !node.IsPublic();
+            return node != null && !node.IsPublic();
         }
 
         public static bool IsPrivate(this AccessorDeclarationSyntax node)
         {
-            return node.HasModifier("private");
+            return node != null && node.HasModifier("private");
         }
     }
 }

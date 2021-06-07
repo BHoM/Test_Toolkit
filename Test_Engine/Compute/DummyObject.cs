@@ -39,6 +39,9 @@ namespace BH.Engine.Test
 
         public static object DummyObject(Type type)
         {
+            if (type == null)
+                return null;
+
             if (m_ImplementingTypes.Count == 0)
                 LinkInterfaces(Engine.Reflection.Query.BHoMTypeList());
 

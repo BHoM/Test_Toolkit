@@ -37,6 +37,9 @@ namespace BH.Engine.Test.CodeCompliance
     {
         public static bool HasAConstructor(this ClassDeclarationSyntax node)
         {
+            if (node == null)
+                return false;
+
             return node.Members.Where(x => x.IsConstructor()).FirstOrDefault() != null;
         }
     }

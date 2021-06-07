@@ -36,31 +36,49 @@ namespace BH.Engine.Test.CodeCompliance
     {
         public static string IGetName(this MemberDeclarationSyntax node)
         {
+            if (node == null)
+                return "";
+
             return GetName(node as dynamic);
         }
 
         public static string GetName(this MethodDeclarationSyntax node)
         {
+            if (node == null)
+                return "";
+
             return node.Identifier.Text;
         }
 
         public static string GetName(this ConstructorDeclarationSyntax node)
         {
+            if (node == null)
+                return "";
+
             return node.Identifier.Text;
         }
 
         public static string GetName(this PropertyDeclarationSyntax node)
         {
+            if (node == null)
+                return "";
+
             return node.Identifier.Text;
         }
 
         public static string GetName(this ClassDeclarationSyntax node)
         {
+            if (node == null)
+                return "";
+
             return node.Identifier.Text;
         }
 
         public static string GetName(this NamespaceDeclarationSyntax node)
         {
+            if (node == null)
+                return "";
+
             return node.Name.ToString();
         }
     }

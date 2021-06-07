@@ -21,26 +21,38 @@
  */
 
 using BH.oM.Test.CodeCompliance;
+using BH.oM.Test.CodeCompliance.Attributes;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BH.Engine.Test.CodeCompliance
+namespace BH.Engine.Test.CodeCompliance.Checks
 {
-    public static partial class Create
+    public static partial class Query
     {
-        public static ComplianceResult ComplianceResult(ResultStatus status, List<Error> errors = null)
-        {
-            if (errors == null) errors = new List<Error>();
 
-            return new ComplianceResult
-            {
-                Status = status,
-                Errors = errors,
-            };
+        [Message("Modify methods should return void, or their return type should be different to the input type of their first parameter", "ModifyReturnsDifferentType")]
+        [Path(@"([a-zA-Z0-9]+)_Engine\\Modify\\.*\.cs$")]
+        [IsPublic()]
+        [ComplianceType("code")]
+        public static Span ModifyReturnsDifferentType(this MethodDeclarationSyntax node)
+        {
+            if (node == null)
+                return null;
+
+            if (node.ReturnType.ToString().ToLower() == "void")
+                return null;
+
+            ParameterSyntax param = node.ParameterList.Parameters.FirstOrDefault();
+            if (param == null || param.Type.IsEquivalentTo(node.ReturnType))
+                return node.ReturnType.Span.ToSpan(); //The return type matches the input type which is not valid for Modify methods, they should be returning void instead
+
+            return null;
         }
+
     }
 }
 

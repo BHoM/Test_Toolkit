@@ -38,7 +38,7 @@ namespace BH.Engine.Test.CodeCompliance
     {
         public static bool IsEngineMethod(this BaseMethodDeclarationSyntax node)
         {
-            return node is MethodDeclarationSyntax
+            return node != null && node is MethodDeclarationSyntax
                 && Regex.IsMatch(node.SyntaxTree.FilePath, @"([a-zA-Z0-9]+)_Engine\\.*\.cs$");
         }
     }

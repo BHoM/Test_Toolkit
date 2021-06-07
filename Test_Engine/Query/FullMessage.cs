@@ -45,7 +45,7 @@ namespace BH.Engine.Test
         public static string FullMessage(this TestResult result, int maxDepth = 3, TestStatus minSeverity = TestStatus.Pass)
         {
             //Return an empty string if the status is not at least as severe as the provided minimum.
-            if (!result.Status.IsEqualOrMoreSevere(minSeverity))
+            if (result == null || !result.Status.IsEqualOrMoreSevere(minSeverity))
                 return "";
 
             string message = result.Description + Environment.NewLine;
@@ -79,6 +79,9 @@ namespace BH.Engine.Test
 
         public static string IFullMessage(this ITestInformation result, int maxDepth = 3, TestStatus minSeverity = TestStatus.Pass)
         {
+            if (result == null)
+                return "";
+
             return FullMessage(result as dynamic, maxDepth, minSeverity);
         }
 

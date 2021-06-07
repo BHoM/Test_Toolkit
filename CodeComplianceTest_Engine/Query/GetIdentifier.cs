@@ -35,25 +35,40 @@ namespace BH.Engine.Test.CodeCompliance
     {
         public static SyntaxToken IGetIdentifier(this MemberDeclarationSyntax node)
         {
+            if (node == null)
+                return new SyntaxToken();
+
             return GetIdentifier(node as dynamic);
         }
 
         public static SyntaxToken GetIdentifier(this MethodDeclarationSyntax node)
         {
+            if (node == null)
+                return new SyntaxToken();
+
             return node.Identifier;
         }
 
         public static SyntaxToken GetIdentifier(this ConstructorDeclarationSyntax node)
         {
+            if (node == null)
+                return new SyntaxToken();
+
             return node.Identifier;
         }
         public static SyntaxToken GetIdentifier(this PropertyDeclarationSyntax node)
         {
+            if (node == null)
+                return new SyntaxToken();
+
             return node.Identifier;
         }
 
         public static SyntaxToken GetIdentifier(this ClassDeclarationSyntax node)
         {
+            if (node == null)
+                return new SyntaxToken();
+
             return node.Identifier;
         }
     }

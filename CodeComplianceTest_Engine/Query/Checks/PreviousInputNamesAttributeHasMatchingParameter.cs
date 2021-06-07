@@ -29,17 +29,19 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+using BH.oM.Test;
+
 namespace BH.Engine.Test.CodeCompliance.Checks
 {
     public static partial class Query
     {
         [Message("Previous Input Name attribute does not match any of the given parameters.", "PreviousInputNamesAttributeHasMatchingParameter")]
-        [ErrorLevel(ErrorLevel.Error)]
+        [ErrorLevel(TestStatus.Error)]
         [Path(@"([a-zA-Z0-9]+)_(Engine|Adapter)\\.*\.cs$")]
         [ComplianceType("documentation")]
         public static Span PreviousInputNamesAttributeHasMatchingParameter(this AttributeSyntax node)
         {
-            if (node.Name.ToString() != "PreviousInputNames")
+            if (node == null || node.Name.ToString() != "PreviousInputNames")
                 return null;
 
             var method = node.Parent.Parent as BaseMethodDeclarationSyntax;
@@ -53,8 +55,10 @@ namespace BH.Engine.Test.CodeCompliance.Checks
                     else
                         return node.ArgumentList.Arguments[0].Span.ToSpan();
                 }
+
                 return node.Span.ToSpan();
             }
+
             return null;
         }
     }

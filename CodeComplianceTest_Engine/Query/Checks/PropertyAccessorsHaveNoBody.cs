@@ -42,7 +42,7 @@ namespace BH.Engine.Test.CodeCompliance.Checks
         [ComplianceType("code")]
         public static Span PropertyAccessorsHaveNoBody(this PropertyDeclarationSyntax node)
         {
-            if (node.AccessorList == null)
+            if (node == null || node.AccessorList == null)
                 return null;
 
             return node.AccessorList.Accessors.Any(a => a.HasBody()) ? node.Modifiers.Span.ToSpan() : null;

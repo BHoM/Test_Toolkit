@@ -29,17 +29,19 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+using BH.oM.Test;
+
 namespace BH.Engine.Test.CodeCompliance.Checks
 {
     public static partial class Query
     {
         [Message("Input attribute does not match any of the given parameters", "InputAttributeHasMatchingParameter")]
-        [ErrorLevel(ErrorLevel.Error)]
+        [ErrorLevel(TestStatus.Error)]
         [Path(@"([a-zA-Z0-9]+)_(Engine|Adapter)\\.*\.cs$")]
         [ComplianceType("documentation")]
         public static Span InputAttributeHasMatchingParameter(this AttributeSyntax node)
         {
-            if (node.Name.ToString() != "Input" && node.Name.ToString() != "InputFromProperty")
+            if (node == null || node.Name.ToString() != "Input" && node.Name.ToString() != "InputFromProperty")
                 return null;
 
             var method = node.Parent.Parent as BaseMethodDeclarationSyntax;
@@ -55,6 +57,7 @@ namespace BH.Engine.Test.CodeCompliance.Checks
                 }
                 return node.Span.ToSpan();
             }
+
             return null;
         }
     }

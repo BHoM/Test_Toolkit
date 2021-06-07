@@ -37,12 +37,15 @@ namespace BH.Engine.Test.CodeCompliance
     {
         public static BaseTypeDeclarationSyntax IGetDeclaringType(this SyntaxNode node)
         {
+            if (node == null)
+                return null;
+
             return GetDeclaringType(node as dynamic);
         }
 
         public static BaseTypeDeclarationSyntax GetDeclaringType(this SyntaxNode node)
         {
-            return node.Parent == null ? null : node.Parent.IGetDeclaringType();
+            return node == null || node.Parent == null ? null : node.Parent.IGetDeclaringType();
         }
 
         public static BaseTypeDeclarationSyntax GetDeclaringType(this BaseTypeDeclarationSyntax node)

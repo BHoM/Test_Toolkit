@@ -20,32 +20,30 @@
  * along with this code. If not, see <https://www.gnu.org/licenses/lgpl-3.0.html>.      
  */
 
-using BH.oM.Reflection.Attributes;
 using BH.oM.Test.CodeCompliance;
-using BH.oM.Test.CodeCompliance.Attributes;
-using Microsoft.CodeAnalysis.CSharp.Syntax;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BH.Engine.Test.CodeCompliance.Checks
-{
-    public static partial class Query
-    {
-        [Message("Invalid Engine class: Engine classes must be public", "IsPublicClass")]
-        [Path(@"([a-zA-Z0-9]+)_Engine\\.*\.cs$")]
-        [Path(@"([a-zA-Z0-9]+)_Engine\\Objects\\.*\.cs$", false)]
-        [IsPublic(false)]
-        [ComplianceType("code")]
-        [Output("A span that represents where this error resides or null if there is no error")]
-        public static Span IsPublicClass(this ClassDeclarationSyntax node)
-        {
-            if (node == null)
-                return null;
+using BH.oM.Test;
+using BH.oM.Test.Results;
 
-            return node.Modifiers.Span.ToSpan();
+namespace BH.Engine.Test.CodeCompliance
+{
+    public static partial class Create
+    {
+        public static TestResult TestResult(TestStatus status, List<Error> errors = null)
+        {
+            if (errors == null)
+                errors = new List<Error>();
+
+            return new TestResult
+            {
+                Status = status,
+                Information = errors.Select(x => x as ITestInformation).ToList(),
+            };
         }
     }
 }

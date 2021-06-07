@@ -38,7 +38,7 @@ namespace BH.Engine.Test.CodeCompliance
     {
         public static bool IsAdapterConstructor(this BaseMethodDeclarationSyntax node)
         {
-            return node is ConstructorDeclarationSyntax
+            return node != null && node is ConstructorDeclarationSyntax
                 && Regex.IsMatch(node.SyntaxTree.FilePath, @"([a-zA-Z0-9]+)_Adapter\\.*\.cs$");
         }
     }

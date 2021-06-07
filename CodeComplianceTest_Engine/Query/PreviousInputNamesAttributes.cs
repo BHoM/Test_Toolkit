@@ -37,6 +37,9 @@ namespace BH.Engine.Test.CodeCompliance
     {
         public static List<AttributeSyntax> PreviousInputNamesAttributes(this BaseMethodDeclarationSyntax node)
         {
+            if (node == null)
+                return new List<AttributeSyntax>();
+
             return node.GetAttributes("PreviousInputNames");
         }
     }

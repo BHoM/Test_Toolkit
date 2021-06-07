@@ -37,13 +37,16 @@ namespace BH.Engine.Test.CodeCompliance
     {
         public static bool IsPublic(this MemberDeclarationSyntax node)
         {
+            if (node == null)
+                return false;
+
             var type = node.GetDeclaringType();
             return node.HasModifier("public") || (type != null && type != node && type is InterfaceDeclarationSyntax);
         }
 
         public static bool IsPublic(this AccessorDeclarationSyntax node)
         {
-            return node.HasModifier("public");
+            return node != null && node.HasModifier("public");
         }
     }
 }

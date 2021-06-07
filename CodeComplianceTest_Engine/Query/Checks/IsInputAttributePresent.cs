@@ -29,15 +29,20 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+using BH.oM.Test;
+
 namespace BH.Engine.Test.CodeCompliance.Checks
 {
     public static partial class Query
     {
         [Message("Input parameter requires a matching Input attribute", "IsInputAttributePresent")]
-        [ErrorLevel(ErrorLevel.Warning)]
+        [ErrorLevel(TestStatus.Warning)]
         [ComplianceType("documentation")]
         public static Span IsInputAttributePresent(this ParameterSyntax node)
         {
+            if (node == null)
+                return null;
+
             var method = node.Parent.Parent as BaseMethodDeclarationSyntax;
             
             if (method != null && method.IsPublic() && (method.IsEngineMethod() || method.IsAdapterConstructor()) && !method.IsDeprecated())
@@ -51,8 +56,10 @@ namespace BH.Engine.Test.CodeCompliance.Checks
                             return null;
                     }
                 }
+
                 return node.Identifier.Span.ToSpan();
             }
+
             return null;
         }
     }

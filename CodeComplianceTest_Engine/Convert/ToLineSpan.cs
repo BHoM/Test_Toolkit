@@ -33,6 +33,9 @@ namespace BH.Engine.Test.CodeCompliance
     {
         public static LineSpan ToLineSpan(this Span span, string context)
         {
+            if (span == null)
+                return Create.LineSpan(1, 1);
+
             return Create.LineSpan(ToLineLocation(span.Start, context), ToLineLocation(span.Start + span.Length, context));
         }
     }

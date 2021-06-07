@@ -20,20 +20,40 @@
  * along with this code. If not, see <https://www.gnu.org/licenses/lgpl-3.0.html>.      
  */
 
-using BH.oM.Base;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Collections.Generic;
+using System.ComponentModel;
+using BH.oM.Reflection.Attributes;
+using BH.oM.Test.Results;
+using BH.oM.Reflection.Debugging;
 
-namespace BH.oM.Test.CodeCompliance
+namespace BH.Engine.Test
 {
-    public class ComplianceResult : BHoMObject
+    public static partial class Create
     {
-        public virtual ResultStatus Status { get; set; } = ResultStatus.Undefined;
-        public virtual List<Error> Errors { get; set; } = new List<Error>();
+        /***************************************************/
+        /**** Public Methods                            ****/
+        /***************************************************/
+
+        [Description("Convert a debugging event into a test event message.")]
+        [Input("debugEvent", "Debugging event to convert")]
+        [Output("message", "resulting test event message.")]
+        public static EventMessage ToEventMessage(this Event debugEvent)
+        {
+            if (debugEvent == null)
+                return null;
+
+            return new EventMessage
+            {
+                Message = debugEvent.Message,
+                Status = debugEvent.Type.ToTestStatus(),
+                StackTrace = debugEvent.StackTrace,
+                UTCTime = debugEvent.UtcTime
+            };
+        }
+
+        /***************************************************/
     }
 }
-
 

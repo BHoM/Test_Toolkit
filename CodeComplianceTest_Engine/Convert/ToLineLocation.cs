@@ -38,7 +38,9 @@ namespace BH.Engine.Test.CodeCompliance
                 Reflection.Compute.RecordError($"{position} not found in context");
                 return null;
             }
-            if (position > context.Length) throw new ArgumentException($"{position} not found in context");
+            if (position > context.Length)
+                throw new ArgumentException($"{position} not found in context");
+
             string beforeStart = context.Substring(0, position);
             int line = beforeStart.Count((c) => c == '\n') + 1;
             int column = position - (beforeStart.LastIndexOf('\n') + 1);
