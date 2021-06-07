@@ -55,10 +55,10 @@ namespace BH.Engine.Test.Interoperability
         [Input("active", "Toggles whether to run the test")]
         [MultiOutput(0, "diffingResults", "Diffing results outlining any differences found between the pushed and pulled objects.")]
         [MultiOutput(1, "adapterLog", "A list of any error or warning messages returned by the adapter in the process, as a dictionary sorted by name of the set.")]
-        public static Output<List<InputOutputComparison>, Dictionary<string, List<Event>>> PushPullCompare(BHoMAdapter adapter, Type type, PushPullCompareConfig config = null, bool active = false)
+        public static List<TestResult> PushPullCompare(BHoMAdapter adapter, Type type, PushPullCompareConfig config = null, bool active = false)
         {
             if (!active)
-                return new Output<List<InputOutputComparison>, Dictionary<string, List<Event>>>();
+                return new List<TestResult>();
 
             config = config ?? new PushPullCompareConfig();
 
@@ -68,7 +68,7 @@ namespace BH.Engine.Test.Interoperability
             if (testSets == null || testSets.Item1 == null || testSets.Item2 == null)
             {
                 Reflection.Compute.RecordError("Failed to extract testdata");
-                return new Output<List<InputOutputComparison>, Dictionary<string, List<Event>>>();
+                return new List<TestResult>();
             }
 
             List<string> testSetNames = testSets.Item1;
@@ -80,21 +80,15 @@ namespace BH.Engine.Test.Interoperability
 
             //List for storing output
 
-            List<InputOutputComparison> results = new List<InputOutputComparison>();
-            Dictionary<string, List<Event>> events = new Dictionary<string, List<Event>>();
+            List<TestResult> results = new List<TestResult>();
+
 
             for (int i = 0; i < testSetNames.Count; i++)
             {
-                List<InputOutputComparison> tempResults;
-                List<Event> tempEvents;
-                if (!RunOneSet(adapter, testSetNames[i], testData[i], request, comparer, config.ResetModelBetweenPushes, out tempResults, out tempEvents))
-                    Engine.Reflection.Compute.RecordWarning("Failed to run set " + testSetNames[i] + ". Please check the event log!");
-
-                results.AddRange(tempResults);
-                events[testSetNames[i]] = tempEvents;
+                results.Add(RunOneSet(adapter, testSetNames[i], testData[i], request, comparer, config.ResetModelBetweenPushes));
             }
 
-            return new Output<List<InputOutputComparison>, Dictionary<string, List<Event>>>() { Item1 = results, Item2 = events };
+            return results;
         }
 
         /***************************************************/
@@ -318,118 +312,8 @@ namespace BH.Engine.Test.Interoperability
 
             return result;
         }
-
-        private static List<InputOutputComparison> TestFailedResults(string setName, IEnumerable<IBHoMObject> objects, InputOutputComparisonType type, double timeStep)
-        {
-            return objects.Select(x => new InputOutputComparison(x.CustomData["PushPull_Hash"].ToString(), setName, timeStep, x.GetType(), type, new List<InputOutputDifference>())).ToList();
-            //return objects.Select(x => new InputOutputDifference(x.CustomData["PushPull_Hash"].ToString(), setName, x.GetType().ToString(), timeStep, x.GetType(), type, x.ToString(), null)).ToList();
-        }
-
-        private static bool RunOneSet(BHoMAdapter adapter, string setName, List<IBHoMObject> objects, IRequest request, IEqualityComparer<IBHoMObject> comparer, bool resetModelBetweenRuns, out List<InputOutputComparison> results, out List<Event> events)
-        {
-            bool success = true;
-
-            results = new List<InputOutputComparison>();
-            events = new List<Event>();
-
-            //Calcualte timestamp
-            double timestep = DateTime.UtcNow.ToOADate();
-
-            //CalculateObjectHashes
-            objects = objects.Select(x => x.GetShallowClone()).ToList();
-            objects.ForEach(x => x.CustomData["PushPull_Hash"] = x.Hash());
-
-            //Start up an empty model
-            if(resetModelBetweenRuns)
-                adapter.Execute(new NewModel());
-
-            List<IBHoMObject> pushedObjects = new List<IBHoMObject>();
-            List<IBHoMObject> pulledObjects = new List<IBHoMObject>();
-
-            BH.oM.Base.ComparisonConfig config = new BH.oM.Base.ComparisonConfig();
-            config.PropertyExceptions.Add("CustomData");
-            config.PropertyExceptions.Add("Fragments");
-
-            //Push objects
-            try
-            {
-                Engine.Reflection.Compute.ClearCurrentEvents();
-                pushedObjects = adapter.Push(objects).Cast<IBHoMObject>().ToList();
-                success &= pushedObjects.Count == objects.Count;
-            }
-            catch (Exception e)
-            {
-                Engine.Reflection.Compute.RecordError(e.Message);
-                results = TestFailedResults(setName, objects, InputOutputComparisonType.Exception, timestep);
-                return false;
-            }
-            finally
-            {
-                events.AddRange(Engine.Reflection.Query.CurrentEvents());
-            }
-
-            if (pushedObjects.Count != objects.Count)
-            {
-                results.AddRange(TestFailedResults(setName, objects.Where(x => !pushedObjects.Any(y => x.Name == y.Name)), InputOutputComparisonType.Exception, timestep));
-            }
-
-            //Pull objects
-            try
-            {
-                Engine.Reflection.Compute.ClearCurrentEvents();
-                pulledObjects = adapter.Pull(request).Cast<IBHoMObject>().ToList();
-                success &= pulledObjects.Count == pushedObjects.Count;
-            }
-            catch (Exception e)
-            {
-                Engine.Reflection.Compute.RecordError(e.Message);
-                results = TestFailedResults(setName, objects, InputOutputComparisonType.Exception, timestep);
-                return false;
-            }
-            finally
-            {
-                events.AddRange(Engine.Reflection.Query.CurrentEvents());
-            }
-
-            //Compare pushed and pulled objects
-            VennDiagram<IBHoMObject> diagram = Engine.Data.Create.VennDiagram(pushedObjects, pulledObjects, comparer);
-
-            //Check that all pushed objects found a match in pulled obejcts
-            //result.PullSuccess = diagram.OnlySet1.Count == 0;
-
-            foreach (Tuple<IBHoMObject, IBHoMObject> pair in diagram.Intersection)
-            {
-                var equalityResult = Engine.Test.Query.IsEqual(pair.Item1, pair.Item2, config);
-
-                InputOutputComparisonType type = equalityResult.Item1 ? InputOutputComparisonType.Equal : InputOutputComparisonType.Difference;
-                List<InputOutputDifference> differences = new List<InputOutputDifference>();
-
-                string objectId = pair.Item1.CustomData["PushPull_Hash"].ToString();
-                Type objectType = pair.Item1.GetType();
-
-                for (int i = 0; i < equalityResult.Item2.Count; i++)
-                {
-                    differences.Add(new InputOutputDifference(objectId, setName, equalityResult.Item2[i], timestep, objectType, equalityResult.Item3[i], equalityResult.Item4[i]));
-                }
-
-                results.Add(new InputOutputComparison(objectId, setName, timestep, objectType, type, differences));
-            }
-
-            results.AddRange(TestFailedResults(setName, diagram.OnlySet1, InputOutputComparisonType.Exception, timestep));
-
-            //Close the model
-            if(resetModelBetweenRuns)
-                adapter.Execute(new Close { SaveBeforeClose = false });
-
-            //Clear events
-            Engine.Reflection.Compute.ClearCurrentEvents();
-
-            return success;
-        }
-
+        
         /***************************************************/
-
-
 
     }
 }
