@@ -111,12 +111,10 @@
   <ItemGroup>
     <Compile Include="Compute\Compare.cs" />
     <Compile Include="Compute\ComputePushPullCompareDifferences.cs" />
-    <Compile Include="Compute\DispatchResultDifferences.cs" />
     <Compile Include="Compute\PushPullCompare.cs" />
     <Compile Include="Convert\ToEventMessage.cs" />
     <Compile Include="Objects\EqualityComparers\AdapterIdComparer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Compute\ComputeInputOutputComparisonDiffings.cs" />
     <Compile Include="Query\Comparer.cs" />
     <Compile Include="Query\ExceptionProperties.cs" />
     <Compile Include="Query\HasMatchingIds.cs" />
