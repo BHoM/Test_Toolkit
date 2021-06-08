@@ -53,7 +53,7 @@ namespace BH.Engine.Test.Interoperability
                 Description = "PushPullCompare difference",
                 Message = $"No reference results could be found for {result.ID}",
                 ID = result.ID,
-                Status = oM.Test.TestStatus.Error,
+                Status = oM.Test.TestStatus.Warning,
                 Information = result.NonEventMessageInformation().Select(x => INoReferenceFound(x)).Where(x => x != null).ToList()
             };
         }
