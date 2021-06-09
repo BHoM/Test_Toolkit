@@ -73,6 +73,26 @@ namespace BH.Engine.Test.Interoperability
             else
                 fullResult.Message = "Some differences have either been removed or probably improved. The change is probably for the better but needs to be validated.";
 
+            var properties = fullResult.ExceptionProperties(true, true);
+
+            fullResult.Message += Environment.NewLine + "Error properties: ";
+
+            foreach (string errorProp in properties.Item1)
+            {
+                fullResult.Message += errorProp + ", ";
+            }
+
+            fullResult.Message = fullResult.Message.TrimEnd(' ', ',');
+
+            fullResult.Message += Environment.NewLine + "Warning properties: ";
+
+            foreach (string errorProp in properties.Item2)
+            {
+                fullResult.Message += errorProp + ", ";
+            }
+
+            fullResult.Message = fullResult.Message.TrimEnd(' ', ',');
+
             return fullResult;
 
         }
