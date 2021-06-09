@@ -42,7 +42,9 @@ namespace BH.Engine.Test.Interoperability
 
         [Description("Collects all PushPullObjectComparison for the list of TestResults and gives back a summary in terms of how many times each property shows up in the result set.")]
         [Input("pushPullCompareResults", "List of TestResults containing PushPullObjectComparison to evaluate.")]
-        [Input("onlyLastProperty", "Only group by the last property key.")]
+        [Input("onlyLastProperty", "Only group by the last property key. This is, only the name of the final property failing, excluding any initial property.\n" +
+               "As an example this would be StartNode.Position vs Position for the Positional point of the start Node of a Bar.")]
+        [Input("ignoreListIndex", "Igonores the list index position of a Property. if true the will return Nodes rather than for example Nodes[4] for list properties.")]
         [Input("igoneProperties", "Any properties containing any of the strings in this list will be omitted from the summary.")]
         [MultiOutput(0, "propertyType", "The type of proeprty evaluated.")]
         [MultiOutput(1, "occurances", "Number of occurances of the difference showing up.")]
@@ -50,7 +52,7 @@ namespace BH.Engine.Test.Interoperability
         [MultiOutput(3, "maximumDifference", "Maximum difference between pushed and pulled item. Difference given as a ratio of the difference between input and output divided by the input. Only available for numeric properties.")]
         [MultiOutput(4, "maxDiffPushedValue", "Value of the pushed item for the ")]
         [MultiOutput(5, "maxDiffPulledValue", "Maximum difference between pushed and pulled item. Only available for numeric properties.")]
-        public static Output<List<string>, List<int>, List<double>, List<double>, List<object>, List<object>> DifferenceSummary(this List<TestResult> pushPullCompareResults, bool onlyLastProperty = false, List<string> igoneProperties = null)
+        public static Output<List<string>, List<int>, List<double>, List<double>, List<object>, List<object>> DifferenceSummary(this List<TestResult> pushPullCompareResults, bool onlyLastProperty = false, bool ignoreListIndex = false, List<string> igoneProperties = null)
         {
             List<PushPullObjectComparison> diffrences = pushPullCompareResults.SelectMany(x => x.TestInformationOfType<PushPullObjectComparison>(true)).ToList();
             diffrences = diffrences.Where(x => KeepResult(x, igoneProperties)).ToList();
@@ -62,7 +64,7 @@ namespace BH.Engine.Test.Interoperability
             List<object> maximumDifferencePushedValue = new List<object>();
             List<object> maximumDifferencePulledValue = new List<object>();
 
-            foreach (var group in diffrences.GroupBy(x => PropertiesGroupingKey(x.PropertyId, onlyLastProperty)))
+            foreach (var group in diffrences.GroupBy(x => PropertyGroupingIdKey(x.PropertyId, onlyLastProperty, ignoreListIndex)))
             {
                 string prop = group.Key;
                 int count = group.Count();
@@ -108,18 +110,6 @@ namespace BH.Engine.Test.Interoperability
                 return Math.Abs(input - output) / output;
 
             return Math.Abs(input - output) / input;
-        }
-
-        /***************************************************/
-
-        private static string PropertiesGroupingKey(string propertyId, bool onlyLastProperty)
-        {
-            if (onlyLastProperty)
-            {
-                return propertyId.Split('.').Last();
-            }
-            else
-                return propertyId;
         }
 
         /***************************************************/

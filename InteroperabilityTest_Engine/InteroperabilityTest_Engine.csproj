@@ -123,6 +123,7 @@
     <Compile Include="Query\NonEventMessageInformation.cs" />
     <Compile Include="Query\NoReferenceFound.cs" />
     <Compile Include="Query\OnlyReferenceFound.cs" />
+    <Compile Include="Query\PropertyGroupingIdKey.cs" />
     <Compile Include="Query\TestDataOfType.cs" />
     <Compile Include="Query\TestSummary.cs" />
   </ItemGroup>
