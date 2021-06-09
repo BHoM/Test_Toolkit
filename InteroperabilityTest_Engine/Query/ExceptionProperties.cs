@@ -41,20 +41,26 @@ namespace BH.Engine.Test.Interoperability
         /**** Public Methods                            ****/
         /***************************************************/
 
-        [Description("")]
-        [Input("", "")]
+        [Description("Finds all properties reported and dispatches to output corresponding to error, warning and passes.")]
+        [Input("pushPullCompareDiffingResults", "Test result from diffing on a PushPullCOmpare result compared to a reference set.")]
+        [Input("onlyLastProperty", "Only group by the last property key. This is, only the name of the final property failing, excluding any initial property.\n" +
+               "As an example this would be StartNode.Position vs Position for the Positional point of the start Node of a Bar.")]
+        [Input("ignoreListIndex", "Igonores the list index position of a Property. if true the will return Nodes rather than for example Nodes[4] for list properties.")]
         [MultiOutput(0, "errors", "The properties that show up as errors in the test.")]
         [MultiOutput(1, "warnings", "The properties that show up as warnings in the test.")]
         [MultiOutput(2, "passes", "The properties that show up as passes in the test.")]
-        public static Output<List<string>, List<string>, List<string>> ExceptionProperties(TestResult pushPullCompareDiffingResults, bool onlyLastProperty = false)
+        public static Output<List<string>, List<string>, List<string>> ExceptionProperties(this TestResult pushPullCompareDiffingResults, bool onlyLastProperty = false, bool ignoreListIndex = false)
         {
+            if (pushPullCompareDiffingResults == null)
+                return new Output<List<string>, List<string>, List<string>>();
+
             List<ComparisonDifference> diffrences = pushPullCompareDiffingResults.TestInformationOfType<ComparisonDifference>(true);
 
             List<string> errors = new List<string>();
             List<string> warnings = new List<string>();
             List<string> passes = new List<string>();
 
-            foreach (var group in diffrences.GroupBy(x => ExceptionPropertiesGroupingKey(x.Property, onlyLastProperty)))
+            foreach (var group in diffrences.GroupBy(x => PropertyGroupingIdKey(x.Property, onlyLastProperty, ignoreListIndex)))
             {
                 TestStatus status = group.MostSevereStatus();
 
