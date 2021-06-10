@@ -1,4 +1,4 @@
-/*
+﻿/*
  * This file is part of the Buildings and Habitats object Model (BHoM)
  * Copyright (c) 2015 - 2021, the respective contributors. All rights reserved.
  *
@@ -41,68 +41,32 @@ namespace BH.Engine.Test
         /**** Public Methods                            ****/
         /***************************************************/
 
-        public static bool IsEqual(this object a, object b)
-        {
-            if (a == null || b == null)
-                return a == b;
-
-            if (a.GetType() != b.GetType())
-                return false;
-
-            return m_EqualityComparer.Compare(a, b).AreEqual;
-        }
-
-        /***************************************************/
-
-        [Description("Checks two objects for equality property by property and returns the differences")]
+        [Description("Checks two BHoMObjects property by property and returns the differences")]
         [Input("config", "Config to be used for the comparison. Can set numeric tolerance, wheter to check the guid, if custom data should be ignored and if any additional properties should be ignored")]
-        [MultiOutput(0, "IsEqual", "Returns true if the two items are deemed to be equal")]
-        [MultiOutput(1, "DiffProperty", "List of the names of the properties found to be different")]
-        [MultiOutput(2, "Obj1DiffValue", "List of the values deemed different for object 1")]
-        [MultiOutput(3, "Obj2DiffValue", "List of the values deemed different for object 2")]
-        public static Output<bool, List<string>, List<string>, List<string>> IsEqual(this object obj1, object obj2, BH.oM.Base.ComparisonConfig config = null)
+        [Output("Dictionary whose key is the name of the property, and value is a tuple with its value in obj1 and obj2.")]
+        public static Dictionary<string, Tuple<object, object>> DifferentProperties(this IBHoMObject obj1, IBHoMObject obj2, BH.oM.Base.ComparisonConfig config = null)
         {
+            var dict = new Dictionary<string, Tuple<object, object>>();
+
             //Use default config if null
-            config = config ?? new oM.Base.ComparisonConfig();
+            config = config ?? new BH.oM.Base.ComparisonConfig();
 
             CompareLogic comparer = new CompareLogic();
+
             comparer.Config.MaxDifferences = 1000;
             comparer.Config.MembersToIgnore = config.PropertyExceptions;
             comparer.Config.DoublePrecision = config.NumericTolerance;
             comparer.Config.TypesToIgnore = config.TypeExceptions;
 
-            Output<bool, List<string>, List<string>, List<string>> output = new Output<bool, List<string>, List<string>, List<string>>
-            {
-                Item1 = false,
-                Item2 = new List<string>(),
-                Item3 = new List<string>(),
-                Item4 = new List<string>()
-            };
+            ComparisonResult result = comparer.Compare(obj1, obj2);
+            dict = result.Differences.ToDictionary(diff => diff.PropertyName, diff => new Tuple<object, object>(diff.Object1, diff.Object2));
 
-            if (obj1 == null || obj2 == null)
-                return output;
+            if (dict.Count == 0)
+                return null;
 
-            try
-            {
-                ComparisonResult result = comparer.Compare(obj1, obj2);
-                output.Item1 = result.AreEqual;
-                output.Item2 = result.Differences.Select(x => x.PropertyName).ToList();
-                output.Item3 = result.Differences.Select(x => x.Object1Value).ToList();
-                output.Item4 = result.Differences.Select(x => x.Object2Value).ToList();
-            }
-            catch (Exception e)
-            {
-                Engine.Reflection.Compute.RecordError($"Comparison between {obj1.IToText()} and {obj2.IToText()} failed:\n{e.Message}");
-            }
-
-            return output;
+            return dict;
         }
 
-        /***************************************************/
-        /**** Private Static Fields                     ****/
-        /***************************************************/
-
-        private static CompareLogic m_EqualityComparer = new CompareLogic();
 
         /***************************************************/
     }
