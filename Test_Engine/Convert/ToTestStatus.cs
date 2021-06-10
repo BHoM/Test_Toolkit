@@ -30,15 +30,15 @@ using BH.oM.Test;
 
 namespace BH.Engine.Test
 {
-    public static partial class Create
+    public static partial class Convert
     {
         /***************************************************/
         /**** Public Methods                            ****/
         /***************************************************/
 
         [Description("Convert a debugging event type into a test status.")]
-        [Input("eventType", "Debugging event type to convert")]
-        [Output("status", "resulting test status.")]
+        [Input("eventType", "Debugging event type to convert.")]
+        [Output("status", "Resulting test status.")]
         public static TestStatus ToTestStatus(this EventType eventType)
         {
             switch (eventType)
