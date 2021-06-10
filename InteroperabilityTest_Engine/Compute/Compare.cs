@@ -307,7 +307,7 @@ namespace BH.Engine.Test.Interoperability
 
         private static oM.Test.ITestInformation GetSameIdInformation(this IEnumerable<oM.Test.ITestInformation> infoList, oM.Test.ITestInformation toFind)
         {
-            return infoList.FirstOrDefault(x => x.IHasMatchingId(toFind));
+            return infoList.FirstOrDefault(x => x.IHasMatchingIds(toFind));
         }
 
         /***************************************************/
