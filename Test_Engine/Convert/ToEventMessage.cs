@@ -30,7 +30,7 @@ using BH.oM.Reflection.Debugging;
 
 namespace BH.Engine.Test
 {
-    public static partial class Create
+    public static partial class Convert
     {
         /***************************************************/
         /**** Public Methods                            ****/
@@ -38,7 +38,7 @@ namespace BH.Engine.Test
 
         [Description("Convert a debugging event into a test event message.")]
         [Input("debugEvent", "Debugging event to convert.")]
-        [Output("message", "resulting test event message.")]
+        [Output("message", "Resulting test event message.")]
         public static EventMessage ToEventMessage(this Event debugEvent)
         {
             if (debugEvent == null)
