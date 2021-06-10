@@ -69,6 +69,7 @@ namespace BH.Engine.Test
             comparer.Config.MaxDifferences = 1000;
             comparer.Config.MembersToIgnore = config.PropertyExceptions;
             comparer.Config.DoublePrecision = config.NumericTolerance;
+            comparer.Config.TypesToIgnore = config.TypeExceptions;
 
             Output<bool, List<string>, List<string>, List<string>> output = new Output<bool, List<string>, List<string>, List<string>>
             {
@@ -112,6 +113,7 @@ namespace BH.Engine.Test
             comparer.Config.MaxDifferences = 1000;
             comparer.Config.MembersToIgnore = config.PropertyExceptions;
             comparer.Config.DoublePrecision = config.NumericTolerance;
+            comparer.Config.TypesToIgnore = config.TypeExceptions;
 
             ComparisonResult result = comparer.Compare(obj1, obj2);
             dict = result.Differences.ToDictionary(diff => diff.PropertyName, diff => new Tuple<object, object>(diff.Object1, diff.Object2));
