@@ -48,11 +48,11 @@ namespace BH.Engine.Test.Interoperability
         /**** Public Methods                            ****/
         /***************************************************/
 
-        [Description("Tests Pushing objects of a specific type, then pulling them back and comparing the objects. Returns Results outlining if the objects pulled are identical to the pushed ones, and if not, what properties are different between the two")]
-        [Input("adapter", "The instance of the adapter to test for")]
-        [Input("type", "The type of object to test. This will use test sets in the Dataset library")]
+        [Description("Tests Pushing objects of a specific type, then pulling them back and comparing the objects. Returns Results outlining if the objects pulled are identical to the pushed ones, and if not, what properties are different between the two.")]
+        [Input("adapter", "The instance of the adapter to test for.")]
+        [Input("type", "The type of object to test. This will use test sets in the Dataset library.")]
         [Input("config", "Config for the test. Controls whether the adapter should be reset between runs and what comparer to use.")]
-        [Input("active", "Toggles whether to run the test")]
+        [Input("active", "Toggles whether to run the test.")]
         [MultiOutput(0, "diffingResults", "Diffing results outlining any differences found between the pushed and pulled objects.")]
         [MultiOutput(1, "adapterLog", "A list of any error or warning messages returned by the adapter in the process, as a dictionary sorted by name of the set.")]
         public static List<TestResult> PushPullCompare(BHoMAdapter adapter, Type type, PushPullCompareConfig config = null, bool active = false)
@@ -93,14 +93,14 @@ namespace BH.Engine.Test.Interoperability
 
         /***************************************************/
 
-        [Description("Tests Pushing objects, then pulling them back and comparing the objects. Returns Results outlining if the objects pulled are identical to the pushed ones, and if not, what properties are different between the two")]
-        [Input("adapter", "The instance of the adapter to test for")]
+        [Description("Tests Pushing objects, then pulling them back and comparing the objects. Returns Results outlining if the objects pulled are identical to the pushed ones, and if not, what properties are different between the two.")]
+        [Input("adapter", "The instance of the adapter to test for.")]
         [Input("testObjects", "The list of object to test.")]
         [Input("setName", "The name of the testset to obejcts belongs to.")]
         [Input("enforcedType", "If null, the testObjects will be grouped by type and a filter request of this type will be used to pull the obejcts back.\n" +
                                "If set, the objects will be checked if they can be assigned to the provided type. If not, the execution will stop, if yes, the obejcts will be pulled using a filter request with the provided type.")]
         [Input("config", "Config for the test. Controls whether the adapter should be reset between runs and what comparer to use.")]
-        [Input("active", "Toggles whether to run the test")]
+        [Input("active", "Toggles whether to run the test.")]
         [Output("testResult", "Diffing results outlining any differences found between the pushed and pulled objects.")]
         public static List<TestResult> PushPullCompare(BHoMAdapter adapter, List<IBHoMObject> testObjects, string setName = "", Type enforcedType = null, PushPullCompareConfig config = null, bool activate = false)
         {

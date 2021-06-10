@@ -42,7 +42,7 @@ namespace BH.Engine.Test.Interoperability
         [Input("a", "First TestResult to compare.")]
         [Input("b", "Second TestResult to compare.")]
         [Output("sameId", "Returns true if the two TestResult have the same ID.")]
-        public static bool HasMatchingId(this TestResult a, TestResult b)
+        public static bool HasMatchingIds(this TestResult a, TestResult b)
         {
             if (a == null || b == null)
                 return false;
@@ -56,7 +56,7 @@ namespace BH.Engine.Test.Interoperability
         [Input("a", "First PushPullObjectComparison to compare.")]
         [Input("b", "Second PushPullObjectComparison to compare.")]
         [Output("sameId", "Returns true if the two test informations have the same PropertyId.")]
-        public static bool HasMatchingId(this PushPullObjectComparison a, PushPullObjectComparison b)
+        public static bool HasMatchingIds(this PushPullObjectComparison a, PushPullObjectComparison b)
         {
             if (a == null || b == null)
                 return false;
@@ -72,19 +72,19 @@ namespace BH.Engine.Test.Interoperability
         [Input("a", "First test information to compare.")]
         [Input("b", "Second test information to compare.")]
         [Output("sameId", "Returns true if the two test informations have the same ID.")]
-        public static bool IHasMatchingId(this ITestInformation a, ITestInformation b)
+        public static bool IHasMatchingIds(this ITestInformation a, ITestInformation b)
         {
             if (a == null || b == null)
                 return false;
 
-            return HasMatchingId(a as dynamic, b as dynamic);
+            return HasMatchingIds(a as dynamic, b as dynamic);
         }
 
         /***************************************************/
         /**** Private Methods - Fallback                ****/
         /***************************************************/
 
-        private static bool HasMatchingId(this ITestInformation a, ITestInformation b)
+        private static bool HasMatchingIds(this ITestInformation a, ITestInformation b)
         {
             //Different types or class not supported for the method -> false
             return false;
