@@ -41,7 +41,7 @@ namespace BH.Engine.Test.Interoperability
                "As an example this would be StartNode.Position vs Position for the Positional point of the start Node of a Bar.")]
         [Input("ignoreListIndex", "Igonores the list index position of a Property. if true the will return Nodes rather than for example Nodes[4] for list properties.")]
         [Output("key", "Grouping key based on the property Id.")]
-        public static string PropertyGroupingIdKey(string propertyId, bool onlyLastProperty, bool ignoreListIndex)
+        public static string PropertyGroupingIdKey(this string propertyId, bool onlyLastProperty, bool ignoreListIndex)
         {
             if (propertyId == null)
                 return "";
