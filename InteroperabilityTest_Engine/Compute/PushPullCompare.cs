@@ -53,8 +53,7 @@ namespace BH.Engine.Test.Interoperability
         [Input("type", "The type of object to test. This will use test sets in the Dataset library.")]
         [Input("config", "Config for the test. Controls whether the adapter should be reset between runs and what comparer to use.")]
         [Input("active", "Toggles whether to run the test.")]
-        [MultiOutput(0, "diffingResults", "Diffing results outlining any differences found between the pushed and pulled objects.")]
-        [MultiOutput(1, "adapterLog", "A list of any error or warning messages returned by the adapter in the process, as a dictionary sorted by name of the set.")]
+        [Output("testResult", "Diffing results outlining any differences found between the pushed and pulled objects.")]
         public static List<TestResult> PushPullCompare(BHoMAdapter adapter, Type type, PushPullCompareConfig config = null, bool active = false)
         {
             if (!active)
@@ -102,9 +101,9 @@ namespace BH.Engine.Test.Interoperability
         [Input("config", "Config for the test. Controls whether the adapter should be reset between runs and what comparer to use.")]
         [Input("active", "Toggles whether to run the test.")]
         [Output("testResult", "Diffing results outlining any differences found between the pushed and pulled objects.")]
-        public static List<TestResult> PushPullCompare(BHoMAdapter adapter, List<IBHoMObject> testObjects, string setName = "", Type enforcedType = null, PushPullCompareConfig config = null, bool activate = false)
+        public static List<TestResult> PushPullCompare(BHoMAdapter adapter, List<IBHoMObject> testObjects, string setName = "", Type enforcedType = null, PushPullCompareConfig config = null, bool active = false)
         {
-            if (!activate)
+            if (!active)
                 return new List<TestResult>();
 
             if (enforcedType != null && testObjects.Any(x => !enforcedType.IsAssignableFrom(x.GetType())))
