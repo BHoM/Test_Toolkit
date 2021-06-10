@@ -37,7 +37,7 @@ namespace BH.Engine.Test
         /***************************************************/
 
         [Description("Convert a debugging event into a test event message.")]
-        [Input("debugEvent", "Debugging event to convert")]
+        [Input("debugEvent", "Debugging event to convert.")]
         [Output("message", "resulting test event message.")]
         public static EventMessage ToEventMessage(this Event debugEvent)
         {
