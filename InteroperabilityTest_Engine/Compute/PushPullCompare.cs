@@ -142,7 +142,6 @@ namespace BH.Engine.Test.Interoperability
 
         private static TestResult RunOneSet(BHoMAdapter adapter, string setName, List<IBHoMObject> objects, IRequest request, IEqualityComparer<IBHoMObject> comparer, bool resetModelBetweenRuns)
         {
-
             if (adapter == null)
             {
                 return new TestResult { Description = "PushPullCompare", Message = "Adapter is null, could not preform test", Status = oM.Test.TestStatus.Error };
@@ -152,12 +151,8 @@ namespace BH.Engine.Test.Interoperability
 
             bool success = true;
 
-            //Calcualte timestamp
-            double timestep = DateTime.UtcNow.ToOADate();
-
             //CalculateObjectHashes
-            objects = objects.Select(x => x.GetShallowClone()).ToList();
-            objects.ForEach(x => x.CustomData["PushPull_Hash"] = x.Hash());
+            objects = objects.SetHashFragment();
 
             //Start up an empty model
             if (resetModelBetweenRuns)
@@ -168,7 +163,7 @@ namespace BH.Engine.Test.Interoperability
 
             BH.oM.Base.ComparisonConfig config = new BH.oM.Base.ComparisonConfig();
             config.PropertyExceptions.Add("CustomData");
-            config.PropertyExceptions.Add("Fragments");
+            config.TypeExceptions.Add(typeof(HashFragment));
 
             //Push objects
             try
@@ -216,8 +211,6 @@ namespace BH.Engine.Test.Interoperability
             //Compare pushed and pulled objects
             VennDiagram<IBHoMObject> diagram = Engine.Data.Create.VennDiagram(pushedObjects, pulledObjects, comparer);
 
-            //Check that all pushed objects found a match in pulled obejcts
-            //result.PullSuccess = diagram.OnlySet1.Count == 0;
 
             foreach (Tuple<IBHoMObject, IBHoMObject> pair in diagram.Intersection)
             {
@@ -252,7 +245,7 @@ namespace BH.Engine.Test.Interoperability
             return new TestResult
             {
                 Description = $"Test object of type {obj.GetType().Name} with name {obj.Name}",
-                ID = obj.CustomData["PushPull_Hash"].ToString(),
+                ID = obj.Hash(null, true),
             };
         }
 
