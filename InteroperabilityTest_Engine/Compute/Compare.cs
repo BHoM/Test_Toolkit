@@ -61,11 +61,12 @@ namespace BH.Engine.Test.Interoperability
                 {
                     //If of type Warning, check the inner results
                     List<oM.Test.ITestInformation> referenceInformation = refResult.NonEventMessageInformation();
+                    List<oM.Test.ITestInformation> referenceInformationNoMatch = referenceInformation.ToList();
 
                     foreach (oM.Test.ITestInformation innerInformation in result.NonEventMessageInformation())
                     {
                         //Find matching reference data
-                        oM.Test.ITestInformation reference = referenceInformation.GetSameIdInformation(innerInformation);
+                        oM.Test.ITestInformation reference = referenceInformation.IGetSameIdInformation(innerInformation);
 
                         //Compare the inner test information
                         oM.Test.ITestInformation comparisonResult = ICompare(innerInformation, reference);
@@ -73,10 +74,10 @@ namespace BH.Engine.Test.Interoperability
                             diffResult.Information.Add(comparisonResult);
 
                         if (reference != null)
-                            referenceInformation.Remove(reference);
+                            referenceInformationNoMatch.Remove(reference);
                     }
 
-                    foreach (oM.Test.ITestInformation refInfo in referenceInformation)
+                    foreach (oM.Test.ITestInformation refInfo in referenceInformationNoMatch)
                     {
                         diffResult.Information.Add(refInfo.IOnlyReferenceFound());
                     }
@@ -190,6 +191,45 @@ namespace BH.Engine.Test.Interoperability
             {
                 //No avilable reference
                 return result.NoReferenceFound();
+            }
+            else if (result.PropertyId != reference.PropertyId)
+            {
+                if (result.PropertyId.Contains(reference.PropertyId))
+                {
+                    //Results property Id is a subpart of the reference. This mean the new result is closer to the original pushed object
+                    return new ComparisonDifference
+                    {
+                        Message = "Run item is showing a difference of an inner property of an object that was previously showing difference on a higher level object. This is likely an improvement, but needs to be validated!",
+                        Status = oM.Test.TestStatus.Warning,
+                        Property = result.PropertyId,
+                        RunValue = result.ReturnedItem,
+                        ReferenceValue = reference.PropertyId
+                    };
+                }
+                else if (reference.PropertyId.Contains(result.PropertyId))
+                {
+                    //Opposite of the above. The reference is showing a difference on a innermore proeprty than the just run data.
+                    //This generally should mean a worsening of the covert situation.
+                    return new ComparisonDifference
+                    {
+                        Message = "Run item is showing a difference on an outermore propert compared to the referece. This probably mean a convert has been made worse!",
+                        Status = oM.Test.TestStatus.Error,
+                        Property = result.PropertyId,
+                        RunValue = result.ReturnedItem,
+                        ReferenceValue = reference.PropertyId
+                    };
+                }
+                else
+                {
+                    return new ComparisonDifference
+                    {
+                        Message = "Unable to compare results as properties are different!",
+                        Status = oM.Test.TestStatus.Error,
+                        Property = result.PropertyId,
+                        RunValue = result.ReturnedItem,
+                        ReferenceValue = reference.PropertyId
+                    };
+                }
             }
             else if (result.PushedItem != reference.PushedItem)
             {
@@ -305,11 +345,34 @@ namespace BH.Engine.Test.Interoperability
         /**** Private Methods                           ****/
         /***************************************************/
 
+        private static oM.Test.ITestInformation IGetSameIdInformation(this IEnumerable<oM.Test.ITestInformation> infoList, oM.Test.ITestInformation toFind)
+        {
+            return GetSameIdInformation(infoList as dynamic, toFind as dynamic);
+        }
+
+        /***************************************************/
+
         private static oM.Test.ITestInformation GetSameIdInformation(this IEnumerable<oM.Test.ITestInformation> infoList, oM.Test.ITestInformation toFind)
         {
             return infoList.FirstOrDefault(x => x.IHasMatchingIds(toFind));
         }
 
         /***************************************************/
+
+        private static oM.Test.ITestInformation GetSameIdInformation(this IEnumerable<oM.Test.ITestInformation> infoList, PushPullObjectComparison toFind)
+        {
+            //Find exact match
+            oM.Test.ITestInformation found = infoList.FirstOrDefault(x => x.IHasMatchingIds(toFind));
+
+            //If no exact match found, look for partial match
+            if (found == null)
+            {
+                found = infoList.OfType<PushPullObjectComparison>().FirstOrDefault(x => x.PropertyId.Contains(toFind.PropertyId) || toFind.PropertyId.Contains(x.PropertyId));
+            }
+            return found;
+        }
+
+        /***************************************************/
+
     }
 }
