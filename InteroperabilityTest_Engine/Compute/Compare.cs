@@ -111,6 +111,7 @@ namespace BH.Engine.Test.Interoperability
                             diffResult.Information.Add(info.INoReferenceFound());
                         }
                         diffResult.Message = "Object previously showing up as a pass is now showing warnings!";
+                        diffResult.Message += Environment.NewLine + diffResult.ExceptionProperties(true, true, oM.Test.TestStatus.Warning);
                         diffResult.Status = oM.Test.TestStatus.Error;
                         return diffResult;
                     }
@@ -135,6 +136,7 @@ namespace BH.Engine.Test.Interoperability
                             diffResult.Information.Add(info.INewResultAfterCrashFix());
                         }
                         diffResult.Message = "A crash has been fixed. New data shows difference that now needs to be validated!";
+                        diffResult.Message += Environment.NewLine + diffResult.ExceptionProperties(true, true, oM.Test.TestStatus.Warning);
                         diffResult.Status = oM.Test.TestStatus.Warning;
                         return diffResult;
                     }
@@ -166,11 +168,15 @@ namespace BH.Engine.Test.Interoperability
             diffResult.Status = diffResult.Information.MostSevereStatus();
 
             if (diffResult.Status == oM.Test.TestStatus.Error)
+            {
                 diffResult.Message = "Differences have been introduced, made worse or have changed.";
+            }
             else if (diffResult.Status == oM.Test.TestStatus.Pass)
                 diffResult.Message = "No new differences have been introduced.";
             else
                 diffResult.Message = "Some differences have either been removed or probably improved. The change is probably for the better but needs to be validated.";
+
+            diffResult.Message += Environment.NewLine + diffResult.ExceptionProperties(true, true, oM.Test.TestStatus.Warning);
 
             return diffResult;
         }
