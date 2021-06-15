@@ -82,6 +82,72 @@ namespace BH.Engine.Test.Interoperability
         }
 
         /***************************************************/
+
+        [Description("Finds all properties reported and groups them by status level and returns a string containing all reported properties.")]
+        [Input("pushPullCompareDiffingResults", "Test result from diffing on a PushPullCOmpare result compared to a reference set.")]
+        [Input("onlyLastProperty", "Only group by the last property key. This is, only the name of the final property failing, excluding any initial property.\n" +
+               "As an example this would be StartNode.Position vs Position for the Positional point of the start Node of a Bar.")]
+        [Input("ignoreListIndex", "Igonores the list index position of a Property. if true the will return Nodes rather than for example Nodes[4] for list properties.")]
+        [Input("minimumStatus", "Minimum status for inclusion. If Pass includes all, if warning includes Warnings and Error, if Error only includes Error.")]
+        [Output("properties", "Text outlining which properties are reported as errors, warnings and passing.")]
+        public static string ExceptionProperties(this TestResult pushPullCompareDiffingResults, bool onlyLastProperty = false, bool ignoreListIndex = false, TestStatus minimumStatus = TestStatus.Pass)
+        {
+            var properties = pushPullCompareDiffingResults.ExceptionProperties(true, true);
+
+            string message = "";
+
+            if (properties.Item1.Count != 0)
+            {
+                message = "Error properties: ";
+
+                foreach (string errorProp in properties.Item1)
+                {
+                    message += errorProp + ", ";
+                }
+
+                message = message.TrimEnd(' ', ',');
+            }
+
+            if (minimumStatus == TestStatus.Error)
+                return message;
+
+            if (properties.Item2.Count != 0)
+            {
+                if (!string.IsNullOrWhiteSpace(message))
+                    message += Environment.NewLine;
+
+                message += "Warning properties: ";
+
+                foreach (string errorProp in properties.Item2)
+                {
+                    message += errorProp + ", ";
+                }
+
+                message = message.TrimEnd(' ', ',');
+            }
+
+            if (minimumStatus == TestStatus.Warning)
+                return message;
+
+            if (properties.Item3.Count != 0)
+            {
+                if (!string.IsNullOrWhiteSpace(message))
+                    message += Environment.NewLine;
+
+                message += "Passing properties: ";
+
+                foreach (string errorProp in properties.Item3)
+                {
+                    message += errorProp + ", ";
+                }
+
+                message = message.TrimEnd(' ', ',');
+            }
+
+            return message;
+        }
+
+        /***************************************************/
         /**** Private Methods                           ****/
         /***************************************************/
 
