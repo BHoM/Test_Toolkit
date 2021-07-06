@@ -51,7 +51,7 @@ namespace BH.Engine.Test
             {
                 if (!typeof(T).IsAssignableFrom(type))
                 {
-                    Engine.Reflection.Compute.RecordError($"Type {type.ToString()} is not assignable to {typeof(T).ToString()}. Can no extract inner results.");
+                    Engine.Reflection.Compute.RecordError($"Type {type.ToString()} is not assignable to {typeof(T).ToString()}. Cannot extract inner results.");
                     return null;
                 }
                 //if T is different than the provided type

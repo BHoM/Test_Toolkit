@@ -43,22 +43,22 @@ namespace BH.Engine.Test.Interoperability
         [Description("Collects all PushPullObjectComparison for the list of TestResults and gives back a summary in terms of how many times each property shows up in the result set.")]
         [Input("pushPullCompareResults", "List of TestResults containing PushPullObjectComparison to evaluate.")]
         [Input("onlyLastProperty", "Only group by the last property key. This is, only the name of the final property failing, excluding any initial property.\n" +
-               "As an example this would be StartNode.Position vs Position for the Positional point of the start Node of a Bar.")]
-        [Input("ignoreListIndex", "Igonores the list index position of a Property. if true the will return Nodes rather than for example Nodes[4] for list properties.")]
-        [Input("igoneProperties", "Any properties containing any of the strings in this list will be omitted from the summary.")]
-        [MultiOutput(0, "propertyType", "The type of proeprty evaluated.")]
-        [MultiOutput(1, "occurances", "Number of occurances of the difference showing up.")]
-        [MultiOutput(2, "averageDifference", "Average difference between the pushed and pulled item. Difference given as a ratio of the difference between input and output divided by the input. Only available for number properties.")]
-        [MultiOutput(3, "maximumDifference", "Maximum difference between pushed and pulled item. Difference given as a ratio of the difference between input and output divided by the input. Only available for numeric properties.")]
+               "As an example this would be StartNode.Position vs Position for the position of the start Node of a Bar.")]
+        [Input("ignoreListIndex", "Ignores the list index position of a Property. if true the method will return Nodes rather than for example Nodes[4] for list properties.")]
+        [Input("ignoreProperties", "Any properties containing any of the strings in this list will be omitted from the summary.")]
+        [MultiOutput(0, "propertyType", "The type of property evaluated.")]
+        [MultiOutput(1, "occurrences", "Number of occurrences of the difference showing up.")]
+        [MultiOutput(2, "averageDifference", "Average difference between the pushed and pulled item. Difference given as a ratio of the difference between input and output divided by the input. Only available properties with a number type.")]
+        [MultiOutput(3, "maximumDifference", "Maximum difference between pushed and pulled item. Difference given as a ratio of the difference between input and output divided by the input. Only available for numerical properties.")]
         [MultiOutput(4, "maxDiffPushedValue", "Value of the pushed item for the ")]
-        [MultiOutput(5, "maxDiffPulledValue", "Maximum difference between pushed and pulled item. Only available for numeric properties.")]
-        public static Output<List<string>, List<int>, List<double>, List<double>, List<object>, List<object>> DifferenceSummary(this List<TestResult> pushPullCompareResults, bool onlyLastProperty = false, bool ignoreListIndex = false, List<string> igoneProperties = null)
+        [MultiOutput(5, "maxDiffPulledValue", "Maximum difference between pushed and pulled item. Only available for numerical properties.")]
+        public static Output<List<string>, List<int>, List<double>, List<double>, List<object>, List<object>> DifferenceSummary(this List<TestResult> pushPullCompareResults, bool onlyLastProperty = false, bool ignoreListIndex = false, List<string> ignoreProperties = null)
         {
-            List<PushPullObjectComparison> diffrences = pushPullCompareResults.SelectMany(x => x.TestInformationOfType<PushPullObjectComparison>(true)).ToList();
+            List<PushPullObjectComparison> differences = pushPullCompareResults.SelectMany(x => x.TestInformationOfType<PushPullObjectComparison>(true)).ToList();
             diffrences = diffrences.Where(x => KeepResult(x, igoneProperties)).ToList();
 
             List<string> propertyType = new List<string>();
-            List<int> occurances = new List<int>();
+            List<int> occurrences = new List<int>();
             List<double> averageDifference = new List<double>();
             List<double> maximumDifference = new List<double>();
             List<object> maximumDifferencePushedValue = new List<object>();

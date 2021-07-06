@@ -38,7 +38,7 @@ namespace BH.Engine.Test.Interoperability
 
         [Description("Gets all inner information from the result that is not null and not of type EventMessage. Used for recursive comparison between two TestResults.")]
         [Input("result", "The test result to fetch information from.")]
-        [Output("info", "The list of test information exculing EventMessages.")]
+        [Output("info", "The list of test information excluding EventMessages.")]
         public static List<oM.Test.ITestInformation> NonEventMessageInformation(this TestResult result)
         {
             return result.Information.Where(x => x != null && !(x is oM.Test.Results.EventMessage)).ToList();
