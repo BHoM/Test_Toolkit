@@ -39,7 +39,7 @@ namespace BH.Engine.Test.Interoperability
         /**** Public Methods                            ****/
         /***************************************************/
 
-        [Description("Compares two results sets against each other. DOes a deep comparison of inner Test information and returns a TestResult containing the details of the comparison.\n" + 
+        [Description("Compares two results sets against each other. Does a deep comparison of inner Test information and returns a TestResult containing the details of the comparison.\n" + 
                      "Method assumes the two TestResults to be matching, that is be pointing at the same reference set/Object ID.")]
         [Input("result", "Result from a test just run to be compared to a reference result.")]
         [Input("refResult", "Reference result to compare to.")]
@@ -183,7 +183,7 @@ namespace BH.Engine.Test.Interoperability
 
         /***************************************************/
 
-        [Description("Compares two rPushPullObjectComparison. Atempts to work out if a numerical difference is an improvement or not, comparing against the pushed data.\n" +
+        [Description("Compares two PushPullObjectComparison. Attempts to work out if a numerical difference is an improvement or not, comparing against the pushed data.\n" +
                      "Method assumes the two PushPullObjectComparison to be matching, that is be pointing at the same reference Object and PropertyID.")]
         [Input("result", "Result from a test just run to be compared to a reference result.")]
         [Input("reference", "Reference result to compare to.")]
@@ -214,11 +214,11 @@ namespace BH.Engine.Test.Interoperability
                 }
                 else if (reference.PropertyId.Contains(result.PropertyId))
                 {
-                    //Opposite of the above. The reference is showing a difference on a innermore proeprty than the just run data.
-                    //This generally should mean a worsening of the covert situation.
+                    //Opposite of the above. The reference is showing a difference on a inner more property than the just run data.
+                    //This generally should mean a worsening of the convert situation.
                     return new ComparisonDifference
                     {
-                        Message = "Run item is showing a difference on an outermore propert compared to the referece. This probably mean a convert has been made worse!",
+                        Message = "Run item is showing a difference on an outermore property compared to the reference. This probably mean a convert has been made worse!",
                         Status = oM.Test.TestStatus.Error,
                         Property = result.PropertyId,
                         RunValue = result.ReturnedItem,
