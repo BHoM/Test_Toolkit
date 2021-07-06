@@ -50,8 +50,8 @@ namespace BH.Engine.Test.Interoperability
         [MultiOutput(1, "occurrences", "Number of occurrences of the difference showing up.")]
         [MultiOutput(2, "averageDifference", "Average difference between the pushed and pulled item. Difference given as a ratio of the difference between input and output divided by the input. Only available properties with a number type.")]
         [MultiOutput(3, "maximumDifference", "Maximum difference between pushed and pulled item. Difference given as a ratio of the difference between input and output divided by the input. Only available for numerical properties.")]
-        [MultiOutput(4, "maxDiffPushedValue", "Value of the pushed item for the ")]
-        [MultiOutput(5, "maxDiffPulledValue", "Maximum difference between pushed and pulled item. Only available for numerical properties.")]
+        [MultiOutput(4, "maxDiffPushedValue", "Value of the pushed item for the maximum difference of the property. Only available for numerical properties.")]
+        [MultiOutput(5, "maxDiffPulledValue", "Value of the pulled item for the maximum difference of the property. Only available for numerical properties.")]
         public static Output<List<string>, List<int>, List<double>, List<double>, List<object>, List<object>> DifferenceSummary(this List<TestResult> pushPullCompareResults, bool onlyLastProperty = false, bool ignoreListIndex = false, List<string> ignoreProperties = null)
         {
             List<PushPullObjectComparison> differences = pushPullCompareResults.SelectMany(x => x.TestInformationOfType<PushPullObjectComparison>(true)).ToList();

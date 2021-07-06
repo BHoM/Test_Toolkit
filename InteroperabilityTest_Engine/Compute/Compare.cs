@@ -185,7 +185,7 @@ namespace BH.Engine.Test.Interoperability
 
         [Description("Compares two PushPullObjectComparison. Attempts to work out if a numerical difference is an improvement or not, comparing against the pushed data.\n" +
                      "Method assumes the two PushPullObjectComparison to be matching, that is be pointing at the same reference Object and PropertyID.")]
-        [Input("result", "Result from a test just run to be compared to a reference result.")]
+        [Input("result", "An inner PushPullObjectComparison from a test just run to be compared to a reference result.")]
         [Input("reference", "Reference result to compare to.")]
         [Output("result", "A ComparisonDifference containing information about the equality of the two input PushPullObjectComparison.")]
         public static ComparisonDifference Compare(PushPullObjectComparison result, PushPullObjectComparison reference)
@@ -330,8 +330,15 @@ namespace BH.Engine.Test.Interoperability
         /**** Public Methods - Interface                ****/
         /***************************************************/
 
+        [Description("Compares two TestInformation results against each other by dispatching to a comparison matching the type of the two obejcts. Types between the result and reference need to be an exact match.")]
+        [Input("result", "Result from a test just run to be compared to a reference result.")]
+        [Input("refResult", "Reference result to compare to. Needs to be of the same type as the provided result.")]
+        [Output("result", "A test result containing information about the equality of the two input TestInformations. Returned type will depend on provided type.")]
         public static oM.Test.ITestInformation ICompare(oM.Test.ITestInformation result, oM.Test.ITestInformation refResult)
         {
+            if (result == null)
+                return null;
+
             if (refResult == null)
                 return result.INoReferenceFound();
 
