@@ -55,7 +55,7 @@ namespace BH.Engine.Test.Interoperability
         public static Output<List<string>, List<int>, List<double>, List<double>, List<object>, List<object>> DifferenceSummary(this List<TestResult> pushPullCompareResults, bool onlyLastProperty = false, bool ignoreListIndex = false, List<string> ignoreProperties = null)
         {
             List<PushPullObjectComparison> differences = pushPullCompareResults.SelectMany(x => x.TestInformationOfType<PushPullObjectComparison>(true)).ToList();
-            diffrences = diffrences.Where(x => KeepResult(x, igoneProperties)).ToList();
+            differences = differences.Where(x => KeepResult(x, ignoreProperties)).ToList();
 
             List<string> propertyType = new List<string>();
             List<int> occurrences = new List<int>();
@@ -64,14 +64,14 @@ namespace BH.Engine.Test.Interoperability
             List<object> maximumDifferencePushedValue = new List<object>();
             List<object> maximumDifferencePulledValue = new List<object>();
 
-            foreach (var group in diffrences.GroupBy(x => PropertyGroupingIdKey(x.PropertyId, onlyLastProperty, ignoreListIndex)))
+            foreach (var group in differences.GroupBy(x => PropertyGroupingIdKey(x.PropertyId, onlyLastProperty, ignoreListIndex)))
             {
                 string prop = group.Key;
                 int count = group.Count();
 
                 List<double> diffVals = group.Select(x => PushPullValueDifference(x)).ToList();
                 propertyType.Add(prop);
-                occurances.Add(count);
+                occurrences.Add(count);
                 averageDifference.Add(diffVals.Average());
                 maximumDifference.Add(diffVals.Max());
 
@@ -84,7 +84,7 @@ namespace BH.Engine.Test.Interoperability
             return new Output<List<string>, List<int>, List<double>, List<double>, List<object>, List<object>>
             {
                 Item1 = propertyType,
-                Item2 = occurances,
+                Item2 = occurrences,
                 Item3 = averageDifference,
                 Item4 = maximumDifference,
                 Item5 = maximumDifferencePushedValue,

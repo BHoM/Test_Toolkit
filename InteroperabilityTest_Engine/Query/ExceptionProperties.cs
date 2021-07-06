@@ -60,7 +60,7 @@ namespace BH.Engine.Test.Interoperability
             List<string> warnings = new List<string>();
             List<string> passes = new List<string>();
 
-            foreach (var group in diffrences.GroupBy(x => PropertyGroupingIdKey(x.Property, onlyLastProperty, ignoreListIndex)))
+            foreach (var group in differences.GroupBy(x => PropertyGroupingIdKey(x.Property, onlyLastProperty, ignoreListIndex)))
             {
                 TestStatus status = group.MostSevereStatus();
 
