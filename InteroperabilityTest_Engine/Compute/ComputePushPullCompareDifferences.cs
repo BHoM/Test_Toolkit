@@ -25,6 +25,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.ComponentModel;
+using BH.oM.Reflection.Attributes;
 using BH.oM.Test.Results;
 using BH.oM.Test.Interoperability.Results;
 using BH.oM.UnitTest.Results;
@@ -38,6 +40,12 @@ namespace BH.Engine.Test.Interoperability
         /**** Public Methods                            ****/
         /***************************************************/
 
+        [Description("Compares two lists of TestResults with each other. Matches the TestResult items in the two lists by their ID property and then performs a full comparison between matches found.\n" +
+                     "Any results failed to match from both the setResults and the refResults are logged.\n" + 
+                     "Returns a single TestResult with the status of the newly run test compared to the reference.")]
+        [Input("setResults", "Results from a test just run to be compared to a reference result.")]
+        [Input("refResults", "Reference results to compare to.")]
+        [Output("result", "A single TestResult containing information about the equality or difference between the setResults and the refResults.")]
         public static TestResult ComputePushPullCompareDifferences(List<TestResult> setResults, List<TestResult> refResults)
         {
             TestResult fullResult = new TestResult { Description = "PushPullCompare difference" };
