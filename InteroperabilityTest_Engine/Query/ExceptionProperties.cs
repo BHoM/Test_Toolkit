@@ -42,10 +42,10 @@ namespace BH.Engine.Test.Interoperability
         /***************************************************/
 
         [Description("Finds all properties reported and dispatches to output corresponding to error, warning and passes.")]
-        [Input("pushPullCompareDiffingResults", "Test result from diffing on a PushPullCOmpare result compared to a reference set.")]
+        [Input("pushPullCompareDiffingResults", "Test result from diffing on a PushPullCompare result compared to a reference set.")]
         [Input("onlyLastProperty", "Only group by the last property key. This is, only the name of the final property failing, excluding any initial property.\n" +
                "As an example this would be StartNode.Position vs Position for the Positional point of the start Node of a Bar.")]
-        [Input("ignoreListIndex", "Igonores the list index position of a Property. if true the will return Nodes rather than for example Nodes[4] for list properties.")]
+        [Input("ignoreListIndex", "Ignores the list index position of a Property. if true the will return Nodes rather than for example Nodes[4] for list properties.")]
         [MultiOutput(0, "errors", "The properties that show up as errors in the test.")]
         [MultiOutput(1, "warnings", "The properties that show up as warnings in the test.")]
         [MultiOutput(2, "passes", "The properties that show up as passes in the test.")]
@@ -54,7 +54,7 @@ namespace BH.Engine.Test.Interoperability
             if (pushPullCompareDiffingResults == null)
                 return new Output<List<string>, List<string>, List<string>>();
 
-            List<ComparisonDifference> diffrences = pushPullCompareDiffingResults.TestInformationOfType<ComparisonDifference>(true);
+            List<ComparisonDifference> differences = pushPullCompareDiffingResults.TestInformationOfType<ComparisonDifference>(true);
 
             List<string> errors = new List<string>();
             List<string> warnings = new List<string>();
@@ -84,9 +84,9 @@ namespace BH.Engine.Test.Interoperability
         /***************************************************/
 
         [Description("Finds all properties reported and groups them by status level and returns a string containing all reported properties.")]
-        [Input("pushPullCompareDiffingResults", "Test result from diffing on a PushPullCOmpare result compared to a reference set.")]
+        [Input("pushPullCompareDiffingResults", "Test result from diffing on a PushPullCompare result compared to a reference set.")]
         [Input("onlyLastProperty", "Only group by the last property key. This is, only the name of the final property failing, excluding any initial property.\n" +
-               "As an example this would be StartNode.Position vs Position for the Positional point of the start Node of a Bar.")]
+               "As an example this would be StartNode.Position vs Position for the position of the start Node of a Bar.")]
         [Input("ignoreListIndex", "Igonores the list index position of a Property. if true the will return Nodes rather than for example Nodes[4] for list properties.")]
         [Input("minimumStatus", "Minimum status for inclusion. If Pass includes all, if warning includes Warnings and Error, if Error only includes Error.")]
         [Output("properties", "Text outlining which properties are reported as errors, warnings and passing.")]
