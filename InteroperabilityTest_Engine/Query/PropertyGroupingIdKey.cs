@@ -38,8 +38,8 @@ namespace BH.Engine.Test.Interoperability
         [Description("Creates a key for grouping based on the propertyId and options.")]
         [Input("propertyId", "The property id to generate a grouping key from.")]
         [Input("onlyLastProperty", "Only group by the last property key. This is, only the name of the final property failing, excluding any initial property.\n" +
-               "As an example this would be StartNode.Position vs Position for the Positional point of the start Node of a Bar.")]
-        [Input("ignoreListIndex", "Igonores the list index position of a Property. if true the will return Nodes rather than for example Nodes[4] for list properties.")]
+               "As an example this would be StartNode.Position vs Position for the point of the start Node of a Bar.")]
+        [Input("ignoreListIndex", "Ignores the list index position of a Property. if true the will return Nodes rather than for example Nodes[4] for list properties.")]
         [Output("key", "Grouping key based on the property Id.")]
         public static string PropertyGroupingIdKey(this string propertyId, bool onlyLastProperty, bool ignoreListIndex)
         {

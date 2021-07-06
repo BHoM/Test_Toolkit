@@ -230,9 +230,9 @@ namespace BH.Engine.Test.Interoperability
             if (setResult.Status == oM.Test.TestStatus.Error)
                 setResult.Message = "Errors where raised trying to run the test";
             else if (setResult.Status == oM.Test.TestStatus.Pass)
-                setResult.Message = "All objects where sucessfully pushed, pulled and compared without any differences.";
+                setResult.Message = "All objects were successfully pushed, pulled and compared without any differences.";
             else
-                setResult.Message = "All objects where sucessfully pushed and pulled, but some differences were found.";
+                setResult.Message = "All objects were successfully pushed and pulled, but some differences were found.";
 
             return setResult;
         }
@@ -309,5 +309,4 @@ namespace BH.Engine.Test.Interoperability
 
     }
 }
-
 
