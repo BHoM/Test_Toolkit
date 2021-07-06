@@ -41,7 +41,7 @@ namespace BH.Engine.Test
         /**** Public Methods                            ****/
         /***************************************************/
 
-        [Description("Checks two BHoMObjects property by property and returns the differences")]
+        [Description("Checks two BHoMObjects property by property and returns the differences.")]
         [Input("config", "Config to be used for the comparison. Can set numeric tolerance, whether to check the guid, if custom data should be ignored and if any additional properties should be ignored")]
         [Output("Dictionary whose key is the name of the property, and value is a tuple with its value in obj1 and obj2.")]
         public static Dictionary<string, Tuple<object, object>> DifferentProperties(this IBHoMObject obj1, IBHoMObject obj2, BH.oM.Base.ComparisonConfig config = null)
@@ -71,4 +71,3 @@ namespace BH.Engine.Test
         /***************************************************/
     }
 }
-
