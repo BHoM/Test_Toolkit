@@ -29,6 +29,7 @@ using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using BH.oM.Test;
 
 namespace BH.Engine.Test.CodeCompliance.Checks
 {
@@ -38,6 +39,7 @@ namespace BH.Engine.Test.CodeCompliance.Checks
         [Path(@"([A-Za-z0-9]+)_Engine\\.*\.cs$")]
         [Path(@"([a-zA-Z0-9]+)_Engine\\Objects\\.*\.cs$", false)]
         [ComplianceType("code")]
+        [ErrorLevel(TestStatus.Error)]
         public static Span EngineClassMatchesFilePath(this ClassDeclarationSyntax node)
         {
             if (node == null)

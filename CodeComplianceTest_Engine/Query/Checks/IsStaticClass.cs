@@ -28,6 +28,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using BH.oM.Test;
 
 namespace BH.Engine.Test.CodeCompliance.Checks
 {
@@ -38,6 +39,7 @@ namespace BH.Engine.Test.CodeCompliance.Checks
         [Path(@"([a-zA-Z0-9]+)_Engine\\.*\.cs$")]
         [Path(@"([a-zA-Z0-9]+)_Engine\\Objects\\.*\.cs$", false)]
         [ComplianceType("code")]
+        [ErrorLevel(TestStatus.Error)]
         public static Span IsStaticClass(this ClassDeclarationSyntax node)
         {
             return node == null || node.IsStatic() ? null : node.Modifiers.Span.ToSpan();

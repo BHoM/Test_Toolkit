@@ -29,6 +29,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using BH.oM.Test;
 
 namespace BH.Engine.Test.CodeCompliance.Checks
 {
@@ -39,6 +40,7 @@ namespace BH.Engine.Test.CodeCompliance.Checks
         [Path(@"([a-zA-Z0-9]+)_Engine\\Objects\\.*\.cs$", false)]
         [IsPublic(false)]
         [ComplianceType("code")]
+        [ErrorLevel(TestStatus.Error)]
         [Output("A span that represents where this error resides or null if there is no error")]
         public static Span IsPublicClass(this ClassDeclarationSyntax node)
         {
