@@ -38,7 +38,7 @@ namespace BH.Engine.Test.CodeCompliance.Checks
     public static partial class Query
     {
         [Message("Engine Method must contain a Description attribute", "HasDescriptionAttribute")]
-        [ErrorLevel(TestStatus.Warning)]
+        [ErrorLevel(TestStatus.Error)]
         [Path(@"([a-zA-Z0-9]+)_Engine\\.*\.cs$")]
         [Path(@"([a-zA-Z0-9]+)_Engine\\Objects\\.*\.cs$", false)]
         [IsPublic()]

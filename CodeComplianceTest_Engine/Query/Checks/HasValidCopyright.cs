@@ -28,6 +28,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using BH.oM.Test;
 
 namespace BH.Engine.Test.CodeCompliance.Checks
 {
@@ -35,6 +36,7 @@ namespace BH.Engine.Test.CodeCompliance.Checks
     {
         [Message("Copyright message is invalid", "HasValidCopyright")]
         [ComplianceType("copyright")]
+        [ErrorLevel(TestStatus.Error)]
         public static Span HasValidCopyright(this CompilationUnitSyntax node)
         {
             if (node == null)

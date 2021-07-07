@@ -28,6 +28,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using BH.oM.Test;
 
 namespace BH.Engine.Test.CodeCompliance.Checks
 {
@@ -38,6 +39,7 @@ namespace BH.Engine.Test.CodeCompliance.Checks
         [Path(@"([a-zA-Z0-9]+)_Adapter\\Convert\\.*\.cs$")]
         [IsPublic()]
         [ComplianceType("code")]
+        [ErrorLevel(TestStatus.Error)]
         public static Span IsValidConvertMethodName(this MethodDeclarationSyntax node)
         {
             if (node == null)
