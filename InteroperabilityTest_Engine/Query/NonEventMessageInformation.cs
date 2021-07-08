@@ -1,4 +1,4 @@
-/*
+﻿/*
  * This file is part of the Buildings and Habitats object Model (BHoM)
  * Copyright (c) 2015 - 2021, the respective contributors. All rights reserved.
  *
@@ -25,35 +25,25 @@ using System.Linq;
 using System.Collections.Generic;
 using System.ComponentModel;
 using BH.oM.Reflection.Attributes;
+using BH.oM.Base;
 using BH.oM.Test.Results;
-using BH.oM.Reflection.Debugging;
 
-namespace BH.Engine.Test
+namespace BH.Engine.Test.Interoperability
 {
-    public static partial class Convert
+    public static partial class Query
     {
         /***************************************************/
         /**** Public Methods                            ****/
         /***************************************************/
 
-        [Description("Convert a debugging event into a test event message.")]
-        [Input("debugEvent", "Debugging event to convert.")]
-        [Output("message", "Resulting test event message.")]
-        public static EventMessage ToEventMessage(this Event debugEvent)
+        [Description("Gets all inner information from the result that is not null and not of type EventMessage. Used for recursive comparison between two TestResults.")]
+        [Input("result", "The test result to fetch information from.")]
+        [Output("info", "The list of test information excluding EventMessages.")]
+        public static List<oM.Test.ITestInformation> NonEventMessageInformation(this TestResult result)
         {
-            if (debugEvent == null)
-                return null;
-
-            return new EventMessage
-            {
-                Message = debugEvent.Message,
-                Status = debugEvent.Type.ToTestStatus(),
-                StackTrace = debugEvent.StackTrace,
-                UTCTime = debugEvent.UtcTime
-            };
+            return result.Information.Where(x => x != null && !(x is oM.Test.Results.EventMessage)).ToList();
         }
 
         /***************************************************/
     }
 }
-

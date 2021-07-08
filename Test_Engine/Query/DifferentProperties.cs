@@ -1,4 +1,4 @@
-/*
+﻿/*
  * This file is part of the Buildings and Habitats object Model (BHoM)
  * Copyright (c) 2015 - 2021, the respective contributors. All rights reserved.
  *
@@ -21,39 +21,53 @@
  */
 
 using System;
-using System.Linq;
 using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using BH.oM.Reflection;
+using BH.oM.Base;
+using BH.oM.Diffing;
 using System.ComponentModel;
 using BH.oM.Reflection.Attributes;
-using BH.oM.Test.Results;
-using BH.oM.Reflection.Debugging;
+using KellermanSoftware.CompareNetObjects;
+using BH.Engine.Reflection;
 
 namespace BH.Engine.Test
 {
-    public static partial class Convert
+    public static partial class Query
     {
         /***************************************************/
         /**** Public Methods                            ****/
         /***************************************************/
 
-        [Description("Convert a debugging event into a test event message.")]
-        [Input("debugEvent", "Debugging event to convert.")]
-        [Output("message", "Resulting test event message.")]
-        public static EventMessage ToEventMessage(this Event debugEvent)
+        [Description("Checks two BHoMObjects property by property and returns the differences.")]
+        [Input("config", "Config to be used for the comparison. Can set numeric tolerance, whether to check the guid, if custom data should be ignored and if any additional properties should be ignored")]
+        [Output("Dictionary whose key is the name of the property, and value is a tuple with its value in obj1 and obj2.")]
+        public static Dictionary<string, Tuple<object, object>> DifferentProperties(this IBHoMObject obj1, IBHoMObject obj2, BH.oM.Base.ComparisonConfig config = null)
         {
-            if (debugEvent == null)
+            var dict = new Dictionary<string, Tuple<object, object>>();
+
+            //Use default config if null
+            config = config ?? new BH.oM.Base.ComparisonConfig();
+
+            CompareLogic comparer = new CompareLogic();
+
+            comparer.Config.MaxDifferences = 1000;
+            comparer.Config.MembersToIgnore = config.PropertyExceptions;
+            comparer.Config.DoublePrecision = config.NumericTolerance;
+            comparer.Config.TypesToIgnore = config.TypeExceptions;
+
+            ComparisonResult result = comparer.Compare(obj1, obj2);
+            dict = result.Differences.ToDictionary(diff => diff.PropertyName, diff => new Tuple<object, object>(diff.Object1, diff.Object2));
+
+            if (dict.Count == 0)
                 return null;
 
-            return new EventMessage
-            {
-                Message = debugEvent.Message,
-                Status = debugEvent.Type.ToTestStatus(),
-                StackTrace = debugEvent.StackTrace,
-                UTCTime = debugEvent.UtcTime
-            };
+            return dict;
         }
+
 
         /***************************************************/
     }
 }
-

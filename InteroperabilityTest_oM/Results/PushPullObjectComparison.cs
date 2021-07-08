@@ -1,4 +1,4 @@
-/*
+﻿/*
  * This file is part of the Buildings and Habitats object Model (BHoM)
  * Copyright (c) 2015 - 2021, the respective contributors. All rights reserved.
  *
@@ -21,39 +21,36 @@
  */
 
 using System;
-using System.Linq;
 using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using BH.oM.Test;
 using System.ComponentModel;
-using BH.oM.Reflection.Attributes;
-using BH.oM.Test.Results;
-using BH.oM.Reflection.Debugging;
 
-namespace BH.Engine.Test
+namespace BH.oM.Test.Interoperability.Results
 {
-    public static partial class Convert
+    public class PushPullObjectComparison : ITestInformation
     {
-        /***************************************************/
-        /**** Public Methods                            ****/
-        /***************************************************/
+        [Description("Message raised during the execution.")]
+        public virtual string Message { get; set; }
 
-        [Description("Convert a debugging event into a test event message.")]
-        [Input("debugEvent", "Debugging event to convert.")]
-        [Output("message", "Resulting test event message.")]
-        public static EventMessage ToEventMessage(this Event debugEvent)
-        {
-            if (debugEvent == null)
-                return null;
+        [Description("Severity of the message.")]
+        public virtual TestStatus Status { get; set; }
 
-            return new EventMessage
-            {
-                Message = debugEvent.Message,
-                Status = debugEvent.Type.ToTestStatus(),
-                StackTrace = debugEvent.StackTrace,
-                UTCTime = debugEvent.UtcTime
-            };
-        }
+        [Description("Provides the UTC time of when the Test Result was executed.")]
+        public virtual DateTime UTCTime { get; set; } = DateTime.UtcNow;
 
-        /***************************************************/
+        [Description("The type of the object being evaluated.")]
+        public virtual Type ObjectType { get; set; }
+
+        [Description("The name of the evaluated property. Empty if result type is Equal or Exception.")]
+        public virtual string PropertyId { get; set; }
+
+        [Description("The value of the property on input as a string. Empty if result type is Equal or Exception.")]
+        public virtual string PushedItem { get; set; }
+
+        [Description("The returned value of the property as a string. Empty if result type is Equal or Exception.")]
+        public virtual string ReturnedItem { get; set; }
     }
 }
-

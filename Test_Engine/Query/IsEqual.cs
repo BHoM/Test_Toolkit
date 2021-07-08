@@ -69,6 +69,7 @@ namespace BH.Engine.Test
             comparer.Config.MaxDifferences = 1000;
             comparer.Config.MembersToIgnore = config.PropertyExceptions;
             comparer.Config.DoublePrecision = config.NumericTolerance;
+            comparer.Config.TypesToIgnore = config.TypeExceptions;
 
             Output<bool, List<string>, List<string>, List<string>> output = new Output<bool, List<string>, List<string>, List<string>>
             {
@@ -96,32 +97,6 @@ namespace BH.Engine.Test
 
             return output;
         }
-
-        [Description("Checks two BHoMObjects property by property and returns the differences")]
-        [Input("config", "Config to be used for the comparison. Can set numeric tolerance, wheter to check the guid, if custom data should be ignored and if any additional properties should be ignored")]
-        [Output("Dictionary whose key is the name of the property, and value is a tuple with its value in obj1 and obj2.")]
-        public static Dictionary<string, Tuple<object, object>> DifferentProperties(this IBHoMObject obj1, IBHoMObject obj2, BH.oM.Base.ComparisonConfig config = null)
-        {
-            var dict = new Dictionary<string, Tuple<object, object>>();
-
-            //Use default config if null
-            config = config ?? new BH.oM.Base.ComparisonConfig();
-
-            CompareLogic comparer = new CompareLogic();
-
-            comparer.Config.MaxDifferences = 1000;
-            comparer.Config.MembersToIgnore = config.PropertyExceptions;
-            comparer.Config.DoublePrecision = config.NumericTolerance;
-
-            ComparisonResult result = comparer.Compare(obj1, obj2);
-            dict = result.Differences.ToDictionary(diff => diff.PropertyName, diff => new Tuple<object, object>(diff.Object1, diff.Object2));
-
-            if (dict.Count == 0)
-                return null;
-
-            return dict;
-        }
-
 
         /***************************************************/
         /**** Private Static Fields                     ****/
