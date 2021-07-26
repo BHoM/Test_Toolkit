@@ -163,7 +163,7 @@ namespace BH.Engine.Test.Interoperability
             double timestep = DateTime.UtcNow.ToOADate();
 
             //CalculateObjectHashes
-            objects = objects.Select(x => x.GetShallowClone()).ToList();
+            objects = objects.Select(x => x.ShallowClone()).ToList();
             objects.ForEach(x => x.CustomData["PushPull_Hash"] = x.Hash());
 
             //Start up an empty model
