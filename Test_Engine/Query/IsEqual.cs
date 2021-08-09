@@ -41,6 +41,7 @@ namespace BH.Engine.Test
         /**** Public Methods                            ****/
         /***************************************************/
 
+        [Description("Compares two objects and returns true if they are equal.")]
         public static bool IsEqual(this object a, object b)
         {
             if (a == null || b == null)

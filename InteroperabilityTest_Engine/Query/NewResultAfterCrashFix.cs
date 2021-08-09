@@ -85,7 +85,7 @@ namespace BH.Engine.Test.Interoperability
         /***************************************************/
 
         [Description("Gets a ITestInformation back that correspond to a situation where the reference data was showing a crash no longer present.\n" +
-                     "Used when comparing to TestResults against each other and information in the reference can not be found in the new data.\n")]
+                     "Used when comparing to TestResults against each other and information in the reference can not be found in the new data.")]
         [Input("result", "The ITestInformation no longer showing a crash.")]
         [Output("result", "A ITestInformation noting the fact that the reference was showing a crash while new results is not.")]
         public static ITestInformation INewResultAfterCrashFix(this ITestInformation result)

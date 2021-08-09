@@ -36,9 +36,10 @@ namespace BH.Engine.Test.Interoperability
         /**** Public Methods                            ****/
         /***************************************************/
 
-        [Description("")]
-        [Input("", "")]
-        [Output("", "")]
+        [Description("Gets the EqualityComparer to be used for comparing Pushed and Pulled obejcts based on the provided PushPullCompareConfig.")]
+        [Input("config", "PushPullCompareConfig used to determine which type of EqualityComparer that is to be used.")]
+        [Input("adapterIDFragmentType", "The type of IdFragment to be used if the comparer returned is of type AdapterIDComparer.")]
+        [Output("comparer", "The comparer to be used based on the provided PushPullCompareConfig.")]
         public static IEqualityComparer<IBHoMObject> Comparer(this PushPullCompareConfig config, Type adapterIDFragmentType)
         {
             if (config == null)

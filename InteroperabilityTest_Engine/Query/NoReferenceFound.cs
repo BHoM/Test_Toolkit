@@ -61,7 +61,7 @@ namespace BH.Engine.Test.Interoperability
         /***************************************************/
 
         [Description("Gets a ComparisonDifference back that correspond to no reference data was available that matches the result, which generally means that a difference has been introduced.\n" +
-                     "Used when comparing to TestResults against each other and information in the reference can not be found in the new data.\n")]
+                     "Used when comparing to TestResults against each other and information in the reference can not be found in the new data.")]
         [Input("result", "The PushPullObjectComparison for which no reference data could be found.")]
         [Output("result", "A ComparisonDifference noting the fact that the data was only found in the reference set and a difference probably has been introduced in the adapter code.")]
         public static ComparisonDifference NoReferenceFound(this PushPullObjectComparison result)
@@ -85,7 +85,7 @@ namespace BH.Engine.Test.Interoperability
         /***************************************************/
 
         [Description("Gets a ITestInformation back that correspond to no reference data was available that matching the result.\n" +
-                     "Used when comparing to TestResults against each other and information in the reference can not be found in the new data.\n")]
+                     "Used when comparing to TestResults against each other and information in the reference can not be found in the new data.")]
         [Input("result", "The ITestInformation for which no reference data could be found.")]
         [Output("result", "A ITestInformation noting the fact that the data was only found in the reference set.")]
         public static ITestInformation INoReferenceFound(this ITestInformation result)
