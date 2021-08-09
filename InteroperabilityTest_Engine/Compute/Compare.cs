@@ -99,7 +99,7 @@ namespace BH.Engine.Test.Interoperability
                     if (result.Status == oM.Test.TestStatus.Error)
                     {
                         //System is now crashing, was working before
-                        diffResult.Message = "An error has been introduced that was previously fully passing!";
+                        diffResult.Message = "An error has been introduced that did not exist previously.";
                         diffResult.Status = oM.Test.TestStatus.Error;
                         return diffResult;
                     }
@@ -110,7 +110,7 @@ namespace BH.Engine.Test.Interoperability
                         {
                             diffResult.Information.Add(info.INoReferenceFound());
                         }
-                        diffResult.Message = "Object previously showing up as a pass is now showing warnings!";
+                        diffResult.Message = "Warnings have been introduced with these changes.";
                         diffResult.Message += Environment.NewLine + diffResult.ExceptionProperties(true, true, oM.Test.TestStatus.Warning);
                         diffResult.Status = oM.Test.TestStatus.Error;
                         return diffResult;
@@ -122,20 +122,20 @@ namespace BH.Engine.Test.Interoperability
                     //Was previously crashing, is now returning equal
                     if (result.Status == oM.Test.TestStatus.Pass)
                     {
-                        diffResult.Message = "Reference data is showing an error while new data is showing a full pass!";
+                        diffResult.Message = "This test was failing and is now passing under test conditions with the latest changes.";
                         diffResult.Status = oM.Test.TestStatus.Pass;
                         return diffResult;
                     }
                     else if (result.Status == oM.Test.TestStatus.Warning)
                     {
-                        //Diffrences are now being flagged up that were not flagged before. Reason being the reference run contained crashes.
+                        //Differences are now being flagged up that were not flagged before. Reason being the reference run contained crashes.
                         //Differences still to be logged to be investigated, but this should generally be seen as an improvement
                         //New differences previously not present have been introduced
                         foreach (oM.Test.ITestInformation info in result.NonEventMessageInformation())
                         {
                             diffResult.Information.Add(info.INewResultAfterCrashFix());
                         }
-                        diffResult.Message = "A crash has been fixed. New data shows difference that now needs to be validated!";
+                        diffResult.Message = "A crash has been fixed. New data shows differences that need to be validated.";
                         diffResult.Message += Environment.NewLine + diffResult.ExceptionProperties(true, true, oM.Test.TestStatus.Warning);
                         diffResult.Status = oM.Test.TestStatus.Warning;
                         return diffResult;
@@ -145,7 +145,7 @@ namespace BH.Engine.Test.Interoperability
                 {
                     if (result.Status == oM.Test.TestStatus.Pass)
                     {
-                        diffResult.Message = "Reference data is showing warnings while new data is showing a full pass!";
+                        diffResult.Message = "This test previously had warnings which have now been resolved in the latest test.";
                         diffResult.Status = oM.Test.TestStatus.Pass;
 
                         //Differences have now been cleared out. Registered as improvement
@@ -157,20 +157,17 @@ namespace BH.Engine.Test.Interoperability
                     else if (result.Status == oM.Test.TestStatus.Error)
                     {
                         //System is now crashing, was working before
-                        diffResult.Message = "An error has been introduced that was previously only showing warnings!";
+                        diffResult.Message = "An error has been introduced where previously there were only warnings.";
                         diffResult.Status = oM.Test.TestStatus.Error;
                         return diffResult;
                     }
                 }
             }
 
-
             diffResult.Status = diffResult.Information.MostSevereStatus();
 
             if (diffResult.Status == oM.Test.TestStatus.Error)
-            {
                 diffResult.Message = "Differences have been introduced, made worse or have changed.";
-            }
             else if (diffResult.Status == oM.Test.TestStatus.Pass)
                 diffResult.Message = "No new differences have been introduced.";
             else
@@ -195,7 +192,7 @@ namespace BH.Engine.Test.Interoperability
 
             if (reference == null)
             {
-                //No avilable reference
+                //No available reference
                 return result.NoReferenceFound();
             }
             else if (result.PropertyId != reference.PropertyId)
@@ -218,7 +215,7 @@ namespace BH.Engine.Test.Interoperability
                     //This generally should mean a worsening of the convert situation.
                     return new ComparisonDifference
                     {
-                        Message = "Run item is showing a difference on an outermore property compared to the reference. This probably mean a convert has been made worse!",
+                        Message = "Run item is showing a difference on an outermore property compared to the reference. This possibly means a convert has been made worse.",
                         Status = oM.Test.TestStatus.Error,
                         Property = result.PropertyId,
                         RunValue = result.ReturnedItem,
@@ -229,7 +226,7 @@ namespace BH.Engine.Test.Interoperability
                 {
                     return new ComparisonDifference
                     {
-                        Message = "Unable to compare results as properties are different!",
+                        Message = "Unable to compare results as properties are different.",
                         Status = oM.Test.TestStatus.Error,
                         Property = result.PropertyId,
                         RunValue = result.ReturnedItem,

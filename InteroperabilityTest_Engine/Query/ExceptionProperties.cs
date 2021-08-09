@@ -154,9 +154,7 @@ namespace BH.Engine.Test.Interoperability
         private static string ExceptionPropertiesGroupingKey(string propertyId, bool onlyLastProperty)
         {
             if (onlyLastProperty)
-            {
                 return propertyId.Split('.').Last();
-            }
             else
                 return propertyId;
         }
