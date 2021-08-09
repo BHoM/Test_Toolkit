@@ -90,12 +90,12 @@ namespace BH.Engine.Test.Interoperability
                     return diffResult;
                 }
             }
-            //Result Status are different
             else
             {
-                //Reference is pass, current is not
+                //Result Status are different
                 if (refResult.Status == oM.Test.TestStatus.Pass)
                 {
+                    //Reference is pass, current is not
                     if (result.Status == oM.Test.TestStatus.Error)
                     {
                         //System is now crashing, was working before
@@ -116,12 +116,12 @@ namespace BH.Engine.Test.Interoperability
                         return diffResult;
                     }
                 }
-                //Reference is exception, current is not
                 else if (refResult.Status == oM.Test.TestStatus.Error)
                 {
-                    //Was previously crashing, is now returning equal
+                    //Reference is Error, current is not
                     if (result.Status == oM.Test.TestStatus.Pass)
                     {
+                        //Was previously crashing, is now returning Pass
                         diffResult.Message = "This test was failing and is now passing under test conditions with the latest changes.";
                         diffResult.Status = oM.Test.TestStatus.Pass;
                         return diffResult;
