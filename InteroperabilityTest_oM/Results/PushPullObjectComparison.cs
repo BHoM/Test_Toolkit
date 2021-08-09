@@ -45,7 +45,7 @@ namespace BH.oM.Test.Interoperability.Results
         public virtual Type ObjectType { get; set; }
 
         [Description("The name of the evaluated property. Empty if result type is Equal or Exception.")]
-        public virtual string PropertyId { get; set; }
+        public virtual string PropertyID { get; set; }
 
         [Description("The value of the property on input as a string. Empty if result type is Equal or Exception.")]
         public virtual string PushedItem { get; set; }

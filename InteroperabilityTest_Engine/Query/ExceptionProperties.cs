@@ -60,7 +60,7 @@ namespace BH.Engine.Test.Interoperability
             List<string> warnings = new List<string>();
             List<string> passes = new List<string>();
 
-            foreach (var group in differences.GroupBy(x => PropertyGroupingIdKey(x.Property, onlyLastProperty, ignoreListIndex)))
+            foreach (var group in differences.GroupBy(x => PropertyGroupingIDKey(x.Property, onlyLastProperty, ignoreListIndex)))
             {
                 TestStatus status = group.MostSevereStatus();
 
@@ -151,12 +151,12 @@ namespace BH.Engine.Test.Interoperability
         /**** Private Methods                           ****/
         /***************************************************/
 
-        private static string ExceptionPropertiesGroupingKey(string propertyId, bool onlyLastProperty)
+        private static string ExceptionPropertiesGroupingKey(string propertyID, bool onlyLastProperty)
         {
             if (onlyLastProperty)
-                return propertyId.Split('.').Last();
+                return propertyID.Split('.').Last();
             else
-                return propertyId;
+                return propertyID;
         }
 
         /***************************************************/

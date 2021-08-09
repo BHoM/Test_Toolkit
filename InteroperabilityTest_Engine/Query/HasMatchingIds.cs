@@ -41,8 +41,8 @@ namespace BH.Engine.Test.Interoperability
         [Description("Checks if the two TestResult has the same ID. Used for comparing two test results with each other.")]
         [Input("a", "First TestResult to compare.")]
         [Input("b", "Second TestResult to compare.")]
-        [Output("sameId", "Returns true if the two TestResult have the same ID.")]
-        public static bool HasMatchingIds(this TestResult a, TestResult b)
+        [Output("sameID", "Returns true if the two TestResult have the same ID.")]
+        public static bool HasMatchingIDs(this TestResult a, TestResult b)
         {
             if (a == null || b == null)
                 return false;
@@ -52,16 +52,16 @@ namespace BH.Engine.Test.Interoperability
 
         /***************************************************/
 
-        [Description("Checks if the two PushPullObjectComparison has the same PropertyId. Used for comparing two test results with each other.")]
+        [Description("Checks if the two PushPullObjectComparison has the same PropertyID. Used for comparing two test results with each other.")]
         [Input("a", "First PushPullObjectComparison to compare.")]
         [Input("b", "Second PushPullObjectComparison to compare.")]
-        [Output("sameId", "Returns true if the two test informations have the same PropertyId.")]
-        public static bool HasMatchingIds(this PushPullObjectComparison a, PushPullObjectComparison b)
+        [Output("sameID", "Returns true if the two test informations have the same PropertyID.")]
+        public static bool HasMatchingIDs(this PushPullObjectComparison a, PushPullObjectComparison b)
         {
             if (a == null || b == null)
                 return false;
 
-            return a.PropertyId == b.PropertyId;
+            return a.PropertyID == b.PropertyID;
         }
 
         /***************************************************/
@@ -71,20 +71,20 @@ namespace BH.Engine.Test.Interoperability
         [Description("Checks if the two test infonformations has the same ID. Type of ID used will depend on type. Used for comparing two test results with each other.")]
         [Input("a", "First test information to compare.")]
         [Input("b", "Second test information to compare.")]
-        [Output("sameId", "Returns true if the two test informations have the same ID.")]
-        public static bool IHasMatchingIds(this ITestInformation a, ITestInformation b)
+        [Output("sameID", "Returns true if the two test informations have the same ID.")]
+        public static bool IHasMatchingIDs(this ITestInformation a, ITestInformation b)
         {
             if (a == null || b == null)
                 return false;
 
-            return HasMatchingIds(a as dynamic, b as dynamic);
+            return HasMatchingIDs(a as dynamic, b as dynamic);
         }
 
         /***************************************************/
         /**** Private Methods - Fallback                ****/
         /***************************************************/
 
-        private static bool HasMatchingIds(this ITestInformation a, ITestInformation b)
+        private static bool HasMatchingIDs(this ITestInformation a, ITestInformation b)
         {
             //Different types or class not supported for the method -> false
             return false;
