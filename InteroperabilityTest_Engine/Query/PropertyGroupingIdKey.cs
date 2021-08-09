@@ -35,34 +35,34 @@ namespace BH.Engine.Test.Interoperability
         /**** Public Methods                            ****/
         /***************************************************/
 
-        [Description("Creates a key for grouping based on the propertyId and options.")]
-        [Input("propertyId", "The property id to generate a grouping key from.")]
+        [Description("Creates a key for grouping based on the propertyID and options.")]
+        [Input("propertyID", "The property ID to generate a grouping key from.")]
         [Input("onlyLastProperty", "Only group by the last property key. This is, only the name of the final property failing, excluding any initial property.\n" +
                "As an example this would be StartNode.Position vs Position for the point of the start Node of a Bar.")]
         [Input("ignoreListIndex", "Ignores the list index position of a Property. if true the will return Nodes rather than for example Nodes[4] for list properties.")]
-        [Output("key", "Grouping key based on the property Id.")]
-        public static string PropertyGroupingIdKey(this string propertyId, bool onlyLastProperty, bool ignoreListIndex)
+        [Output("key", "Grouping key based on the property ID.")]
+        public static string PropertyGroupingIDKey(this string propertyID, bool onlyLastProperty, bool ignoreListIndex)
         {
-            if (propertyId == null)
+            if (propertyID == null)
                 return "";
 
             if (onlyLastProperty)
-                propertyId = propertyId.Split('.').Last();
+                propertyID = propertyID.Split('.').Last();
 
             if (ignoreListIndex)
             {
-                int stIndex = propertyId.LastIndexOf('[');
-                int endIndex = propertyId.LastIndexOf(']');
+                int stIndex = propertyID.LastIndexOf('[');
+                int endIndex = propertyID.LastIndexOf(']');
 
                 while (stIndex != -1 && endIndex != -1)
                 {
-                    propertyId = propertyId.Remove(stIndex, endIndex - stIndex + 1);
-                    stIndex = propertyId.LastIndexOf('[');
-                    endIndex = propertyId.LastIndexOf(']');
+                    propertyID = propertyID.Remove(stIndex, endIndex - stIndex + 1);
+                    stIndex = propertyID.LastIndexOf('[');
+                    endIndex = propertyID.LastIndexOf(']');
                 }
 
             }
-            return propertyId;
+            return propertyID;
         }
 
         /***************************************************/

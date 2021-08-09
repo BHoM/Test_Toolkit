@@ -27,7 +27,7 @@ namespace BH.oM.Test.Interoperability
     [Description("Defines what type of comparer that should be used to match the pushed obejcts with the pulled objects.")]
     public enum ComparerType
     {
-        AdapterId,
+        AdapterID,
         Name
     }
 }

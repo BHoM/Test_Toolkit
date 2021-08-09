@@ -75,7 +75,7 @@ namespace BH.Engine.Test.Interoperability
             {
                 Message = "Difference now showing after previous crash.",
                 ReferenceValue = result.ReturnedItem,
-                Property = result.PropertyId,
+                Property = result.PropertyID,
                 Status = oM.Test.TestStatus.Warning
             };
         }

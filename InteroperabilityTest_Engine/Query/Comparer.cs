@@ -46,11 +46,11 @@ namespace BH.Engine.Test.Interoperability
 
             switch (config.ComparerType)
             {
-                case ComparerType.AdapterId:
+                case ComparerType.AdapterID:
                     if (adapterIDFragmentType == null)
                         return null;
 
-                    return new AdapterIdComparer(adapterIDFragmentType);
+                    return new AdapterIDComparer(adapterIDFragmentType);
                 case ComparerType.Name:
                     return new Base.Objects.BHoMObjectNameComparer();
                 default:

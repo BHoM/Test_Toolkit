@@ -35,7 +35,7 @@ namespace BH.oM.Test.Interoperability
         /**** Properties                                ****/
         /***************************************************/
 
-        public virtual ComparerType ComparerType { get; set; } = ComparerType.AdapterId;
+        public virtual ComparerType ComparerType { get; set; } = ComparerType.AdapterID;
 
         public virtual bool ResetModelBetweenPushes { get; set; } = true;
 

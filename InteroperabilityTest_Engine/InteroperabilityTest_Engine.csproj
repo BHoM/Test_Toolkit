@@ -109,7 +109,7 @@
     <Compile Include="Query\Comparer.cs" />
     <Compile Include="Query\DifferenceSummary.cs" />
     <Compile Include="Query\ExceptionProperties.cs" />
-    <Compile Include="Query\HasMatchingIds.cs" />
+    <Compile Include="Query\HasMatchingIDs.cs" />
     <Compile Include="Query\NewResultAfterCrashFix.cs" />
     <Compile Include="Query\NonEventMessageInformation.cs" />
     <Compile Include="Query\NoReferenceFound.cs" />

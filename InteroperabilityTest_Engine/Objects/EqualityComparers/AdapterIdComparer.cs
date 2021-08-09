@@ -29,15 +29,15 @@ using BH.Engine.Base;
 
 namespace BH.Engine.Test.Interoperability
 {
-    public class AdapterIdComparer : IEqualityComparer<IBHoMObject>
+    public class AdapterIDComparer : IEqualityComparer<IBHoMObject>
     {
         /***************************************************/
         /**** Constructors                              ****/
         /***************************************************/
 
-        public AdapterIdComparer(Type adapterIdFragmentType)
+        public AdapterIDComparer(Type adapterIdFragmentType)
         {
-            m_adapterIdFragmentType = adapterIdFragmentType;
+            m_adapterIDFragmentType = adapterIdFragmentType;
         }
 
         /***************************************************/
@@ -53,15 +53,15 @@ namespace BH.Engine.Test.Interoperability
             if (Object.ReferenceEquals(obj1, null) || Object.ReferenceEquals(obj2, null))
                 return false;
 
-            //Check if the adapter id are the same
+            //Check if the adapter ID are the same
             IFragment fragment1;
             IFragment fragment2;
 
             //Check if ID exists
-            if (!obj1.Fragments.TryGetValue(m_adapterIdFragmentType, out fragment1))
+            if (!obj1.Fragments.TryGetValue(m_adapterIDFragmentType, out fragment1))
                 return false;
 
-            if (!obj2.Fragments.TryGetValue(m_adapterIdFragmentType, out fragment2))
+            if (!obj2.Fragments.TryGetValue(m_adapterIDFragmentType, out fragment2))
                 return false;
 
             object id1 = ((IAdapterId)fragment1).Id;
@@ -103,7 +103,7 @@ namespace BH.Engine.Test.Interoperability
             IFragment fragment;
 
             //Check if ID exists
-            if (!obj.Fragments.TryGetValue(m_adapterIdFragmentType, out fragment))
+            if (!obj.Fragments.TryGetValue(m_adapterIDFragmentType, out fragment))
                 return 0;
 
             return ((IAdapterId)fragment).Id.ToString().GetHashCode();
@@ -114,7 +114,7 @@ namespace BH.Engine.Test.Interoperability
         /**** Private Fields                            ****/
         /***************************************************/
 
-        private Type m_adapterIdFragmentType;
+        private Type m_adapterIDFragmentType;
 
         /***************************************************/
     }

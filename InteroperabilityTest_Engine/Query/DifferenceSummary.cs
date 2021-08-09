@@ -64,7 +64,7 @@ namespace BH.Engine.Test.Interoperability
             List<object> maximumDifferencePushedValue = new List<object>();
             List<object> maximumDifferencePulledValue = new List<object>();
 
-            foreach (var group in differences.GroupBy(x => PropertyGroupingIdKey(x.PropertyId, onlyLastProperty, ignoreListIndex)))
+            foreach (var group in differences.GroupBy(x => PropertyGroupingIDKey(x.PropertyID, onlyLastProperty, ignoreListIndex)))
             {
                 string prop = group.Key;
                 int count = group.Count();
@@ -121,7 +121,7 @@ namespace BH.Engine.Test.Interoperability
 
             foreach (string prop in propertiesToIgnore)
             {
-                if (diffrences.PropertyId.Contains(prop))
+                if (diffrences.PropertyID.Contains(prop))
                     return false;
             }
 

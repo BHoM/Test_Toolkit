@@ -74,7 +74,7 @@ namespace BH.Engine.Test.Interoperability
             {
                 Message = "A difference has been introduced.",
                 Status = oM.Test.TestStatus.Error,
-                Property = result.PropertyId,
+                Property = result.PropertyID,
                 RunValue = result.ReturnedItem
             };
         }

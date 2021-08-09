@@ -66,7 +66,7 @@ namespace BH.Engine.Test.Interoperability
                     foreach (oM.Test.ITestInformation innerInformation in result.NonEventMessageInformation())
                     {
                         //Find matching reference data
-                        oM.Test.ITestInformation reference = referenceInformation.IGetSameIdInformation(innerInformation);
+                        oM.Test.ITestInformation reference = referenceInformation.IGetSameIDInformation(innerInformation);
 
                         //Compare the inner test information
                         oM.Test.ITestInformation comparisonResult = ICompare(innerInformation, reference);
@@ -195,21 +195,21 @@ namespace BH.Engine.Test.Interoperability
                 //No available reference
                 return result.NoReferenceFound();
             }
-            else if (result.PropertyId != reference.PropertyId)
+            else if (result.PropertyID != reference.PropertyID)
             {
-                if (result.PropertyId.Contains(reference.PropertyId))
+                if (result.PropertyID.Contains(reference.PropertyID))
                 {
-                    //Results property Id is a subpart of the reference. This mean the new result is closer to the original pushed object
+                    //Results property ID is a subpart of the reference. This mean the new result is closer to the original pushed object
                     return new ComparisonDifference
                     {
                         Message = "Run item is showing a difference of an inner property of an object that was previously showing difference on a higher level object. This is likely an improvement, but needs to be validated!",
                         Status = oM.Test.TestStatus.Warning,
-                        Property = result.PropertyId,
+                        Property = result.PropertyID,
                         RunValue = result.ReturnedItem,
-                        ReferenceValue = reference.PropertyId
+                        ReferenceValue = reference.PropertyID
                     };
                 }
-                else if (reference.PropertyId.Contains(result.PropertyId))
+                else if (reference.PropertyID.Contains(result.PropertyID))
                 {
                     //Opposite of the above. The reference is showing a difference on a inner more property than the just run data.
                     //This generally should mean a worsening of the convert situation.
@@ -217,9 +217,9 @@ namespace BH.Engine.Test.Interoperability
                     {
                         Message = "Run item is showing a difference on an outermore property compared to the reference. This possibly means a convert has been made worse.",
                         Status = oM.Test.TestStatus.Error,
-                        Property = result.PropertyId,
+                        Property = result.PropertyID,
                         RunValue = result.ReturnedItem,
-                        ReferenceValue = reference.PropertyId
+                        ReferenceValue = reference.PropertyID
                     };
                 }
                 else
@@ -228,9 +228,9 @@ namespace BH.Engine.Test.Interoperability
                     {
                         Message = "Unable to compare results as properties are different.",
                         Status = oM.Test.TestStatus.Error,
-                        Property = result.PropertyId,
+                        Property = result.PropertyID,
                         RunValue = result.ReturnedItem,
-                        ReferenceValue = reference.PropertyId
+                        ReferenceValue = reference.PropertyID
                     };
                 }
             }
@@ -241,7 +241,7 @@ namespace BH.Engine.Test.Interoperability
                 {
                     Message = "The input data has changed",
                     Status = oM.Test.TestStatus.Error,
-                    Property = result.PropertyId,
+                    Property = result.PropertyID,
                     RunValue = result.PushedItem,
                     ReferenceValue = reference.PushedItem
                 };
@@ -253,7 +253,7 @@ namespace BH.Engine.Test.Interoperability
                 {
                     Message = "Difference is unchanged",
                     Status = oM.Test.TestStatus.Pass,
-                    Property = result.PropertyId,
+                    Property = result.PropertyID,
                     RunValue = result.ReturnedItem,
                     ReferenceValue = reference.ReturnedItem
                 };
@@ -277,7 +277,7 @@ namespace BH.Engine.Test.Interoperability
                         {
                             Message = "Difference is unchanged",
                             Status = oM.Test.TestStatus.Pass,
-                            Property = result.PropertyId,
+                            Property = result.PropertyID,
                             RunValue = result.ReturnedItem,
                             ReferenceValue = reference.ReturnedItem
                         };
@@ -289,7 +289,7 @@ namespace BH.Engine.Test.Interoperability
                         {
                             Message = "Return data is different from the reference, but is a probable improvement.",
                             Status = oM.Test.TestStatus.Warning,
-                            Property = result.PropertyId,
+                            Property = result.PropertyID,
                             RunValue = result.ReturnedItem,
                             ReferenceValue = reference.ReturnedItem
                         };
@@ -301,7 +301,7 @@ namespace BH.Engine.Test.Interoperability
                         {
                             Message = "Data is different from the reference, worse than reference.",
                             Status = oM.Test.TestStatus.Error,
-                            Property = result.PropertyId,
+                            Property = result.PropertyID,
                             RunValue = result.ReturnedItem,
                             ReferenceValue = reference.ReturnedItem
                         };
@@ -314,7 +314,7 @@ namespace BH.Engine.Test.Interoperability
                     {
                         Message = "Data is different from the reference",
                         Status = oM.Test.TestStatus.Error,
-                        Property = result.PropertyId,
+                        Property = result.PropertyID,
                         RunValue = result.ReturnedItem,
                         ReferenceValue = reference.ReturnedItem
                     };
@@ -355,29 +355,29 @@ namespace BH.Engine.Test.Interoperability
         /**** Private Methods                           ****/
         /***************************************************/
 
-        private static oM.Test.ITestInformation IGetSameIdInformation(this IEnumerable<oM.Test.ITestInformation> infoList, oM.Test.ITestInformation toFind)
+        private static oM.Test.ITestInformation IGetSameIDInformation(this IEnumerable<oM.Test.ITestInformation> infoList, oM.Test.ITestInformation toFind)
         {
-            return GetSameIdInformation(infoList as dynamic, toFind as dynamic);
+            return GetSameIDInformation(infoList as dynamic, toFind as dynamic);
         }
 
         /***************************************************/
 
-        private static oM.Test.ITestInformation GetSameIdInformation(this IEnumerable<oM.Test.ITestInformation> infoList, oM.Test.ITestInformation toFind)
+        private static oM.Test.ITestInformation GetSameIDInformation(this IEnumerable<oM.Test.ITestInformation> infoList, oM.Test.ITestInformation toFind)
         {
-            return infoList.FirstOrDefault(x => x.IHasMatchingIds(toFind));
+            return infoList.FirstOrDefault(x => x.IHasMatchingIDs(toFind));
         }
 
         /***************************************************/
 
-        private static oM.Test.ITestInformation GetSameIdInformation(this IEnumerable<oM.Test.ITestInformation> infoList, PushPullObjectComparison toFind)
+        private static oM.Test.ITestInformation GetSameIDInformation(this IEnumerable<oM.Test.ITestInformation> infoList, PushPullObjectComparison toFind)
         {
             //Find exact match
-            oM.Test.ITestInformation found = infoList.FirstOrDefault(x => x.IHasMatchingIds(toFind));
+            oM.Test.ITestInformation found = infoList.FirstOrDefault(x => x.IHasMatchingIDs(toFind));
 
             //If no exact match found, look for partial match
             if (found == null)
             {
-                found = infoList.OfType<PushPullObjectComparison>().FirstOrDefault(x => x.PropertyId.Contains(toFind.PropertyId) || toFind.PropertyId.Contains(x.PropertyId));
+                found = infoList.OfType<PushPullObjectComparison>().FirstOrDefault(x => x.PropertyID.Contains(toFind.PropertyID) || toFind.PropertyID.Contains(x.PropertyID));
             }
             return found;
         }

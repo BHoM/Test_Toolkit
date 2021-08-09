@@ -74,7 +74,7 @@ namespace BH.Engine.Test.Interoperability
             {
                 Message = "Difference only found in reference.",
                 ReferenceValue = refResult.ReturnedItem,
-                Property = refResult.PropertyId,
+                Property = refResult.PropertyID,
                 Status = oM.Test.TestStatus.Warning,
             };
         }
