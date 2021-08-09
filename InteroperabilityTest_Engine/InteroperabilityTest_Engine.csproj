@@ -109,12 +109,12 @@
     <Compile Include="Query\Comparer.cs" />
     <Compile Include="Query\DifferenceSummary.cs" />
     <Compile Include="Query\ExceptionProperties.cs" />
-    <Compile Include="Query\HasMatchingIDs.cs" />
+    <Compile Include="Query\HasMatchingIDs2.cs" />
     <Compile Include="Query\NewResultAfterCrashFix.cs" />
     <Compile Include="Query\NonEventMessageInformation.cs" />
     <Compile Include="Query\NoReferenceFound.cs" />
     <Compile Include="Query\OnlyReferenceFound.cs" />
-    <Compile Include="Query\PropertyGroupingIdKey.cs" />
+    <Compile Include="Query\PropertyGroupingIDKey2.cs" />
     <Compile Include="Query\TestDataOfType.cs" />
     <Compile Include="Query\TestSummary.cs" />
   </ItemGroup>
