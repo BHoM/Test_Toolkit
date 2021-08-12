@@ -38,6 +38,8 @@ using BH.Engine.Base;
 using BH.oM.Reflection.Debugging;
 using BH.oM.Test.Interoperability;
 using BH.oM.Test.Interoperability.Results;
+using BH.oM.Test.Interoperability.Settings;
+using BH.oM.Adapter;
 
 
 namespace BH.Engine.Test.Interoperability
@@ -48,13 +50,58 @@ namespace BH.Engine.Test.Interoperability
         /**** Public Methods                            ****/
         /***************************************************/
 
+        public static List<TestResult> PushPullCompare(InteropabilityTestSettings settings)
+        {
+            //Check settings for null
+            if (settings == null)
+            {
+                Reflection.Compute.RecordError("Null InteropabilityTestSettings provided.");
+                return null;
+            }
+
+            //Create the adapter
+            IBHoMAdapter adapter = Adapter.Create.BHoMAdapter(settings.AdapterType, settings.AdapterConstructorArguments);
+
+            //Check adapter created properly
+            if (adapter == null)
+            {
+                Reflection.Compute.RecordError("Failed to construct the adapter");
+                return null;
+            }
+
+            //Check types provided properly
+            if (settings.TestTypes == null || settings.TestTypes.Count == 0)
+            {
+                Reflection.Compute.RecordError("No test types provided.");
+                return null;
+            }
+
+            //Check config provided properly
+            if (settings.PushPullConfig == null)
+            {
+                Reflection.Compute.RecordError("No PushPullComapreConfig provided");
+                return null;
+            }
+
+            //Run through the PushPullCompare testing and return all the results
+            List<TestResult> results = new List<TestResult>();
+            foreach (Type type in settings.TestTypes)
+            {
+                results.AddRange(PushPullCompare(adapter, type, settings.PushPullConfig, true));
+            }
+
+            return results;
+        }
+
+        /*************************************/
+
         [Description("Tests Pushing objects of a specific type, then pulling them back and comparing the objects. Returns Results outlining if the objects pulled are identical to the pushed ones, and if not, what properties are different between the two.")]
         [Input("adapter", "The instance of the adapter to test for.")]
         [Input("type", "The type of object to test. This will use test sets in the Dataset library.")]
         [Input("config", "Config for the test. Controls whether the adapter should be reset between runs and what comparer to use.")]
         [Input("active", "Toggles whether to run the test.")]
         [Output("testResult", "Diffing results outlining any differences found between the pushed and pulled objects.")]
-        public static List<TestResult> PushPullCompare(BHoMAdapter adapter, Type type, PushPullCompareConfig config = null, bool active = false)
+        public static List<TestResult> PushPullCompare(IBHoMAdapter adapter, Type type, PushPullCompareConfig config = null, bool active = false)
         {
             if (!active)
                 return new List<TestResult>();
@@ -101,7 +148,7 @@ namespace BH.Engine.Test.Interoperability
         [Input("config", "Config for the test. Controls whether the adapter should be reset between runs and what comparer to use.")]
         [Input("active", "Toggles whether to run the test.")]
         [Output("testResult", "Diffing results outlining any differences found between the pushed and pulled objects.")]
-        public static List<TestResult> PushPullCompare(BHoMAdapter adapter, List<IBHoMObject> testObjects, string setName = "", Type enforcedType = null, PushPullCompareConfig config = null, bool active = false)
+        public static List<TestResult> PushPullCompare(IBHoMAdapter adapter, List<IBHoMObject> testObjects, string setName = "", Type enforcedType = null, PushPullCompareConfig config = null, bool active = false)
         {
             if (!active)
                 return new List<TestResult>();
@@ -139,7 +186,7 @@ namespace BH.Engine.Test.Interoperability
         /**** Private Methods                           ****/
         /***************************************************/
 
-        private static TestResult RunOneSet(BHoMAdapter adapter, string setName, List<IBHoMObject> objects, IRequest request, IEqualityComparer<IBHoMObject> comparer, bool resetModelBetweenRuns)
+        private static TestResult RunOneSet(IBHoMAdapter adapter, string setName, List<IBHoMObject> objects, IRequest request, IEqualityComparer<IBHoMObject> comparer, bool resetModelBetweenRuns)
         {
             if (adapter == null)
             {
