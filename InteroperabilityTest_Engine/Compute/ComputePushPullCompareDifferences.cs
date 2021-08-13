@@ -58,7 +58,7 @@ namespace BH.Engine.Test.Interoperability
 
                 if (refRes == null)
                 {
-                    fullResult.Information.Add(refRes.NoReferenceFound());
+                    fullResult.Information.Add(result.NoReferenceFound());
                 }
                 else
                 {
