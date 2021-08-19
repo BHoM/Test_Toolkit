@@ -90,6 +90,9 @@ namespace BH.Engine.Test.Interoperability
                 results.AddRange(PushPullCompare(adapter, type, settings.PushPullConfig, true));
             }
 
+            //Ask the adapter to fully close down any open instance of the software
+            adapter.Execute(new Exit { SaveBeforeClose = false });
+
             return results;
         }
 
