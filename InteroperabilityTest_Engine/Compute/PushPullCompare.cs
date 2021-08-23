@@ -53,9 +53,9 @@ namespace BH.Engine.Test.Interoperability
         [Description("Runs a PushPullCompare test on an adapter based on provided InteropabilityTestSettings.\n" +
                      "Creates the adapter based on the setting objects and runs through a PushPullCompare run for each provided type. Ends by calling the Exit command of the adapter, closing down any running software process." +
                      "Requires the setting obejct to be fully defined and returns null if failing to initialise the test.\n" + 
-                     "For successfull runs returns a testresult per testset run.")]
+                     "For successfull runs returns a TestResult per test set run.")]
         [Input("settings", "InteropabilityTestSettings object containing information on which adapter to test, how to construct the adapter, types to test and settings for the testing.")]
-        [Output("testResult", "Diffing results outlining any differences found between the pushed and pulled objects, one TestResult per testset.")]
+        [Output("testResult", "Diffing results outlining any differences found between the pushed and pulled objects, one TestResult per test set.")]
         public static List<TestResult> PushPullCompare(InteropabilityTestSettings settings)
         {
             //Check settings for null
