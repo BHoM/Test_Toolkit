@@ -230,7 +230,7 @@ namespace BH.Engine.UnitTest
                     }
 
                 }
-                runObj = CastToType(runObj, referenceData[i].GetType());
+                runObj = CastToObjectType(runObj, refObject);
                 
 
                 var diffResult = Engine.Test.Query.IsEqual(refObject, runObj, comparisonConfig);
@@ -252,6 +252,47 @@ namespace BH.Engine.UnitTest
         }
 
         /***************************************************/
+
+        private static object CastToObjectType(object item, object target)
+        {
+            if (item == null || target == null)
+                return item;
+
+            try
+            {
+                Type type = target.GetType();
+                if (type.IsGenericType && item is IEnumerable && target is IEnumerable)
+                {
+                    dynamic list;
+                    if (type.IsInterface)
+                        list = Activator.CreateInstance(typeof(List<>).MakeGenericType(type.GenericTypeArguments[0]));
+                    else
+                        list = Activator.CreateInstance(type);
+
+                    IEnumerator itemEnum = (item as IEnumerable).GetEnumerator();
+                    IEnumerator targetEnum = (target as IEnumerable).GetEnumerator();
+
+                    while (itemEnum.MoveNext())
+                    {
+                        dynamic val = itemEnum.Current;
+
+                        if (targetEnum.MoveNext() && val is IEnumerable)
+                            list.Add(CastToObjectType(val, targetEnum.Current));
+                        else
+                            list.Add(val);
+                    }
+                    return list;
+                }
+                else
+                {
+                    return item;
+                }
+            }
+            catch
+            {
+                return item;
+            }
+        }
 
     }
 }
