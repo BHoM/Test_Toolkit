@@ -71,6 +71,8 @@ namespace BH.Engine.Test
             comparer.Config.MembersToIgnore = config.PropertyExceptions;
             comparer.Config.DoublePrecision = config.NumericTolerance;
             comparer.Config.TypesToIgnore = config.TypeExceptions;
+            comparer.Config.CompareStaticFields = false;
+            comparer.Config.CompareStaticProperties = false;
 
             Output<bool, List<string>, List<string>, List<string>> output = new Output<bool, List<string>, List<string>, List<string>>
             {
