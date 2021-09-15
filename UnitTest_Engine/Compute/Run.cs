@@ -90,6 +90,10 @@ namespace BH.Engine.UnitTest
 
             List<object> result = new List<object>();
             List<string> errors = new List<string>();
+
+            if (method.IsGenericMethod && method is MethodInfo)
+                method = Engine.Reflection.Compute.MakeGenericFromInputs(method as MethodInfo, data.Inputs.Select(x => FixType(x)?.GetType()).ToList());
+
             try
             {
                 ParameterInfo[] parameters = method.GetParameters();
@@ -165,6 +169,30 @@ namespace BH.Engine.UnitTest
             {
                 return item;
             }
+        }
+
+        /***************************************************/
+
+        private static object FixType(object argument)
+        {
+            if (argument is List<object>)
+            {
+                List<object> list = argument as List<object>;
+                List<Type> types = list.Select(x => x.GetType()).Distinct().ToList();
+                if (types.Count == 1)
+                    return CastList(list, list.First() as dynamic);
+                else
+                    return argument;
+            }
+            else
+                return argument;
+        }
+
+        /***************************************************/
+
+        private static List<T> CastList<T>(List<object> list, T first)
+        {
+            return list.Cast<T>().ToList();
         }
 
         /***************************************************/
