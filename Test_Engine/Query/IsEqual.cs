@@ -55,12 +55,12 @@ namespace BH.Engine.Test
 
         /***************************************************/
 
-        [Description("Checks two objects for equality property by property and returns the differences")]
-        [Input("config", "Config to be used for the comparison. Can set numeric tolerance, wheter to check the guid, if custom data should be ignored and if any additional properties should be ignored")]
-        [MultiOutput(0, "IsEqual", "Returns true if the two items are deemed to be equal")]
-        [MultiOutput(1, "DiffProperty", "List of the names of the properties found to be different")]
-        [MultiOutput(2, "Obj1DiffValue", "List of the values deemed different for object 1")]
-        [MultiOutput(3, "Obj2DiffValue", "List of the values deemed different for object 2")]
+        [Description("Checks two objects for equality property by property and returns the differences. Static properties of the two objects are ignored in the comparison.")]
+        [Input("config", "Config to be used for the comparison. Can set numeric tolerance, wheter to check the guid, if custom data should be ignored and if any additional properties should be ignored.")]
+        [MultiOutput(0, "IsEqual", "Returns true if the two items are deemed to be equal.")]
+        [MultiOutput(1, "DiffProperty", "List of the names of the properties found to be different.")]
+        [MultiOutput(2, "Obj1DiffValue", "List of the values deemed different for object 1.")]
+        [MultiOutput(3, "Obj2DiffValue", "List of the values deemed different for object 2.")]
         public static Output<bool, List<string>, List<string>, List<string>> IsEqual(this object obj1, object obj2, BH.oM.Base.ComparisonConfig config = null)
         {
             //Use default config if null
