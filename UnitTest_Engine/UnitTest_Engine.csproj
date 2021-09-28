@@ -83,6 +83,7 @@
     <Compile Include="Compute\MergeUnitTests.cs" />
     <Compile Include="Compute\Regenerate.cs" />
     <Compile Include="Compute\Run.cs" />
+    <Compile Include="Compute\StoreUnitTest.cs" />
     <Compile Include="Create\TestData.cs" />
     <Compile Include="Create\Dataset\UnitTestDataSet.cs" />
     <Compile Include="Modify\ClearOutputData.cs" />
