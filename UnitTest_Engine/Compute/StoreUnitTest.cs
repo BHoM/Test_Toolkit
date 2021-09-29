@@ -45,10 +45,11 @@ namespace BH.Engine.UnitTest
         [Input("repoFolder", "Folder link to the folder corresponding to the repo containing the method(s) being tested by the UnitTests.")]
         [Input("sourceLink", "Link to the script or process used to generate the UnitTest. Important to be able to easily update the test in case of a change required from code updates.")]
         [Input("author", "Author of the UnitTests. If nothing is provided, the currently logged in windows username will be used.")]
+        [Input("checkAssemblyFolder", "If true, checks that the provided repo folder contains an assembly matching the assembly of the unit test. For general case this can be left to the default value of true.")]
         [Input("replacePreExisting", "If true, replaces any pre-existing dataset in the folder.")]
         [Input("activate", "Toggle to push dataset to file.")]
         [Output("success", "Returns true if sucessfully able to write the dataset to file.")]
-        public static bool StoreUnitTests(List<BH.oM.Test.UnitTests.UnitTest> unitTests, string repoFolder, string sourceLink, string author = "", bool replacePreExisting = false, bool activate = false)
+        public static bool StoreUnitTests(List<BH.oM.Test.UnitTests.UnitTest> unitTests, string repoFolder, string sourceLink, string author = "", bool checkAssemblyFolder = true, bool replacePreExisting = false, bool activate = false)
         {
             if (!activate)
                 return false;
@@ -57,7 +58,7 @@ namespace BH.Engine.UnitTest
 
             foreach (Dataset dataset in Create.UnitTestDataSet(unitTests, sourceLink, author))
             {
-                success &= StoreUnitTest(dataset, repoFolder, replacePreExisting, activate);
+                success &= StoreUnitTest(dataset, repoFolder, checkAssemblyFolder, replacePreExisting, activate);
             }
 
             return success;
@@ -68,19 +69,34 @@ namespace BH.Engine.UnitTest
         [Description("Stores out the Provided Dataset in the .ci/Dataset corresponding to the project and class name with a file name matching the method name.")]
         [Input("dataset", "Dataset to store in .ci folder. Should contain only UnitTest information.")]
         [Input("repoFolder", "Folder link to the folder corresponding to the repo containing the method(s) being tested by the UnitTest(s) in the Dataset.")]
+        [Input("checkAssemblyFolder", "If true, checks that the provided repo folder contains an assembly matching the assembly of the unit test. For general case this can be left to the default value of true.")]
         [Input("replacePreExisting", "If true, replaces any pre-existing dataset in the folder.")]
         [Input("activate", "Toggle to push dataset to file.")]
         [Output("success", "Returns true if sucessfully able to write the dataset to file.")]
-        public static bool StoreUnitTest(Dataset dataset, string repoFolder, bool replacePreExisting = false, bool activate = false)
+        public static bool StoreUnitTest(Dataset dataset, string repoFolder, bool checkAssemblyFolder = true, bool replacePreExisting = false, bool activate = false)
         {
             if (!activate)
                 return false;
 
             string repoBaseFolder;
-            if (!CheckValidUnitTestDataSet(dataset) || !CheckValidRepoFolderString(repoFolder, out repoBaseFolder))
+            if (!CheckValidUnitTestDataSet(dataset))
                 return false;
 
-            string fullPathName = Path.Combine(repoBaseFolder, GetRelativeFilePath(dataset));
+            string assemblyName, className, methodName;
+            GetMethodStrings(dataset, out assemblyName, out className, out methodName);
+
+            bool multiEngineProject;
+            if (!CheckValidRepoFolderString(repoFolder, checkAssemblyFolder, assemblyName, out repoBaseFolder, out multiEngineProject))
+                return false;
+
+            methodName += ".json";
+            string fullPathName;
+
+            if (multiEngineProject)
+                fullPathName = Path.Combine(repoBaseFolder, ".ci", "Datasets", assemblyName, className, methodName);
+            else
+                fullPathName = Path.Combine(repoBaseFolder, ".ci", "Datasets", className, methodName);
+
 
             if (!Directory.Exists(Path.GetDirectoryName(fullPathName)))
                 Directory.CreateDirectory(Path.GetDirectoryName(fullPathName));
@@ -125,20 +141,16 @@ namespace BH.Engine.UnitTest
         /**** Private Methods                           ****/
         /***************************************************/
 
-        private static string GetRelativeFilePath(Dataset dataset)
+        private static void GetMethodStrings(Dataset dataset, out string assemblyName, out string className, out string methodName)
         {
             MethodBase method = (dataset.Data.First() as BH.oM.Test.UnitTests.UnitTest).Method;
 
-            string className = method.DeclaringType.Name;
-            string assemblyName = method.DeclaringType.Assembly.FullName.Split(',').First();
+            className = method.DeclaringType.Name;
+            assemblyName = method.DeclaringType.Assembly.FullName.Split(',').First();
 
-            string methodName = (method is ConstructorInfo) ? method.DeclaringType.Name : method.Name;
+            methodName = (method is ConstructorInfo) ? method.DeclaringType.Name : method.Name;
             if (Reflection.Query.IsInterfaceMethod(method))
                 methodName = methodName.Substring(1);
-
-            methodName += ".json";
-
-            return Path.Combine(".ci", "Datasets", assemblyName, className, methodName);
         }
 
         /***************************************************/
@@ -192,7 +204,7 @@ namespace BH.Engine.UnitTest
 
         /***************************************************/
 
-        private static bool CheckValidRepoFolderString(this string repoFolder, out string repoBaseFolder)
+        private static bool CheckValidRepoFolderString(this string repoFolder, bool checkAssemblyFolder, string assemblyName, out string repoBaseFolder, out bool multiEngineProject)
         {
             repoBaseFolder = "";
 
@@ -213,14 +225,25 @@ namespace BH.Engine.UnitTest
             if (!Directory.Exists(repoBaseFolder))
             {
                 Reflection.Compute.RecordError("Provided repofolder does not exist.");
+                multiEngineProject = false;
                 return false;
             }
 
             if (!Directory.GetFiles(repoBaseFolder, "*.sln").Any())
             {
                 Reflection.Compute.RecordError("Provided folder is not correctly targeting a github repository folder.");
+                multiEngineProject = false;
                 return false;
             }
+
+            if (checkAssemblyFolder && !Directory.GetDirectories(repoBaseFolder, assemblyName).Any())
+            {
+                Reflection.Compute.RecordError($"Provided folder is not targeting a folder containing the project {assemblyName}. Please ensure the folder is the correct solution folder for the UnitTests evaluated.");
+                multiEngineProject = false;
+                return false;
+            }
+
+            multiEngineProject = Directory.GetDirectories(repoBaseFolder, "*_Engine").Count() > 1;
 
             return true;
         }
