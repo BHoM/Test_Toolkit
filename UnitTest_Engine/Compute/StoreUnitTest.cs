@@ -51,9 +51,6 @@ namespace BH.Engine.UnitTest
         [Output("success", "Returns true if sucessfully able to write the dataset to file.")]
         public static bool StoreUnitTests(List<BH.oM.Test.UnitTests.UnitTest> unitTests, string repoFolder, string sourceLink, string author = "", bool checkAssemblyFolder = true, bool replacePreExisting = false, bool activate = false)
         {
-            if (!activate)
-                return false;
-
             bool success = true;
 
             foreach (Dataset dataset in Create.UnitTestDataSet(unitTests, sourceLink, author))
@@ -75,8 +72,7 @@ namespace BH.Engine.UnitTest
         [Output("success", "Returns true if sucessfully able to write the dataset to file.")]
         public static bool StoreUnitTest(Dataset dataset, string repoFolder, bool checkAssemblyFolder = true, bool replacePreExisting = false, bool activate = false)
         {
-            if (!activate)
-                return false;
+
 
             string repoBaseFolder;
             if (!CheckValidUnitTestDataSet(dataset))
@@ -110,10 +106,16 @@ namespace BH.Engine.UnitTest
                 }
                 else
                 {
-                    Engine.Reflection.Compute.RecordNote($"File {fullPathName} is being replaced.");
-                    File.Delete(fullPathName);
+                    if (activate)
+                    {
+                        Engine.Reflection.Compute.RecordNote($"File {fullPathName} is being replaced.");
+                        File.Delete(fullPathName);
+                    }
                 }
             }
+
+            if (!activate)
+                return false;
 
             try
             {
