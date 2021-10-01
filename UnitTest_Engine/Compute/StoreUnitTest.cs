@@ -72,8 +72,6 @@ namespace BH.Engine.UnitTest
         [Output("success", "Returns true if sucessfully able to write the dataset to file.")]
         public static bool StoreUnitTest(Dataset dataset, string repoFolder, bool checkAssemblyFolder = true, bool replacePreExisting = false, bool activate = false)
         {
-
-
             string repoBaseFolder;
             if (!CheckValidUnitTestDataSet(dataset))
                 return false;
