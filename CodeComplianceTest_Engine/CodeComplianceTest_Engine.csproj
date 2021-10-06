@@ -49,6 +49,12 @@
       <HintPath>C:\ProgramData\BHoM\Assemblies\Adapter_oM.dll</HintPath>
       <Private>False</Private>
     </Reference>
+    <Reference Include="CSProject_Adapter">
+      <HintPath>..\..\..\..\..\..\..\ProgramData\BHoM\Assemblies\CSProject_Adapter.dll</HintPath>
+    </Reference>
+    <Reference Include="CSProject_oM">
+      <HintPath>..\..\..\..\..\..\..\ProgramData\BHoM\Assemblies\CSProject_oM.dll</HintPath>
+    </Reference>
     <Reference Include="Diffing_oM">
       <HintPath>C:\ProgramData\BHoM\Assemblies\Diffing_oM.dll</HintPath>
       <Private>False</Private>
@@ -146,18 +152,6 @@
     <Reference Include="Test_oM">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>C:\ProgramData\BHoM\Assemblies\Test_oM.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="XML_Adapter">
-      <HintPath>C:\ProgramData\BHoM\Assemblies\XML_Adapter.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="XML_Engine">
-      <HintPath>C:\ProgramData\BHoM\Assemblies\XML_Engine.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="XML_oM">
-      <HintPath>C:\ProgramData\BHoM\Assemblies\XML_oM.dll</HintPath>
       <Private>False</Private>
     </Reference>
   </ItemGroup>
