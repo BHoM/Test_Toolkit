@@ -77,6 +77,12 @@ namespace BH.Engine.Test.CodeCompliance
 
             ProjectFile csProject = projectData[0];
 
+            //Check if there were errors with pulling this project...
+            if(!string.IsNullOrEmpty(csProject.AnalysisErrors))
+            {
+                finalResult = finalResult.Merge(Create.TestResult(TestStatus.Error, new List<Error> { Create.Error($"CSProject files should be in the new format as used by core BHoM projects. Upgrading the file is possible for .Net Framework 4.7.2 projects as well. Please speak to a member of the DevOps team for assistance with this. Dispensation may be available for this check if the PR warrants it, please speak to a member of the DevOps team.", Create.Location(csProjFilePath, Create.LineSpan(1, 1)), documentationLink) }));
+            }
+
             //Check the output path
             finalResult = CheckNETTarget(csProject, new List<string>(fileLines), finalResult, csProjFilePath, documentationLink);
             finalResult = CheckOutputPath(csProject, new List<string>(fileLines), finalResult, csProjFilePath, documentationLink);
@@ -111,7 +117,7 @@ namespace BH.Engine.Test.CodeCompliance
                 {
                     string fullXMLText = $"<TargetFramework>{target}</TargetFramework>";
                     int lineNumber = fileLines.IndexOf(fileLines.Where(x => x.Contains(fullXMLText)).FirstOrDefault()) + 1; //+1 because index is 0 based but line numbers start at 1 for the spans
-                    finalResult = finalResult.Merge(Create.TestResult(TestStatus.Error, new List<Error> { Create.Error($"Target frameworks for BHoM projects should either be .Net Framework 4.7.2, .Net Standard 2.0, or .Net 5.0. This warning can be ignored ", Create.Location(csProjFilePath, Create.LineSpan(lineNumber, lineNumber)), documentationLink, TestStatus.Warning) }));
+                    finalResult = finalResult.Merge(Create.TestResult(TestStatus.Error, new List<Error> { Create.Error($"Target frameworks for BHoM projects should either be .Net Framework 4.7.2, .Net Standard 2.0, or .Net 5.0.", Create.Location(csProjFilePath, Create.LineSpan(lineNumber, lineNumber)), documentationLink, TestStatus.Warning) }));
                 }
                 else
                     atLeastOneCorrect = true;
