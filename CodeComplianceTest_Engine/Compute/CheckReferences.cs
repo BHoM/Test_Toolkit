@@ -37,11 +37,10 @@ using System.Xml.Linq;
 
 using BH.oM.Test.CodeCompliance.Attributes;
 
-using BH.oM.XML.CSProject;
-using BH.Adapter.XML;
 using BH.oM.Adapter;
-using BH.oM.Adapters.XML;
 using BH.oM.Data.Requests;
+using BH.Adapter.CSProject;
+using BH.oM.Adapters.CSProject;
 
 using BH.oM.Test;
 using BH.oM.Test.Results;
@@ -55,6 +54,9 @@ namespace BH.Engine.Test.CodeCompliance
             if (Path.GetExtension(csProjFilePath) != ".csproj")
                 return Create.TestResult(TestStatus.Pass);
 
+            if (!File.Exists(csProjFilePath))
+                return Create.TestResult(TestStatus.Pass);
+
             TestResult finalResult = Create.TestResult(TestStatus.Pass);
             string documentationLink = "Project-References-and-Build-Paths";
 
@@ -66,18 +68,17 @@ namespace BH.Engine.Test.CodeCompliance
                 FileName = Path.GetFileName(csProjFilePath),
             };
 
-            XMLAdapter adapter = new XMLAdapter(fileSettings);
-            XMLConfig config = new XMLConfig();
-            config.Schema = oM.Adapters.XML.Enums.Schema.CSProject;
+            CSProjectAdapter adapter = new CSProjectAdapter(fileSettings);
 
-            List<Project> xmlData = adapter.Pull(new FilterRequest(), PullType.AdapterDefault, config).Select(x => x as Project).ToList();
+            List<ProjectFile> projectData = adapter.Pull(new FilterRequest(), PullType.AdapterDefault).Select(x => x as ProjectFile).ToList();
 
-            if (xmlData.Count <= 0)
+            if (projectData.Count <= 0)
                 return finalResult;
 
-            Project csProject = xmlData[0];
+            ProjectFile csProject = projectData[0];
 
             //Check the output path
+            finalResult = CheckNETTarget(csProject, new List<string>(fileLines), finalResult, csProjFilePath, documentationLink);
             finalResult = CheckOutputPath(csProject, new List<string>(fileLines), finalResult, csProjFilePath, documentationLink);
             finalResult = CheckReferences(csProject, new List<string>(fileLines), finalResult, csProjFilePath, documentationLink);
 
@@ -99,110 +100,102 @@ namespace BH.Engine.Test.CodeCompliance
             return lines;
         }
 
-        private static TestResult CheckOutputPath(this Project csProject, List<string> fileLines, TestResult finalResult, string csProjFilePath, string documentationLink)
+        private static TestResult CheckNETTarget(this ProjectFile csProject, List<string> fileLines, TestResult finalResult, string csProjFilePath, string documentationLink)
         {
-            int foundCounter = 1; //Start at one because the index from the list is not the line of the file (0 index + 1 to get the line number)
+            List<string> acceptableNETTargets = new List<string> { "net472", "netstandard2.0", "net5.0" };
+            bool atLeastOneCorrect = false;
 
-            foreach (PropertyGroup group in csProject.PropertyGroups)
+            foreach(string target in csProject.TargetNETVersions)
             {
-                if (group.OutputPath != null)
+                if (!acceptableNETTargets.Contains(target))
                 {
-                    if (group.OutputPath != "..\\Build\\")
-                    {
-                        int index = fileLines.IndexOf(fileLines.Where(x => x.Contains(group.OutputPath)).FirstOrDefault());
-                        if (index == -1)
-                            index = 1;
-                        else
-                        {
-                            index += foundCounter;
-                            foundCounter++; //For the second search, we remove the line so the index is one away from where it should be
-                            fileLines.RemoveAt(index); //So we don't have to find it again
-                        }
+                    string fullXMLText = $"<TargetFramework>{target}</TargetFramework>";
+                    int lineNumber = fileLines.IndexOf(fileLines.Where(x => x.Contains(fullXMLText)).FirstOrDefault()) + 1; //+1 because index is 0 based but line numbers start at 1 for the spans
+                    finalResult = finalResult.Merge(Create.TestResult(TestStatus.Error, new List<Error> { Create.Error($"Target frameworks for BHoM projects should either be .Net Framework 4.7.2, .Net Standard 2.0, or .Net 5.0. This warning can be ignored ", Create.Location(csProjFilePath, Create.LineSpan(lineNumber, lineNumber)), documentationLink, TestStatus.Warning) }));
+                }
+                else
+                    atLeastOneCorrect = true;
+            }
 
-                        finalResult = finalResult.Merge(Create.TestResult(TestStatus.Error, new List<Error> { Create.Error($"Output path for all build configurations should be set to '..\\Build\\'", Create.Location(csProjFilePath, Create.LineSpan(index, index)), documentationLink) }));
-                    }
+            if(!atLeastOneCorrect)
+            {
+                finalResult = finalResult.Merge(Create.TestResult(TestStatus.Error, new List<Error> { Create.Error($"At least one of the Target frameworks for BHoM projects must either be .Net Framework 4.7.2, .Net Standard 2.0, or .Net 5.0. This warning can be ignored ", Create.Location(csProjFilePath, Create.LineSpan(1, 1)), documentationLink) }));
+            }
+
+            return finalResult;
+        }
+
+        private static TestResult CheckOutputPath(this ProjectFile csProject, List<string> fileLines, TestResult finalResult, string csProjFilePath, string documentationLink)
+        {
+            List<string> acceptableOutputPaths = new List<string>() { "..\\Build\\" };
+
+            foreach(string outputPath in csProject.OutputPaths)
+            {
+                if(!acceptableOutputPaths.Contains(outputPath))
+                {
+                    string fullXMLText = $"<OutputPath>{outputPath}</OutputPath>";
+                    int lineNumber = fileLines.IndexOf(fileLines.Where(x => x.Contains(fullXMLText)).FirstOrDefault()) + 1; //+1 because index is 0 based but line numbers start at 1 for the spans
+                    finalResult = finalResult.Merge(Create.TestResult(TestStatus.Error, new List<Error> { Create.Error($"Output path for all build configurations should be set to '..\\Build\\'", Create.Location(csProjFilePath, Create.LineSpan(lineNumber, lineNumber)), documentationLink) }));
                 }
             }
 
             return finalResult;
         }
 
-        private static TestResult CheckReferences(this Project csProject, List<string> fileLines, TestResult finalResult, string csProjFilePath, string documentationLink)
+        private static TestResult CheckReferences(this ProjectFile csProject, List<string> fileLines, TestResult finalResult, string csProjFilePath, string documentationLink)
         {
-            foreach(ItemGroup group in csProject.ItemGroups)
+            foreach(AssemblyReference reference in csProject.References)
             {
-                if (group.References == null)
-                    continue;
+                string includeName = reference.Name.ToLower();
+                if (includeName != "bhom" && !includeName.Contains("_om") && !includeName.Contains("_engine") && !includeName.Contains("_adapter") && !includeName.Contains("_ui"))
+                    continue; //Not a BHoM DLL so no point worrying
 
-                foreach(Reference reference in group.References)
+                string includeNameXMLStart = $"<Reference Include={reference.Name}";
+                int lineNumber = -1;
+                if(!string.IsNullOrEmpty(reference.Version) || !string.IsNullOrEmpty(reference.Culture) || !string.IsNullOrEmpty(reference.ProcessorArchitecture))
                 {
-                    string includeName = reference.IncludeName.ToLower();
-                    string refName = reference.IncludeName.Split(',')[0];
+                    lineNumber = fileLines.IndexOf(fileLines.Where(x => x.Contains(includeNameXMLStart)).FirstOrDefault()) + 1; //+1 because index is 0 based but line numbers start at 1 for the spans
+                    finalResult = finalResult.Merge(Create.TestResult(TestStatus.Error, new List<Error> { Create.Error("Project references for BHoM DLLs should not include Version, Culture, or Processor Architecture", Create.Location(csProjFilePath, Create.LineSpan(lineNumber, lineNumber)), documentationLink) }));
+                }
 
-                    if (includeName != "bhom" && !includeName.Contains("_om") && !includeName.Contains("_engine") && !includeName.Contains("_adapter") && !includeName.Contains("_ui"))
-                        continue; //Not a BHoM DLL so no point worrying
+                string hintPath = @"C:\ProgramData\BHoM\Assemblies\" + reference.Name + ".dll";
+                string hintPathXML = $"<HintPath>{reference.HintPath}</HintPath>";
+                if(reference.HintPath != hintPath)
+                {
+                    lineNumber = fileLines.IndexOf(fileLines.Where(x => x.Contains(hintPathXML)).FirstOrDefault()) + 1; //+1 because index is 0 based but line numbers start at 1 for the spans
+                    finalResult = finalResult.Merge(Create.TestResult(TestStatus.Error, new List<Error> { Create.Error($"Project reference for '{reference.Name}' should be set to '{hintPath}'", Create.Location(csProjFilePath, Create.LineSpan(lineNumber, lineNumber)), documentationLink) }));
+                }
 
-                    if(includeName.Contains("culture") || includeName.Contains("version") || includeName.Contains("processorarchitecture"))
+                if(reference.CopyLocal)
+                {
+                    lineNumber = fileLines.IndexOf(fileLines.Where(x => x.Contains(hintPathXML)).FirstOrDefault()) + 1; //+1 because index is 0 based but line numbers start at 1 for the spans - searching from hintPathXML to then make sure we get the right line number related to this copy local issue
+                    while (!fileLines[lineNumber].Contains("<Private>true</Private>"))
                     {
-                        int index = fileLines.IndexOf(fileLines.Where(x => x.Contains(reference.IncludeName)).FirstOrDefault());
-                        if (index == -1)
-                            index = 1;
-                        else
-                            index += 1; //To account for 0 indexing of the list
-
-                        finalResult = finalResult.Merge(Create.TestResult(TestStatus.Error, new List<Error> { Create.Error("Project references for BHoM DLLs should not include Version, Culture, or Processor Architecture", Create.Location(csProjFilePath, Create.LineSpan(index, index)), documentationLink) }));
-                    }
-
-                    string hintPath = @"C:\ProgramData\BHoM\Assemblies\" + refName + ".dll";
-
-                    if (reference.HintPath == null)
-                    {
-                        int index = fileLines.IndexOf(fileLines.Where(x => x.Contains(reference.IncludeName)).FirstOrDefault());
-                        if (index == -1)
-                            index = 1;
-                        else
-                            index += 1;
-
-                        finalResult = finalResult.Merge(Create.TestResult(TestStatus.Error, new List<Error> { Create.Error($"Project reference for '{refName}' should be set to '{hintPath}'", Create.Location(csProjFilePath, Create.LineSpan(index, index)), documentationLink) }));
-                    }
-                    else if (reference.HintPath != hintPath)
-                    {
-                        int index = fileLines.IndexOf(fileLines.Where(x => x.Contains(reference.HintPath)).FirstOrDefault());
-                        if (index == -1)
-                            index = 1;
-                        else
-                            index += 1;
-                        
-                        finalResult = finalResult.Merge(Create.TestResult(TestStatus.Error, new List<Error> { Create.Error($"Project reference for '{refName}' should be set to '{hintPath}'", Create.Location(csProjFilePath, Create.LineSpan(index, index)), documentationLink) }));
-                    }
-
-                    if(reference.IsCopyLocal == null || reference.IsCopyLocal.ToLower() != "false")
-                    {
-                        int index = fileLines.IndexOf(fileLines.Where(x => x.Contains("<Reference Include=") && x.Contains(reference.IncludeName)).FirstOrDefault());
-                        if (index == -1)
-                            index = 1;
-                        else
+                        lineNumber++;
+                        if (lineNumber > fileLines.Count)
                         {
-                            while (true)
-                            {
-                                if (fileLines[index + 1].Contains("<Private>"))
-                                {
-                                    index += 2; //To account for the 0 index list
-                                    break;
-                                }
-                                else if (fileLines[index + 1].Contains("</Reference>"))
-                                {
-                                    index = fileLines.IndexOf(fileLines.Where(x => x.Contains("<Reference Include=") && x.Contains(reference.IncludeName)).FirstOrDefault());
-                                    index += 1;
-                                    break;
-                                }
-
-                                index++;
-                            }
+                            lineNumber = fileLines.IndexOf(fileLines.Where(x => x.Contains(hintPathXML)).FirstOrDefault()) + 1; //return to this line as the copy local isn't set at all
+                            break; //To avoid infinite loop
                         }
-
-                        finalResult = finalResult.Merge(Create.TestResult(TestStatus.Error, new List<Error> { Create.Error($"Project reference for '{refName}' should be set to not copy local", Create.Location(csProjFilePath, Create.LineSpan(index, index)), documentationLink) }));
                     }
+
+                    finalResult = finalResult.Merge(Create.TestResult(TestStatus.Error, new List<Error> { Create.Error($"Project reference for '{reference.Name}' should be set to not copy local", Create.Location(csProjFilePath, Create.LineSpan(lineNumber, lineNumber)), documentationLink) }));
+                }
+
+                if(reference.SpecificVersion)
+                {
+                    lineNumber = fileLines.IndexOf(fileLines.Where(x => x.Contains(hintPathXML)).FirstOrDefault()) + 1; //+1 because index is 0 based but line numbers start at 1 for the spans - searching from hintPathXML to then make sure we get the right line number related to this copy local issue
+                    while (!fileLines[lineNumber].Contains("<SpecificVersion>true</SpecificVersion>"))
+                    {
+                        lineNumber++;
+                        if (lineNumber > fileLines.Count)
+                        {
+                            lineNumber = fileLines.IndexOf(fileLines.Where(x => x.Contains(hintPathXML)).FirstOrDefault()) + 1; //return to this line as the copy local isn't set at all
+                            break; //To avoid infinite loop
+                        }
+                    }
+
+                    finalResult = finalResult.Merge(Create.TestResult(TestStatus.Error, new List<Error> { Create.Error($"Project reference for '{reference.Name}' should be set to not be set to a specific version", Create.Location(csProjFilePath, Create.LineSpan(lineNumber, lineNumber)), documentationLink) }));
                 }
             }
 
