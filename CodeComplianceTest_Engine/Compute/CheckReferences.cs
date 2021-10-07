@@ -37,11 +37,6 @@ using System.Xml.Linq;
 
 using BH.oM.Test.CodeCompliance.Attributes;
 
-using BH.oM.Adapter;
-using BH.oM.Data.Requests;
-using BH.Adapter.CSProject;
-using BH.oM.Adapters.CSProject;
-
 using BH.oM.Test;
 using BH.oM.Test.Results;
 
@@ -62,26 +57,10 @@ namespace BH.Engine.Test.CodeCompliance
 
             List<string> fileLines = ReadCSProjFile(csProjFilePath);
 
-            FileSettings fileSettings = new FileSettings()
-            {
-                Directory = Path.GetDirectoryName(csProjFilePath),
-                FileName = Path.GetFileName(csProjFilePath),
-            };
+            ProjectFile csProject = GetProjectFile(fileLines);
 
-            CSProjectAdapter adapter = new CSProjectAdapter(fileSettings);
-
-            List<ProjectFile> projectData = adapter.Pull(new FilterRequest(), PullType.AdapterDefault).Select(x => x as ProjectFile).ToList();
-
-            if (projectData.Count <= 0)
+            if (csProject == null)
                 return finalResult;
-
-            ProjectFile csProject = projectData[0];
-
-            //Check if there were errors with pulling this project...
-            if(!string.IsNullOrEmpty(csProject.AnalysisErrors))
-            {
-                finalResult = finalResult.Merge(Create.TestResult(TestStatus.Error, new List<Error> { Create.Error($"CSProject files should be in the new format as used by core BHoM projects. Upgrading the file is possible for .Net Framework 4.7.2 projects as well. Please speak to a member of the DevOps team for assistance with this. Dispensation may be available for this check if the PR warrants it, please speak to a member of the DevOps team for more support.", Create.Location(csProjFilePath, Create.LineSpan(1, 1)), documentationLink) }));
-            }
 
             //Check the output path
             finalResult = CheckNETTarget(csProject, new List<string>(fileLines), finalResult, csProjFilePath, documentationLink);
@@ -108,7 +87,7 @@ namespace BH.Engine.Test.CodeCompliance
 
         private static TestResult CheckNETTarget(this ProjectFile csProject, List<string> fileLines, TestResult finalResult, string csProjFilePath, string documentationLink)
         {
-            List<string> acceptableNETTargets = new List<string> { "net472", "netstandard2.0", "net5.0" };
+            List<string> acceptableNETTargets = new List<string> { "v4.7.2", "net472", "netstandard2.0", "net5.0" };
             bool atLeastOneCorrect = false;
 
             foreach(string target in csProject.TargetNETVersions)
@@ -178,7 +157,7 @@ namespace BH.Engine.Test.CodeCompliance
                     while (!fileLines[lineNumber].Contains("<Private>true</Private>"))
                     {
                         lineNumber++;
-                        if (lineNumber > fileLines.Count)
+                        if (lineNumber >= fileLines.Count)
                         {
                             lineNumber = fileLines.IndexOf(fileLines.Where(x => x.Contains(hintPathXML)).FirstOrDefault()) + 1; //return to this line as the copy local isn't set at all
                             break; //To avoid infinite loop
@@ -194,9 +173,9 @@ namespace BH.Engine.Test.CodeCompliance
                     while (!fileLines[lineNumber].Contains("<SpecificVersion>true</SpecificVersion>"))
                     {
                         lineNumber++;
-                        if (lineNumber > fileLines.Count)
+                        if (lineNumber >= fileLines.Count)
                         {
-                            lineNumber = fileLines.IndexOf(fileLines.Where(x => x.Contains(hintPathXML)).FirstOrDefault()) + 1; //return to this line as the copy local isn't set at all
+                            lineNumber = fileLines.IndexOf(fileLines.Where(x => x.Contains(hintPathXML)).FirstOrDefault()) + 1; //return to this line as the specific version isn't set at all
                             break; //To avoid infinite loop
                         }
                     }
@@ -206,6 +185,67 @@ namespace BH.Engine.Test.CodeCompliance
             }
 
             return finalResult;
+        }
+
+        private static ProjectFile GetProjectFile(List<string> fileLines)
+        {
+            ProjectFile projectFile = new ProjectFile();
+
+            for(int x = 0; x < fileLines.Count; x++)
+            {
+                if(fileLines[x].Contains("<TargetFramework"))
+                    projectFile.TargetNETVersions.Add(fileLines[x].Split('>')[1].Split('<')[0]);
+                else if(fileLines[x].Contains("<OutputPath>"))
+                    projectFile.OutputPaths.Add(fileLines[x].Split('>')[1].Split('<')[0]);
+                else if(fileLines[x].Contains("<Reference"))
+                {
+                    List<string> referenceLines = new List<string>();
+                    while(!fileLines[x].Contains("</Reference") && !fileLines[x].EndsWith("/>"))
+                    {
+                        referenceLines.Add(fileLines[x]);
+                        x++;
+                    }
+
+                    if (referenceLines.Count == 0)
+                        continue; //Not a BHoM reference, maybe a system reference, but not enough data to compile
+
+                    AssemblyReference assemblyReference = new AssemblyReference();
+
+                    string referenceNameLine = referenceLines[0].Split('\"')[1];
+                    string[] splitData = referenceNameLine.Split(',');
+                    if (splitData.Length > 0)
+                        assemblyReference.Name = splitData[0];
+
+                    string refName = assemblyReference.Name.ToLower();
+
+                    if (!refName.StartsWith("bhom") && !refName.Contains("_om") && !refName.Contains("_engine") && !refName.Contains("_adapter") && !refName.Contains("_ui"))
+                        continue; //Not a BHoM DLL so no point worrying
+
+                    if (splitData.Length > 1)
+                        assemblyReference.Version = splitData[1];
+                    if (splitData.Length > 2)
+                        assemblyReference.Culture = splitData[2];
+                    if (splitData.Length > 3)
+                        assemblyReference.ProcessorArchitecture = splitData[3];
+
+                    string hintPathLine = referenceLines.Where(y => y.Contains("<HintPath>")).FirstOrDefault();
+                    string privateLine = referenceLines.Where(y => y.Contains("<Private>")).FirstOrDefault();
+                    string specificVersionLine = referenceLines.Where(y => y.Contains("<SpecificVersion>")).FirstOrDefault();
+
+                    if (hintPathLine != null)
+                        assemblyReference.HintPath = hintPathLine.Split('>')[1].Split('<')[0];
+
+                    if (privateLine != null)
+                        assemblyReference.CopyLocal = System.Convert.ToBoolean(privateLine.Split('>')[1].Split('<')[0]);
+
+                    if (specificVersionLine != null)
+                        assemblyReference.SpecificVersion = System.Convert.ToBoolean(specificVersionLine.Split('>')[1].Split('<')[0]);
+
+                    projectFile.References.Add(assemblyReference);
+                }
+            }
+
+            return projectFile;
         }
     }
 }

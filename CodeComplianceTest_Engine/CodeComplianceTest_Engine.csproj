@@ -49,12 +49,6 @@
       <HintPath>C:\ProgramData\BHoM\Assemblies\Adapter_oM.dll</HintPath>
       <Private>False</Private>
     </Reference>
-    <Reference Include="CSProject_Adapter">
-      <HintPath>C:\ProgramData\BHoM\Assemblies\CSProject_Adapter.dll</HintPath>
-    </Reference>
-    <Reference Include="CSProject_oM">
-      <HintPath>C:\ProgramData\BHoM\Assemblies\CSProject_oM.dll</HintPath>
-    </Reference>
     <Reference Include="Diffing_oM">
       <HintPath>C:\ProgramData\BHoM\Assemblies\Diffing_oM.dll</HintPath>
       <Private>False</Private>
