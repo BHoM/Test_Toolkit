@@ -80,7 +80,7 @@ namespace BH.Engine.Test.CodeCompliance
             //Check if there were errors with pulling this project...
             if(!string.IsNullOrEmpty(csProject.AnalysisErrors))
             {
-                finalResult = finalResult.Merge(Create.TestResult(TestStatus.Error, new List<Error> { Create.Error($"CSProject files should be in the new format as used by core BHoM projects. Upgrading the file is possible for .Net Framework 4.7.2 projects as well. Please speak to a member of the DevOps team for assistance with this. Dispensation may be available for this check if the PR warrants it, please speak to a member of the DevOps team.", Create.Location(csProjFilePath, Create.LineSpan(1, 1)), documentationLink) }));
+                finalResult = finalResult.Merge(Create.TestResult(TestStatus.Error, new List<Error> { Create.Error($"CSProject files should be in the new format as used by core BHoM projects. Upgrading the file is possible for .Net Framework 4.7.2 projects as well. Please speak to a member of the DevOps team for assistance with this. Dispensation may be available for this check if the PR warrants it, please speak to a member of the DevOps team for more support.", Create.Location(csProjFilePath, Create.LineSpan(1, 1)), documentationLink) }));
             }
 
             //Check the output path
@@ -125,7 +125,7 @@ namespace BH.Engine.Test.CodeCompliance
 
             if(!atLeastOneCorrect)
             {
-                finalResult = finalResult.Merge(Create.TestResult(TestStatus.Error, new List<Error> { Create.Error($"At least one of the Target frameworks for BHoM projects must either be .Net Framework 4.7.2, .Net Standard 2.0, or .Net 5.0. This warning can be ignored ", Create.Location(csProjFilePath, Create.LineSpan(1, 1)), documentationLink) }));
+                finalResult = finalResult.Merge(Create.TestResult(TestStatus.Error, new List<Error> { Create.Error($"At least one of the Target frameworks for BHoM projects must either be .Net Framework 4.7.2, .Net Standard 2.0, or .Net 5.0.", Create.Location(csProjFilePath, Create.LineSpan(1, 1)), documentationLink) }));
             }
 
             return finalResult;
