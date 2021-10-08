@@ -62,10 +62,14 @@ namespace BH.Engine.Test.CodeCompliance
             if (csProject == null)
                 return finalResult;
 
-            //Check the output path
             finalResult = CheckNETTarget(csProject, new List<string>(fileLines), finalResult, csProjFilePath, documentationLink);
             finalResult = CheckOutputPath(csProject, new List<string>(fileLines), finalResult, csProjFilePath, documentationLink);
             finalResult = CheckReferences(csProject, new List<string>(fileLines), finalResult, csProjFilePath, documentationLink);
+
+            if (csProject.IsOldStyle)
+            {
+                finalResult = finalResult.Merge(Create.TestResult(TestStatus.Error, new List<Error> { Create.Error($"CSProject files should be in the new format as used by core BHoM projects. Upgrading the file is possible for .Net Framework 4.7.2 projects as well. Please speak to a member of the DevOps team for assistance with this.", Create.Location(csProjFilePath, Create.LineSpan(1, 1)), documentationLink, TestStatus.Warning) }));
+            }
 
             return finalResult;
         }
@@ -193,14 +197,16 @@ namespace BH.Engine.Test.CodeCompliance
 
             for(int x = 0; x < fileLines.Count; x++)
             {
-                if(fileLines[x].Contains("<TargetFramework"))
+                if (fileLines[x].Contains("<TargetFramework"))
                     projectFile.TargetNETVersions.Add(fileLines[x].Split('>')[1].Split('<')[0]);
-                else if(fileLines[x].Contains("<OutputPath>"))
+                else if (fileLines[x].Contains("<OutputPath>"))
                     projectFile.OutputPaths.Add(fileLines[x].Split('>')[1].Split('<')[0]);
-                else if(fileLines[x].Contains("<Reference"))
+                else if (fileLines[x].Contains("<Compile Include="))
+                    projectFile.IsOldStyle = true; //New Style has <Compile Exclude instead
+                else if (fileLines[x].Contains("<Reference"))
                 {
                     List<string> referenceLines = new List<string>();
-                    while(!fileLines[x].Contains("</Reference") && !fileLines[x].EndsWith("/>"))
+                    while (!fileLines[x].Contains("</Reference") && !fileLines[x].EndsWith("/>"))
                     {
                         referenceLines.Add(fileLines[x]);
                         x++;
