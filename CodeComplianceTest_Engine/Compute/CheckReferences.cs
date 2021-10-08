@@ -96,7 +96,7 @@ namespace BH.Engine.Test.CodeCompliance
 
             foreach(string target in csProject.TargetNETVersions)
             {
-                if (!acceptableNETTargets.Contains(target))
+                if (!string.IsNullOrEmpty(target) && !acceptableNETTargets.Contains(target))
                 {
                     string fullXMLText = $"<TargetFramework>{target}</TargetFramework>";
                     int lineNumber = fileLines.IndexOf(fileLines.Where(x => x.Contains(fullXMLText)).FirstOrDefault()) + 1; //+1 because index is 0 based but line numbers start at 1 for the spans
@@ -120,7 +120,7 @@ namespace BH.Engine.Test.CodeCompliance
 
             foreach(string outputPath in csProject.OutputPaths)
             {
-                if(!acceptableOutputPaths.Contains(outputPath))
+                if(!string.IsNullOrEmpty(outputPath) && !acceptableOutputPaths.Contains(outputPath))
                 {
                     string fullXMLText = $"<OutputPath>{outputPath}</OutputPath>";
                     int lineNumber = fileLines.IndexOf(fileLines.Where(x => x.Contains(fullXMLText)).FirstOrDefault()) + 1; //+1 because index is 0 based but line numbers start at 1 for the spans
