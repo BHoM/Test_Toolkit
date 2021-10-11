@@ -71,7 +71,7 @@ namespace BH.Engine.Test.CodeCompliance.DynamicChecks
             {
                 //Source information is not set
                 return Create.TestResult(TestStatus.Warning,
-                    new List<Error>() { Create.Error("Dataset file does not contain any source information.For more information see https://github.com/BHoM/documentation/wiki/IsValidDataset",
+                    new List<Error>() { Create.Error("Dataset file does not contain any source information. For more information see https://github.com/BHoM/documentation/wiki/IsValidDataset",
                         Create.Location(filePath, Create.LineSpan(1, 1)),
                         documentationLink,
                         TestStatus.Warning,
@@ -82,6 +82,7 @@ namespace BH.Engine.Test.CodeCompliance.DynamicChecks
             DatasetSource dss = new DatasetSource();
             dss.Message = "Title: " + ds.SourceInformation.Title + System.Environment.NewLine +
                         "Author: " + ds.SourceInformation.Author + System.Environment.NewLine +
+                        "Confidence: " + ds.SourceInformation.Confidence.ToString() + System.Environment.NewLine +
                         "Version: " + ds.SourceInformation.Version + System.Environment.NewLine +
                         "Source Link: " + ds.SourceInformation.SourceLink + System.Environment.NewLine +
                         "Publisher: " + ds.SourceInformation.Publisher + System.Environment.NewLine +
@@ -120,6 +121,19 @@ namespace BH.Engine.Test.CodeCompliance.DynamicChecks
                     ));
 
                 result.Status = TestStatus.Warning;
+            }
+
+            if (ds.SourceInformation.Confidence == Confidence.Undefined)
+            {
+                //Source confidence has not been set
+                errors.Add(Create.Error("Dataset confidence level has not been correctly set. For more information see https://github.com/BHoM/documentation/wiki/IsValidDataset",
+                        Create.Location(filePath, Create.LineSpan(1, 1)),
+                        documentationLink,
+                        TestStatus.Error,
+                        "Dataset confidence error"
+                    ));
+
+                result.Status = TestStatus.Error;
             }
 
             if (errors.Count > 0)
