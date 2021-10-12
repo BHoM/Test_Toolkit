@@ -139,7 +139,7 @@ namespace BH.Engine.Test.CodeCompliance
                 if (includeName != "bhom" && !includeName.Contains("_om") && !includeName.Contains("_engine") && !includeName.Contains("_adapter") && !includeName.Contains("_ui"))
                     continue; //Not a BHoM DLL so no point worrying
 
-                string includeNameXMLStart = $"<Reference Include={reference.Name}";
+                string includeNameXMLStart = $"<Reference Include=\"{reference.Name}";
                 int lineNumber = -1;
                 if(!string.IsNullOrEmpty(reference.Version) || !string.IsNullOrEmpty(reference.Culture) || !string.IsNullOrEmpty(reference.ProcessorArchitecture))
                 {
