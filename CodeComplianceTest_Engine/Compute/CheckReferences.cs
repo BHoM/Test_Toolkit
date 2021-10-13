@@ -68,7 +68,7 @@ namespace BH.Engine.Test.CodeCompliance
 
             if (csProject.IsOldStyle)
             {
-                finalResult = finalResult.Merge(Create.TestResult(TestStatus.Error, new List<Error> { Create.Error($"CSProject files should be in the new format as used by core BHoM projects. Upgrading the file is possible for .Net Framework 4.7.2 projects as well. Please speak to a member of the DevOps team for assistance with this.", Create.Location(csProjFilePath, Create.LineSpan(1, 1)), documentationLink, TestStatus.Warning) }));
+                finalResult = finalResult.Merge(Create.TestResult(TestStatus.Warning, new List<Error> { Create.Error($"CSProject files should be in the new format as used by core BHoM projects. Upgrading the file is possible for .Net Framework 4.7.2 projects as well. Please speak to a member of the DevOps team for assistance with this.", Create.Location(csProjFilePath, Create.LineSpan(1, 1)), documentationLink, TestStatus.Warning) }));
             }
 
             return finalResult;
