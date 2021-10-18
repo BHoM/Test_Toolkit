@@ -93,6 +93,8 @@ namespace BH.Engine.Test.CodeCompliance.DynamicChecks
                         "Contributors: " + ds.SourceInformation.Contributors + System.Environment.NewLine +
                         "Item Reference: " + ds.SourceInformation.ItemReference + System.Environment.NewLine;
 
+            dss.Status = TestStatus.Pass;
+
             TestResult result = new TestResult() { Status = TestStatus.Pass };
             result.Information.Add(dss);
             List<Error> errors = new List<Error>();
