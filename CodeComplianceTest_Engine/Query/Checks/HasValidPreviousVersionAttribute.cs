@@ -43,7 +43,7 @@ namespace BH.Engine.Test.CodeCompliance.Checks
 
             List<AttributeSyntax> previousVersionAttributes = node.GetAttributes("PreviousVersion");
 
-            string currentVersion = "5.0"; //Update each milestone - don't forget the one below!
+            string currentVersion = "5.1"; //Update each milestone - don't forget the one below!
 
             foreach(AttributeSyntax a in previousVersionAttributes)
             {
@@ -68,7 +68,7 @@ namespace BH.Engine.Test.CodeCompliance.Checks
 
             List<AttributeSyntax> previousVersionAttributes = node.GetAttributes("PreviousVersion");
 
-            string currentVersion = "5.0"; //Update each milestone - don't forget the one above!
+            string currentVersion = "5.1"; //Update each milestone - don't forget the one above!
 
             foreach (AttributeSyntax a in previousVersionAttributes)
             {
