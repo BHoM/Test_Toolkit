@@ -29,7 +29,7 @@ using System.Linq;
 using System.Reflection;
 using System.Text.RegularExpressions;
 using BH.oM.Test.Results;
-using BH.oM.Reflection.Debugging;
+using BH.oM.Base.Debugging;
 using BH.oM.Test;
 
 namespace BH.Engine.Test

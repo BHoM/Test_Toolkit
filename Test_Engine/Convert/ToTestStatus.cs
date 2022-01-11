@@ -24,8 +24,8 @@ using System;
 using System.Linq;
 using System.Collections.Generic;
 using System.ComponentModel;
-using BH.oM.Reflection.Attributes;
-using BH.oM.Reflection.Debugging;
+using BH.oM.Base.Attributes;
+using BH.oM.Base.Debugging;
 using BH.oM.Test;
 
 namespace BH.Engine.Test

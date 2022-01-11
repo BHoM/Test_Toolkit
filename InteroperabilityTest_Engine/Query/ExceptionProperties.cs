@@ -24,12 +24,11 @@ using System;
 using System.Linq;
 using System.Collections.Generic;
 using System.ComponentModel;
-using BH.oM.Reflection.Attributes;
+using BH.oM.Base.Attributes;
 using BH.oM.Base;
 using BH.oM.Test.Results;
 using BH.oM.UnitTest.Results;
 using BH.oM.Test.Interoperability.Results;
-using BH.oM.Reflection;
 using BH.Engine.Test;
 using BH.oM.Test;
 

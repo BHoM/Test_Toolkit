@@ -21,7 +21,7 @@
  */
 
 using BH.oM.Base;
-using BH.Engine.Reflection;
+using BH.Engine.Base;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -43,7 +43,7 @@ namespace BH.Engine.Test
                 return null;
 
             if (m_ImplementingTypes.Count == 0)
-                LinkInterfaces(Engine.Reflection.Query.BHoMTypeList());
+                LinkInterfaces(Engine.Base.Query.BHoMTypeList());
 
             return InitialiseObject(type, 0);
         }
@@ -56,7 +56,7 @@ namespace BH.Engine.Test
         {
             if (depth > m_MaxDepth)
             {
-                Reflection.Compute.RecordWarning($"Breaking cycle after reaching depth of {depth}.");
+                Base.Compute.RecordWarning($"Breaking cycle after reaching depth of {depth}.");
                 return null;
             }
 
@@ -104,7 +104,7 @@ namespace BH.Engine.Test
             }
             catch
             {
-                Reflection.Compute.RecordWarning("Failed to generate object for type " + type.FullName);
+                Base.Compute.RecordWarning("Failed to generate object for type " + type.FullName);
                 return null;
             }
             
@@ -270,7 +270,7 @@ namespace BH.Engine.Test
                 {
                     if (depth > m_MaxDepth || !m_ImplementingTypes.ContainsKey(type))
                     {
-                        Reflection.Compute.RecordWarning($"Breaking infinite loop after {m_MaxDepth} cycles on {type.FullName}");
+                        Base.Compute.RecordWarning($"Breaking infinite loop after {m_MaxDepth} cycles on {type.FullName}");
                         return null;
                     }
                     else
@@ -284,7 +284,7 @@ namespace BH.Engine.Test
                 }
                 else if (depth > m_MaxDepth)
                 {
-                    Reflection.Compute.RecordWarning($"Breaking infinite loop after {m_MaxDepth} cycles on {type.FullName}");
+                    Base.Compute.RecordWarning($"Breaking infinite loop after {m_MaxDepth} cycles on {type.FullName}");
                     return null;
                 }
                 else
@@ -292,7 +292,7 @@ namespace BH.Engine.Test
             }
             catch
             {
-                Reflection.Compute.RecordWarning($"Failed to generate value for type {type.FullName}");
+                Base.Compute.RecordWarning($"Failed to generate value for type {type.FullName}");
                 return null;
             }
         }
@@ -384,7 +384,7 @@ namespace BH.Engine.Test
                 }
                 catch (Exception e)
                 {
-                    Reflection.Compute.RecordWarning(e.ToString());
+                    Base.Compute.RecordWarning(e.ToString());
                 }
             }
         }

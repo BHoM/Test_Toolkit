@@ -25,11 +25,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using BH.oM.Reflection;
 using BH.oM.Base;
 using BH.oM.Diffing;
 using System.ComponentModel;
-using BH.oM.Reflection.Attributes;
+using BH.oM.Base.Attributes;
 using KellermanSoftware.CompareNetObjects;
 using BH.Engine.Reflection;
 

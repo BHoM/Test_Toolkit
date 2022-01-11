@@ -20,7 +20,7 @@
  * along with this code. If not, see <https://www.gnu.org/licenses/lgpl-3.0.html>.      
  */
 
-using BH.oM.Reflection.Attributes;
+using BH.oM.Base.Attributes;
 using BH.oM.Test.CodeCompliance;
 using BH.oM.Test.CodeCompliance.Attributes;
 using Microsoft.CodeAnalysis.CSharp.Syntax;

@@ -32,7 +32,7 @@ using System.Threading.Tasks;
 using BH.oM.Base;
 
 using System.Reflection;
-using BH.Engine.Reflection;
+using BH.Engine.Base;
 
 namespace BH.Engine.Test.CodeCompliance
 {
@@ -40,14 +40,14 @@ namespace BH.Engine.Test.CodeCompliance
     {
         public static List<string> InterfaceMethodsHaveMethods()
         {
-            BH.Engine.Reflection.Compute.LoadAllAssemblies();
+            BH.Engine.Base.Compute.LoadAllAssemblies();
             Dictionary<string, List<string>> errors = new Dictionary<string, List<string>>();
 
             List<string> errorOut = new List<string>();
 
             // Get the types implementing each interface
             Dictionary<Type, List<Type>> interfaceDic = new Dictionary<Type, List<Type>>();
-            foreach (Type type in BH.Engine.Reflection.Query.BHoMTypeList())
+            foreach (Type type in BH.Engine.Base.Query.BHoMTypeList())
             {
                 foreach (Type inter in type.GetInterfaces())
                 {
@@ -61,7 +61,7 @@ namespace BH.Engine.Test.CodeCompliance
             // Get all the methods organised between I methods and others
             Dictionary<string, List<MethodInfo>> methods = new Dictionary<string, List<MethodInfo>>();
             List<MethodInfo> iMethods = new List<MethodInfo>();
-            foreach (MethodInfo method in BH.Engine.Reflection.Query.BHoMMethodList())
+            foreach (MethodInfo method in BH.Engine.Base.Query.BHoMMethodList())
             {
                 if (method.IsInterfaceMethod())
                     iMethods.Add(method);

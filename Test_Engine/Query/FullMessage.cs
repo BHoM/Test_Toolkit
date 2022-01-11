@@ -24,7 +24,7 @@ using System;
 using System.Linq;
 using System.Collections.Generic;
 using System.ComponentModel;
-using BH.oM.Reflection.Attributes;
+using BH.oM.Base.Attributes;
 using BH.oM.Base;
 using BH.oM.Test;
 using BH.oM.Test.Results;
@@ -91,7 +91,7 @@ namespace BH.Engine.Test
 
         private static string FullMessage(this ITestInformation result, int maxDepth = 3, TestStatus minSeverity = TestStatus.Pass)
         {
-            object ret = Reflection.Compute.RunExtensionMethod(result, "FullMessage", new object[] { maxDepth, minSeverity });
+            object ret = Base.Compute.RunExtensionMethod(result, "FullMessage", new object[] { maxDepth, minSeverity });
 
             if (ret != null)
                 return ret.ToString();

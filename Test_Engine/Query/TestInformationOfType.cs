@@ -24,7 +24,7 @@ using System;
 using System.Linq;
 using System.Collections.Generic;
 using System.ComponentModel;
-using BH.oM.Reflection.Attributes;
+using BH.oM.Base.Attributes;
 using BH.oM.Base;
 using BH.oM.Test;
 using BH.oM.Test.Results;
@@ -51,7 +51,7 @@ namespace BH.Engine.Test
             {
                 if (!typeof(T).IsAssignableFrom(type))
                 {
-                    Engine.Reflection.Compute.RecordError($"Type {type.ToString()} is not assignable to {typeof(T).ToString()}. Cannot extract inner results.");
+                    Engine.Base.Compute.RecordError($"Type {type.ToString()} is not assignable to {typeof(T).ToString()}. Cannot extract inner results.");
                     return null;
                 }
                 //if T is different than the provided type

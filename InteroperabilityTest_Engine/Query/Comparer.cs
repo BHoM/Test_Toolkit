@@ -24,7 +24,7 @@ using System;
 using System.Linq;
 using System.Collections.Generic;
 using System.ComponentModel;
-using BH.oM.Reflection.Attributes;
+using BH.oM.Base.Attributes;
 using BH.oM.Base;
 using BH.oM.Test.Interoperability;
 
@@ -55,7 +55,7 @@ namespace BH.Engine.Test.Interoperability
                 case ComparerType.Name:
                     return new Base.Objects.BHoMObjectNameComparer();
                 default:
-                    Engine.Reflection.Compute.RecordWarning("Comarer of type " + config.ComparerType + " is not yet supported");
+                    Engine.Base.Compute.RecordWarning("Comarer of type " + config.ComparerType + " is not yet supported");
                     return null;
             }
 

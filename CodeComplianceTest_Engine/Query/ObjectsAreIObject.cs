@@ -37,13 +37,13 @@ namespace BH.Engine.Test.CodeCompliance
     {
         public static List<string> ObjectsAreIObject()
         {
-            BH.Engine.Reflection.Compute.LoadAllAssemblies();
+            BH.Engine.Base.Compute.LoadAllAssemblies();
 
             Type iObjectType = typeof(IObject);
             List<Type> errors = new List<Type>();
 
             //Test each object individually
-            foreach (Type type in BH.Engine.Reflection.Query.BHoMTypeList())
+            foreach (Type type in BH.Engine.Base.Query.BHoMTypeList())
             {
                 if (type.IsEnum || type.IsAbstract || type.FullName.EndsWith("Properties.Settings") || type.FullName.EndsWith("Properties.Resources"))
                     continue;

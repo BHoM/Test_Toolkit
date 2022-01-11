@@ -35,7 +35,7 @@ namespace BH.Engine.Test.CodeCompliance
         {
             if (position > context.Length)
             {
-                Reflection.Compute.RecordError($"{position} not found in context");
+                Base.Compute.RecordError($"{position} not found in context");
                 return null;
             }
             if (position > context.Length)

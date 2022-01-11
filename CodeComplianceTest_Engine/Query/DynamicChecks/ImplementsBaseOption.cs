@@ -27,7 +27,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 using BH.oM.Test.CodeCompliance;
-using BH.oM.Reflection.Attributes;
+using BH.oM.Base.Attributes;
 
 using System.Reflection;
 using BH.Engine.Reflection;
@@ -51,7 +51,7 @@ namespace BH.Engine.Test.CodeCompliance.DynamicChecks
 
             string ns = method.DeclaringType.FullName;
 
-            List<MethodBase> mi = BH.Engine.Reflection.Query.AllMethodList().Where(x => x.DeclaringType.FullName == ns && x.Name == methodName).ToList();
+            List<MethodBase> mi = BH.Engine.Base.Query.AllMethodList().Where(x => x.DeclaringType.FullName == ns && x.Name == methodName).ToList();
             if(mi.Count == 0 || (mi.Where(x => x.GetParameters()[0].ParameterType == firstParam.ParameterType).FirstOrDefault() == null && mi.Where(x => x.GetParameters()[0].ParameterType == typeof(object)).FirstOrDefault() == null))
             {
                 //No extension method exists

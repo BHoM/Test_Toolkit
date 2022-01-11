@@ -24,18 +24,17 @@ using System;
 using System.Linq;
 using System.Collections.Generic;
 using System.ComponentModel;
-using BH.oM.Reflection.Attributes;
+using BH.oM.Base.Attributes;
 using BH.oM.Base;
 using BH.oM.Data.Requests;
 using BH.oM.Data.Collections;
-using BH.oM.Reflection;
 
 using BH.oM.Test.Results;
 using BH.Adapter;
 using BH.oM.Adapter.Commands;
 using BH.oM.Diffing;
 using BH.Engine.Base;
-using BH.oM.Reflection.Debugging;
+using BH.oM.Base.Debugging;
 using BH.oM.Test.Interoperability;
 using BH.oM.Test.Interoperability.Results;
 using BH.oM.Test.Interoperability.Settings;
@@ -61,7 +60,7 @@ namespace BH.Engine.Test.Interoperability
             //Check settings for null
             if (settings == null)
             {
-                Reflection.Compute.RecordError("Null InteropabilityTestSettings provided.");
+                Base.Compute.RecordError("Null InteropabilityTestSettings provided.");
                 return null;
             }
 
@@ -71,21 +70,21 @@ namespace BH.Engine.Test.Interoperability
             //Check adapter created properly
             if (adapter == null)
             {
-                Reflection.Compute.RecordError("Failed to construct the adapter");
+                Base.Compute.RecordError("Failed to construct the adapter");
                 return null;
             }
 
             //Check types provided properly
             if (settings.TestTypes == null || settings.TestTypes.Count == 0)
             {
-                Reflection.Compute.RecordError("No test types provided.");
+                Base.Compute.RecordError("No test types provided.");
                 return null;
             }
 
             //Check config provided properly
             if (settings.PushPullConfig == null)
             {
-                Reflection.Compute.RecordError("No PushPullComapreConfig provided");
+                Base.Compute.RecordError("No PushPullComapreConfig provided");
                 return null;
             }
 
@@ -122,7 +121,7 @@ namespace BH.Engine.Test.Interoperability
 
             if (testSets == null || testSets.Item1 == null || testSets.Item2 == null)
             {
-                Reflection.Compute.RecordError("Failed to extract testdata");
+                Base.Compute.RecordError("Failed to extract testdata");
                 return new List<TestResult>();
             }
 
@@ -164,7 +163,7 @@ namespace BH.Engine.Test.Interoperability
 
             if (enforcedType != null && testObjects.Any(x => !enforcedType.IsAssignableFrom(x.GetType())))
             {
-                Reflection.Compute.RecordError("The testObjects is not matching the enforced type and are not a subtype of the enforced type.");
+                Base.Compute.RecordError("The testObjects is not matching the enforced type and are not a subtype of the enforced type.");
                 return new List<TestResult>();
             }
 
@@ -223,20 +222,20 @@ namespace BH.Engine.Test.Interoperability
             //Push objects
             try
             {
-                Engine.Reflection.Compute.ClearCurrentEvents();
+                Engine.Base.Compute.ClearCurrentEvents();
                 pushedObjects = adapter.Push(objects).Cast<IBHoMObject>().ToList();
                 success &= pushedObjects.Count == objects.Count;
             }
             catch (Exception e)
             {
-                Engine.Reflection.Compute.RecordError(e.Message);
+                Engine.Base.Compute.RecordError(e.Message);
                 setResult.Message = "The adapter crashed trying to push the objects.";
                 setResult.Status = oM.Test.TestStatus.Error;
                 return setResult;
             }
             finally
             {
-                setResult.Information.AddRange(Engine.Reflection.Query.CurrentEvents().Select(x => x.ToEventMessage()));
+                setResult.Information.AddRange(Engine.Base.Query.CurrentEvents().Select(x => x.ToEventMessage()));
             }
 
             if (pushedObjects.Count != objects.Count)
@@ -247,20 +246,20 @@ namespace BH.Engine.Test.Interoperability
             //Pull objects
             try
             {
-                Engine.Reflection.Compute.ClearCurrentEvents();
+                Engine.Base.Compute.ClearCurrentEvents();
                 pulledObjects = adapter.Pull(request).Cast<IBHoMObject>().ToList();
                 success &= pulledObjects.Count == pushedObjects.Count;
             }
             catch (Exception e)
             {
-                Engine.Reflection.Compute.RecordError(e.Message);
+                Engine.Base.Compute.RecordError(e.Message);
                 setResult.Message = "The adapter crashed trying to pull the objects.";
                 setResult.Status = oM.Test.TestStatus.Error;
                 return setResult;
             }
             finally
             {
-                setResult.Information.AddRange(Engine.Reflection.Query.CurrentEvents().Select(x => x.ToEventMessage()));
+                setResult.Information.AddRange(Engine.Base.Query.CurrentEvents().Select(x => x.ToEventMessage()));
             }
 
             //Compare pushed and pulled objects
@@ -279,7 +278,7 @@ namespace BH.Engine.Test.Interoperability
                 adapter.Execute(new Close { SaveBeforeClose = false });
 
             //Clear events
-            Engine.Reflection.Compute.ClearCurrentEvents();
+            Engine.Base.Compute.ClearCurrentEvents();
 
             setResult.Status = setResult.Information.OfType<TestResult>().MostSevereStatus();
 
