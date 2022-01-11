@@ -25,13 +25,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using BH.oM.Reflection;
 using BH.oM.Base;
 using BH.oM.Diffing;
 using System.ComponentModel;
-using BH.oM.Reflection.Attributes;
+using BH.oM.Base.Attributes;
 using KellermanSoftware.CompareNetObjects;
-using BH.Engine.Reflection;
+using BH.Engine.Base;
 
 namespace BH.Engine.Test
 {
@@ -95,7 +94,7 @@ namespace BH.Engine.Test
             }
             catch (Exception e)
             {
-                Engine.Reflection.Compute.RecordError($"Comparison between {obj1.IToText()} and {obj2.IToText()} failed:\n{e.Message}");
+                Engine.Base.Compute.RecordError($"Comparison between {obj1.IToText()} and {obj2.IToText()} failed:\n{e.Message}");
             }
 
             return output;

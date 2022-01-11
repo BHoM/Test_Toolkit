@@ -26,14 +26,12 @@ using System.Reflection;
 using System.Collections.Generic;
 using System.Collections;
 using System.ComponentModel;
-using BH.oM.Reflection.Attributes;
-using BH.Engine.Serialiser;
+using BH.oM.Base.Attributes;
+using BH.Engine.Base;
 using BH.oM.Base;
 using BH.Engine.Reflection;
 using Microsoft.CSharp.RuntimeBinder;
 using UT = BH.oM.Test.UnitTests;
-using BH.oM.Reflection.Interface;
-using BH.oM.Reflection;
 
 namespace BH.Engine.UnitTest
 {
@@ -51,7 +49,7 @@ namespace BH.Engine.UnitTest
         {                   
             if(test == null)
             {
-                BH.Engine.Reflection.Compute.RecordError("Could not run unit test as provided test was null.");
+                BH.Engine.Base.Compute.RecordError("Could not run unit test as provided test was null.");
                 return null;
             }
 
@@ -78,13 +76,13 @@ namespace BH.Engine.UnitTest
         {
             if(method == null)
             {
-                BH.Engine.Reflection.Compute.RecordError("Method to run a test on cannot be null.");
+                BH.Engine.Base.Compute.RecordError("Method to run a test on cannot be null.");
                 return null;
             }
 
             if(data == null)
             {
-                BH.Engine.Reflection.Compute.RecordError("Data to use to test method with cannot be null.");
+                BH.Engine.Base.Compute.RecordError("Data to use to test method with cannot be null.");
                 return null;
             }
 
@@ -92,7 +90,7 @@ namespace BH.Engine.UnitTest
             List<string> errors = new List<string>();
 
             if (method.IsGenericMethod && method is MethodInfo)
-                method = Engine.Reflection.Compute.MakeGenericFromInputs(method as MethodInfo, data.Inputs.Select(x => FixType(x)?.GetType()).ToList());
+                method = Engine.Base.Compute.MakeGenericFromInputs(method as MethodInfo, data.Inputs.Select(x => FixType(x)?.GetType()).ToList());
 
             try
             {

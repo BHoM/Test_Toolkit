@@ -24,8 +24,7 @@ using System;
 using System.Linq;
 using System.Collections.Generic;
 using System.ComponentModel;
-using BH.oM.Reflection;
-using BH.oM.Reflection.Attributes;
+using BH.oM.Base.Attributes;
 using BH.oM.Base;
 
 namespace BH.Engine.Test.Interoperability
@@ -52,7 +51,7 @@ namespace BH.Engine.Test.Interoperability
 
             if (splitNameSpace.Length < 3 || splitNameSpace[0] != "BH")
             {
-                Reflection.Compute.RecordWarning("Only BHoMtypes are currently supported");
+                Base.Compute.RecordWarning("Only BHoMtypes are currently supported");
                 return new Output<List<string>, List<List<IBHoMObject>>>() { Item1 = new List<string>(), Item2 = new List<List<IBHoMObject>>() };
             }
             else
@@ -68,7 +67,7 @@ namespace BH.Engine.Test.Interoperability
 
             if (libraryNames == null || libraryNames.Count == 0)
             {
-                Reflection.Compute.RecordWarning("No test set libraries found of the type  " + type.Name);
+                Base.Compute.RecordWarning("No test set libraries found of the type  " + type.Name);
                 return new Output<List<string>, List<List<IBHoMObject>>> { Item1 = new List<string>(), Item2 = new List<List<IBHoMObject>>() };
             }
 
@@ -77,7 +76,7 @@ namespace BH.Engine.Test.Interoperability
 
             if (testData == null || testData.Count == 0)
             {
-                Reflection.Compute.RecordWarning("Failed to extract test data of type  " + type.Name);
+                Base.Compute.RecordWarning("Failed to extract test data of type  " + type.Name);
                 return new Output<List<string>, List<List<IBHoMObject>>> { Item1 = new List<string>(), Item2 = new List<List<IBHoMObject>>() };
 
             }

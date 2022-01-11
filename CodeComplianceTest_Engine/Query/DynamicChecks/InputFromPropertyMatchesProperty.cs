@@ -27,7 +27,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 using BH.oM.Test.CodeCompliance;
-using BH.oM.Reflection.Attributes;
+using BH.oM.Base.Attributes;
 
 using System.Reflection;
 using BH.Engine.Reflection;

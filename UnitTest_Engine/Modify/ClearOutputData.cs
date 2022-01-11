@@ -24,7 +24,7 @@ using System;
 using System.Linq;
 using System.Collections.Generic;
 using System.ComponentModel;
-using BH.oM.Reflection.Attributes;
+using BH.oM.Base.Attributes;
 using BH.oM.Base;
 using UT = BH.oM.Test.UnitTests;
 
@@ -43,7 +43,7 @@ namespace BH.Engine.UnitTest
         {
             if(test == null)
             {
-                BH.Engine.Reflection.Compute.RecordError("Test cannot be null when clearing output data.");
+                BH.Engine.Base.Compute.RecordError("Test cannot be null when clearing output data.");
                 return test;
             }
 
