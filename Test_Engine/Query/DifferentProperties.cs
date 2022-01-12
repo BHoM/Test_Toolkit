@@ -30,7 +30,6 @@ using BH.oM.Diffing;
 using System.ComponentModel;
 using BH.oM.Base.Attributes;
 using KellermanSoftware.CompareNetObjects;
-using BH.Engine.Reflection;
 
 namespace BH.Engine.Test
 {
