@@ -99,14 +99,14 @@ namespace BH.Engine.UnitTest
             {
                 if (!replacePreExisting)
                 {
-                    Engine.Reflection.Compute.RecordError($"File {fullPathName} already exists. To replace it, toggle {nameof(replacePreExisting)} to true.");
+                    Engine.Base.Compute.RecordError($"File {fullPathName} already exists. To replace it, toggle {nameof(replacePreExisting)} to true.");
                     return false;
                 }
                 else
                 {
                     if (activate)
                     {
-                        Engine.Reflection.Compute.RecordNote($"File {fullPathName} is being replaced.");
+                        Engine.Base.Compute.RecordNote($"File {fullPathName} is being replaced.");
                         File.Delete(fullPathName);
                     }
                 }
@@ -129,7 +129,7 @@ namespace BH.Engine.UnitTest
                     e = e.InnerException;
                 } while (e != null);
 
-                Reflection.Compute.RecordError(message);
+                Base.Compute.RecordError(message);
                 return false;
             }
 
@@ -149,7 +149,7 @@ namespace BH.Engine.UnitTest
             assemblyName = method.DeclaringType.Assembly.FullName.Split(',').First();
 
             methodName = (method is ConstructorInfo) ? method.DeclaringType.Name : method.Name;
-            if (Reflection.Query.IsInterfaceMethod(method))
+            if (Base.Query.IsInterfaceMethod(method))
                 methodName = methodName.Substring(1);
         }
 
@@ -159,43 +159,43 @@ namespace BH.Engine.UnitTest
         {
             if (dataset == null)
             {
-                Engine.Reflection.Compute.RecordError("Provided Dataset is null.");
+                Engine.Base.Compute.RecordError("Provided Dataset is null.");
                 return false;
             }
 
             if (dataset.Data == null || dataset.Data.Count == 0)
             {
-                Engine.Reflection.Compute.RecordError("Provided Dataset does not contain any data.");
+                Engine.Base.Compute.RecordError("Provided Dataset does not contain any data.");
                 return false;
             }
 
             if (dataset.Data.Any(x => !(x is BH.oM.Test.UnitTests.UnitTest)))
             {
-                Engine.Reflection.Compute.RecordError("Provided Dataset does not contain UnitTest information.");
+                Engine.Base.Compute.RecordError("Provided Dataset does not contain UnitTest information.");
                 return false;
             }
 
             if (dataset.Data.GroupBy(x => (x as BH.oM.Test.UnitTests.UnitTest).Method.DeclaringType).Count() != 1)
             {
-                Engine.Reflection.Compute.RecordError("All provided UnitTests in the Dataset needs to belong to the same declaring type.");
+                Engine.Base.Compute.RecordError("All provided UnitTests in the Dataset needs to belong to the same declaring type.");
                 return false;
             }
 
             if (dataset.SourceInformation == null)
             {
-                Engine.Reflection.Compute.RecordError("Dataset does not contain any source information.");
+                Engine.Base.Compute.RecordError("Dataset does not contain any source information.");
                 return false;
             }
 
             if (string.IsNullOrEmpty(dataset.SourceInformation.SourceLink) || !dataset.SourceInformation.SourceLink.StartsWith("https://"))
             {
-                Engine.Reflection.Compute.RecordError("Dataset source does not contain a valid source link. Should be a link starting with 'https://'.");
+                Engine.Base.Compute.RecordError("Dataset source does not contain a valid source link. Should be a link starting with 'https://'.");
                 return false;
             }
 
             if (string.IsNullOrEmpty(dataset.SourceInformation.Author))
             {
-                Engine.Reflection.Compute.RecordError("Dataset source does not contain an Author.");
+                Engine.Base.Compute.RecordError("Dataset source does not contain an Author.");
                 return false;
             }
 
@@ -210,7 +210,7 @@ namespace BH.Engine.UnitTest
 
             if (string.IsNullOrWhiteSpace(repoFolder))
             {
-                Engine.Reflection.Compute.RecordError("Provided repofolder is null or empty. Please provide a folder targeting the github repo corresponding to the UnitTest Dataset being pushed.");
+                Engine.Base.Compute.RecordError("Provided repofolder is null or empty. Please provide a folder targeting the github repo corresponding to the UnitTest Dataset being pushed.");
             }
             
             string[] array = Path.GetFullPath(repoFolder).Split('\\');
@@ -224,21 +224,21 @@ namespace BH.Engine.UnitTest
 
             if (!Directory.Exists(repoBaseFolder))
             {
-                Reflection.Compute.RecordError("Provided repofolder does not exist.");
+                Base.Compute.RecordError("Provided repofolder does not exist.");
                 multiEngineProject = false;
                 return false;
             }
 
             if (!Directory.GetFiles(repoBaseFolder, "*.sln").Any())
             {
-                Reflection.Compute.RecordError("Provided folder is not correctly targeting a github repository folder.");
+                Base.Compute.RecordError("Provided folder is not correctly targeting a github repository folder.");
                 multiEngineProject = false;
                 return false;
             }
 
             if (checkAssemblyFolder && !Directory.GetDirectories(repoBaseFolder, assemblyName).Any())
             {
-                Reflection.Compute.RecordError($"Provided folder is not targeting a folder containing the project {assemblyName}. Please ensure the folder is the correct solution folder for the UnitTests evaluated.");
+                Base.Compute.RecordError($"Provided folder is not targeting a folder containing the project {assemblyName}. Please ensure the folder is the correct solution folder for the UnitTests evaluated.");
                 multiEngineProject = false;
                 return false;
             }
