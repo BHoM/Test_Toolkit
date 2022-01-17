@@ -50,14 +50,14 @@ namespace BH.Engine.UnitTest
 
             if (string.IsNullOrEmpty(sourceLink) || !sourceLink.StartsWith("https://"))
             {
-                Engine.Reflection.Compute.RecordError("Please provide a valid source link to the script used to generate the UnitTests. Link needs to be a valid weblink starting with 'https://'.");
+                Engine.Base.Compute.RecordError("Please provide a valid source link to the script used to generate the UnitTests. Link needs to be a valid weblink starting with 'https://'.");
                 return new List<Dataset>();
             }
 
             if (string.IsNullOrWhiteSpace(author))
             {
                 author = Environment.UserName;
-                Engine.Reflection.Compute.RecordNote($"No author provided. Using current username: {author}");
+                Engine.Base.Compute.RecordNote($"No author provided. Using current username: {author}");
             }
 
             //Merge unittests of the same method
@@ -79,7 +79,7 @@ namespace BH.Engine.UnitTest
         private static string NonInterfaceName(this MethodBase method)
         {
             string name = (method is ConstructorInfo) ? method.DeclaringType.Name : method.Name;
-            if (Reflection.Query.IsInterfaceMethod(method))
+            if (Base.Query.IsInterfaceMethod(method))
                 name = name.Substring(1);
             return name;
         }
