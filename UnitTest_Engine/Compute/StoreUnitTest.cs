@@ -45,15 +45,16 @@ namespace BH.Engine.UnitTest
         [Input("repoFolder", "Folder link to the folder corresponding to the repo containing the method(s) being tested by the UnitTests.")]
         [Input("sourceLink", "Link to the script or process used to generate the UnitTest. Important to be able to easily update the test in case of a change required from code updates.")]
         [Input("author", "Author of the UnitTests. If nothing is provided, the currently logged in windows username will be used.")]
+        [Input("confidence", "Confidence of the UnitTests. Should generally relate to the number of potential usecases and edge cases that the test data for the UnitTest is covering.")]
         [Input("checkAssemblyFolder", "If true, checks that the provided repo folder contains an assembly matching the assembly of the unit test. For general case this can be left to the default value of true.")]
         [Input("replacePreExisting", "If true, replaces any pre-existing dataset in the folder.")]
         [Input("activate", "Toggle to push dataset to file.")]
         [Output("success", "Returns true if sucessfully able to write the dataset to file.")]
-        public static bool StoreUnitTests(List<BH.oM.Test.UnitTests.UnitTest> unitTests, string repoFolder, string sourceLink, string author = "", bool checkAssemblyFolder = true, bool replacePreExisting = false, bool activate = false)
+        public static bool StoreUnitTests(List<BH.oM.Test.UnitTests.UnitTest> unitTests, string repoFolder, string sourceLink, string author = "", Confidence confidence = Confidence.Undefined, bool checkAssemblyFolder = true, bool replacePreExisting = false, bool activate = false)
         {
             bool success = true;
 
-            foreach (Dataset dataset in Create.UnitTestDataSet(unitTests, sourceLink, author))
+            foreach (Dataset dataset in Create.UnitTestDataSet(unitTests, sourceLink, author, confidence))
             {
                 success &= StoreUnitTest(dataset, repoFolder, checkAssemblyFolder, replacePreExisting, activate);
             }
