@@ -42,8 +42,9 @@ namespace BH.Engine.UnitTest
         [Input("unitTests", "UnitsTests to make part of the Dataset. UnitTests will be merged based on Method and grouped by MethodName and declaring type.")]
         [Input("sourceLink", "Link to the script or process used to generate the UnitTest. Important to be able to easily update the test in case of a change required from code updates.")]
         [Input("author", "Author of the UnitTests. If nothing is provided, the currently logged in windows username will be used.")]
+        [Input("confidence", "Confidence of the UnitTests. Should generally relate to the number of potential usecases and edge cases that the test data for the UnitTest is covering.")]
         [Output("datasets", "The created Datasets containing the provided UnitTests.")]
-        public static List<Dataset> UnitTestDataSet(List<BH.oM.Test.UnitTests.UnitTest> unitTests, string sourceLink, string author = "")
+        public static List<Dataset> UnitTestDataSet(List<BH.oM.Test.UnitTests.UnitTest> unitTests, string sourceLink, string author = "", Confidence confidence = Confidence.Undefined)
         {
             if (unitTests == null || unitTests.Count == 0)
                 return new List<Dataset>();
@@ -65,7 +66,7 @@ namespace BH.Engine.UnitTest
             List<Dataset> datasets = new List<Dataset>();
             foreach (var group in mergedTests.GroupBy(x => new { Name = x.Method.NonInterfaceName(), T = x.Method.DeclaringType }))
             {
-                Source source = new Source() { SourceLink = sourceLink, Title = group.Key.Name, Author = author };
+                Source source = new Source() { SourceLink = sourceLink, Title = group.Key.Name, Author = author, Confidence = confidence };
                 datasets.Add(Engine.Data.Create.Dataset(group.Cast<IBHoMObject>().ToList(), source, group.Key.Name));
             }
 
