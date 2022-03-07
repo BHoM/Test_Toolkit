@@ -38,6 +38,8 @@ using BH.oM.UnitTest.Results;
 using BH.Engine.Test;
 using BH.oM.Data.Library;
 
+using System.IO;
+
 namespace BH.Engine.UnitTest
 {
     public static partial class Compute
@@ -45,6 +47,26 @@ namespace BH.Engine.UnitTest
         /***************************************************/
         /**** Public Methods                            ****/
         /***************************************************/
+
+        [Description("Executes all unit tests stored in a serialised file of test sets.")]
+        [Input("fileName", "The full file path to the file containing the serialised test datasets.")]
+        [Output("result", "Results from the comparison of the run data with the expected output.")]
+        public static TestResult CheckTest(this string fileName)
+        {
+            StreamReader sr = new StreamReader(fileName);
+            string line = sr.ReadToEnd();
+            sr.Close();
+
+            object ds = BH.Engine.Serialiser.Convert.FromJson(line);
+            if(ds == null)
+                return new TestResult() { Status = BH.oM.Test.TestStatus.Warning, Message = "Dataset did not deserialise correctly." };
+
+            Dataset testSet = ds as Dataset;
+            if(testSet == null)
+                return new TestResult() { Status = BH.oM.Test.TestStatus.Warning, Message = "Dataset did not deserialise correctly as a BHoM Dataset." };
+
+            return CheckTests(testSet);
+        }
 
         [Description("Executes all unit tests in a dataset and returns a total TestResult from the execution of all testResults in the dataset.")]
         [Input("testDataSet", "The test dataset to be evaluated.")]
