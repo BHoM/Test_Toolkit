@@ -53,6 +53,9 @@ namespace BH.Engine.UnitTest
         [Output("result", "Results from the comparison of the run data with the expected output.")]
         public static TestResult CheckTest(this string fileName)
         {
+            if(string.IsNullOrEmpty(fileName))
+                return new TestResult() { Status = BH.oM.Test.TestStatus.Warning, Message = "Provided file name was null." };
+
             StreamReader sr = new StreamReader(fileName);
             string line = sr.ReadToEnd();
             sr.Close();
