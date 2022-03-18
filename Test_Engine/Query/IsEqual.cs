@@ -63,10 +63,10 @@ namespace BH.Engine.Test
         public static Output<bool, List<string>, List<string>, List<string>> IsEqual(this object obj1, object obj2, BH.oM.Base.ComparisonConfig config = null)
         {
             //Use default config if null
-            config = config ?? new oM.Base.ComparisonConfig();
+            config = config ?? Create.DefaultTestComparisonConfig();
 
             CompareLogic comparer = new CompareLogic();
-            comparer.Config.MaxDifferences = 1000;
+            comparer.Config.MaxDifferences = config.MaxPropertyDifferences;
             comparer.Config.MembersToIgnore = config.PropertyExceptions;
             comparer.Config.DoublePrecision = config.NumericTolerance;
             comparer.Config.TypesToIgnore = config.TypeExceptions;

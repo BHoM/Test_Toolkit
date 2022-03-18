@@ -226,7 +226,7 @@ namespace BH.Engine.UnitTest
 
         private static List<ComparisonDifference> CompareResults(IList<object> referenceData, IList<object> runData)
         {
-            ComparisonConfig comparisonConfig = new ComparisonConfig();
+            ComparisonConfig comparisonConfig = Engine.Test.Create.DefaultTestComparisonConfig();
 
             List<ComparisonDifference> differences = new List<ComparisonDifference>();
 
