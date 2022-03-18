@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="15.0" DefaultTarget="" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
@@ -66,6 +66,7 @@
   <ItemGroup>
     <Compile Include="Convert\ToEventMessage.cs" />
     <Compile Include="Convert\ToTestStatus.cs" />
+    <Compile Include="Create\ComparisonConfig\DefaultTestComparisonConfig.cs" />
     <Compile Include="Create\PassResult.cs" />
     <Compile Include="Create\FailResult.cs" />
     <Compile Include="Compute\DummyObject.cs" />
