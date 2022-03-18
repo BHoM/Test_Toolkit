@@ -215,7 +215,7 @@ namespace BH.Engine.Test.Interoperability
             List<IBHoMObject> pushedObjects = new List<IBHoMObject>();
             List<IBHoMObject> pulledObjects = new List<IBHoMObject>();
 
-            BH.oM.Base.ComparisonConfig config = new BH.oM.Base.ComparisonConfig();
+            BH.oM.Base.ComparisonConfig config = Engine.Test.Create.DefaultTestComparisonConfig();
             config.PropertyExceptions.Add("CustomData");
             config.TypeExceptions.Add(typeof(HashFragment));
 
