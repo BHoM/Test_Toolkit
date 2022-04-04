@@ -30,7 +30,6 @@ using BH.oM.Test.CodeCompliance;
 using BH.oM.Base.Attributes;
 
 using System.Reflection;
-using BH.Engine.Reflection;
 
 using BH.oM.Test;
 using BH.oM.Test.Results;
