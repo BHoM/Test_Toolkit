@@ -29,7 +29,6 @@ using System.Threading.Tasks;
 using BH.oM.Test.CodeCompliance;
 using System.IO;
 using BH.oM.Data.Library;
-using BH.Engine.Library;
 
 using BH.oM.Test;
 using BH.oM.Test.Results;
