@@ -248,7 +248,7 @@ namespace BH.Engine.Test.CodeCompliance
             }
             else
             {
-                postBuildShouldContain = "&quot;$(TargetDir)$(TargetFileName)&quot;  &quot;C:\\ProgramData\\BHoM\\Assemblies&quot; /Y";
+                postBuildShouldContain = "&quot;$(TargetDir)$(TargetFileName)&quot; &quot;C:\\ProgramData\\BHoM\\Assemblies&quot; /Y";
                 searchLine = "<Exec Command=\"xcopy";
             }
 
