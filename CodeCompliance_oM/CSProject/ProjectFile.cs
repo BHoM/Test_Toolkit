@@ -34,6 +34,11 @@ namespace BH.oM.Test.CodeCompliance
         public virtual List<string> OutputPaths { get; set; } = new List<string>();
 
         public virtual List<string> TargetNETVersions { get; set; } = new List<string>();
+        public virtual string AssemblyFileVersion { get; set; } = ""; //5.1.0.0
+        public virtual string AssemblyVersion { get; set; } = ""; //5.0.0.0
+        public virtual string AssemblyDescription { get; set; } = "";
+
+        public virtual string PostBuildEvent { get; set; } = "";
 
         public bool IsOldStyle { get; set; } = false;
     }

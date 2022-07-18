@@ -43,9 +43,9 @@ namespace BH.Engine.Test.CodeCompliance.Checks
 
             List<AttributeSyntax> previousVersionAttributes = node.GetAttributes("PreviousVersion");
 
-            string currentVersion = "5.3"; //Update each milestone - don't forget the one below!
+            string currentVersion = BH.Engine.Test.CodeCompliance.Query.CurrentAssemblyFileVersion();
 
-            foreach(AttributeSyntax a in previousVersionAttributes)
+            foreach (AttributeSyntax a in previousVersionAttributes)
             {
                 string givenVersion = a.ArgumentList.Arguments[0].Expression.GetFirstToken().Value.ToString();
 
@@ -68,7 +68,7 @@ namespace BH.Engine.Test.CodeCompliance.Checks
 
             List<AttributeSyntax> previousVersionAttributes = node.GetAttributes("PreviousVersion");
 
-            string currentVersion = "5.3"; //Update each milestone - don't forget the one above!
+            string currentVersion = BH.Engine.Test.CodeCompliance.Query.CurrentAssemblyFileVersion();
 
             foreach (AttributeSyntax a in previousVersionAttributes)
             {

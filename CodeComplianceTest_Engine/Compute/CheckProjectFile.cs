@@ -43,9 +43,9 @@ namespace BH.Engine.Test.CodeCompliance
 {
     public static partial class Compute
     {
-        public static TestResult CheckReferences(this string csProjFilePath)
+        public static TestResult CheckProjectFile(this string csProjFilePath, string assemblyDescriptionOrg = null)
         {
-            if (Path.GetExtension(csProjFilePath) != ".csproj")
+            if ((Path.GetExtension(csProjFilePath) != ".csproj"))
                 return Create.TestResult(TestStatus.Pass);
 
             if (!File.Exists(csProjFilePath))
@@ -54,7 +54,7 @@ namespace BH.Engine.Test.CodeCompliance
             TestResult finalResult = Create.TestResult(TestStatus.Pass);
             string documentationLink = "Project-References-and-Build-Paths";
 
-            List<string> fileLines = ReadCSProjFile(csProjFilePath);
+            List<string> fileLines = ReadFileContents(csProjFilePath);
 
             ProjectFile csProject = GetProjectFile(fileLines);
 
@@ -64,16 +64,25 @@ namespace BH.Engine.Test.CodeCompliance
             finalResult = CheckNETTarget(csProject, new List<string>(fileLines), finalResult, csProjFilePath, documentationLink);
             finalResult = CheckOutputPath(csProject, new List<string>(fileLines), finalResult, csProjFilePath, documentationLink);
             finalResult = CheckReferences(csProject, new List<string>(fileLines), finalResult, csProjFilePath, documentationLink);
+            finalResult = CheckPostBuild(csProject, new List<string>(fileLines), finalResult, csProjFilePath, documentationLink);
 
             if (csProject.IsOldStyle)
             {
                 finalResult = finalResult.Merge(Create.TestResult(TestStatus.Warning, new List<Error> { Create.Error($"CSProject files should be in the new format as used by core BHoM projects. Upgrading the file is possible for .Net Framework 4.7.2 projects as well. Please speak to a member of the DevOps team for assistance with this.", Create.Location(csProjFilePath, Create.LineSpan(1, 1)), documentationLink, TestStatus.Warning) }));
             }
+            else
+            {
+                finalResult = CheckAssemblyVersion(csProject, new List<string>(fileLines), finalResult, csProjFilePath, documentationLink);
+                finalResult = CheckAssembyFileVersion(csProject, new List<string>(fileLines), finalResult, csProjFilePath, documentationLink);
+
+                if (!string.IsNullOrEmpty(assemblyDescriptionOrg))
+                    finalResult = CheckAssemblyDescription(csProject, new List<string>(fileLines), finalResult, csProjFilePath, documentationLink, assemblyDescriptionOrg);
+            }
 
             return finalResult;
         }
 
-        private static List<string> ReadCSProjFile(string fileName)
+        private static List<string> ReadFileContents(string fileName)
         {
             StreamReader sr = new StreamReader(fileName);
 
@@ -90,7 +99,7 @@ namespace BH.Engine.Test.CodeCompliance
 
         private static TestResult CheckNETTarget(this ProjectFile csProject, List<string> fileLines, TestResult finalResult, string csProjFilePath, string documentationLink)
         {
-            List<string> acceptableNETTargets = new List<string> { "v4.7.2", "net472", "netstandard2.0", "net5.0" };
+            List<string> acceptableNETTargets = new List<string> { "v4.7.2", "net472", "netstandard2.0", "net5.0", "net6.0" };
             bool atLeastOneCorrect = false;
 
             foreach(string target in csProject.TargetNETVersions)
@@ -190,18 +199,83 @@ namespace BH.Engine.Test.CodeCompliance
             return finalResult;
         }
 
+        private static TestResult CheckAssemblyVersion(this ProjectFile csProject, List<string> fileLines, TestResult finalResult, string csProjFilePath, string documentationLink)
+        {
+            string currentAssemblyVersion = Query.FullCurrentAssemblyVersion();
+            if (csProject.AssemblyVersion.ToLower() != currentAssemblyVersion.ToLower())
+            {
+                string fullXMLText = $"<AssemblyVersion>{csProject.AssemblyVersion}</AssemblyVersion>";
+                int lineNumber = fileLines.IndexOf(fileLines.Where(x => x.Contains(fullXMLText)).FirstOrDefault()) + 1; //+1 because index is 0 based but line numbers start at 1 for the spans
+                return finalResult.Merge(Create.TestResult(TestStatus.Error, new List<Error> { Create.Error($"Assembly Version should be set to {currentAssemblyVersion}", Create.Location(csProjFilePath, Create.LineSpan(lineNumber, lineNumber)), documentationLink) }));
+            }
+
+            return finalResult;
+        }
+
+        private static TestResult CheckAssembyFileVersion(this ProjectFile csProject, List<string> fileLines, TestResult finalResult, string csProjFilePath, string documentationLink)
+        {
+            string currentlyAssemblyFileVersion = Query.FullCurrentAssemblyFileVersion();
+            if (csProject.AssemblyFileVersion.ToLower() != currentlyAssemblyFileVersion.ToLower())
+            {
+                string fullXMLText = $"<FileVersion>{csProject.AssemblyFileVersion}</FileVersion>";
+                int lineNumber = fileLines.IndexOf(fileLines.Where(x => x.Contains(fullXMLText)).FirstOrDefault()) + 1; //+1 because index is 0 based but line numbers start at 1 for the spans
+                return finalResult.Merge(Create.TestResult(TestStatus.Error, new List<Error> { Create.Error($"Assembly File Version should be set to {currentlyAssemblyFileVersion}", Create.Location(csProjFilePath, Create.LineSpan(lineNumber, lineNumber)), documentationLink) }));
+            }
+
+            return finalResult;
+        }
+
+        private static TestResult CheckAssemblyDescription(this ProjectFile csProject, List<string> fileLines, TestResult finalResult, string csProjFilePath, string documentationLink, string descriptionUrl)
+        {
+            if (csProject.AssemblyDescription.ToLower() != descriptionUrl.ToLower())
+            {
+                string fullXMLText = $"<Description>{csProject.AssemblyDescription}</Description>";
+                int lineNumber = fileLines.IndexOf(fileLines.Where(x => x.Contains(fullXMLText)).FirstOrDefault()) + 1; //+1 because index is 0 based but line numbers start at 1 for the spans
+                return finalResult.Merge(Create.TestResult(TestStatus.Error, new List<Error> { Create.Error($"Assembly Description should contain the URL to the GitHub organisation which owns the repository", Create.Location(csProjFilePath, Create.LineSpan(lineNumber, lineNumber)), documentationLink) }));
+            }
+
+            return finalResult;
+        }
+
+        private static TestResult CheckPostBuild(this ProjectFile csProject, List<string> fileLines, TestResult finalResult, string csProjFilePath, string documentationLink)
+        {
+            string postBuildShouldContain = "";
+            if (csProject.IsOldStyle)
+                postBuildShouldContain = "xcopy \"$(TargetDir)$(TargetFileName)\" \"C:\\ProgramData\\BHoM\\Assemblies\" /Y";
+            else
+                postBuildShouldContain = "&quot;$(TargetDir)$(TargetFileName)&quot;  &quot;C:\\ProgramData\\BHoM\\Assemblies&quot; /Y";
+
+            if(!csProject.PostBuildEvent.Contains(postBuildShouldContain))
+            {
+                int lineNumber = fileLines.IndexOf(fileLines.Where(x => x.Contains(csProject.PostBuildEvent)).FirstOrDefault()) + 1; //+1 because index is 0 based but line numbers start at 1 for the spans
+                return finalResult.Merge(Create.TestResult(TestStatus.Error, new List<Error> { Create.Error($"Post Build event should be correctly set to copy the compiled DLL to the BHoM Assemblies folder", Create.Location(csProjFilePath, Create.LineSpan(lineNumber, lineNumber)), documentationLink) }));
+            }
+
+            return finalResult;
+        }
+
         private static ProjectFile GetProjectFile(List<string> fileLines)
         {
             ProjectFile projectFile = new ProjectFile();
 
             for(int x = 0; x < fileLines.Count; x++)
             {
-                if (fileLines[x].Contains("<TargetFramework"))
+                if (fileLines[x].Contains("<AssemblyVersion"))
+                    projectFile.AssemblyVersion = fileLines[x].Split('>')[1].Split('<')[0];
+                else if (fileLines[x].Contains("<FileVersion"))
+                    projectFile.AssemblyFileVersion = fileLines[x].Split('>')[1].Split('<')[0];
+                else if (fileLines[x].Contains("<Description"))
+                    projectFile.AssemblyDescription = fileLines[x].Split('>')[1].Split('<')[0];
+                else if (fileLines[x].Contains("<TargetFramework"))
                     projectFile.TargetNETVersions.Add(fileLines[x].Split('>')[1].Split('<')[0]);
                 else if (fileLines[x].Contains("<OutputPath>"))
                     projectFile.OutputPaths.Add(fileLines[x].Split('>')[1].Split('<')[0]);
                 else if (fileLines[x].Contains("<Compile Include="))
                     projectFile.IsOldStyle = true; //New Style has <Compile Exclude instead
+                else if (fileLines[x].Contains("<PostBuildEvent"))
+                    projectFile.PostBuildEvent = fileLines[x].Split('>')[1].Split('<')[0];
+                else if (fileLines[x].Contains("<Exec Command=\"xcopy"))
+                    projectFile.PostBuildEvent = fileLines[x];
                 else if (fileLines[x].Contains("<Reference"))
                 {
                     List<string> referenceLines = new List<string>();
