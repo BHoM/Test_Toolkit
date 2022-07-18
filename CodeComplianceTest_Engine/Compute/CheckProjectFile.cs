@@ -240,14 +240,21 @@ namespace BH.Engine.Test.CodeCompliance
         private static TestResult CheckPostBuild(this ProjectFile csProject, List<string> fileLines, TestResult finalResult, string csProjFilePath, string documentationLink)
         {
             string postBuildShouldContain = "";
+            string searchLine = "";
             if (csProject.IsOldStyle)
-                postBuildShouldContain = "xcopy \"$(TargetDir)$(TargetFileName)\" \"C:\\ProgramData\\BHoM\\Assemblies\" /Y";
-            else
-                postBuildShouldContain = "&quot;$(TargetDir)$(TargetFileName)&quot;  &quot;C:\\ProgramData\\BHoM\\Assemblies&quot; /Y";
-
-            if(!csProject.PostBuildEvent.Contains(postBuildShouldContain))
             {
-                int lineNumber = fileLines.IndexOf(fileLines.Where(x => x.Contains(csProject.PostBuildEvent)).FirstOrDefault()) + 1; //+1 because index is 0 based but line numbers start at 1 for the spans
+                postBuildShouldContain = "xcopy \"$(TargetDir)$(TargetFileName)\" \"C:\\ProgramData\\BHoM\\Assemblies\" /Y";
+                searchLine = "<PostBuildEvent";
+            }
+            else
+            {
+                postBuildShouldContain = "&quot;$(TargetDir)$(TargetFileName)&quot;  &quot;C:\\ProgramData\\BHoM\\Assemblies&quot; /Y";
+                searchLine = "<Exec Command=\"xcopy";
+            }
+
+            if(!csProject.PostBuildEvent.Any(x => x.Contains(postBuildShouldContain)))
+            {
+                int lineNumber = fileLines.IndexOf(fileLines.Where(x => x.Contains(searchLine)).FirstOrDefault()) + 1; //+1 because index is 0 based but line numbers start at 1 for the spans
                 return finalResult.Merge(Create.TestResult(TestStatus.Error, new List<Error> { Create.Error($"Post Build event should be correctly set to copy the compiled DLL to the BHoM Assemblies folder", Create.Location(csProjFilePath, Create.LineSpan(lineNumber, lineNumber)), documentationLink) }));
             }
 
@@ -272,10 +279,18 @@ namespace BH.Engine.Test.CodeCompliance
                     projectFile.OutputPaths.Add(fileLines[x].Split('>')[1].Split('<')[0]);
                 else if (fileLines[x].Contains("<Compile Include="))
                     projectFile.IsOldStyle = true; //New Style has <Compile Exclude instead
-                else if (fileLines[x].Contains("<PostBuildEvent"))
-                    projectFile.PostBuildEvent = fileLines[x].Split('>')[1].Split('<')[0];
                 else if (fileLines[x].Contains("<Exec Command=\"xcopy"))
-                    projectFile.PostBuildEvent = fileLines[x];
+                    projectFile.PostBuildEvent = new List<string> { fileLines[x] };
+                else if (fileLines[x].Contains("<PostBuildEvent"))
+                {
+                    List<string> postBuildLines = new List<string>();
+                    while(!fileLines[x].Contains("</PostBuildEvent") && !fileLines[x].EndsWith("/>"))
+                    {
+                        postBuildLines.Add(fileLines[x]);
+                        x++;
+                    }
+                    projectFile.PostBuildEvent = postBuildLines;
+                }                
                 else if (fileLines[x].Contains("<Reference"))
                 {
                     List<string> referenceLines = new List<string>();

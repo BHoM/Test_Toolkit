@@ -38,7 +38,7 @@ namespace BH.oM.Test.CodeCompliance
         public virtual string AssemblyVersion { get; set; } = ""; //5.0.0.0
         public virtual string AssemblyDescription { get; set; } = "";
 
-        public virtual string PostBuildEvent { get; set; } = "";
+        public virtual List<string> PostBuildEvent { get; set; } = new List<string>();
 
         public bool IsOldStyle { get; set; } = false;
     }
