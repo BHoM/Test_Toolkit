@@ -115,7 +115,7 @@ namespace BH.Engine.Test.CodeCompliance
                 return finalResult.Merge(Create.TestResult(TestStatus.Error, new List<Error> { Create.Error($"Assembly Description should contain the URL to the GitHub organisation which owns the repository", Create.Location(assemblyInfoPath, Create.LineSpan(1, 1)), documentationLink) }));
             else
             {
-                string allowedLine = $"{searchLine}{Query.FullCurrentAssemblyFileVersion()}\")]";
+                string allowedLine = $"{searchLine}{descriptionUrl}\")]";
                 int line = fileLines.IndexOf(foundLine) + 1;
                 if (!foundLine.Contains(allowedLine))
                     return finalResult.Merge(Create.TestResult(TestStatus.Error, new List<Error> { Create.Error($"Assembly Description should contain the URL to the GitHub organisation which owns the repository", Create.Location(assemblyInfoPath, Create.LineSpan(line, line)), documentationLink) }));
