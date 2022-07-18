@@ -126,8 +126,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Compute\CheckAssemblyInfo.cs" />
     <Compile Include="Compute\CheckProjectStructure.cs" />
-    <Compile Include="Compute\CheckReferences.cs" />
+    <Compile Include="Compute\CheckProjectFile.cs" />
     <Compile Include="Compute\Check.cs" />
     <Compile Include="Convert\ToSyntaxTree.cs" />
     <Compile Include="Convert\ToSpan.cs" />
@@ -174,6 +175,7 @@
     <Compile Include="Query\AllChecks.cs" />
     <Compile Include="Query\Checks\PreviousInputNamesAttributeHasMatchingParameter.cs" />
     <Compile Include="Query\Checks\PreviousInputNamesAttributeIsUnique.cs" />
+    <Compile Include="Query\CurrentVersion.cs" />
     <Compile Include="Query\DescriptionAttribute.cs" />
     <Compile Include="Query\DirectlyInherits.cs" />
     <Compile Include="Query\DynamicChecks\AdapterCreateMethodIsValid.cs" />
