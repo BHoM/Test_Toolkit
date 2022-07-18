@@ -254,11 +254,15 @@ namespace BH.Engine.Test.CodeCompliance
 
             if(!csProject.PostBuildEvent.Any(x => x.Contains(postBuildShouldContain)))
             {
-                postBuildShouldContain = "&quot;$(TargetDir)$(TargetFileName)&quot;  &quot;C:\\ProgramData\\BHoM\\Assemblies&quot; /Y"; //Check again with a double spacing
+                postBuildShouldContain = "xcopy \"$(TargetDir)$(TargetFileName)\"  \"C:\\ProgramData\\BHoM\\Assemblies\" /Y"; //Check again with a double spacing
                 if (!csProject.PostBuildEvent.Any(x => x.Contains(postBuildShouldContain)))
                 {
-                    int lineNumber = fileLines.IndexOf(fileLines.Where(x => x.Contains(searchLine)).FirstOrDefault()) + 1; //+1 because index is 0 based but line numbers start at 1 for the spans
-                    return finalResult.Merge(Create.TestResult(TestStatus.Error, new List<Error> { Create.Error($"Post Build event should be correctly set to copy the compiled DLL to the BHoM Assemblies folder", Create.Location(csProjFilePath, Create.LineSpan(lineNumber, lineNumber)), documentationLink) }));
+                    postBuildShouldContain = "&quot;$(TargetDir)$(TargetFileName)&quot;  &quot;C:\\ProgramData\\BHoM\\Assemblies&quot; /Y"; //Check again with a double spacing
+                    if (!csProject.PostBuildEvent.Any(x => x.Contains(postBuildShouldContain)))
+                    {
+                        int lineNumber = fileLines.IndexOf(fileLines.Where(x => x.Contains(searchLine)).FirstOrDefault()) + 1; //+1 because index is 0 based but line numbers start at 1 for the spans
+                        return finalResult.Merge(Create.TestResult(TestStatus.Error, new List<Error> { Create.Error($"Post Build event should be correctly set to copy the compiled DLL to the BHoM Assemblies folder", Create.Location(csProjFilePath, Create.LineSpan(lineNumber, lineNumber)), documentationLink) }));
+                    }
                 }
             }
 
