@@ -192,7 +192,7 @@ namespace BH.Engine.Test.CodeCompliance
                         }
                     }
 
-                    finalResult = finalResult.Merge(Create.TestResult(TestStatus.Error, new List<Error> { Create.Error($"Project reference for '{reference.Name}' should be set to not be set to a specific version", Create.Location(csProjFilePath, Create.LineSpan(lineNumber, lineNumber)), documentationLink) }));
+                    finalResult = finalResult.Merge(Create.TestResult(TestStatus.Error, new List<Error> { Create.Error($"Project reference for '{reference.Name}' should set specific version as false", Create.Location(csProjFilePath, Create.LineSpan(lineNumber, lineNumber)), documentationLink) }));
                 }
             }
 
