@@ -44,12 +44,12 @@ namespace BH.Engine.UnitTest
         [Input("author", "Author of the UnitTests. If nothing is provided, the currently logged in windows username will be used.")]
         [Input("confidence", "Confidence of the UnitTests. Should generally relate to the number of potential usecases and edge cases that the test data for the UnitTest is covering.")]
         [Output("datasets", "The created Datasets containing the provided UnitTests.")]
-        public static List<Dataset> UnitTestDataSet(List<BH.oM.Test.UnitTests.UnitTest> unitTests, string sourceLink, string author = "", Confidence confidence = Confidence.Undefined)
+        public static List<Dataset> UnitTestDataSet(List<BH.oM.Test.UnitTests.UnitTest> unitTests, string sourceLink = "", string author = "", Confidence confidence = Confidence.Undefined)
         {
             if (unitTests == null || unitTests.Count == 0)
                 return new List<Dataset>();
 
-            if (string.IsNullOrEmpty(sourceLink) || !sourceLink.StartsWith("https://"))
+            if (!string.IsNullOrEmpty(sourceLink) && !sourceLink.StartsWith("https://"))
             {
                 Engine.Base.Compute.RecordError("Please provide a valid source link to the script used to generate the UnitTests. Link needs to be a valid weblink starting with 'https://'.");
                 return new List<Dataset>();
