@@ -188,7 +188,7 @@ namespace BH.Engine.UnitTest
                 return false;
             }
 
-            if (string.IsNullOrEmpty(dataset.SourceInformation.SourceLink) || !dataset.SourceInformation.SourceLink.StartsWith("https://"))
+            if (!string.IsNullOrEmpty(dataset.SourceInformation.SourceLink) && !dataset.SourceInformation.SourceLink.StartsWith("https://"))
             {
                 Engine.Base.Compute.RecordError("Dataset source does not contain a valid source link. Should be a link starting with 'https://'.");
                 return false;
