@@ -63,6 +63,13 @@ namespace BH.Engine.UnitTest
 
             //Merge unittests of the same method
             List<BH.oM.Test.UnitTests.UnitTest> mergedTests = Compute.MergeUnitTests(unitTests);
+
+            if (mergedTests.Count == 0)
+            {
+                Engine.Base.Compute.RecordError($"No valid {nameof(BH.oM.Test.UnitTests.UnitTest)}s provided. No Dataset created.");
+                return new List<Dataset>();
+            }
+
             List<Dataset> datasets = new List<Dataset>();
             foreach (var group in mergedTests.GroupBy(x => new { Name = x.Method.NonInterfaceName(), T = x.Method.DeclaringType }))
             {
