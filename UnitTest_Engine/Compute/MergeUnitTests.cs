@@ -42,6 +42,17 @@ namespace BH.Engine.UnitTest
         [Output("mergedTests", "The list of merged UnitTests.")]
         public static List<oM.Test.UnitTests.UnitTest> MergeUnitTests(List<oM.Test.UnitTests.UnitTest> testsToMerge)
         {
+            int initialCount = testsToMerge.Count;
+            testsToMerge = testsToMerge.Where(x => x != null).ToList(); //Filter out nulls
+            if (initialCount != testsToMerge.Count)
+                Base.Compute.RecordWarning("Null UnitTests provided have been culled out and not merged.");
+
+            if (testsToMerge.Count == 0)
+            {
+                Base.Compute.RecordWarning("No non-null tests provided to merge. Emtpy list returned.");
+                return new List<oM.Test.UnitTests.UnitTest>();
+            }
+
             List<oM.Test.UnitTests.UnitTest> mergedTests = new List<oM.Test.UnitTests.UnitTest>();
 
             foreach (var group in testsToMerge.GroupBy(x => x.Method.ToJson()))
