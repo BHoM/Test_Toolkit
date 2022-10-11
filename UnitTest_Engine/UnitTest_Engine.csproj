@@ -84,6 +84,7 @@
     <Compile Include="Create\Dataset\UnitTestDataSet.cs" />
     <Compile Include="Modify\ClearOutputData.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Query\FilterByCheckStatus.cs" />
     <Compile Include="Query\FullMessage.cs" />
   </ItemGroup>
   <ItemGroup>
