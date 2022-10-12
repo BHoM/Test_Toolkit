@@ -47,7 +47,7 @@ namespace BH.Engine.UnitTest
         [Input("author", "Author of the UnitTests. If nothing is provided, the currently logged in windows username will be used.")]
         [Input("confidence", "Confidence of the UnitTests. Should generally relate to the number of potential usecases and edge cases that the test data for the UnitTest is covering.")]
         [Input("checkAssemblyFolder", "If true, checks that the provided repo folder contains an assembly matching the assembly of the unit test. For general case this can be left to the default value of true.")]
-        [Input("replacePreExisting", "If true, replaces any pre-existing dataset in the folder.")]
+        [Input("replacePreExisting", "If true, replaces any pre-existing dataset in the folder, if false, merges the content of the provided Dataset with the one in the folder.")]
         [Input("activate", "Toggle to push dataset to file.")]
         [Output("success", "Returns true if sucessfully able to write the dataset to file.")]
         public static bool StoreUnitTests(List<BH.oM.Test.UnitTests.UnitTest> unitTests, string repoFolder, string sourceLink = "", string author = "", Confidence confidence = Confidence.Undefined, bool checkAssemblyFolder = true, bool replacePreExisting = false, bool activate = false)
@@ -68,7 +68,7 @@ namespace BH.Engine.UnitTest
         [Input("dataset", "Dataset to store in .ci folder. Should contain only UnitTest information.")]
         [Input("repoFolder", "Folder link to the folder corresponding to the repo containing the method(s) being tested by the UnitTest(s) in the Dataset.")]
         [Input("checkAssemblyFolder", "If true, checks that the provided repo folder contains an assembly matching the assembly of the unit test. For general case this can be left to the default value of true.")]
-        [Input("replacePreExisting", "If true, replaces any pre-existing dataset in the folder.")]
+        [Input("replacePreExisting", "If true, replaces any pre-existing dataset in the folder, if false, merges the content of the provided Dataset with the one in the folder.")]
         [Input("activate", "Toggle to push dataset to file.")]
         [Output("success", "Returns true if sucessfully able to write the dataset to file.")]
         public static bool StoreUnitTest(Dataset dataset, string repoFolder, bool checkAssemblyFolder = true, bool replacePreExisting = false, bool activate = false)
@@ -100,16 +100,28 @@ namespace BH.Engine.UnitTest
             {
                 if (!replacePreExisting)
                 {
-                    Engine.Base.Compute.RecordError($"File {fullPathName} already exists. To replace it, toggle {nameof(replacePreExisting)} to true.");
-                    return false;
+                    Base.Compute.RecordWarning($"File {fullPathName} already exists. Dataset will be merged with pre-exisiting one, and Unit tests added to it. To replace it, toggle {nameof(replacePreExisting)} to true.");
+                    Dataset existingSet = Query.DatasetFromFile(fullPathName);
+                    if (existingSet == null)
+                        return false;
+
+                    dataset = MergeTestDataSets(existingSet, dataset);
+
+                    if (dataset == null)    //Safeguard in case something went wrong during merge
+                        return false;
+
+                    if (activate)
+                        File.Delete(fullPathName);  //Remove pre-existing as data has been scraped already and new one will be added containing both new and old data.
                 }
                 else
                 {
                     if (activate)
                     {
-                        Engine.Base.Compute.RecordNote($"File {fullPathName} is being replaced.");
+                        Engine.Base.Compute.RecordWarning($"File {fullPathName} is being replaced.");
                         File.Delete(fullPathName);
                     }
+                    else
+                        Engine.Base.Compute.RecordWarning($"File {fullPathName} will be replaced.");
                 }
             }
 
