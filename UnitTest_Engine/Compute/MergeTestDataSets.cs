@@ -92,7 +92,7 @@ namespace BH.Engine.UnitTest
 
             //Authors assumed to be stored separated by new line
             List<string> authors = source1.Author.Split(new string[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries).ToList();  //Get Author(s) from first source
-            authors.AddRange(source1.Author.Split(new string[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries));  //Get Author(s) from second source
+            authors.AddRange(source2.Author.Split(new string[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries));  //Get Author(s) from second source
             
             mergedSource.Author = string.Join(Environment.NewLine, authors.Distinct()); //Set Authors to distinct entries, separated by new line
 
