@@ -37,10 +37,11 @@ namespace BH.Engine.UnitTest
         /**** Public Methods                            ****/
         /***************************************************/
 
+        [PreviousVersion("6.0", "BH.Engine.UnitTest.Compute.MergeUnitTests(System.Collections.Generic.List<BH.oM.Test.UnitTests.UnitTest>)")]
         [Description("Merges all tests that share the same method into one unit test object. This is, this method will return one UnitTest per unique provided method, with the test data corresponding to all provided UnitTests of that type of method.")]
         [Input("testsToMerge", "The UnitTests to merge into unique UnitTests based on the method.")]
         [Output("mergedTests", "The list of merged UnitTests.")]
-        public static List<oM.Test.UnitTests.UnitTest> MergeUnitTests(List<oM.Test.UnitTests.UnitTest> testsToMerge)
+        public static List<oM.Test.UnitTests.UnitTest> MergeUnitTests(List<oM.Test.UnitTests.UnitTest> testsToMerge, bool cullDuplicateDataEntries = true)
         {
             int initialCount = testsToMerge.Count;
             testsToMerge = testsToMerge.Where(x => x != null).ToList(); //Filter out nulls
@@ -58,6 +59,14 @@ namespace BH.Engine.UnitTest
             foreach (var group in testsToMerge.GroupBy(x => x.Method.ToJson()))
             {
                 mergedTests.Add(new oM.Test.UnitTests.UnitTest { Method = group.First().Method, Data = group.SelectMany(x => x.Data).ToList() });
+            }
+
+            if (cullDuplicateDataEntries)
+            {
+                foreach (oM.Test.UnitTests.UnitTest unitTest in mergedTests)
+                {
+                    unitTest.RemoveDuplicateTestData();
+                }
             }
 
             return mergedTests;
