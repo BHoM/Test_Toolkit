@@ -76,6 +76,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Compute\CheckTest.cs" />
+    <Compile Include="Compute\MergeTestDataSets.cs" />
+    <Compile Include="Modify\RemoveDuplicateTestData.cs" />
+    <Compile Include="Query\DatasetFromFile.cs" />
     <Compile Include="Compute\MergeUnitTests.cs" />
     <Compile Include="Compute\Regenerate.cs" />
     <Compile Include="Compute\Run.cs" />
