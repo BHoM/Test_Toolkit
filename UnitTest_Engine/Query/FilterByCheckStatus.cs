@@ -134,29 +134,9 @@ namespace BH.Engine.UnitTest
         [MultiOutput(1, "results", "Results matching the filtered tests.")]
         public static Output<List<UT.UnitTest>, List<TestResult>> FilterByCheckStatus(this string fileName, BH.oM.Test.TestStatus status = oM.Test.TestStatus.Error, bool filterData = false)
         {
-            if (string.IsNullOrEmpty(fileName))
-            {
-                Base.Compute.RecordError("No filename provided.");
-                return new Output<List<UT.UnitTest>, List<TestResult>> { Item1 = new List<UT.UnitTest>(), Item2 = new List<TestResult>() };
-            }
-            StreamReader sr = new StreamReader(fileName);
-            string line = sr.ReadToEnd();
-            sr.Close();
-
-            object ds = Serialiser.Convert.FromJson(line);
-            if (ds == null)
-            {
-                Base.Compute.RecordError("Dataset did not deserialise correctly.");
-                return new Output<List<UT.UnitTest>, List<TestResult>> { Item1 = new List<UT.UnitTest>(), Item2 = new List<TestResult>() };
-            }
-
-            Dataset testSet = ds as Dataset;
+            Dataset testSet = DatasetFromFile(fileName);
             if (testSet == null)
-
-            {
-                Base.Compute.RecordError("Dataset did not deserialise correctly as a BHoM Dataset.");
                 return new Output<List<UT.UnitTest>, List<TestResult>> { Item1 = new List<UT.UnitTest>(), Item2 = new List<TestResult>() };
-            }
 
             return FilterByCheckStatus(testSet, status, filterData);
         }
