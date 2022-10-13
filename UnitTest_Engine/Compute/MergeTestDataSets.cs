@@ -64,6 +64,30 @@ namespace BH.Engine.UnitTest
         }
 
         /***************************************************/
+
+        [Description("Merges a list of Datasets of UnitTests into a single Dataset.")]
+        [Input("testSets", "The Datasets to merge.")]
+        [Output("mergedDataset", "Dataset containing UnitTests and source information from all provided Datasets.")]
+        public static Dataset MergeTestDataSets(List<Dataset> testSets)
+        {
+            if (testSets == null || testSets.Count == 0)
+            {
+                Base.Compute.RecordError("No datasets provided to be merged.");
+                return null;
+            }
+
+            Dataset mergedSet = testSets[0];
+
+            for (int i = 1; i < testSets.Count; i++)
+            {
+                mergedSet = MergeTestDataSets(mergedSet, testSets[i]);
+                if (mergedSet == null)  //If null returned, no point in to continue. Errors raised by method called -> no need for additional error.
+                    return null;
+            }
+
+            return mergedSet;
+        }
+        /***************************************************/
         /**** Private Methods                           ****/
         /***************************************************/
 
