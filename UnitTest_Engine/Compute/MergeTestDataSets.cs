@@ -37,7 +37,7 @@ namespace BH.Engine.UnitTest
         /**** Public Methods                            ****/
         /***************************************************/
 
-        [Description("Merges two Dataset of UnitTests into one Dataset.")]
+        [Description("Merges two Datasets of UnitTests into one Dataset.")]
         [Input("set1", "First Dataset to merge.")]
         [Input("set2", "Second Dataset to merge.")]
         [Output("mergedDataset", "Dataset containing UnitTests and source information from both provided Datasets.")]
