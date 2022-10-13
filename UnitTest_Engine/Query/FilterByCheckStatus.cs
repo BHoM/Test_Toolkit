@@ -85,7 +85,7 @@ namespace BH.Engine.UnitTest
                         //Set up outputs for non-matches
                         UT.UnitTest unmatchTest = new UT.UnitTest { Method = test.Method };  //Halfclone of the UT, keeping only the method
                         TestResult unmatchResult = result.ShallowClone();    //Clone the result and wipe inner TestInformation
-                        matchResult.Information = new List<oM.Test.ITestInformation>();
+                        unmatchResult.Information = new List<oM.Test.ITestInformation>();
 
                         for (int i = 0; i < test.Data.Count; i++)   //For each innner TestData point
                         {
