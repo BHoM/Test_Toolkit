@@ -47,6 +47,7 @@ namespace BH.Engine.UnitTest
                 Base.Compute.RecordError("No filename provided.");
                 return null;
             }
+            
             StreamReader sr = new StreamReader(fileName);
             string line = sr.ReadToEnd();
             sr.Close();
