@@ -61,7 +61,19 @@ namespace TestRunner
                 {
                     try
                     {
-                        TestResult result = method.Invoke(null, new object[] { }) as TestResult;
+                        object[] parameters = new object[] { };
+                        if (method.GetParameters().Length == 1)
+                        {
+                            if (args.Length == 2)
+                            {
+                                parameters = new object[] { System.Convert.ToBoolean(args[1]) };
+                            }
+                            else if (method.GetParameters()[0].HasDefaultValue)
+                            {
+                                parameters = new object[] { method.GetParameters()[0].DefaultValue };
+                            }
+                        }
+                        TestResult result = method.Invoke(null, parameters) as TestResult;
                         Console.WriteLine();
                         Console.Write(result.FullMessage());
                     }
@@ -89,7 +101,7 @@ namespace TestRunner
                         Assembly asm = Assembly.LoadFrom(file);
                         foreach (Type type in asm.GetTypes().Where(x => x.Name == "Verify" && x.Namespace.StartsWith("BH.Test")))
                         {
-                            foreach (MethodInfo method in type.GetMethods(BindingFlags.Static | BindingFlags.Public).Where(x => x.ReturnType == typeof(TestResult) && x.GetParameters().Count() == 0))
+                            foreach (MethodInfo method in type.GetMethods(BindingFlags.Static | BindingFlags.Public).Where(x => x.ReturnType == typeof(TestResult) && (x.GetParameters().Count() == 0 || (x.GetParameters().Count() == 1 && x.GetParameters()[0].ParameterType == typeof(bool)))))
                                 RegisterTestMethod(method);
                         }
                     }
