@@ -50,11 +50,33 @@ namespace BH.Engine.Test.CodeCompliance.Checks
                 return null;
 
             var parameters = node.ParameterList.Parameters;
-            if (parameters.Count > 0)
+            if (parameters.Count > 0 && !m_systemTypes.Contains(parameters[0].Type.ToString()))
                 return parameters[0].Modifiers.Any(mod => mod.Kind() == SyntaxKind.ThisKeyword) ? null : parameters[0].Span.ToSpan();
 
             return null;
         }
+
+        private static List<string> m_systemTypes = new List<string>()
+        {
+            "bool",
+            "byte",
+            "sbyte",
+            "char",
+            "decimal",
+            "double",
+            "float",
+            "int",
+            "uint",
+            "nint",
+            "nuint",
+            "long",
+            "ulong",
+            "short",
+            "ushort",
+            "object",
+            "string",
+            "dynamic",
+        };
 
     }
 }
