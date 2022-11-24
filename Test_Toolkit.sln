@@ -1,17 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Express 14 for Windows Desktop
-VisualStudioVersion = 14.0.25420.1
+# Visual Studio Version 17
+VisualStudioVersion = 17.3.33027.108
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InteroperabilityTest_Engine", "InteroperabilityTest_Engine\InteroperabilityTest_Engine.csproj", "{DF4047D7-2883-4763-83C0-B1D3B391D454}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CodeComplianceTest_Engine", "CodeComplianceTest_Engine\CodeComplianceTest_Engine.csproj", "{5E17BA6F-F159-47DD-865C-F2DAA235AAC7}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CodeComplianceTest_Test", "CodeComplianceTest_Test\CodeComplianceTest_Test.csproj", "{9991DC89-7BD1-485F-B756-510CEF48E4F0}"
-	ProjectSection(ProjectDependencies) = postProject
-		{5E17BA6F-F159-47DD-865C-F2DAA235AAC7} = {5E17BA6F-F159-47DD-865C-F2DAA235AAC7}
-		{F758FC9C-CEDF-430D-AEFF-2B1E196F677B} = {F758FC9C-CEDF-430D-AEFF-2B1E196F677B}
-	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Test_Engine", "Test_Engine\Test_Engine.csproj", "{5FC85409-DBC5-4B0D-A2AA-1D9542F0763B}"
 EndProject
@@ -43,12 +37,6 @@ Global
 		{5E17BA6F-F159-47DD-865C-F2DAA235AAC7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5E17BA6F-F159-47DD-865C-F2DAA235AAC7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5E17BA6F-F159-47DD-865C-F2DAA235AAC7}.Release|Any CPU.Build.0 = Release|Any CPU
-		{9991DC89-7BD1-485F-B756-510CEF48E4F0}.ComplianceTestBuild|Any CPU.ActiveCfg = ComplianceTestBuild|Any CPU
-		{9991DC89-7BD1-485F-B756-510CEF48E4F0}.ComplianceTestBuild|Any CPU.Build.0 = ComplianceTestBuild|Any CPU
-		{9991DC89-7BD1-485F-B756-510CEF48E4F0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{9991DC89-7BD1-485F-B756-510CEF48E4F0}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{9991DC89-7BD1-485F-B756-510CEF48E4F0}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{9991DC89-7BD1-485F-B756-510CEF48E4F0}.Release|Any CPU.Build.0 = Release|Any CPU
 		{5FC85409-DBC5-4B0D-A2AA-1D9542F0763B}.ComplianceTestBuild|Any CPU.ActiveCfg = Release|Any CPU
 		{5FC85409-DBC5-4B0D-A2AA-1D9542F0763B}.ComplianceTestBuild|Any CPU.Build.0 = Release|Any CPU
 		{5FC85409-DBC5-4B0D-A2AA-1D9542F0763B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
