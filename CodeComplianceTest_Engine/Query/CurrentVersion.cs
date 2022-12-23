@@ -42,7 +42,7 @@ namespace BH.Engine.Test.CodeCompliance
 
         public static string CurrentAssemblyFileVersion()
         {
-            return "6.0"; //Update each milestone - don't forget the one above!
+            return "6.1"; //Update each milestone - don't forget the one above!
         }
 
         public static string FullCurrentAssemblyFileVersion()
