@@ -49,7 +49,7 @@ namespace BH.Engine.Test.CodeCompliance
             if (error == null || !error.Status.IsEqualOrMoreSevere(minSeverity))
                 return "";
 
-            return error.Message + " - For more information see https://github.com/BHoM/documentation/wiki/" + error.DocumentationLink + Environment.NewLine + Environment.NewLine;
+            return $"{error.Message} - For more information see https://bhom.xyz/documentation/DevOps/Code%20Compliance%20and%20CI/Compliance%20Checks/{error.DocumentationLink}{Environment.NewLine}{Environment.NewLine}";
         }
 
         /***************************************************/
