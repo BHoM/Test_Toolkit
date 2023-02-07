@@ -52,7 +52,6 @@ namespace BH.Engine.Test.CodeCompliance.Checks
             if (node.Name.ToString() != "DocumentationURL")
                 return null;
 
-
             var url = node.ArgumentList.Arguments[0].ToString().Replace("\"", "");
 
             try
