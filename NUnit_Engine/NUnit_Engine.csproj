@@ -9,4 +9,21 @@
     <Exec Command="xcopy &quot;$(TargetDir)$(TargetFileName)&quot;  &quot;C:\ProgramData\BHoM\Assemblies&quot; /Y" />
   </Target>
 
+  <ItemGroup>
+    <PackageReference Include="NUnit.Engine" Version="3.16.2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\NUnit_oM\NUnit_oM.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="BHoM">
+      <HintPath>..\..\..\..\..\..\..\ProgramData\BHoM\Assemblies\BHoM.dll</HintPath>
+    </Reference>
+    <Reference Include="Test_oM">
+      <HintPath>..\..\..\..\..\..\..\ProgramData\BHoM\Assemblies\Test_oM.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
 </Project>
