@@ -12,9 +12,9 @@ namespace BH.oM.Test.NUnit
     {
 
         [XmlElement(ElementName = "message")]
-        public string Message { get; set; }
+        public virtual string Message { get; set; }
 
         [XmlElement(ElementName = "stack-trace")]
-        public string Stacktrace { get; set; }
+        public virtual string Stacktrace { get; set; }
     }
 }

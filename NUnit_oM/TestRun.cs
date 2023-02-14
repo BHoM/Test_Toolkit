@@ -11,66 +11,66 @@ namespace BH.oM.Test.NUnit
     public class TestRun
     {
         [XmlElement(ElementName = "command-line")]
-        public string Commandline { get; set; }
+        public virtual string Commandline { get; set; }
 
         [XmlElement(ElementName = "test-suite")]
-        public TestSuite TestSuite { get; set; }
+        public virtual TestSuite TestSuite { get; set; }
 
         [XmlAttribute(AttributeName = "id")]
-        public int Id { get; set; }
+        public virtual int ID { get; set; }
 
         [XmlAttribute(AttributeName = "name")]
-        public string Name { get; set; }
+        public virtual string Name { get; set; }
 
         [XmlAttribute(AttributeName = "fullname")]
-        public string FullName { get; set; }
+        public virtual string FullName { get; set; }
 
         [XmlAttribute(AttributeName = "runstate")]
-        public string Runstate { get; set; }
+        public virtual string Runstate { get; set; }
 
         [XmlAttribute(AttributeName = "testcasecount")]
-        public int Testcasecount { get; set; }
+        public virtual int Testcasecount { get; set; }
 
         [XmlAttribute(AttributeName = "result")]
-        public string Result { get; set; }
+        public virtual string Result { get; set; }
 
         [XmlAttribute(AttributeName = "total")]
-        public int Total { get; set; }
+        public virtual int Total { get; set; }
 
         [XmlAttribute(AttributeName = "passed")]
-        public int Passed { get; set; }
+        public virtual int Passed { get; set; }
 
         [XmlAttribute(AttributeName = "failed")]
-        public int Failed { get; set; }
+        public virtual int Failed { get; set; }
 
         [XmlAttribute(AttributeName = "warnings")]
-        public int Warnings { get; set; }
+        public virtual int Warnings { get; set; }
 
         [XmlAttribute(AttributeName = "inconclusive")]
-        public int Inconclusive { get; set; }
+        public virtual int Inconclusive { get; set; }
 
         [XmlAttribute(AttributeName = "skipped")]
-        public int Skipped { get; set; }
+        public virtual int Skipped { get; set; }
 
         [XmlAttribute(AttributeName = "asserts")]
-        public int Asserts { get; set; }
+        public virtual int Asserts { get; set; }
 
         [XmlAttribute(AttributeName = "engine-version")]
-        public string EngineVersion { get; set; }
+        public virtual string EngineVersion { get; set; }
 
         [XmlAttribute(AttributeName = "clr-version")]
-        public string ClrVersion { get; set; }
+        public virtual string ClrVersion { get; set; }
 
         [XmlAttribute(AttributeName = "start-time")]
-        public string StartTime { get; set; }
+        public virtual string StartTime { get; set; }
 
         [XmlAttribute(AttributeName = "end-time")]
-        public string EndTime { get; set; }
+        public virtual string EndTime { get; set; }
 
         [XmlAttribute(AttributeName = "duration")]
-        public double Duration { get; set; }
+        public virtual double Duration { get; set; }
 
         [XmlText]
-        public string Text { get; set; }
+        public virtual string Text { get; set; }
     }
 }

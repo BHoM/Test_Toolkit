@@ -12,6 +12,6 @@ namespace BH.oM.Test.NUnit
     {
 
         [XmlElement(ElementName = "assertion")]
-        public Assertion Assertion { get; set; }
+        public virtual Assertion Assertion { get; set; }
     }
 }

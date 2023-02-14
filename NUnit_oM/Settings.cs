@@ -12,6 +12,6 @@ namespace BH.oM.Test.NUnit
     {
 
         [XmlElement(ElementName = "setting")]
-        public Setting Setting { get; set; }
+        public virtual Setting Setting { get; set; }
     }
 }

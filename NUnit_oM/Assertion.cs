@@ -12,15 +12,15 @@ namespace BH.oM.Test.NUnit
     {
 
         [XmlElement(ElementName = "message")]
-        public string Message { get; set; }
+        public virtual string Message { get; set; }
 
         [XmlElement(ElementName = "stack-trace")]
-        public string Stacktrace { get; set; }
+        public virtual string Stacktrace { get; set; }
 
         [XmlAttribute(AttributeName = "result")]
-        public string Result { get; set; }
+        public virtual string Result { get; set; }
 
         [XmlText]
-        public string Text { get; set; }
+        public virtual string Text { get; set; }
     }
 }

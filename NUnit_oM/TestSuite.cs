@@ -12,81 +12,81 @@ namespace BH.oM.Test.NUnit
     {
 
         [XmlElement(ElementName = "failure")]
-        public Failure Failure { get; set; }
+        public virtual Failure Failure { get; set; }
 
         [XmlElement(ElementName = "test-case")]
-        public List<TestCase> Testcase { get; set; }
+        public virtual List<TestCase> Testcase { get; set; }
 
         [XmlAttribute(AttributeName = "type")]
-        public string Type { get; set; }
+        public virtual string Type { get; set; }
 
         [XmlAttribute(AttributeName = "id")]
-        public string Id { get; set; }
+        public virtual string ID { get; set; }
 
         [XmlAttribute(AttributeName = "name")]
-        public string Name { get; set; }
+        public virtual string Name { get; set; }
 
         [XmlAttribute(AttributeName = "fullname")]
-        public string Fullname { get; set; }
+        public virtual string Fullname { get; set; }
 
         [XmlAttribute(AttributeName = "classname")]
-        public string Classname { get; set; }
+        public virtual string Classname { get; set; }
 
         [XmlAttribute(AttributeName = "runstate")]
-        public string Runstate { get; set; }
+        public virtual string Runstate { get; set; }
 
         [XmlAttribute(AttributeName = "testcasecount")]
-        public int Testcasecount { get; set; }
+        public virtual int Testcasecount { get; set; }
 
         [XmlAttribute(AttributeName = "result")]
-        public string Result { get; set; }
+        public virtual string Result { get; set; }
 
         [XmlAttribute(AttributeName = "site")]
-        public string Site { get; set; }
+        public virtual string Site { get; set; }
 
         [XmlAttribute(AttributeName = "start-time")]
-        public DateTime StartTime { get; set; }
+        public virtual DateTime StartTime { get; set; }
 
         [XmlAttribute(AttributeName = "end-time")]
-        public DateTime EndTime { get; set; }
+        public virtual DateTime EndTime { get; set; }
 
         [XmlAttribute(AttributeName = "duration")]
-        public double Duration { get; set; }
+        public virtual double Duration { get; set; }
 
         [XmlAttribute(AttributeName = "total")]
-        public int Total { get; set; }
+        public virtual int Total { get; set; }
 
         [XmlAttribute(AttributeName = "passed")]
-        public int Passed { get; set; }
+        public virtual int Passed { get; set; }
 
         [XmlAttribute(AttributeName = "failed")]
-        public int Failed { get; set; }
+        public virtual int Failed { get; set; }
 
         [XmlAttribute(AttributeName = "warnings")]
-        public int Warnings { get; set; }
+        public virtual int Warnings { get; set; }
 
         [XmlAttribute(AttributeName = "inconclusive")]
-        public int Inconclusive { get; set; }
+        public virtual int Inconclusive { get; set; }
 
         [XmlAttribute(AttributeName = "skipped")]
-        public int Skipped { get; set; }
+        public virtual int Skipped { get; set; }
 
         [XmlAttribute(AttributeName = "asserts")]
-        public int Asserts { get; set; }
+        public virtual int Asserts { get; set; }
 
         [XmlText]
-        public string Text { get; set; }
+        public virtual string Text { get; set; }
 
         [XmlElement(ElementName = "test-suite")]
-        public TestSuite Child { get; set; }
+        public virtual TestSuite Child { get; set; }
 
         [XmlElement(ElementName = "environment")]
-        public Environment Environment { get; set; }
+        public virtual Environment Environment { get; set; }
 
         [XmlElement(ElementName = "settings")]
-        public Settings Settings { get; set; }
+        public virtual Settings Settings { get; set; }
 
         [XmlElement(ElementName = "properties")]
-        public Properties Properties { get; set; }
+        public virtual Properties Properties { get; set; }
     }
 }
