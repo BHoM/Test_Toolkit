@@ -19,7 +19,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestRunner", "TestRunner\Te
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTest_oM", "UnitTest_oM\UnitTest_oM.csproj", "{1F163CFA-E407-4C7A-9DAF-1C19207A8983}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NUnit_oM", "NUnit_oM\NUnit_oM.csproj", "{DC99EF67-C257-49CC-AF00-5061BBD304FF}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NUnit_oM", "NUnit_oM\NUnit_oM.csproj", "{5359D5A5-C8F8-430E-98CF-52DCE3F48EFD}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -75,12 +75,12 @@ Global
 		{1F163CFA-E407-4C7A-9DAF-1C19207A8983}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1F163CFA-E407-4C7A-9DAF-1C19207A8983}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1F163CFA-E407-4C7A-9DAF-1C19207A8983}.Release|Any CPU.Build.0 = Release|Any CPU
-		{DC99EF67-C257-49CC-AF00-5061BBD304FF}.ComplianceTestBuild|Any CPU.ActiveCfg = Debug|Any CPU
-		{DC99EF67-C257-49CC-AF00-5061BBD304FF}.ComplianceTestBuild|Any CPU.Build.0 = Debug|Any CPU
-		{DC99EF67-C257-49CC-AF00-5061BBD304FF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{DC99EF67-C257-49CC-AF00-5061BBD304FF}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{DC99EF67-C257-49CC-AF00-5061BBD304FF}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{DC99EF67-C257-49CC-AF00-5061BBD304FF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5359D5A5-C8F8-430E-98CF-52DCE3F48EFD}.ComplianceTestBuild|Any CPU.ActiveCfg = Debug|Any CPU
+		{5359D5A5-C8F8-430E-98CF-52DCE3F48EFD}.ComplianceTestBuild|Any CPU.Build.0 = Debug|Any CPU
+		{5359D5A5-C8F8-430E-98CF-52DCE3F48EFD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5359D5A5-C8F8-430E-98CF-52DCE3F48EFD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5359D5A5-C8F8-430E-98CF-52DCE3F48EFD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5359D5A5-C8F8-430E-98CF-52DCE3F48EFD}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
