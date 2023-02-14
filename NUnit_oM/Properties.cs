@@ -12,6 +12,6 @@ namespace BH.oM.Test.NUnit
     {
 
         [XmlElement(ElementName = "property")]
-        public List<Property> Property { get; set; }
+        public virtual List<Property> Property { get; set; }
     }
 }

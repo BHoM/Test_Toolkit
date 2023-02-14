@@ -12,9 +12,9 @@ namespace BH.oM.Test.NUnit
     {
 
         [XmlAttribute(AttributeName = "name")]
-        public string Name { get; set; }
+        public virtual string Name { get; set; }
 
         [XmlAttribute(AttributeName = "value")]
-        public int Value { get; set; }
+        public virtual int Value { get; set; }
     }
 }
