@@ -143,7 +143,6 @@
     <Compile Include="Create\Location.cs" />
     <Compile Include="Create\Span.cs" />
     <Compile Include="Modify\GroupErrors.cs" />
-    <Compile Include="Modify\Merge.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Query\Checks\AttributeHasEndingPunctuation.cs" />
     <Compile Include="Query\Checks\HasConstructor.cs" />
