@@ -37,7 +37,7 @@ namespace BH.oM.Test.NUnit
         public virtual Failure Failure { get; set; }
 
         [XmlElement(ElementName = "test-case")]
-        public virtual List<TestCase> Testcase { get; set; }
+        public virtual List<TestCase> TestCases { get; set; }
 
         [XmlAttribute(AttributeName = "type")]
         public virtual string Type { get; set; }
@@ -49,16 +49,16 @@ namespace BH.oM.Test.NUnit
         public virtual string Name { get; set; }
 
         [XmlAttribute(AttributeName = "fullname")]
-        public virtual string Fullname { get; set; }
+        public virtual string FullName { get; set; }
 
         [XmlAttribute(AttributeName = "classname")]
         public virtual string Classname { get; set; }
 
         [XmlAttribute(AttributeName = "runstate")]
-        public virtual string Runstate { get; set; }
+        public virtual string RunState { get; set; }
 
         [XmlAttribute(AttributeName = "testcasecount")]
-        public virtual int Testcasecount { get; set; }
+        public virtual int TestCaseCount { get; set; }
 
         [XmlAttribute(AttributeName = "result")]
         public virtual string Result { get; set; }
