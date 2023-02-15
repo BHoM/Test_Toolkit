@@ -48,10 +48,10 @@ namespace BH.oM.Test.NUnit
         public virtual string FullName { get; set; }
 
         [XmlAttribute(AttributeName = "runstate")]
-        public virtual string Runstate { get; set; }
+        public virtual string RunState { get; set; }
 
         [XmlAttribute(AttributeName = "testcasecount")]
-        public virtual int Testcasecount { get; set; }
+        public virtual int TestCaseCount { get; set; }
 
         [XmlAttribute(AttributeName = "result")]
         public virtual string Result { get; set; }

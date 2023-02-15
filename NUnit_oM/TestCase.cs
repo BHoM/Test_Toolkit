@@ -40,7 +40,7 @@ namespace BH.oM.Test.NUnit
         public virtual string Name { get; set; }
 
         [XmlAttribute(AttributeName = "fullname")]
-        public virtual string Fullname { get; set; }
+        public virtual string FullName { get; set; }
 
         [XmlAttribute(AttributeName = "methodname")]
         public virtual string Methodname { get; set; }
