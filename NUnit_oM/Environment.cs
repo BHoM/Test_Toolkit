@@ -32,7 +32,6 @@ namespace BH.oM.Test.NUnit
     [XmlRoot(ElementName = "environment")]
     public class Environment
     {
-
         [XmlAttribute(AttributeName = "framework-version")]
         public virtual string FrameworkVersion { get; set; }
 

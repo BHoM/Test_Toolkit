@@ -32,7 +32,6 @@ namespace BH.oM.Test.NUnit
     [XmlRoot(ElementName = "properties")]
     public class Properties
     {
-
         [XmlElement(ElementName = "property")]
         public virtual List<Property> Property { get; set; }
     }

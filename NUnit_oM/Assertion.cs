@@ -32,7 +32,6 @@ namespace BH.oM.Test.NUnit
     [XmlRoot(ElementName = "assertion")]
     public class Assertion
     {
-
         [XmlElement(ElementName = "message")]
         public virtual string Message { get; set; }
 

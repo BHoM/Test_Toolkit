@@ -32,7 +32,6 @@ namespace BH.oM.Test.NUnit
     [XmlRoot(ElementName = "test-case")]
     public class TestCase
     {
-
         [XmlAttribute(AttributeName = "id")]
         public virtual string ID { get; set; }
 
@@ -79,4 +78,3 @@ namespace BH.oM.Test.NUnit
         public virtual string Text { get; set; }
     }
 }
-

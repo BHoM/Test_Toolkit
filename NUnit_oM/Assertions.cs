@@ -32,7 +32,6 @@ namespace BH.oM.Test.NUnit
     [XmlRoot(ElementName = "assertions")]
     public class Assertions
     {
-
         [XmlElement(ElementName = "assertion")]
         public virtual Assertion Assertion { get; set; }
     }

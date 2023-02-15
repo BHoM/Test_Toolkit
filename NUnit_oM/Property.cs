@@ -32,7 +32,6 @@ namespace BH.oM.Test.NUnit
     [XmlRoot(ElementName = "property")]
     public class Property
     {
-
         [XmlAttribute(AttributeName = "name")]
         public virtual string Name { get; set; }
 
