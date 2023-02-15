@@ -5,10 +5,16 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
+using System.ComponentModel;
+using BH.oM.Base.Attributes;
+
 namespace BH.Engine.Test.NUnit
 {
     public static partial class Convert
     {
+        [Description("Convert an NUnit TestRun object to a BHoM TestResult object. Any TestSuite information is stored in the Information property of the TestResult.")]
+        [Input("nunitTest", "The NUnit TestRun to convert.")]
+        [Output("testResult", "The converted BHoM TestResult.")]
         public static TestResult ToTestResult(this TestRun nunitTest)
         {
             TestResult result = new TestResult();
@@ -23,6 +29,9 @@ namespace BH.Engine.Test.NUnit
             return result;
         }
 
+        [Description("Converts an NUnit TestSuite object to a BHoM TestResult object. Any child TestSuite information is stored in the Information property of the TestResult, and any TestCase information is also stored on the Information property.")]
+        [Input("nunitTestSuite", "The NUnit TestSuite to convert.")]
+        [Output("testResult", "The converted BHoM TestResult.")]
         public static TestResult ToTestResult(this TestSuite nunitTestSuite)
         {
             TestResult result = new TestResult();
@@ -40,6 +49,9 @@ namespace BH.Engine.Test.NUnit
             return result;
         }
 
+        [Description("Converts an NUnit TestResult object to a BHoM TestResult object. If the TestCase is a fail then the failure message is provided with the stack trace from NUnit.")]
+        [Input("nunitTestCase", "The NUnit TestCase to convert.")]
+        [Output("testResult, The converted BHoM TestResult.")]
         public static TestResult ToTestResult(this TestCase nunitTestCase)
         {
             TestResult result = new TestResult();
