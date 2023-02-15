@@ -30,10 +30,17 @@ using System.Threading.Tasks;
 using BH.oM.Test;
 using BH.oM.Test.Results;
 
+using System.ComponentModel;
+using BH.oM.Base.Attributes;
+
 namespace BH.Engine.Test
 {
     public static partial class Modify
     {
+        [Description("Merge two test results into one, with the most severe result taking precedence for the result of the merged TestResult object.")]
+        [Input("a", "The first test result to merge to.")]
+        [Input("b", "The second test result to merge from.")]
+        [Output("result", "The merged test result with the most severe status taking the priority.")]
         public static TestResult Merge(this TestResult a, TestResult b)
         {
             if (a == null)
