@@ -18,7 +18,7 @@ namespace BH.Engine.Test.NUnit
             result.Message = $"";
 
             if (nunitTest.TestSuite != null)
-                result.Information.Add(nunitTest.TestSuite.ToTestResult());
+                result = result.Merge(nunitTest.TestSuite.ToTestResult());
 
             return result;
         }
@@ -32,7 +32,7 @@ namespace BH.Engine.Test.NUnit
             result.Message = $"";
 
             if (nunitTestSuite.Child != null)
-                result.Information.Add(nunitTestSuite.Child.ToTestResult());
+                result = result.Merge(nunitTestSuite.Child.ToTestResult());
 
             if (nunitTestSuite.TestCases.Count > 0)
                 result.Information.AddRange(nunitTestSuite.TestCases.Select(x => x.ToTestResult()));

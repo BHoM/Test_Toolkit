@@ -17,6 +17,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\NUnit_oM\NUnit_oM.csproj" />
+    <ProjectReference Include="..\Test_Engine\Test_Engine.csproj" />
   </ItemGroup>
 
   <ItemGroup>

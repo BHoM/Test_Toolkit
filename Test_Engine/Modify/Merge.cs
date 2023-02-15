@@ -1,4 +1,4 @@
-/*
+﻿/*
  * This file is part of the Buildings and Habitats object Model (BHoM)
  * Copyright (c) 2015 - 2023, the respective contributors. All rights reserved.
  *
@@ -21,8 +21,6 @@
  */
 
 using BH.Engine.Base;
-using BH.oM.Test.CodeCompliance;
-using Microsoft.CodeAnalysis;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -32,13 +30,13 @@ using System.Threading.Tasks;
 using BH.oM.Test;
 using BH.oM.Test.Results;
 
-namespace BH.Engine.Test.CodeCompliance
+namespace BH.Engine.Test
 {
     public static partial class Modify
     {
         public static TestResult Merge(this TestResult a, TestResult b)
         {
-            if(a == null)
+            if (a == null)
             {
                 if (b != null)
                     return b;
@@ -46,7 +44,7 @@ namespace BH.Engine.Test.CodeCompliance
                 return null;
             }
 
-            if(b == null)
+            if (b == null)
             {
                 if (a != null)
                     return a;
@@ -71,7 +69,3 @@ namespace BH.Engine.Test.CodeCompliance
         }
     }
 }
-
-
-
-
