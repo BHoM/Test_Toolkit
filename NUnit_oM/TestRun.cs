@@ -96,4 +96,3 @@ namespace BH.oM.Test.NUnit
         public virtual string Text { get; set; }
     }
 }
-

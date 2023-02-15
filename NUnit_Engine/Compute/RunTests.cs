@@ -8,6 +8,7 @@ using BH.oM.Test.NUnit;
 using NUnit.Engine;
 using System.Xml.Serialization;
 using BH.oM.Base.Attributes;
+using System.Xml;
 
 namespace BH.Engine.Test.NUnit
 {
@@ -26,16 +27,16 @@ namespace BH.Engine.Test.NUnit
             var testRunner = testEngine.GetRunner(package);
             var testResult = testRunner.Run(null, TestFilter.Empty);
 
-            MemoryStream stm = new MemoryStream();
-
-            StreamWriter stw = new StreamWriter(stm);
-            stw.Write(testResult.OuterXml);
-            stw.Flush();
-
-            stm.Position = 0;
+            XmlDocument xmlDoc = new XmlDocument();
+            xmlDoc.LoadXml(testResult.OuterXml);
 
             XmlSerializer ser = new XmlSerializer(typeof(TestRun));
-            return (ser.Deserialize(stm) as TestRun);
+            TestRun result = null;
+            using (XmlNodeReader reader = new XmlNodeReader(xmlDoc))
+            {
+                result = ser.Deserialize(reader) as TestRun;
+            }
+            return result;
         }
     }
 }

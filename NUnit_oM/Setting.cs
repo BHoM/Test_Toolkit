@@ -32,7 +32,6 @@ namespace BH.oM.Test.NUnit
     [XmlRoot(ElementName = "setting")]
     public class Setting
     {
-
         [XmlAttribute(AttributeName = "name")]
         public virtual string Name { get; set; }
 
@@ -40,4 +39,3 @@ namespace BH.oM.Test.NUnit
         public virtual int Value { get; set; }
     }
 }
-

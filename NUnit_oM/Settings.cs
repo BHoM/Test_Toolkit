@@ -32,9 +32,7 @@ namespace BH.oM.Test.NUnit
     [XmlRoot(ElementName = "settings")]
     public class Settings
     {
-
         [XmlElement(ElementName = "setting")]
         public virtual Setting Setting { get; set; }
     }
 }
-
