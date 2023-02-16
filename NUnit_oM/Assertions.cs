@@ -36,4 +36,3 @@ namespace BH.oM.Test.NUnit
         public virtual Assertion Assertion { get; set; }
     }
 }
-

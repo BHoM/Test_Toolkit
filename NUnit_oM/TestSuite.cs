@@ -112,4 +112,3 @@ namespace BH.oM.Test.NUnit
         public virtual Properties Properties { get; set; }
     }
 }
-
