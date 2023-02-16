@@ -39,4 +39,3 @@ namespace BH.oM.Test.NUnit
         public virtual string Stacktrace { get; set; }
     }
 }
-
