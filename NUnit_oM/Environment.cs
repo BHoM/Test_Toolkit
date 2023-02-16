@@ -66,4 +66,3 @@ namespace BH.oM.Test.NUnit
         public virtual string OsArchitecture { get; set; }
     }
 }
-
