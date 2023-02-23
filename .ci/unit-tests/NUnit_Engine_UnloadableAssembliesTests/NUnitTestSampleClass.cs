@@ -41,5 +41,27 @@ namespace BH.Test.Engine.NUnit
 
             Should.Throw(() => testClass.LoadReferencedAssemblies(), typeof(FileLoadException));
         }
+
+        [Test]
+        public void ErrorReportingPassingTest()
+        {
+            BH.Engine.Base.Compute.RecordError($"Some error logged via BH.Engine.Base.Compute.{nameof(Compute.RecordError)}");
+            Assert.Pass(); // Make it pass intentionally here; the recorded error should still make the test report failure on TearDown
+        }
+
+        [Test]
+        public void WarningReportingPassingTest()
+        {
+            BH.Engine.Base.Compute.RecordWarning($"Some warning logged via BH.Engine.Base.Compute.{nameof(Compute.RecordWarning)}");
+            Assert.Pass();
+        }
+
+
+        [Test]
+        public void NoteReportingPassingTest()
+        {
+            BH.Engine.Base.Compute.RecordNote($"Some note logged via BH.Engine.Base.Compute.{nameof(Compute.RecordNote)}");
+            Assert.Pass();
+        }
     }
 }
