@@ -21,6 +21,7 @@
  */
 
 using NUnit.Framework;
+using NUnitTestStatus = NUnit.Framework.Interfaces.TestStatus;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -33,7 +34,7 @@ using System.Xml.Linq;
 
 namespace BH.oM.Test.NUnit
 {
-    public class NUnitTest
+    public abstract class NUnitTest
     {
         [OneTimeSetUp]
         public void LoadReferencedAssemblies()

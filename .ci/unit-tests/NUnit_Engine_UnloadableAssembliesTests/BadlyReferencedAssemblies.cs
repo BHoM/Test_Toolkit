@@ -20,7 +20,6 @@
  * along with this code. If not, see <https://www.gnu.org/licenses/lgpl-3.0.html>.      
  */
 
-using BH.Engine.Base;
 using BH.oM.Test.NUnit;
 using NUnit.Framework;
 using Shouldly;
@@ -33,17 +32,16 @@ using System.Text;
 
 namespace BH.Test.Engine.NUnit
 {
-    public class NUnitSampleTestClass : NUnitTest
+    public class SampleTestClass : NUnitTest { }
+
+    public class BadlyReferencedAssembliesTests
     {
         [Test]
-        public void VerifyLoadedAssemblies()
+        public void LoadAssembliesShouldThrowException()
         {
-            var loadedAssemblies = AppDomain.CurrentDomain.GetAssemblies();
+            NUnitTest testClass = new SampleTestClass();
 
-            var assembliesIncluidingAnalytical = loadedAssemblies.Select(a => a.GetName().Name);
-
-            assembliesIncluidingAnalytical.ShouldContain("Dimensional_oM");
-            assembliesIncluidingAnalytical.ShouldContain("Analytical_oM");
+            Should.Throw(() => testClass.LoadReferencedAssemblies(), typeof(FileLoadException));
         }
     }
 }
