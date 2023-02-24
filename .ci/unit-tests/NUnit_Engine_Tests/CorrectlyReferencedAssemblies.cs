@@ -36,6 +36,9 @@ namespace BH.Test.Engine.NUnit
     public class CorrectlyReferencedAssembliesTests : NUnitTest
     {
         [Test]
+        [Description("Verifies that the NUnitTest class uses the OneTimeSetup method to appropriately load" +
+            "all assemblies referenced by this project. This is required to make sure that otherwise lazy-loaded assemblies" +
+            "are loaded upfront, to avoid runtime errors when using dynamic mechanisms like RunExtensionMethod().")]
         public void VerifyLoadedAssemblies()
         {
             var domainLoadedAssemblies = AppDomain.CurrentDomain.GetAssemblies();
