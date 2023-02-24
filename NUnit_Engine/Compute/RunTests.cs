@@ -31,6 +31,9 @@ using NUnit.Engine;
 using System.Xml.Serialization;
 using BH.oM.Base.Attributes;
 using System.Xml;
+using System.Collections;
+using System.Reflection;
+using System.Linq;
 
 namespace BH.Engine.Test.NUnit
 {
@@ -43,6 +46,11 @@ namespace BH.Engine.Test.NUnit
         {
             if (string.IsNullOrEmpty(filePath) || !File.Exists(filePath))
                 return null;
+
+            // Load assemblies referenced by this assembly.
+            // Required to ensure that all dependencies (including dynamically-loaded assemblies) are present for the test run, regardless of the executing environment.
+            // In a normal test run in VS (not via NUnit.Engine) this is taken care of from the base BH.oM.Test.NUnit.NUnitTest class.
+            LoadReferencedAssemblies(filePath);
 
             ITestEngine testEngine = TestEngineActivator.CreateInstance();
             var package = new TestPackage(filePath);
@@ -59,6 +67,33 @@ namespace BH.Engine.Test.NUnit
                 result = ser.Deserialize(reader) as TestRun;
             }
             return result;
+        }
+
+        [Description("Makes sure that the assemblies referenced by the input assembly are loaded in memory." +
+            "Required to ensure that all dependencies (including dynamically-loaded assemblies) are present for the test run, regardless of the executing environment.")]
+        private static void LoadReferencedAssemblies(string dllPath)
+        {
+            var loadedAssemblies = new HashSet<string>();
+            var assembliesToCheck = new Queue<Assembly>();
+
+            assembliesToCheck.Enqueue(Assembly.LoadFile(dllPath));
+
+            while (assembliesToCheck.Any())
+            {
+                var assemblyToCheck = assembliesToCheck.Dequeue();
+
+                var referencedAssemblies = assemblyToCheck.GetReferencedAssemblies();
+
+                foreach (var reference in referencedAssemblies)
+                {
+                    if (!loadedAssemblies.Contains(reference.FullName))
+                    {
+                        var assembly = Assembly.Load(reference);
+                        assembliesToCheck.Enqueue(assembly);
+                        loadedAssemblies.Add(reference.FullName);
+                    }
+                }
+            }
         }
     }
 }

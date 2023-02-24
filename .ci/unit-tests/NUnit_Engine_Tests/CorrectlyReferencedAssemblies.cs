@@ -20,6 +20,7 @@
  * along with this code. If not, see <https://www.gnu.org/licenses/lgpl-3.0.html>.      
  */
 
+using BH.Engine.Base;
 using BH.oM.Test.NUnit;
 using NUnit.Framework;
 using Shouldly;
@@ -32,36 +33,17 @@ using System.Text;
 
 namespace BH.Test.Engine.NUnit
 {
-    public class NUnitSampleTestClass
+    public class CorrectlyReferencedAssembliesTests : NUnitTest
     {
         [Test]
-        public void LoadAssembliesShouldThrowException()
+        public void VerifyLoadedAssemblies()
         {
-            NUnitTest testClass = new NUnitTest();
+            var domainLoadedAssemblies = AppDomain.CurrentDomain.GetAssemblies();
 
-            Should.Throw(() => testClass.LoadReferencedAssemblies(), typeof(FileLoadException));
-        }
+            var loadedAssemblies = domainLoadedAssemblies.Select(a => a.GetName().Name);
 
-        [Test]
-        public void ErrorReportingPassingTest()
-        {
-            BH.Engine.Base.Compute.RecordError($"Some error logged via BH.Engine.Base.Compute.{nameof(Compute.RecordError)}");
-            Assert.Pass(); // Make it pass intentionally here; the recorded error should still make the test report failure on TearDown
-        }
-
-        [Test]
-        public void WarningReportingPassingTest()
-        {
-            BH.Engine.Base.Compute.RecordWarning($"Some warning logged via BH.Engine.Base.Compute.{nameof(Compute.RecordWarning)}");
-            Assert.Pass();
-        }
-
-
-        [Test]
-        public void NoteReportingPassingTest()
-        {
-            BH.Engine.Base.Compute.RecordNote($"Some note logged via BH.Engine.Base.Compute.{nameof(Compute.RecordNote)}");
-            Assert.Pass();
+            loadedAssemblies.ShouldContain("Dimensional_oM");
+            loadedAssemblies.ShouldContain("Analytical_oM");
         }
     }
 }
