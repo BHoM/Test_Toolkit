@@ -39,9 +39,23 @@ namespace BH.Test.Engine.NUnit
         [Test]
         public void LoadAssembliesShouldThrowException()
         {
+            // This test project contains some assemblies that are badly referenced 
+            // (i.e. they do not have Copy Local set to true, that is required by Unit Test projects).
+            // The following checks that the necessary explanatory exception is thrown.
             NUnitTest testClass = new SampleTestClass();
 
-            Should.Throw(() => testClass.LoadReferencedAssemblies(), typeof(FileLoadException));
+            try
+            {
+                testClass.LoadReferencedAssemblies();
+            }
+            catch(FileLoadException e)
+            {
+                // The exception was correctly thrown. Write to console to show it.
+                Console.WriteLine($"The exception was correctly thrown. Message:\n\t{e.Message.Replace("\n", "\n\t")}");
+                return;
+            }
+
+            Assert.Fail("This method should have thrown an exception.");
         }
     }
 }
