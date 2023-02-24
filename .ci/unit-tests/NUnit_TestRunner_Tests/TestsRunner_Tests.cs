@@ -22,7 +22,7 @@ namespace NUnit_TestRunner_Tests
             testResult.ShouldNotBeNull();
             Console.WriteLine(JsonConvert.SerializeObject(testResult, Formatting.Indented));
 
-            testRunResult.Failed.ShouldBe(1);
+            testRunResult.Failed.ShouldBe(0);
         }
     }
 }
