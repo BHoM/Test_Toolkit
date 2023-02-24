@@ -37,11 +37,11 @@ namespace BH.Test.Engine.NUnit
     public class BadlyReferencedAssembliesTests
     {
         [Test]
+        [Description("This test project contains some assemblies that are badly referenced " +
+            "(i.e. they do not have Copy Local set to true, that is required by Unit Test projects)." +
+            "This test verifies that the base NUnitTest class correctly throws an appropriate explanatory exception.")]
         public void LoadAssembliesShouldThrowException()
         {
-            // This test project contains some assemblies that are badly referenced 
-            // (i.e. they do not have Copy Local set to true, that is required by Unit Test projects).
-            // The following checks that the necessary explanatory exception is thrown.
             NUnitTest testClass = new SampleTestClass();
 
             try

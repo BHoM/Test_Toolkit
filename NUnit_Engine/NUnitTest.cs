@@ -37,6 +37,9 @@ namespace BH.oM.Test.NUnit
     public abstract class NUnitTest
     {
         [OneTimeSetUp]
+        [Description("Loads all assemblies referenced by the derived Test class' project. " +
+            "This is required to make sure that otherwise lazy-loaded assemblies are loaded upfront, " +
+            "in order to avoid runtime errors when using dynamic mechanisms like RunExtensionMethod().")]
         public void LoadReferencedAssemblies()
         {
             // Get the referenced assemblies of the Test Project.
@@ -94,6 +97,9 @@ namespace BH.oM.Test.NUnit
         }
 
         [TearDown]
+        [Description("Reports any message recorded by the BH.Engine.Base.Compute.Record* methods to the NUnit context." +
+            "If the test failed, the reported messages are prefixed with their category (e.g. `Error: some message`)." +
+            "If the test passed, only the message content is reported (e.g. `some message`).")]
         public void LogRecordedEvents()
         {
             var events = BH.Engine.Base.Query.CurrentEvents();
