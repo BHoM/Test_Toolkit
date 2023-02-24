@@ -15,6 +15,12 @@
   </Target>
 
   <ItemGroup>
+    <Compile Remove="Query\**" />
+    <EmbeddedResource Remove="Query\**" />
+    <None Remove="Query\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="NUnit" Version="3.13.3" />
     <PackageReference Include="NUnit.Engine" Version="3.16.2" />
   </ItemGroup>
@@ -40,10 +46,6 @@
       <Private>False</Private>
       <SpecificVersion>False</SpecificVersion>
     </Reference>
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Query\" />
   </ItemGroup>
 
 </Project>
