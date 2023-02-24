@@ -96,17 +96,19 @@ namespace BH.oM.Test.NUnit
         [TearDown]
         public void LogRecordedEvents()
         {
-            // This should check whether the test passed or not before dispatching to Warn/TextContext.
-
             var events = BH.Engine.Base.Query.CurrentEvents();
             if (events.Any())
             {
                 foreach (var ev in events)
                 {
-                    if (ev.Type == oM.Base.Debugging.EventType.Warning || ev.Type == oM.Base.Debugging.EventType.Error)
-                        Assert.Warn($"{ev.Type}: {ev.Message}");
+                    if (TestContext.CurrentContext.Result.Outcome.Status == NUnitTestStatus.Failed)
+                    {
+                        Assert.Warn($"Recorded {ev.Type}: {ev.Message}");
+                    }
                     else
-                        TestContext.Out.Write($"{ev.Type}: {ev.Message}");
+                    {
+                        TestContext.Out.Write($"{ev.Message}");
+                    }
                 }
             }
 
