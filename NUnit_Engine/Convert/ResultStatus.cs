@@ -41,6 +41,8 @@ namespace BH.Engine.Test.NUnit
                 return TestStatus.Error;
             else if (resultStatus == "Passed")
                 return TestStatus.Pass;
+            else if (resultStatus == "Warning")
+                return TestStatus.Warning;
 
             return TestStatus.Error; //Default - something probably went wrong so we'd want to investigate
         }
