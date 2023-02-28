@@ -32,8 +32,6 @@ using System.Text;
 
 namespace BH.Test.Engine.NUnit
 {
-    public class SampleTestClass : NUnitTest { }
-
     public class BadlyReferencedAssembliesTests
     {
         [Test]
@@ -58,4 +56,6 @@ namespace BH.Test.Engine.NUnit
             Assert.Fail("This method should have thrown an exception.");
         }
     }
+
+    public class SampleTestClass : NUnitTest { }
 }
