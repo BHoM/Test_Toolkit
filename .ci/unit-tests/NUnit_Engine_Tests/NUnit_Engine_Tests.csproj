@@ -26,7 +26,6 @@
     <Reference Include="Analytical_oM">
       <HintPath>C:\ProgramData\BHoM\Assemblies\Analytical_oM.dll</HintPath>
       <SpecificVersion>False</SpecificVersion>
-      <Private>True</Private>
     </Reference>
     <Reference Include="BHoM">
       <HintPath>C:\ProgramData\BHoM\Assemblies\BHoM.dll</HintPath>
@@ -47,6 +46,7 @@
     </Reference>
     <Reference Include="Structure_oM">
       <HintPath>C:\ProgramData\BHoM\Assemblies\Structure_oM.dll</HintPath>
+      <SpecificVersion>False</SpecificVersion>
     </Reference>
   </ItemGroup>
 
