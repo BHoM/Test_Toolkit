@@ -44,7 +44,7 @@ namespace BH.Test.Engine.NUnit
         public void InvokeExampleEngineFunction()
         {
             ConcreteSection concreteSection = (ConcreteSection)BH.Engine.Base.Create.RandomObject(typeof(ConcreteSection));
-            IGeometry result = concreteSection.GetGeometry3DViaExtensionMethod();
+            IGeometry result = BH.Engine.Example.Query.GetGeometry3DViaExtensionMethod(concreteSection);
             result.ShouldNotBeNull();
         }
     }
