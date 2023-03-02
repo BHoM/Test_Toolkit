@@ -33,20 +33,19 @@ using System.Text;
 
 namespace BH.Test.Engine.NUnit
 {
-    public class CorrectlyReferencedAssembliesTests : NUnitTest
+    public partial class NUnit_Engine_Tests : NUnitTest
     {
         [Test]
         [Description("Verifies that the NUnitTest class uses the OneTimeSetup method to appropriately load" +
             "all assemblies referenced by this project. This is required to make sure that otherwise lazy-loaded assemblies" +
             "are loaded upfront, to avoid runtime errors when using dynamic mechanisms like RunExtensionMethod().")]
-        public void VerifyLoadedAssemblies()
+        public void CorrectlyReferencedAssembliesTests()
         {
             var domainLoadedAssemblies = AppDomain.CurrentDomain.GetAssemblies();
 
             var loadedAssemblies = domainLoadedAssemblies.Select(a => a.GetName().Name);
 
-            loadedAssemblies.ShouldContain("Dimensional_oM");
-            loadedAssemblies.ShouldContain("Analytical_oM");
+            loadedAssemblies.ShouldContain("Structure_Engine");
         }
     }
 }
