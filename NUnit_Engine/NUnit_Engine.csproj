@@ -8,6 +8,7 @@
     <RootNamespace>BH.Engine.Test.NUnit</RootNamespace>
     <BaseOutputPath>..\Build</BaseOutputPath>
     <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
+    <Configurations>Debug;Release;Test</Configurations>
   </PropertyGroup>
 
   <Target Name="PostBuild" AfterTargets="PostBuildEvent">

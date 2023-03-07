@@ -36,6 +36,7 @@ namespace BH.oM.Test.NUnit
 {
     public abstract class NUnitTest
     {
+#if TEST
         [OneTimeSetUp]
         [Description("Loads all assemblies referenced by the derived Test class' project. " +
             "This is required to make sure that otherwise lazy-loaded assemblies are loaded upfront, " +
@@ -120,5 +121,7 @@ namespace BH.oM.Test.NUnit
 
             BH.Engine.Base.Compute.ClearCurrentEvents();
         }
+#endif
     }
+
 }
