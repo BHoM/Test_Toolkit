@@ -30,11 +30,4 @@
     <ProjectReference Include="..\..\..\NUnit_Engine\NUnit_Engine.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Reference Include="Test_oM">
-      <HintPath>C:\ProgramData\BHoM\Assemblies\Test_oM.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-  </ItemGroup>
-
 </Project>

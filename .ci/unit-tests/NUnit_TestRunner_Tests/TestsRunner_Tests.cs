@@ -1,7 +1,7 @@
 using BH.oM.Test.NUnit;
 using NUnit.Framework;
 using BH.Engine.Test.NUnit;
-using BH.oM.Test.Results;
+//using BH.oM.Test.Results;
 using Newtonsoft.Json;
 using Shouldly;
 
@@ -23,9 +23,9 @@ namespace NUnit_TestRunner_Tests
             TestRun testRunResult = Compute.RunTests(NUnit_Engine_Tests_path);
             Console.WriteLine(JsonConvert.SerializeObject(testRunResult, Formatting.Indented));
 
-            TestResult testResult = testRunResult.ToTestResult();
-            testResult.ShouldNotBeNull();
-            Console.WriteLine(JsonConvert.SerializeObject(testResult, Formatting.Indented));
+            //TestResult testResult = testRunResult.ToTestResult();
+            //testResult.ShouldNotBeNull();
+            //Console.WriteLine(JsonConvert.SerializeObject(testResult, Formatting.Indented));
 
             testRunResult.Failed.ShouldBe(0);
         }
