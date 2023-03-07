@@ -45,7 +45,7 @@ namespace BH.Test.Engine.NUnit
         {
             ConcreteSection concreteSection = (ConcreteSection)BH.Engine.Base.Create.RandomObject(typeof(ConcreteSection));
             IGeometry result = BH.Engine.Example.Query.GetGeometry3DViaExtensionMethod(concreteSection);
-            result.ShouldNotBeNull();
+            result.ShouldNotBeNull("The dynamically loaded Extension method could not be called.");
         }
     }
 }
