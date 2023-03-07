@@ -7,6 +7,7 @@
     <AssemblyVersion>6.0.0.0</AssemblyVersion>
     <RootNamespace>BH.oM.Test.NUnit</RootNamespace>
     <BaseOutputPath>..\Build</BaseOutputPath>
+    <Configurations>Debug;Release;Test</Configurations>
   </PropertyGroup>
 
   <Target Name="PostBuild" AfterTargets="PostBuildEvent">

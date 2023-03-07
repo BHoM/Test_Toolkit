@@ -47,9 +47,7 @@ namespace BH.Engine.Test.NUnit
             if (string.IsNullOrEmpty(filePath) || !File.Exists(filePath))
                 return null;
 
-            // Load assemblies referenced by this assembly.
-            // Required to ensure that all dependencies (including dynamically-loaded assemblies) are present for the test run, regardless of the executing environment.
-            // In a normal test run in VS (not via NUnit.Engine) this is taken care of from the base BH.oM.Test.NUnit.NUnitTest class.
+            //BH.Engine.Base.Compute.LoadAllAssemblies();
             LoadReferencedAssemblies(filePath);
 
             ITestEngine testEngine = TestEngineActivator.CreateInstance();
@@ -74,26 +72,47 @@ namespace BH.Engine.Test.NUnit
         private static void LoadReferencedAssemblies(string dllPath)
         {
             var loadedAssemblies = new HashSet<string>();
-            var assembliesToCheck = new Queue<Assembly>();
+            AppDomain.CurrentDomain.GetAssemblies().ToList().ForEach(a => loadedAssemblies.Add(a.GetName().Name));
 
-            assembliesToCheck.Enqueue(Assembly.LoadFile(dllPath));
+            List<(string, int)> assembliesToCheck = new List<(string, int)>();
 
+            assembliesToCheck.Add((Assembly.LoadFile(dllPath).FullName, 0));
+
+            // Queue the referenced assemblies that must be loaded into a deque.
+            // If they were already loaded by the CLI, this does not load them again.
+            // If some error occurs, put them at end of the deque and try again later.
+            // Max tries must not exceed initial length of collection.
+            // This is useful to report errors in loading; it can be tested by setting some assemblies' Copy Local to false.
+            List<string> assembliesCouldNotLoad = new List<string>();
+            int totalCount = assembliesToCheck.Count;
             while (assembliesToCheck.Any())
             {
-                var assemblyToCheck = assembliesToCheck.Dequeue();
+                (string, int) assemblyTuple = assembliesToCheck.First();
+                assembliesToCheck.RemoveAt(0);
 
-                var referencedAssemblies = assemblyToCheck.GetReferencedAssemblies();
-
-                foreach (var reference in referencedAssemblies)
+                if (assemblyTuple.Item2 < totalCount)
                 {
-                    if (!loadedAssemblies.Contains(reference.FullName))
+                    try
                     {
-                        var assembly = Assembly.Load(reference);
-                        assembliesToCheck.Enqueue(assembly);
-                        loadedAssemblies.Add(reference.FullName);
+                        Assembly loadedAssembly = Assembly.Load(assemblyTuple.Item1);
+                        var refAssemblies = loadedAssembly.GetReferencedAssemblies().ToList();
+                        refAssemblies.ForEach(a => assembliesToCheck.Add((a.Name, 0)));
+                    }
+                    catch
+                    {
+                        // Could not load. Might be because of missing dependencies that are already enqueued. Try later.
+                        assembliesToCheck.Add((assemblyTuple.Item1, assemblyTuple.Item2 + 1));
                     }
                 }
+                else
+                {
+                    assembliesCouldNotLoad.Add(assemblyTuple.Item1);
+                }
             }
+
+            // Report errors in loading.
+            if (assembliesCouldNotLoad.Any())
+                throw new FileLoadException($"Could not load some assemblies: {string.Join(", ", assembliesCouldNotLoad)}");
         }
     }
 }
