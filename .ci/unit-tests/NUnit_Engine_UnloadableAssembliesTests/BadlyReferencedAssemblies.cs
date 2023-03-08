@@ -21,6 +21,7 @@
  */
 
 using BH.oM.Test.NUnit;
+using BH.Test.Engine.NUnit.Objects;
 using NUnit.Framework;
 using Shouldly;
 using System;
@@ -57,5 +58,5 @@ namespace BH.Test.Engine.NUnit
         }
     }
 
-    public class SampleTestClass : NUnitTest { }
+
 }
