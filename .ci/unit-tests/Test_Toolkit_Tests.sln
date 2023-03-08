@@ -7,13 +7,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NUnit_Engine_Tests", "NUnit
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NUnit_Engine", "..\..\NUnit_Engine\NUnit_Engine.csproj", "{A8EF02C7-3F40-4D12-8978-44B4A51DAE8A}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NUnit_Engine_UnloadableAssembliesTests", "NUnit_Engine_UnloadableAssembliesTests\NUnit_Engine_UnloadableAssembliesTests.csproj", "{63393726-FCA1-4AA1-992D-C5D800AB9B5C}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Example_Engine", "Example_Engine\Example_Engine.csproj", "{4D3B8B11-60A2-4561-B116-4921EAB932E3}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NUnit_oM", "..\..\NUnit_oM\NUnit_oM.csproj", "{B5274FBE-7AF5-48D7-A29B-0121E3F280B7}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Test_Engine", "..\..\Test_Engine\Test_Engine.csproj", "{5FC85409-DBC5-4B0D-A2AA-1D9542F0763B}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NUnit_Engine_WrongReferencesTests", "NUnit_Engine_WrongReferencesTests\NUnit_Engine_WrongReferencesTests.csproj", "{6DF99012-A869-4C60-B1EC-9EBB583FCF3B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -34,12 +34,6 @@ Global
 		{A8EF02C7-3F40-4D12-8978-44B4A51DAE8A}.Release|Any CPU.Build.0 = Release|Any CPU
 		{A8EF02C7-3F40-4D12-8978-44B4A51DAE8A}.Test|Any CPU.ActiveCfg = Test|Any CPU
 		{A8EF02C7-3F40-4D12-8978-44B4A51DAE8A}.Test|Any CPU.Build.0 = Test|Any CPU
-		{63393726-FCA1-4AA1-992D-C5D800AB9B5C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{63393726-FCA1-4AA1-992D-C5D800AB9B5C}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{63393726-FCA1-4AA1-992D-C5D800AB9B5C}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{63393726-FCA1-4AA1-992D-C5D800AB9B5C}.Release|Any CPU.Build.0 = Release|Any CPU
-		{63393726-FCA1-4AA1-992D-C5D800AB9B5C}.Test|Any CPU.ActiveCfg = Test|Any CPU
-		{63393726-FCA1-4AA1-992D-C5D800AB9B5C}.Test|Any CPU.Build.0 = Test|Any CPU
 		{4D3B8B11-60A2-4561-B116-4921EAB932E3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{4D3B8B11-60A2-4561-B116-4921EAB932E3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4D3B8B11-60A2-4561-B116-4921EAB932E3}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -58,6 +52,12 @@ Global
 		{5FC85409-DBC5-4B0D-A2AA-1D9542F0763B}.Release|Any CPU.Build.0 = Release|Any CPU
 		{5FC85409-DBC5-4B0D-A2AA-1D9542F0763B}.Test|Any CPU.ActiveCfg = Test|Any CPU
 		{5FC85409-DBC5-4B0D-A2AA-1D9542F0763B}.Test|Any CPU.Build.0 = Test|Any CPU
+		{6DF99012-A869-4C60-B1EC-9EBB583FCF3B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6DF99012-A869-4C60-B1EC-9EBB583FCF3B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6DF99012-A869-4C60-B1EC-9EBB583FCF3B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6DF99012-A869-4C60-B1EC-9EBB583FCF3B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6DF99012-A869-4C60-B1EC-9EBB583FCF3B}.Test|Any CPU.ActiveCfg = Test|Any CPU
+		{6DF99012-A869-4C60-B1EC-9EBB583FCF3B}.Test|Any CPU.Build.0 = Test|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
