@@ -42,7 +42,7 @@ namespace BH.Test.Engine.NUnit
     {
         [Test]
         [Description("Makes sure this test project does not contain Structure_Engine and that Structure_Engine is not loaded when running these tests.")]
-        public void StructureEngineNotLoaded()
+        public void EnsureStructureEngineNotLoaded()
         {
             NUnitTest testClass = new SampleTestClass();
 
@@ -67,7 +67,7 @@ namespace BH.Test.Engine.NUnit
         [Description("Tests invoking a function (located in the Example_Engine) that requires a call to an extension method. " +
             "The extension method requires that a specific assembly which is not referenced by the test project (Geometry_Engine) is loaded in memory." +
             "The loading in memory has to be taken care by the base NUnitTest class.")]
-        public void DynamicallyLoadedDependency()
+        public void DynamicallyRequiredAssemblyFailsLoading()
         {
             NUnitTest testClass = new SampleTestClass();
 
