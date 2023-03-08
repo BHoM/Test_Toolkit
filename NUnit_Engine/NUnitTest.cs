@@ -31,11 +31,13 @@ using System.Reflection;
 using System.Text;
 using System.Xml;
 using System.Xml.Linq;
+using BH.Engine.Base;
 
 namespace BH.oM.Test.NUnit
 {
     public abstract class NUnitTest
     {
+
         [OneTimeSetUp]
         [Description("Loads all assemblies referenced by the derived Test class' project. " +
             "This is required to make sure that otherwise lazy-loaded assemblies are loaded upfront, " +
@@ -70,9 +72,18 @@ namespace BH.oM.Test.NUnit
                 assembliesToCheck.Add((projectToLoadName, 0));
             }
 
-            HashSet<string> loadedRefAssemblies = LoadReferencedAssemblies(this.GetType().Assembly.FullName);
-            assembliesToCheck = assembliesToCheck.Where(a => !loadedRefAssemblies.Contains(a.Item1)).ToList();
+            // Try loading explicitly referenced assemblies.
+            HashSet<string> loadedRefAssemblies = new HashSet<string>();
+            try
+            {
+                loadedRefAssemblies = LoadReferencedAssemblies(this.GetType().Assembly.FullName);
+            }
+            catch (Exception e)
+            {
 
+            }
+
+            assembliesToCheck = assembliesToCheck.Where(a => !loadedRefAssemblies.Contains(a.Item1)).ToList();
             // Queue the referenced assemblies that must be loaded into a deque.
             // If they were already loaded by the CLI, this does not load them again.
             // If some error occurs, put them at end of the deque and try again later.
@@ -173,7 +184,7 @@ namespace BH.oM.Test.NUnit
                         loadedAssemblies.Add(loadedAssembly.GetName().Name);
 
                         var refAssemblies = loadedAssembly.GetReferencedAssemblies().ToList();
-                        refAssemblies.Where(a => a.Name.Contains("_oM") || a.Name.Contains("_Engine") || a.Name.Contains("_Adapter") || a.Name.Contains("BHoM") || a.Name.ToLower().Contains("test"))
+                        refAssemblies.Where(a => a.Name.Contains("_oM") || a.Name.Contains("_Engine") || a.Name.Contains("_Adapter") || a.Name.Contains("BHoM"))
                             .ToList()
                             .ForEach(a => assembliesToCheck.Add((a.Name, 0)));
                     }
@@ -189,8 +200,22 @@ namespace BH.oM.Test.NUnit
                 }
             }
 
+            // For any assembly that could not be loaded, try using LoadFrom from the BHoM ProgramData folder.
+            string BHoMAssembliesFolder = Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.CommonApplicationData), "BHoM", "Assemblies");
+            foreach (var assemblyName in assembliesCouldNotLoad.DeepClone())
+            {
+                try
+                {
+                    Assembly.LoadFrom(Path.Combine(BHoMAssembliesFolder, $"{assemblyName}.dll"));
+                    assembliesCouldNotLoad.Remove(assemblyName);
+                }
+                catch (Exception e)
+                {
+                }
+            }
+
             // Report errors in loading.
-            if (assembliesCouldNotLoad.ToList().Where(n => n != "Test_oM").Any())
+            if (assembliesCouldNotLoad.Any())
                 throw new FileLoadException($"Could not load some assemblies: {string.Join(", ", assembliesCouldNotLoad)}");
 
             return loadedAssemblies;
