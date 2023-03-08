@@ -73,15 +73,7 @@ namespace BH.oM.Test.NUnit
             }
 
             // Try loading explicitly referenced assemblies.
-            HashSet<string> loadedRefAssemblies = new HashSet<string>();
-            try
-            {
-                loadedRefAssemblies = LoadReferencedAssemblies(this.GetType().Assembly.FullName);
-            }
-            catch (Exception e)
-            {
-
-            }
+            HashSet<string> loadedRefAssemblies = LoadReferencedAssemblies(this.GetType().Assembly.FullName);
 
             assembliesToCheck = assembliesToCheck.Where(a => !loadedRefAssemblies.Contains(a.Item1)).ToList();
             // Queue the referenced assemblies that must be loaded into a deque.
@@ -202,7 +194,7 @@ namespace BH.oM.Test.NUnit
 
             // For any assembly that could not be loaded, try using LoadFrom from the BHoM ProgramData folder.
             string BHoMAssembliesFolder = Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.CommonApplicationData), "BHoM", "Assemblies");
-            foreach (var assemblyName in assembliesCouldNotLoad.DeepClone())
+            foreach (var assemblyName in new List<string>(assembliesCouldNotLoad))
             {
                 try
                 {
