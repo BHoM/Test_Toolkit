@@ -20,32 +20,31 @@
  * along with this code. If not, see <https://www.gnu.org/licenses/lgpl-3.0.html>.      
  */
 
-using BH.Engine.Base;
-using BH.oM.Test.NUnit;
-using NUnit.Framework;
-using Shouldly;
 using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
-using System.Text;
-using BH.Engine.Example;
+using System.Runtime.CompilerServices;
+using BH.oM.Geometry;
+using BH.Engine.Base;
 using BH.oM.Structure.Elements;
 using BH.oM.Structure.SectionProperties;
-using BH.oM.Geometry;
 
-namespace BH.Test.Engine.NUnit
+namespace BH.Engine.Example
 {
-    public partial class NUnit_Engine_Tests : NUnitTest
+    public static partial class Query
     {
-        [Test]
-        [Description("")]
-        public void InvokeExampleEngineFunction()
+        public static IGeometry GetGeometryViaExtensionMethod(this ConcreteSection section)
         {
-            ConcreteSection concreteSection = (ConcreteSection)BH.Engine.Base.Create.RandomObject(typeof(ConcreteSection));
-            IGeometry result = BH.Engine.Example.Query.GetGeometry3DViaExtensionMethod(concreteSection);
-            result.ShouldNotBeNull("The dynamically loaded Extension method could not be called.");
+            // If Structure_Engine is not referenced in the Test Project, this should fail to return something:
+            return section.IGeometry();
+        }
+
+        public static IGeometry GetGeometryViaExtensionMethodToCall(this ConcreteSection section)
+        {
+            // If Structure_Engine is not referenced in the Test Project, this should fail to return something:
+            System.Reflection.MethodInfo mi = BH.Engine.Base.Query.ExtensionMethodToCall(section, "Geometry");
+            if (mi != null)
+                return BH.Engine.Base.Compute.RunExtensionMethod(section, "Geometry") as IGeometry;
+            else
+                return null;
         }
     }
 }
