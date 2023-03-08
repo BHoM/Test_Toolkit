@@ -47,8 +47,18 @@ namespace BH.Test.Engine.NUnit
             {
                 testClass.LoadReferencedAssemblies();
             }
-            catch(FileLoadException e)
+            catch (FileLoadException e)
             {
+                // These assemblies are badly referenced (have copy local to false)
+                e.Message.ShouldContain("Analytical_Engine");
+                e.Message.ShouldContain("Dimensional_oM");
+
+                // These assemblies are well referenced (have copy local to true)
+                e.Message.ShouldNotContain("Structure_oM");
+                e.Message.ShouldNotContain("Geometry_oM");
+                e.Message.ShouldNotContain("BHoM");
+                e.Message.ShouldNotContain("BHoM_Engine");
+
                 // The exception was correctly thrown. Write to console to show it.
                 Console.WriteLine($"The exception was correctly thrown. Message:\n\t{e.Message.Replace("\n", "\n\t")}");
                 return;
