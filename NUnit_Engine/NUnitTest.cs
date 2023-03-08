@@ -124,11 +124,16 @@ namespace BH.oM.Test.NUnit
                 {
                     if (TestContext.CurrentContext.Result.Outcome.Status == NUnitTestStatus.Failed)
                     {
-                        Assert.Warn($"Recorded {ev.Type}: {ev.Message}");
+                        // Only state the type of event (Error/Warning/Note) in case of failure.
+                        string message = $"Recorded {ev.Type}: {ev.Message}";
+                        TestContext.Out.Write(message); // Log to NUnit
+                        Console.WriteLine(message); // Output to Test Explorer
                     }
                     else
                     {
-                        TestContext.Out.Write($"{ev.Message}");
+                        // Do not state the type of event (Error/Warning/Note) in case of pass.
+                        TestContext.Out.Write(ev.Message); // Log to NUnit
+                        Console.WriteLine(ev.Message); // Output to Test Explorer
                     }
                 }
             }
