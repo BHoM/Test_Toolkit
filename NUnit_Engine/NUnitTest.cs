@@ -42,7 +42,6 @@ namespace BH.oM.Test.NUnit
             "in order to avoid runtime errors when using dynamic mechanisms like RunExtensionMethod().")]
         public void LoadReferencedAssemblies()
         {
-#if TEST
             // Get the referenced assemblies of the Test Project.
             var testProjectDir = Directory.GetParent(AppDomain.CurrentDomain.BaseDirectory).Parent.Parent.Parent.FullName;
             var files = Directory.GetFiles(testProjectDir, "*.csproj");
@@ -110,7 +109,6 @@ namespace BH.oM.Test.NUnit
                     $"\nProblematic assemblies: {string.Join(", ", assembliesCouldNotLoad)}." +
                     $"\nMake sure that Copy Local is set to true for them in the test project {Path.GetFileNameWithoutExtension(projectFullPath)}." +
                     $"\nAlternatively, this could be because some of their dependencies were not referenced in the project.");
-#endif
         }
 
         [TearDown]
@@ -139,8 +137,8 @@ namespace BH.oM.Test.NUnit
         }
 
 
-            [Description("Makes sure that the assemblies referenced by the input assembly are loaded in memory." +
-       "Required to ensure that all dependencies (including dynamically-loaded assemblies) are present for the test run, regardless of the executing environment.")]
+        [Description("Makes sure that the assemblies referenced by the input assembly are loaded in memory." +
+   "Required to ensure that all dependencies (including dynamically-loaded assemblies) are present for the test run, regardless of the executing environment.")]
         private static HashSet<string> LoadReferencedAssemblies(string dllname)
         {
             var loadedAssemblies = new HashSet<string>();
