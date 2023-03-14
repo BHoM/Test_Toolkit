@@ -155,7 +155,7 @@ namespace BH.Engine.Test.CodeCompliance
                     finalResult = finalResult.Merge(Create.TestResult(TestStatus.Error, new List<Error> { Create.Error("Project references for BHoM DLLs should not include Version, Culture, or Processor Architecture", Create.Location(csProjFilePath, Create.LineSpan(lineNumber, lineNumber)), documentationLink) }));
                 }
 
-                string hintPath = @"C:\ProgramData\BHoM\Assemblies\" + reference.Name + ".dll";
+                string hintPath = @"$(ProgramData)\BHoM\Assemblies\" + reference.Name + ".dll";
                 string hintPathXML = $"<HintPath>{reference.HintPath}</HintPath>";
                 if(reference.HintPath != hintPath)
                 {
