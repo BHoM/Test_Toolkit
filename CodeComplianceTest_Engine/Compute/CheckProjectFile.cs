@@ -99,7 +99,7 @@ namespace BH.Engine.Test.CodeCompliance
 
         private static TestResult CheckNETTarget(this ProjectFile csProject, List<string> fileLines, TestResult finalResult, string csProjFilePath, string documentationLink)
         {
-            List<string> acceptableNETTargets = new List<string> { "v4.7.2", "net472", "net480", "net481", "netstandard2.0", "net5.0", "net6.0" };
+            List<string> acceptableNETTargets = new List<string> { "v4.7.2", "net472", "net48", "net480", "net481", "netstandard2.0", "net5.0", "net6.0" };
             bool atLeastOneCorrect = false;
 
             foreach(string target in csProject.TargetNETVersions)
