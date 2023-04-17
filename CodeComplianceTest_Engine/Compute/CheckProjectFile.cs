@@ -243,21 +243,21 @@ namespace BH.Engine.Test.CodeCompliance
             string searchLine = "";
             if (csProject.IsOldStyle)
             {
-                postBuildShouldContain = "xcopy \"$(TargetDir)$(TargetFileName)\" \"C:\\ProgramData\\BHoM\\Assemblies\" /Y";
+                postBuildShouldContain = "xcopy \"$(TargetDir)$(TargetFileName)\" \"$(ProgramData)\\BHoM\\Assemblies\" /Y";
                 searchLine = "<PostBuildEvent";
             }
             else
             {
-                postBuildShouldContain = "&quot;$(TargetDir)$(TargetFileName)&quot; &quot;C:\\ProgramData\\BHoM\\Assemblies&quot; /Y";
+                postBuildShouldContain = "&quot;$(TargetDir)$(TargetFileName)&quot; &quot;$(ProgramData)\\BHoM\\Assemblies&quot; /Y";
                 searchLine = "<Exec Command=\"xcopy";
             }
 
             if(!csProject.PostBuildEvent.Any(x => x.Contains(postBuildShouldContain)))
             {
-                postBuildShouldContain = "xcopy \"$(TargetDir)$(TargetFileName)\"  \"C:\\ProgramData\\BHoM\\Assemblies\" /Y"; //Check again with a double spacing
+                postBuildShouldContain = "xcopy \"$(TargetDir)$(TargetFileName)\"  \"$(ProgramData)\\BHoM\\Assemblies\" /Y"; //Check again with a double spacing
                 if (!csProject.PostBuildEvent.Any(x => x.Contains(postBuildShouldContain)))
                 {
-                    postBuildShouldContain = "&quot;$(TargetDir)$(TargetFileName)&quot;  &quot;C:\\ProgramData\\BHoM\\Assemblies&quot; /Y"; //Check again with a double spacing
+                    postBuildShouldContain = "&quot;$(TargetDir)$(TargetFileName)&quot;  &quot;$(ProgramData)\\BHoM\\Assemblies&quot; /Y"; //Check again with a double spacing
                     if (!csProject.PostBuildEvent.Any(x => x.Contains(postBuildShouldContain)))
                     {
                         int lineNumber = fileLines.IndexOf(fileLines.Where(x => x.Contains(searchLine)).FirstOrDefault()) + 1; //+1 because index is 0 based but line numbers start at 1 for the spans
