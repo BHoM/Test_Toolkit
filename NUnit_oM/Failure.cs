@@ -20,6 +20,7 @@
  * along with this code. If not, see <https://www.gnu.org/licenses/lgpl-3.0.html>.      
  */
 
+using BH.oM.Base;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -30,7 +31,7 @@ using System.Xml.Serialization;
 namespace BH.oM.Test.NUnit
 {
     [XmlRoot(ElementName = "failure")]
-    public class Failure
+    public class Failure : IObject
     {
         [XmlElement(ElementName = "message")]
         public virtual string Message { get; set; }
