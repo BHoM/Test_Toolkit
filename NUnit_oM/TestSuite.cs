@@ -27,10 +27,12 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Serialization;
 
+using BH.oM.Base;
+
 namespace BH.oM.Test.NUnit
 {
     [XmlRoot(ElementName = "test-suite")]
-    public class TestSuite
+    public class TestSuite : IObject
     {
 
         [XmlElement(ElementName = "failure")]
