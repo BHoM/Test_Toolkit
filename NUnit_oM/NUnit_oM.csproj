@@ -3,7 +3,7 @@
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
     <Description>https://github.com/BHoM/Test_Toolkit</Description>
-    <FileVersion>6.1.0.0</FileVersion>
+    <FileVersion>6.2.0.0</FileVersion>
     <AssemblyVersion>6.0.0.0</AssemblyVersion>
     <RootNamespace>BH.oM.Test.NUnit</RootNamespace>
     <BaseOutputPath>..\Build</BaseOutputPath>
@@ -16,7 +16,9 @@
 
   <ItemGroup>
     <Reference Include="BHoM">
-      <HintPath>C:\ProgramData\BHoM\Assemblies\BHoM.dll</HintPath>
+      <HintPath>$(ProgramData)\BHoM\Assemblies\BHoM.dll</HintPath>
+      <Private>False</Private>
+      <SpecificVersion>False</SpecificVersion>
     </Reference>
   </ItemGroup>
 
