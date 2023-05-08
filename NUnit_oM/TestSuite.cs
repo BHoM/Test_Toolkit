@@ -20,14 +20,13 @@
  * along with this code. If not, see <https://www.gnu.org/licenses/lgpl-3.0.html>.      
  */
 
+using BH.oM.Base;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Serialization;
-
-using BH.oM.Base;
 
 namespace BH.oM.Test.NUnit
 {
@@ -107,8 +106,9 @@ namespace BH.oM.Test.NUnit
         [XmlElement(ElementName = "environment")]
         public virtual Environment Environment { get; set; }
 
-        [XmlElement(ElementName = "settings")]
-        public virtual Settings Settings { get; set; }
+        [XmlArray(ElementName = "settings")]
+        [XmlArrayItem(ElementName = "setting")]
+        public virtual List<Setting> Settings { get; set; }
 
         [XmlElement(ElementName = "properties")]
         public virtual Properties Properties { get; set; }
