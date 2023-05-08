@@ -30,13 +30,12 @@ using System.Xml.Serialization;
 
 namespace BH.oM.Test.NUnit
 {
-    [XmlRoot(ElementName = "setting")]
     public class Setting : IObject
     {
         [XmlAttribute(AttributeName = "name")]
         public virtual string Name { get; set; }
 
         [XmlAttribute(AttributeName = "value")]
-        public virtual int Value { get; set; }
+        public virtual string Value { get; set; }
     }
 }
