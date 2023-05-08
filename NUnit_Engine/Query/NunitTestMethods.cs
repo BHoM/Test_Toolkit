@@ -21,13 +21,9 @@
  */
 
 using BH.oM.Base.Attributes;
-using BH.oM.Test.NUnit;
-using NUnit.Engine;
 using NUnit.Framework;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.IO;
 using System.Linq;
 using System.Reflection;
 
@@ -35,11 +31,17 @@ namespace BH.Engine.Test.NUnit
 {
     public static partial class Query
     {
+        [System.ComponentModel.Description("Returns all methods in an assembly that have NUnit 'Test' attribute.")]
+        [Input("assembly", "Assembly to parse in search for NUnit test methods.")]
+        [Output("methods", "All methods that have NUnit 'Test' attribute.")]
         public static List<MethodInfo> NunitTestMethods(this Assembly assembly)
         {
             return assembly.GetTypes().SelectMany(x => x.NunitTestMethods()).ToList();
         }
 
+        [System.ComponentModel.Description("Returns all methods in a type that have NUnit 'Test' attribute.")]
+        [Input("nunitClass", "Type to parse in search for NUnit test methods.")]
+        [Output("methods", "All methods that have NUnit 'Test' attribute.")]
         public static List<MethodInfo> NunitTestMethods(this Type nunitClass)
         {
             return nunitClass.GetMethods().Where(x => x.GetCustomAttribute<TestAttribute>() != null).ToList();
