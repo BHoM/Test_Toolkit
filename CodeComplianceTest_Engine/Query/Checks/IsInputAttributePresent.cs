@@ -37,6 +37,7 @@ namespace BH.Engine.Test.CodeCompliance.Checks
     {
         [Message("Input parameter requires a matching Input attribute", "IsInputAttributePresent")]
         [ErrorLevel(TestStatus.Warning)]
+        [Path(@"([a-zA-Z0-9]+)_Tests\\.*\.cs$", false)]
         [ComplianceType("documentation")]
         public static Span IsInputAttributePresent(this ParameterSyntax node)
         {
