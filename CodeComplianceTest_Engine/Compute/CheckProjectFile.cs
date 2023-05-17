@@ -163,8 +163,9 @@ namespace BH.Engine.Test.CodeCompliance
                     finalResult = finalResult.Merge(Create.TestResult(TestStatus.Error, new List<Error> { Create.Error($"Project reference for '{reference.Name}' should be set to '{hintPath}'", Create.Location(csProjFilePath, Create.LineSpan(lineNumber, lineNumber)), documentationLink) }));
                 }
 
-                if(reference.CopyLocal)
+                if(reference.CopyLocal && !csProjFilePath.Contains(".ci"))
                 {
+                    //Only provide an error for project reference set to copy local if it's not part of a .ci/unit-tests project file
                     lineNumber = fileLines.IndexOf(fileLines.Where(x => x.Contains(hintPathXML)).FirstOrDefault()) + 1; //+1 because index is 0 based but line numbers start at 1 for the spans - searching from hintPathXML to then make sure we get the right line number related to this copy local issue
                     while (!fileLines[lineNumber].Contains("<Private>true</Private>"))
                     {
