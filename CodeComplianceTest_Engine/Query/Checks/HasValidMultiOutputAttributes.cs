@@ -40,6 +40,7 @@ namespace BH.Engine.Test.CodeCompliance.Checks
         [ErrorLevel(TestStatus.Error)]
         [Path(@"([a-zA-Z0-9]+)_Engine\\.*\.cs$")]
         [Path(@"([a-zA-Z0-9]+)_Engine\\Objects\\.*\.cs$", false)]
+        [Path(@"([a-zA-Z0-9]+)_Tests\\.*\.cs$", false)]
         [IsPublic()]
         [ComplianceType("documentation")]
         public static Span HasValidMultiOutputAttributes(this MethodDeclarationSyntax node)
