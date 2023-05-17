@@ -37,6 +37,7 @@ namespace BH.Engine.Test.CodeCompliance.Checks
         [Message("Invalid Engine class name", "IsValidEngineClassName")]
         [Path(@"([a-zA-Z0-9]+)_Engine\\.*\.cs$")]
         [Path(@"([a-zA-Z0-9]+)_Engine\\Objects\\.*\.cs$", false)]
+        [Path(@"([a-zA-Z0-9]+)_Tests\\.*\.cs$", false)]
         [ComplianceType("code")]
         [ErrorLevel(TestStatus.Error)]
         public static Span IsValidEngineClassName(this ClassDeclarationSyntax node)
