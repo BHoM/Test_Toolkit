@@ -38,6 +38,7 @@ namespace BH.Engine.Test.CodeCompliance.Checks
         [Message("Input attribute is not unique", "InputAttributeIsUnique")]
         [ErrorLevel(TestStatus.Error)]
         [Path(@"([a-zA-Z0-9]+)_(Engine|Adapter)\\.*\.cs$")]
+        [Path(@"([a-zA-Z0-9]+)_Tests\\.*\.cs$", false)]
         [ComplianceType("documentation")]
         public static Span InputAttributeIsUnique(this AttributeSyntax node)
         {
