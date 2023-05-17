@@ -36,13 +36,13 @@ namespace BH.Engine.Test.NUnit
         [Input("filePath", "A full file path to the DLL file which contains the NUnit tests.")]
         [Input("methodName", "Full name of the test method (in format {namespace}.{class}.{method}).")]
         [Output("testRun", "The NUnit test result from running the DLL.")]
-        public static TestRun RunTest(string filePath, string methodName)
+        public static TestRun RunTests(string filePath, string methodName)
         {
             if (string.IsNullOrEmpty(filePath) || !File.Exists(filePath) || string.IsNullOrWhiteSpace(methodName))
                 return null;
 
             ITestEngine testEngine = TestEngineActivator.CreateInstance();
-            var package = new TestPackage(filePath);
+            var package = new TestPackage(filePath);            
             var testRunner = testEngine.GetRunner(package);
 
             string[] split = methodName.Split('.');
@@ -50,6 +50,25 @@ namespace BH.Engine.Test.NUnit
             string method = split.Last();
 
             TestFilter tf = new TestFilter($"<filter><and><class>{namespaceAndClass}</class><method>{method}</method></and></filter>");
+            var testResult = testRunner.Run(null, tf);
+            return testResult.ToTestRun();
+        }
+
+        [Description("Runs all NUnit tests with a given class and method names from a given DLL which contains code set up with the NUnit framework.")]
+        [Input("filePath", "A full file path to the DLL file which contains the NUnit tests.")]
+        [Input("className", "Full name of the class that contains test methods (in format {namespace}.{class}).")]
+        [Input("methodNames", "Names of the test methods (in format {method}).")]
+        [Output("testRun", "The NUnit test result from running the DLL.")]
+        public static TestRun RunTests(string filePath, string className, IEnumerable<string> methodNames)
+        {
+            if (string.IsNullOrEmpty(filePath) || !File.Exists(filePath) || string.IsNullOrWhiteSpace(className) || (methodNames != null && !methodNames.Any()))
+                return null;
+
+            ITestEngine testEngine = TestEngineActivator.CreateInstance();
+            var package = new TestPackage(filePath);
+            var testRunner = testEngine.GetRunner(package);
+
+            TestFilter tf = new TestFilter($"<filter><and><class>{className}</class><or>{string.Join("", methodNames.Select(x => $"<method>{x}</method>"))}</or></and></filter>");
             var testResult = testRunner.Run(null, tf);
             return testResult.ToTestRun();
         }
