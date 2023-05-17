@@ -38,6 +38,7 @@ namespace BH.Engine.Test.CodeCompliance.Checks
         [Message("Previous Input Name attribute is not unique.", "PreviousInputNamesAttributeIsUnique")]
         [ErrorLevel(TestStatus.Error)]
         [Path(@"([a-zA-Z0-9]+)_(Engine|Adapter)\\.*\.cs$")]
+        [Path(@"([a-zA-Z0-9]+)_Tests\\.*\.cs$", false)]
         [ComplianceType("documentation")]
         public static Span PreviousInputNamesAttributeIsUnique(this AttributeSyntax node)
         {
