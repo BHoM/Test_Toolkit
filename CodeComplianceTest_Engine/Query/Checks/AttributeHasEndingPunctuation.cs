@@ -38,7 +38,7 @@ namespace BH.Engine.Test.CodeCompliance.Checks
     {
         [Message("Documentation attribute should end with grammatically correct punctuation (., !, or ?)", "AttributeHasEndingPunctuation")]
         [ErrorLevel(TestStatus.Warning)]
-        [Path(@"([a-zA-Z0-9]+)_(Engine|Adapter)\\.*\.cs$")]
+        [Path(@"([a-zA-Z0-9]+)_(Engine|Adapter|Tests)\\.*\.cs$")]
         [ComplianceType("documentation")]
         public static Span AttributeHasEndingPunctuation(this AttributeSyntax node)
         {
