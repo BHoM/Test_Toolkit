@@ -63,7 +63,3 @@ namespace BH.Engine.Test.CodeCompliance.Checks
         }
     }
 }
-
-
-
-

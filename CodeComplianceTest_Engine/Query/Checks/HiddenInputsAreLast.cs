@@ -35,36 +35,43 @@ namespace BH.Engine.Test.CodeCompliance.Checks
 {
     public static partial class Query
     {
-        [Message("UIExposure for input is set to hidden, but the corresponding input parameter does not contain a default value.", "UIExposureHasDefaultValue")]
-        [ErrorLevel(TestStatus.Error)]
+        [Message("UIExposure for some inputs are set to hidden, but the corresponding input parameter is not last in the parameter list.", "HiddenInputsAreLast")]
+        [ErrorLevel(TestStatus.Warning)]
         [Path(@"([a-zA-Z0-9]+)_(Engine|Adapter)\\.*\.cs$")]
         [Path(@"([a-zA-Z0-9]+)_Tests\\.*\.cs$", false)]
         [ComplianceType("documentation")]
-        public static Span UIExposureHasDefaultValue(this AttributeSyntax node)
+        public static Span HiddenInputsAreLast(this BaseMethodDeclarationSyntax node)
         {
-            if (node == null || node.Name.ToString() != "Input")
+            if (node == null)
                 return null;
 
-            var method = node.Parent.Parent as BaseMethodDeclarationSyntax;
-            if (method != null && method.IsPublic() && (method.IsEngineMethod() || method.IsAdapterConstructor()))
+            var attributes = node.AttributeLists;
+            var parameters = node.ParameterList;
+
+            List<int> hiddenParamIndexes = new List<int>();
+
+            foreach (var attributeList in attributes)
             {
-                if ((node.Name.ToString() == "Input" && node.ArgumentList.Arguments.Count >= 3))
+                foreach (var attribute in attributeList.Attributes)
                 {
-                    var exposureParam = node.ArgumentList.Arguments[2];
+                    var exposureParam = attribute.ArgumentList.Arguments[2];
                     if (exposureParam.ToString().Split('.').Last() == "Hidden")
                     {
-                        string paramName = node.ArgumentList.Arguments[0].Expression.GetFirstToken().Value.ToString();
-                        var param = method.ParameterList.Parameters.Where(p => p.Identifier.Text == paramName).FirstOrDefault();
-                        if (param != null)
-                        {
-                            if (param.Default == null)
-                                return param.Span.ToSpan();
+                        string paramName = attribute.ArgumentList.Arguments[0].Expression.GetFirstToken().Value.ToString();
+                        var param = parameters.Parameters.Where(p => p.Identifier.Text == paramName).FirstOrDefault();
 
-                            if (param.Default.Value == null)
-                                return param.Span.ToSpan();
-                        }
+                        if (param != null)
+                            hiddenParamIndexes.Add(parameters.Parameters.IndexOf(param));
                     }
                 }
+            }
+
+            bool isConsecutive = !hiddenParamIndexes.Select((i, j) => i - j).Distinct().Skip(1).Any();
+
+            if(!isConsecutive || hiddenParamIndexes.Last() < parameters.Parameters.Count)
+            {
+                //The hidden parameters have a non-hidden parameter somewhere between them, or the last index is less than the total number of inputs
+                return node.Span.ToSpan();
             }
 
             return null;
