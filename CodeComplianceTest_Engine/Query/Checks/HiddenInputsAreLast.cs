@@ -54,23 +54,26 @@ namespace BH.Engine.Test.CodeCompliance.Checks
             {
                 foreach (var attribute in attributeList.Attributes)
                 {
-                    var exposureParam = attribute.ArgumentList.Arguments[2];
-                    if (exposureParam.ToString().Split('.').Last() == "Hidden")
+                    if ((attribute.Name.ToString() == "Input" && attribute.ArgumentList.Arguments.Count >= 3))
                     {
-                        string paramName = attribute.ArgumentList.Arguments[0].Expression.GetFirstToken().Value.ToString();
-                        var param = parameters.Parameters.Where(p => p.Identifier.Text == paramName).FirstOrDefault();
+                        var exposureParam = attribute.ArgumentList.Arguments[2];
+                        if (exposureParam.ToString().Split('.').Last() == "Hidden")
+                        {
+                            string paramName = attribute.ArgumentList.Arguments[0].Expression.GetFirstToken().Value.ToString();
+                            var param = parameters.Parameters.Where(p => p.Identifier.Text == paramName).FirstOrDefault();
 
-                        if (param != null)
-                            hiddenParamIndexes.Add(parameters.Parameters.IndexOf(param));
+                            if (param != null)
+                                hiddenParamIndexes.Add(parameters.Parameters.IndexOf(param));
+                        }
                     }
                 }
             }
 
             bool isConsecutive = !hiddenParamIndexes.Select((i, j) => i - j).Distinct().Skip(1).Any();
 
-            if(!isConsecutive || hiddenParamIndexes.Last() < parameters.Parameters.Count)
+            if(hiddenParamIndexes.Any() && (!isConsecutive || hiddenParamIndexes.Last() < parameters.Parameters.Count - 1))
             {
-                //The hidden parameters have a non-hidden parameter somewhere between them, or the last index is less than the total number of inputs
+                //The hidden parameters have a non-hidden parameter somewhere between them, or the last index is less than the total number of inputs (last index is always count-1 with 0-based indexing)
                 return node.Span.ToSpan();
             }
 
