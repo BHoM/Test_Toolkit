@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="..\packages\Microsoft.CodeAnalysis.Analyzers.2.9.4\build\Microsoft.CodeAnalysis.Analyzers.props" Condition="Exists('..\packages\Microsoft.CodeAnalysis.Analyzers.2.9.4\build\Microsoft.CodeAnalysis.Analyzers.props')" />
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
@@ -153,6 +153,7 @@
     <Compile Include="Query\Checks\HasValidMultiOutputAttributes.cs" />
     <Compile Include="Query\Checks\HasValidPreviousVersionAttribute.cs" />
     <Compile Include="Query\Checks\HiddenInputsAreLast.cs" />
+    <Compile Include="Query\Checks\InputAttributesAreInOrder.cs" />
     <Compile Include="Query\Checks\IsDocumentationURLValid.cs" />
     <Compile Include="Query\Checks\IsUsingCustomData.cs" />
     <Compile Include="Query\Checks\IsValidCreateMethod.cs" />
