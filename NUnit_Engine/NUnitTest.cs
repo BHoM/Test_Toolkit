@@ -39,11 +39,16 @@ namespace BH.oM.Test.NUnit
     {
 
         [OneTimeSetUp]
-        [Description("Loads all assemblies referenced by the derived Test class' project. " +
+        [Description("Loads all assemblies referenced by the derived Test class' project, when in a Test Explorer context. " +
             "This is required to make sure that otherwise lazy-loaded assemblies are loaded upfront, " +
             "in order to avoid runtime errors when using dynamic mechanisms like RunExtensionMethod().")]
         public void LoadReferencedAssemblies()
         {
+            // If the tests are being run from a process that is based in ProgramData (e.g. BHoMBot),
+            // this method does not apply, because we assume that all the available assemblies are pre-loaded by such process. Return.
+            if (AppDomain.CurrentDomain.BaseDirectory.EndsWith(@"ProgramData\BHoM\Assemblies\"))
+                return;
+
             // Get the referenced assemblies of the Test Project.
             var testProjectDir = Directory.GetParent(AppDomain.CurrentDomain.BaseDirectory).Parent.Parent.Parent.FullName;
             var files = Directory.GetFiles(testProjectDir, "*.csproj");
