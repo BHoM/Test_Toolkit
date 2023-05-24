@@ -34,15 +34,15 @@ namespace BH.Engine.Test.NUnit
         [System.ComponentModel.Description("Returns all methods in an assembly that have NUnit 'Test' attribute.")]
         [Input("assembly", "Assembly to parse in search for NUnit test methods.")]
         [Output("methods", "All methods that have NUnit 'Test' attribute.")]
-        public static List<MethodInfo> NunitTestMethods(this Assembly assembly)
+        public static List<MethodInfo> NUnitTestMethods(this Assembly assembly)
         {
-            return assembly.GetTypes().SelectMany(x => x.NunitTestMethods()).ToList();
+            return assembly.GetTypes().SelectMany(x => x.NUnitTestMethods()).ToList();
         }
 
         [System.ComponentModel.Description("Returns all methods in a type that have NUnit 'Test' attribute.")]
         [Input("nunitClass", "Type to parse in search for NUnit test methods.")]
         [Output("methods", "All methods that have NUnit 'Test' attribute.")]
-        public static List<MethodInfo> NunitTestMethods(this Type nunitClass)
+        public static List<MethodInfo> NUnitTestMethods(this Type nunitClass)
         {
             return nunitClass.GetMethods().Where(x => x.GetCustomAttribute<TestAttribute>() != null).ToList();
         }
