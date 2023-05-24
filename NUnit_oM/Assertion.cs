@@ -30,7 +30,6 @@ using System.Xml.Serialization;
 
 namespace BH.oM.Test.NUnit
 {
-    [XmlRoot(ElementName = "assertion")]
     public class Assertion : IObject
     {
         [XmlElement(ElementName = "message")]

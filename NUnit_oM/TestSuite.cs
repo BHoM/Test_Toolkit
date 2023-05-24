@@ -106,10 +106,12 @@ namespace BH.oM.Test.NUnit
         [XmlElement(ElementName = "environment")]
         public virtual Environment Environment { get; set; }
 
-        [XmlElement(ElementName = "settings")]
+        [XmlArray(ElementName = "settings")]
+        [XmlArrayItem(ElementName = "setting")]
         public virtual List<Setting> Settings { get; set; }
 
-        [XmlElement(ElementName = "properties")]
+        [XmlArray(ElementName = "properties")]
+        [XmlArrayItem(ElementName = "property")]
         public virtual List<Property> Properties { get; set; }
 
         [XmlElement(ElementName = "reason")]
