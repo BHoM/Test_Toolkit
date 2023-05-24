@@ -72,7 +72,8 @@ namespace BH.oM.Test.NUnit
         [XmlElement(ElementName = "failure")]
         public virtual Failure Failure { get; set; }
 
-        [XmlElement(ElementName = "assertions")]
+        [XmlArray(ElementName = "assertions")]
+        [XmlArrayItem(ElementName = "assertion")]
         public virtual List<Assertion> Assertions { get; set; }
 
         [XmlText]
