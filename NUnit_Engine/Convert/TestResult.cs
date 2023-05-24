@@ -62,8 +62,11 @@ namespace BH.Engine.Test.NUnit
             result.Description = $"Passed: {nunitTestSuite.Passed}{System.Environment.NewLine}Failed: {nunitTestSuite.Failed}{System.Environment.NewLine}";
             result.Message = $"";
 
-            if (nunitTestSuite.Child != null)
-                result = result.Merge(nunitTestSuite.Child.ToTestResult());
+            if (nunitTestSuite.Children != null)
+            {
+                foreach (var child in nunitTestSuite.Children)
+                    result = result.Merge(child.ToTestResult());
+            }
 
             if (nunitTestSuite.TestCases.Count > 0)
                 result.Information.AddRange(nunitTestSuite.TestCases.Select(x => x.ToTestResult()));
