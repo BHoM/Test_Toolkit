@@ -33,9 +33,9 @@ namespace BH.Engine.Test.NUnit
         [System.ComponentModel.Description("Returns all types in an assembly that contain any methods with NUnit 'Test' attribute.")]
         [Input("assembly", "Assembly to parse in search for NUnit test types.")]
         [Output("classes", "All types that contain methods with NUnit 'Test' attribute.")]
-        public static List<Type> NunitTestClasses(this Assembly assembly)
+        public static List<Type> NUnitTestClasses(this Assembly assembly)
         {
-            return assembly.NunitTestMethods().Select(x => x.DeclaringType).Distinct().ToList();
+            return assembly.NUnitTestMethods().Select(x => x.DeclaringType).Distinct().ToList();
         }
     }
 }
