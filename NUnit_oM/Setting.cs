@@ -30,6 +30,7 @@ using System.Xml.Serialization;
 
 namespace BH.oM.Test.NUnit
 {
+    [XmlRoot(ElementName = "setting")]
     public class Setting : IObject
     {
         [XmlAttribute(AttributeName = "name")]
