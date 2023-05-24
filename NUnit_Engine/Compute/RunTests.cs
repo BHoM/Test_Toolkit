@@ -73,25 +73,36 @@ namespace BH.Engine.Test.NUnit
             return testResult.ToTestRun();
         }
 
-        [Description("Runs a set of NUnit tests from a given DLL which contains code set up with the NUnit framework.")]
+        [Description("Runs a set of NUnit tests from a given set of classes from a DLL which contains code set up with the NUnit framework.")]
         [Input("filePath", "A full file path to the DLL file which contains the NUnit tests.")]
-        [Input("classes", "A collection of classes to run the tests from (in format {namespace}.{class})." +
-                          "\nAll classes in an assembly to be run if null.")]
+        [Input("classes", "A collection of classes to run the tests from (in format {namespace}.{class}).")]
         [Output("testRun", "The NUnit test result from running the DLL.")]
-        public static TestRun RunTests(string filePath, IEnumerable<string> classes = null)
+        public static TestRun RunTests(string filePath, IEnumerable<string> classes)
         {
-            if (string.IsNullOrEmpty(filePath) || !File.Exists(filePath) || (classes != null && !classes.Any()))
+            if (string.IsNullOrEmpty(filePath) || !File.Exists(filePath) || classes == null || !classes.Any())
                 return null;
 
             ITestEngine testEngine = TestEngineActivator.CreateInstance();
             var package = new TestPackage(filePath);
             var testRunner = testEngine.GetRunner(package);
 
-            TestFilter tf = TestFilter.Empty;
-            if (classes != null)
-                tf = new TestFilter($"<filter><or>{string.Join("", classes.Select(x => $"<class>{x}</class>"))}</or></filter>");
-
+            TestFilter tf = new TestFilter($"<filter><or>{string.Join("", classes.Select(x => $"<class>{x}</class>"))}</or></filter>");
             var testResult = testRunner.Run(null, tf);
+            return testResult.ToTestRun();
+        }
+
+        [Description("Runs a set of NUnit tests from a given DLL which contains code set up with the NUnit framework.")]
+        [Input("filePath", "A full file path to the DLL file which contains the NUnit tests.")]
+        [Output("testRun", "The NUnit test result from running the DLL.")]
+        public static TestRun RunTests(string filePath)
+        {
+            if (string.IsNullOrEmpty(filePath) || !File.Exists(filePath))
+                return null;
+
+            ITestEngine testEngine = TestEngineActivator.CreateInstance();
+            var package = new TestPackage(filePath);
+            var testRunner = testEngine.GetRunner(package);
+            var testResult = testRunner.Run(null, TestFilter.Empty);
             return testResult.ToTestRun();
         }
 
