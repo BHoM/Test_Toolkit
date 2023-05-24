@@ -102,7 +102,7 @@ namespace BH.oM.Test.NUnit
         public virtual string Text { get; set; }
 
         [XmlElement(ElementName = "test-suite")]
-        public virtual TestSuite Child { get; set; }
+        public virtual List<TestSuite> Children { get; set; }
 
         [XmlElement(ElementName = "environment")]
         public virtual Environment Environment { get; set; }
@@ -112,5 +112,8 @@ namespace BH.oM.Test.NUnit
 
         [XmlElement(ElementName = "properties")]
         public virtual Properties Properties { get; set; }
+
+        [XmlElement(ElementName = "reason")]
+        public virtual Reason Reason { get; set; }
     }
 }
