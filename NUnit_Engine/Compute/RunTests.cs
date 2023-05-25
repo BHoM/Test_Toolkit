@@ -107,8 +107,8 @@ namespace BH.Engine.Test.NUnit
         }
 
         [Description("Runs a set of NUnit tests from given DLLs which contain code set up with the NUnit framework.")]
-        [Input("filePath", "A full file path to the DLL file which contains the NUnit tests.")]
-        [Output("testRun", "The NUnit test result from running the DLL.")]
+        [Input("filePaths", "A collection of full file paths to the DLL files which contain the NUnit tests.")]
+        [Output("testRun", "The NUnit test result from running the DLLs.")]
         public static TestRun RunTests(IEnumerable<string> filePaths)
         {
             if (filePaths == null)
