@@ -58,7 +58,7 @@ namespace BH.Engine.Test.CodeCompliance.DynamicChecks
             {
                 //Dataset did not deserialise successfully
                 return Create.TestResult(TestStatus.Error,
-                    new List<Error>() { Create.Error("Dataset file did not deserialise into a BH.oM.Data.Library.Dataset object successfully. For more information see https://github.com/BHoM/documentation/wiki/IsValidDataset",
+                    new List<Error>() { Create.Error($"Dataset file did not deserialise into a BH.oM.Data.Library.Dataset object successfully. For more information see {Base.Query.DocumentationURL("DevOps/Code%20Compliance%20and%20CI/Compliance%20Checks/IsValidDataset")}",
                         Create.Location(filePath, Create.LineSpan(1, 1)),
                         documentationLink,
                         TestStatus.Error,
@@ -70,7 +70,7 @@ namespace BH.Engine.Test.CodeCompliance.DynamicChecks
             {
                 //Source information is not set
                 return Create.TestResult(TestStatus.Warning,
-                    new List<Error>() { Create.Error("Dataset file does not contain any source information. For more information see https://github.com/BHoM/documentation/wiki/IsValidDataset",
+                    new List<Error>() { Create.Error($"Dataset file does not contain any source information. For more information see {Base.Query.DocumentationURL("DevOps/Code%20Compliance%20and%20CI/Compliance%20Checks/IsValidDataset")}",
                         Create.Location(filePath, Create.LineSpan(1, 1)),
                         documentationLink,
                         TestStatus.Warning,
@@ -101,7 +101,7 @@ namespace BH.Engine.Test.CodeCompliance.DynamicChecks
             if (ds.SourceInformation.Author == null || ds.SourceInformation.Author == "")
             {
                 //Source information does not contain an author
-                errors.Add(Create.Error("Dataset file does not contain an author in the source information. For more information see https://github.com/BHoM/documentation/wiki/IsValidDataset",
+                errors.Add(Create.Error($"Dataset file does not contain an author in the source information. For more information see {Base.Query.DocumentationURL("DevOps/Code%20Compliance%20and%20CI/Compliance%20Checks/IsValidDataset")}",
                         Create.Location(filePath, Create.LineSpan(1, 1)),
                         documentationLink,
                         TestStatus.Warning,
@@ -114,7 +114,7 @@ namespace BH.Engine.Test.CodeCompliance.DynamicChecks
             if (ds.SourceInformation.Title == null || ds.SourceInformation.Title == "")
             {
                 //Source information does not contain an author
-                errors.Add(Create.Error("Dataset file does not contain a title in the source information. For more information see https://github.com/BHoM/documentation/wiki/IsValidDataset",
+                errors.Add(Create.Error($"Dataset file does not contain a title in the source information. For more information see {Base.Query.DocumentationURL("DevOps/Code%20Compliance%20and%20CI/Compliance%20Checks/IsValidDataset")}",
                         Create.Location(filePath, Create.LineSpan(1, 1)),
                         documentationLink,
                         TestStatus.Warning,
@@ -127,7 +127,7 @@ namespace BH.Engine.Test.CodeCompliance.DynamicChecks
             if (ds.SourceInformation.Confidence == Confidence.Undefined)
             {
                 //Source confidence has not been set
-                errors.Add(Create.Error("Dataset confidence level has not been correctly set. For more information see https://github.com/BHoM/documentation/wiki/IsValidDataset",
+                errors.Add(Create.Error($"Dataset confidence level has not been correctly set. For more information see {Base.Query.DocumentationURL("DevOps/Code%20Compliance%20and%20CI/Compliance%20Checks/IsValidDataset")}",
                         Create.Location(filePath, Create.LineSpan(1, 1)),
                         documentationLink,
                         TestStatus.Error,
