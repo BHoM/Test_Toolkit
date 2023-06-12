@@ -46,7 +46,7 @@ namespace BH.Engine.Test.CodeCompliance.DynamicChecks
             {
                 if(ia.Classification != null)
                 {
-                    if (!typeof(InputClassificationAttribute).IsAssignableFrom(ia.Classification.GetType()))
+                    if (!typeof(ClassificationAttribute).IsAssignableFrom(ia.Classification.GetType()))
                         return false;
                 }
             }
