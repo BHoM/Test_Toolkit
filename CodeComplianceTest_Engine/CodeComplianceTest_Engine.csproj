@@ -208,7 +208,6 @@
     <Compile Include="Query\Checks\PropertyAccessorsHaveNoBody.cs" />
     <Compile Include="Query\Checks\HasPublicGet.cs" />
     <Compile Include="Query\Checks\IsPublicProperty.cs" />
-    <Compile Include="Query\Checks\IsValidCreateMethodName.cs" />
     <Compile Include="Query\Checks\IsValidConvertMethodName.cs" />
     <Compile Include="Query\Checks\IsStaticClass.cs" />
     <Compile Include="Query\Checks\IsValidEngineClassName.cs" />
