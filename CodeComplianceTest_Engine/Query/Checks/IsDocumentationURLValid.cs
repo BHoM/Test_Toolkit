@@ -20,7 +20,6 @@
  * along with this code. If not, see <https://www.gnu.org/licenses/lgpl-3.0.html>.      
  */
 
-using BH.oM.Base.Attributes;
 using BH.oM.Test.CodeCompliance;
 using BH.oM.Test.CodeCompliance.Attributes;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
@@ -33,7 +32,7 @@ using System.Threading.Tasks;
 using BH.oM.Test;
 
 using System.Net;
-using Microsoft.CodeAnalysis;
+using System.Net.Http;
 
 namespace BH.Engine.Test.CodeCompliance.Checks
 {
@@ -57,11 +56,9 @@ namespace BH.Engine.Test.CodeCompliance.Checks
 
             try
             {
-                HttpWebRequest request = WebRequest.Create(url) as HttpWebRequest;
-                request.Method = "HEAD";
-                HttpWebResponse response = request.GetResponse() as HttpWebResponse;
-                response.Close();
-                if (response.StatusCode != HttpStatusCode.OK)
+                HttpClient client = new HttpClient();
+                var checkingResponse = client.GetAsync(url).Result;
+                if (checkingResponse.StatusCode != HttpStatusCode.OK)
                     return node.Span.ToSpan();
             }
             catch
