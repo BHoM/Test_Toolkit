@@ -32,7 +32,7 @@ namespace BH.Engine.Test.CodeCompliance
     {
         public static string CurrentAssemblyVersion()
         {
-            return "7.1"; //Update each year - don't forget the one below!
+            return "7.0"; //Update each year - don't forget the one below!
         }
 
         public static string FullCurrentAssemblyVersion()
