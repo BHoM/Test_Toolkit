@@ -106,7 +106,7 @@ namespace BH.Engine.Test.CodeCompliance
 
         private static TestResult CheckAssemblyDescription(this List<string> fileLines, TestResult finalResult, string assemblyInfoPath, string documentationLink, string descriptionUrl)
         {
-            string searchLine = $"[assembly: AssemblyVersion(\"";
+            string searchLine = $"[assembly: AssemblyDescription(\"";
 
             string foundLine = fileLines.Where(x => x.StartsWith(searchLine)).FirstOrDefault();
 
