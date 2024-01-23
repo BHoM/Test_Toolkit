@@ -66,8 +66,7 @@ namespace BH.Engine.Test.CodeCompliance
         private static TestResult CheckAssemblyVersion(this List<string> fileLines, TestResult finalResult, string assemblyInfoPath, string documentationLink)
         {
             string currentAssemblyVersion = Query.FullCurrentAssemblyVersion();
-
-[assembly: AssemblyVersion("7.0.0.0")]
+            string searchLine = $"[assembly: AssemblyVersion(\"";
 
             string foundLine = fileLines.Where(x => x.StartsWith(searchLine)).FirstOrDefault();
 
@@ -88,7 +87,7 @@ namespace BH.Engine.Test.CodeCompliance
         {
             string currentAssemblyVersion = Query.FullCurrentAssemblyFileVersion();
 
-[assembly: AssemblyFileVersion("7.1.0.0")]
+            string searchLine = $"[assembly: AssemblyVersion(\"";
 
             string foundLine = fileLines.Where(x => x.StartsWith(searchLine)).FirstOrDefault();
 
@@ -107,7 +106,7 @@ namespace BH.Engine.Test.CodeCompliance
 
         private static TestResult CheckAssemblyDescription(this List<string> fileLines, TestResult finalResult, string assemblyInfoPath, string documentationLink, string descriptionUrl)
         {
-[assembly: AssemblyDescription("https://github.com/BHoM/Test_Toolkit")]
+            string searchLine = $"[assembly: AssemblyVersion(\"";
 
             string foundLine = fileLines.Where(x => x.StartsWith(searchLine)).FirstOrDefault();
 
