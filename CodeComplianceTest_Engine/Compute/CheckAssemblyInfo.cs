@@ -87,7 +87,7 @@ namespace BH.Engine.Test.CodeCompliance
         {
             string currentAssemblyVersion = Query.FullCurrentAssemblyFileVersion();
 
-            string searchLine = $"[assembly: AssemblyVersion(\"";
+            string searchLine = $"[assembly: AssemblyFileVersion(\"";
 
             string foundLine = fileLines.Where(x => x.StartsWith(searchLine)).FirstOrDefault();
 
