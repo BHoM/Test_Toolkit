@@ -51,7 +51,7 @@ namespace BH.Engine.Test.CodeCompliance.Checks
                 return null;
 
             var parameters = node.ParameterList.Parameters;
-            if (parameters.Count > 0 && !m_systemTypes.Contains(parameters[0].Type.ToString()))
+            if (parameters.Count > 0 && !m_systemTypes.Contains(parameters[0].Type.ToString().ToLower()))
                 return parameters[0].Modifiers.Any(mod => mod.Kind() == SyntaxKind.ThisKeyword) ? null : parameters[0].Span.ToSpan();
 
             return null;
@@ -77,6 +77,7 @@ namespace BH.Engine.Test.CodeCompliance.Checks
             "object",
             "string",
             "dynamic",
+            "datetime",
         };
 
     }
