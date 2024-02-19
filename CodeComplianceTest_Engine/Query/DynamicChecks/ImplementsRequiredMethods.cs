@@ -90,7 +90,7 @@ namespace BH.Engine.Test.CodeCompliance.DynamicChecks
                 Error error = new Error()
                 {
                     Message = $"Geometry extension method not implemented for object of type {objectFullName}.",
-                    DocumentationLink = "", //ToDo
+                    DocumentationLink = "ImplementsRequiredMethods",
                     Status = TestStatus.Error,
                 };
 
@@ -116,7 +116,7 @@ namespace BH.Engine.Test.CodeCompliance.DynamicChecks
                 Error error = new Error()
                 {
                     Message = $"SetGeometry extension method not implemented for object of type {objectFullName}.",
-                    DocumentationLink = "", //ToDo
+                    DocumentationLink = "ImplementsRequiredMethods",
                     Status = TestStatus.Error,
                 };
 
@@ -141,7 +141,7 @@ namespace BH.Engine.Test.CodeCompliance.DynamicChecks
                 Error error = new Error()
                 {
                     Message = $"HasMergeablePropertiesWith extension method not implemented for object of type {objectFullName}.",
-                    DocumentationLink = "", //ToDo
+                    DocumentationLink = "ImplementsRequiredMethods",
                     Status = TestStatus.Error,
                 };
 
@@ -176,7 +176,7 @@ namespace BH.Engine.Test.CodeCompliance.DynamicChecks
                 Error error = new Error()
                 {
                     Message = $"Geometry extension method not implemented for object of type {objectFullName}.",
-                    DocumentationLink = "", //ToDo
+                    DocumentationLink = "ImplementsRequiredMethods",
                     Status = TestStatus.Error,
                 };
 
@@ -202,7 +202,7 @@ namespace BH.Engine.Test.CodeCompliance.DynamicChecks
                 Error error = new Error()
                 {
                     Message = $"SetGeometry extension method not implemented for object of type {objectFullName}.",
-                    DocumentationLink = "", //ToDo
+                    DocumentationLink = "ImplementsRequiredMethods",
                     Status = TestStatus.Error,
                 };
 
@@ -227,7 +227,7 @@ namespace BH.Engine.Test.CodeCompliance.DynamicChecks
                 Error error = new Error()
                 {
                     Message = $"HasMergeablePropertiesWith extension method not implemented for object of type {objectFullName}.",
-                    DocumentationLink = "", //ToDo
+                    DocumentationLink = "ImplementsRequiredMethods",
                     Status = TestStatus.Error,
                 };
 
@@ -262,7 +262,7 @@ namespace BH.Engine.Test.CodeCompliance.DynamicChecks
                 Error error = new Error()
                 {
                     Message = $"OutlineElements1D extension method not implemented for object of type {objectFullName}.",
-                    DocumentationLink = "", //ToDo
+                    DocumentationLink = "ImplementsRequiredMethods",
                     Status = TestStatus.Error,
                 };
 
@@ -290,7 +290,7 @@ namespace BH.Engine.Test.CodeCompliance.DynamicChecks
                 Error error = new Error()
                 {
                     Message = $"SetOutlineElements1D extension method not implemented for object of type {objectFullName}.",
-                    DocumentationLink = "", //ToDo
+                    DocumentationLink = "ImplementsRequiredMethods",
                     Status = TestStatus.Error,
                 };
 
@@ -315,7 +315,7 @@ namespace BH.Engine.Test.CodeCompliance.DynamicChecks
                 Error error = new Error()
                 {
                     Message = $"HasMergeablePropertiesWith extension method not implemented for object of type {objectFullName}.",
-                    DocumentationLink = "", //ToDo
+                    DocumentationLink = "ImplementsRequiredMethods",
                     Status = TestStatus.Error,
                 };
 
@@ -350,7 +350,7 @@ namespace BH.Engine.Test.CodeCompliance.DynamicChecks
                 Error error = new Error()
                 {
                     Message = $"MaterialComposition extension method not implemented for object of type {objectFullName}.",
-                    DocumentationLink = "", //ToDo
+                    DocumentationLink = "ImplementsRequiredMethods",
                     Status = TestStatus.Error,
                 };
 
@@ -375,7 +375,7 @@ namespace BH.Engine.Test.CodeCompliance.DynamicChecks
                 Error error = new Error()
                 {
                     Message = $"SolidVolume extension method not implemented for object of type {objectFullName}.",
-                    DocumentationLink = "", //ToDo
+                    DocumentationLink = "ImplementsRequiredMethods",
                     Status = TestStatus.Error,
                 };
 
@@ -405,7 +405,7 @@ namespace BH.Engine.Test.CodeCompliance.DynamicChecks
                     Error error = new Error()
                     {
                         Message = $"VolumetricMaterialTakeoff extension method not implemented for object of type {objectFullName}.",
-                        DocumentationLink = "", //ToDo
+                        DocumentationLink = "ImplementsRequiredMethods",
                         Status = TestStatus.Error,
                     };
 
