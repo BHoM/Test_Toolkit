@@ -44,6 +44,12 @@
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Dimensional_oM">
+      <HintPath>..\..\..\..\..\..\..\ProgramData\BHoM\Assemblies\Dimensional_oM.dll</HintPath>
+    </Reference>
+    <Reference Include="Geometry_oM">
+      <HintPath>..\..\..\..\..\..\..\ProgramData\BHoM\Assemblies\Geometry_oM.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.VisualStudio.Setup.Configuration.Interop, Version=1.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.VisualStudio.Setup.Configuration.Interop.1.16.30\lib\net35\Microsoft.VisualStudio.Setup.Configuration.Interop.dll</HintPath>
       <EmbedInteropTypes>True</EmbedInteropTypes>
@@ -184,6 +190,7 @@
     <Compile Include="Query\DynamicChecks\AdapterCreateMethodIsValid.cs" />
     <Compile Include="Query\DynamicChecks\AdapterReadMethodIsValid.cs" />
     <Compile Include="Query\DynamicChecks\ImplementsBaseOption.cs" />
+    <Compile Include="Query\DynamicChecks\ImplementsRequiredMethods.cs" />
     <Compile Include="Query\DynamicChecks\InputFromPropertyMatchesProperty.cs" />
     <Compile Include="Query\DynamicChecks\IsValidDataset.cs" />
     <Compile Include="Query\DynamicChecks\IsValidQuantityInputAttribute.cs" />
