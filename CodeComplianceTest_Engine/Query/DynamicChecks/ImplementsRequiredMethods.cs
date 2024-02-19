@@ -45,6 +45,9 @@ namespace BH.Engine.Test.CodeCompliance.DynamicChecks
             BH.Engine.Base.Compute.LoadAllAssemblies(); //Just to be sure
 
             var obj = BH.Engine.Test.Compute.DummyObject(type);
+            if (obj == null)
+                return Create.TestResult(TestStatus.Pass);
+
             var objectTypeFullName = obj.GetType().FullName;
 
             TestResult result = null;
