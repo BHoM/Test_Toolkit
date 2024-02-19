@@ -49,6 +49,7 @@ namespace BH.Engine.Test.CodeCompliance.DynamicChecks
 
             TestResult result = null;
 
+            //All attempts to run are wrapped in a try catch - if the catch element works because of a stack overflow or other exception because of bad dummy data, that's fine cause it means the extension method existed which is all this check cares about
             if (typeof(IElement0D).IsAssignableFrom(type))
                 result = result.Merge(ImplementsIElement0DMethods(obj, objectTypeFullName));
 
@@ -61,8 +62,13 @@ namespace BH.Engine.Test.CodeCompliance.DynamicChecks
             if (typeof(IElementM).IsAssignableFrom(type))
                 result = result.Merge(ImplementsIElementMMethods(obj, objectTypeFullName));
 
+            if(result == null)
+                result = new TestResult() { Status = TestStatus.Pass };
+
             return result;            
         }
+
+        /***************************************************/
 
         private static TestResult ImplementsIElement0DMethods(object obj, string objectFullName)
         {
@@ -70,7 +76,12 @@ namespace BH.Engine.Test.CodeCompliance.DynamicChecks
 
             TestResult result = null;
 
-            var methodResult = BH.Engine.Base.Compute.RunExtensionMethod(obj, "Geometry");
+            object methodResult = null;
+            try
+            {
+                methodResult = BH.Engine.Base.Compute.RunExtensionMethod(obj, "Geometry");
+            }
+            catch { }
             if (methodResult == null || BH.Engine.Base.Query.CurrentEvents().Where(x => x.Type == EventType.Error && x.Message.Contains("Failed to run Geometry extension method")).Any())
             {
                 Error error = new Error()
@@ -92,7 +103,11 @@ namespace BH.Engine.Test.CodeCompliance.DynamicChecks
             BH.Engine.Base.Compute.ClearCurrentEvents();
 
             Point pt = new Point();
-            methodResult = BH.Engine.Base.Compute.RunExtensionMethod(obj, "SetGeometry", new object[] { pt });
+            try
+            {
+                methodResult = BH.Engine.Base.Compute.RunExtensionMethod(obj, "SetGeometry", new object[] { pt });
+            }
+            catch { }
             if (methodResult == null || BH.Engine.Base.Query.CurrentEvents().Where(x => x.Type == EventType.Error && x.Message.Contains("Failed to run SetGeometry extension method")).Any())
             {
                 Error error = new Error()
@@ -113,7 +128,11 @@ namespace BH.Engine.Test.CodeCompliance.DynamicChecks
 
             BH.Engine.Base.Compute.ClearCurrentEvents();
 
-            methodResult = BH.Engine.Base.Compute.RunExtensionMethod(obj, "HasMergeablePropertiesWith", new object[] { obj });
+            try
+            {
+                methodResult = BH.Engine.Base.Compute.RunExtensionMethod(obj, "HasMergeablePropertiesWith", new object[] { obj });
+            }
+            catch { }
             if (methodResult == null || BH.Engine.Base.Query.CurrentEvents().Where(x => x.Type == EventType.Error && x.Message.Contains("Failed to run HasMergeablePropertiesWith extension method")).Any())
             {
                 Error error = new Error()
@@ -135,13 +154,20 @@ namespace BH.Engine.Test.CodeCompliance.DynamicChecks
             return result;
         }
 
+        /***************************************************/
+
         private static TestResult ImplementsIElement1DMethods(object obj, string objectFullName)
         {
             BH.Engine.Base.Compute.ClearCurrentEvents();
 
             TestResult result = null;
 
-            var methodResult = BH.Engine.Base.Compute.RunExtensionMethod(obj, "Geometry");
+            object methodResult = null;
+            try
+            {
+                methodResult = BH.Engine.Base.Compute.RunExtensionMethod(obj, "Geometry");
+            }
+            catch { }
             if (methodResult == null || BH.Engine.Base.Query.CurrentEvents().Where(x => x.Type == EventType.Error && x.Message.Contains("Failed to run Geometry extension method")).Any())
             {
                 Error error = new Error()
@@ -163,7 +189,11 @@ namespace BH.Engine.Test.CodeCompliance.DynamicChecks
             BH.Engine.Base.Compute.ClearCurrentEvents();
 
             Polyline pline = new Polyline() { ControlPoints = new List<Point>() { new Point(), new Point() } }; //0 length polyline for testing purposes only
-            methodResult = BH.Engine.Base.Compute.RunExtensionMethod(obj, "SetGeometry", new object[] { pline });
+            try
+            {
+                methodResult = BH.Engine.Base.Compute.RunExtensionMethod(obj, "SetGeometry", new object[] { pline });
+            }
+            catch { }
             if (methodResult == null || BH.Engine.Base.Query.CurrentEvents().Where(x => x.Type == EventType.Error && x.Message.Contains("Failed to run SetGeometry extension method")).Any())
             {
                 Error error = new Error()
@@ -184,7 +214,11 @@ namespace BH.Engine.Test.CodeCompliance.DynamicChecks
 
             BH.Engine.Base.Compute.ClearCurrentEvents();
 
-            methodResult = BH.Engine.Base.Compute.RunExtensionMethod(obj, "HasMergeablePropertiesWith", new object[] { obj });
+            try
+            {
+                methodResult = BH.Engine.Base.Compute.RunExtensionMethod(obj, "HasMergeablePropertiesWith", new object[] { obj });
+            }
+            catch { }
             if (methodResult == null || BH.Engine.Base.Query.CurrentEvents().Where(x => x.Type == EventType.Error && x.Message.Contains("Failed to run HasMergeablePropertiesWith extension method")).Any())
             {
                 Error error = new Error()
@@ -206,13 +240,20 @@ namespace BH.Engine.Test.CodeCompliance.DynamicChecks
             return result;
         }
 
+        /***************************************************/
+
         private static TestResult ImplementsIElement2DMethods(object obj, string objectFullName)
         {
             BH.Engine.Base.Compute.ClearCurrentEvents();
 
             TestResult result = null;
 
-            var methodResult = BH.Engine.Base.Compute.RunExtensionMethod(obj, "OutlineElements1D");
+            object methodResult = null;
+            try
+            {
+                methodResult = BH.Engine.Base.Compute.RunExtensionMethod(obj, "OutlineElements1D");
+            }
+            catch { }
             if (methodResult == null || BH.Engine.Base.Query.CurrentEvents().Where(x => x.Type == EventType.Error && x.Message.Contains("Failed to run OutlineElements1D extension method")).Any())
             {
                 Error error = new Error()
@@ -236,7 +277,11 @@ namespace BH.Engine.Test.CodeCompliance.DynamicChecks
             Polyline pline = new Polyline() { ControlPoints = new List<Point>() { new Point(), new Point() } }; //0 length polyline for testing purposes only
             List<IElement1D> outlines = new List<IElement1D>() { pline };
 
-            methodResult = BH.Engine.Base.Compute.RunExtensionMethod(obj, "SetOutlineElements1D", new object[] { outlines });
+            try
+            {
+                methodResult = BH.Engine.Base.Compute.RunExtensionMethod(obj, "SetOutlineElements1D", new object[] { outlines });
+            }
+            catch { }
             if (methodResult == null || BH.Engine.Base.Query.CurrentEvents().Where(x => x.Type == EventType.Error && x.Message.Contains("Failed to run SetOutlineElements1D extension method")).Any())
             {
                 Error error = new Error()
@@ -257,7 +302,11 @@ namespace BH.Engine.Test.CodeCompliance.DynamicChecks
 
             BH.Engine.Base.Compute.ClearCurrentEvents();
 
-            methodResult = BH.Engine.Base.Compute.RunExtensionMethod(obj, "HasMergeablePropertiesWith", new object[] { obj });
+            try
+            {
+                methodResult = BH.Engine.Base.Compute.RunExtensionMethod(obj, "HasMergeablePropertiesWith", new object[] { obj });
+            }
+            catch { }
             if (methodResult == null || BH.Engine.Base.Query.CurrentEvents().Where(x => x.Type == EventType.Error && x.Message.Contains("Failed to run HasMergeablePropertiesWith extension method")).Any())
             {
                 Error error = new Error()
@@ -279,13 +328,20 @@ namespace BH.Engine.Test.CodeCompliance.DynamicChecks
             return result;
         }
 
+        /***************************************************/
+
         private static TestResult ImplementsIElementMMethods(object obj, string objectFullName)
         {
             BH.Engine.Base.Compute.ClearCurrentEvents();
 
             TestResult result = null;
 
-            var methodResult = BH.Engine.Base.Compute.RunExtensionMethod(obj, "MaterialComposition");
+            object methodResult = null;
+            try
+            {
+                methodResult = BH.Engine.Base.Compute.RunExtensionMethod(obj, "MaterialComposition");
+            }
+            catch { }
             if (methodResult == null || BH.Engine.Base.Query.CurrentEvents().Where(x => x.Type == EventType.Error && x.Message.Contains("Failed to run MaterialComposition extension method")).Any())
             {
                 Error error = new Error()
@@ -306,7 +362,11 @@ namespace BH.Engine.Test.CodeCompliance.DynamicChecks
 
             BH.Engine.Base.Compute.ClearCurrentEvents();
 
-            methodResult = BH.Engine.Base.Compute.RunExtensionMethod(obj, "SolidVolume");
+            try
+            {
+                methodResult = BH.Engine.Base.Compute.RunExtensionMethod(obj, "SolidVolume");
+            }
+            catch { }
             if (methodResult == null || BH.Engine.Base.Query.CurrentEvents().Where(x => x.Type == EventType.Error && x.Message.Contains("Failed to run SolidVolume extension method")).Any())
             {
                 Error error = new Error()
@@ -332,7 +392,11 @@ namespace BH.Engine.Test.CodeCompliance.DynamicChecks
                 //For IElementM, it is either the above two methods OR VolumetricMaterialTakeoff - so if the result is not null, it means we haven't found one or both of the above methods.
                 //If we have VolumetricMaterialTakeoff then we can reset the result
 
-                methodResult = BH.Engine.Base.Compute.RunExtensionMethod(obj, "VolumetricMaterialTakeoff");
+                try
+                {
+                    methodResult = BH.Engine.Base.Compute.RunExtensionMethod(obj, "VolumetricMaterialTakeoff");
+                }
+                catch { }
                 if (methodResult == null || BH.Engine.Base.Query.CurrentEvents().Where(x => x.Type == EventType.Error && x.Message.Contains("Failed to run VolumetricMaterialTakeoff extension method")).Any())
                 {
                     Error error = new Error()
