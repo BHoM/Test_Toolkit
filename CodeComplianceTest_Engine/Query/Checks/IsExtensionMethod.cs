@@ -30,6 +30,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using BH.oM.Test;
+using System.Text.RegularExpressions;
 
 namespace BH.Engine.Test.CodeCompliance.Checks
 {
@@ -52,7 +53,19 @@ namespace BH.Engine.Test.CodeCompliance.Checks
 
             var parameters = node.ParameterList.Parameters;
             if (parameters.Count > 0 && !m_systemTypes.Contains(parameters[0].Type.ToString().ToLower()))
-                return parameters[0].Modifiers.Any(mod => mod.Kind() == SyntaxKind.ThisKeyword) ? null : parameters[0].Span.ToSpan();
+            {
+                if (Regex.Match(parameters[0].Type.ToString(), $"(List|IEnumerable|Dictionary)").Success)
+                {
+                    var typeOptions = parameters[0].Type.ToString().Split('<')[1].Split('>')[0].Split(',');
+                    foreach(var t in typeOptions)
+                    {
+                        if (!m_systemTypes.Contains(t.Trim()))
+                            return parameters[0].Modifiers.Any(mod => mod.Kind() == SyntaxKind.ThisKeyword) ? null : parameters[0].Span.ToSpan();
+                    }
+                }
+                else
+                    return parameters[0].Modifiers.Any(mod => mod.Kind() == SyntaxKind.ThisKeyword) ? null : parameters[0].Span.ToSpan();
+            }
 
             return null;
         }
