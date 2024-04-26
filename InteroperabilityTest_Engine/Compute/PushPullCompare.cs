@@ -39,7 +39,7 @@ using BH.oM.Test.Interoperability;
 using BH.oM.Test.Interoperability.Results;
 using BH.oM.Test.Interoperability.Settings;
 using BH.oM.Adapter;
-
+using BH.Engine.Diffing;
 
 namespace BH.Engine.Test.Interoperability
 {
@@ -321,19 +321,19 @@ namespace BH.Engine.Test.Interoperability
 
             try
             {
-                var equalityResult = Engine.Test.Query.IsEqual(pushedObj, pulledObj, config);
+                var equalityResult = pushedObj.ObjectDifferences(pulledObj, config);
 
                 Type type = pushedObj.GetType();
 
-                for (int i = 0; i < equalityResult.Item2.Count; i++)
+                for (int i = 0; i < equalityResult.Differences.Count; i++)
                 {
                     result.Information.Add(new PushPullObjectComparison
                     {
-                        Message = $"Difference found in {type.Name}. {equalityResult.Item2[i]} was {equalityResult.Item3[i]} on the pushed item and {equalityResult.Item4[i]} on the pulled item.",
+                        Message = $"Difference found in {type.Name}. {equalityResult.Differences[i].FullName} was {equalityResult.Differences[i].PastValue} on the pushed item and {equalityResult.Differences[i].FollowingValue} on the pulled item.",
                         ObjectType = type,
-                        PropertyID = equalityResult.Item2[i],
-                        PushedItem = equalityResult.Item3[i],
-                        ReturnedItem = equalityResult.Item4[i],
+                        PropertyID = equalityResult.Differences[i].FullName,
+                        PushedItem = equalityResult.Differences[i].PastValue.ToString(),
+                        ReturnedItem = equalityResult.Differences[i].FollowingValue.ToString(),
                         Status = oM.Test.TestStatus.Warning
                     });
                 }
