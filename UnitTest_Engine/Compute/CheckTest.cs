@@ -39,6 +39,7 @@ using BH.Engine.Test;
 using BH.oM.Data.Library;
 
 using System.IO;
+using BH.Engine.Diffing;
 
 namespace BH.Engine.UnitTest
 {
@@ -255,15 +256,15 @@ namespace BH.Engine.UnitTest
                 runObj = CastToObjectType(runObj, refObject);
                 
 
-                var diffResult = Engine.Test.Query.IsEqual(refObject, runObj, comparisonConfig);
+                var diffResult = refObject.ObjectDifferences(runObj, comparisonConfig);
 
-                for (int j = 0; j < diffResult.Item2.Count; j++)
+                for (int j = 0; j < diffResult.Differences.Count; j++)
                 {
                     differences.Add(new ComparisonDifference()
                     {
-                        Property = diffResult.Item2[j],
-                        ReferenceValue = diffResult.Item3[j],
-                        RunValue = diffResult.Item4[j],
+                        Property = diffResult.Differences[j].FullName,
+                        ReferenceValue = diffResult.Differences[j].PastValue,
+                        RunValue = diffResult.Differences[j].FollowingValue,
                         Status = oM.Test.TestStatus.Error,
                         Message = $"Data returned for output {i} is different than expected."
                     });
