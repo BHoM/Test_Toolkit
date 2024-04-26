@@ -22,10 +22,7 @@
 
 using BH.oM.Base;
 using BH.oM.Base.Attributes;
-using System;
-using System.Collections.Generic;
 using System.ComponentModel;
-using System.Linq;
 
 namespace BH.Engine.Test
 {
@@ -39,13 +36,19 @@ namespace BH.Engine.Test
         [Output("config", "The default test comparison config.")]
         public static ComparisonConfig DefaultTestComparisonConfig()
         {
-            return new ComparisonConfig
-            {
-                NumericTolerance = 1e-12,
-                PropertyExceptions = new List<string> { nameof(BHoMObject.BHoM_Guid) },
-                MaxPropertyDifferences = 1000
-            };
+            return m_DefaultComparisonConfig;
         }
+
+
+        /***************************************************/
+        /**** Private Fields                            ****/
+        /***************************************************/
+
+        private static ComparisonConfig m_DefaultComparisonConfig = new ComparisonConfig
+        {
+            NumericTolerance = 1e-12,
+            MaxPropertyDifferences = 1000
+        };
 
         /***************************************************/
     }
