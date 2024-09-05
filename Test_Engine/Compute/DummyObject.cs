@@ -28,6 +28,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Text.RegularExpressions;
+using BH.oM.Base.Attributes;
+using System.ComponentModel;
 
 namespace BH.Engine.Test
 {
@@ -46,6 +48,34 @@ namespace BH.Engine.Test
                 LinkInterfaces(Engine.Base.Query.BHoMTypeList());
 
             return InitialiseObject(type, 0);
+        }
+
+        /***************************************************/
+        [Description("Generates a list of dummy obejcts for versioning purposes.")]
+        [Input("versioningTypeList", "List of types for which dummy objects should be generated.")]
+        [MultiOutput(0, "dummies", "Dummy obejcts corresponding to the provided types. Please note that the list order might not be exctly the same as the input list for the case that some dummies where not able to be generated.")]
+        [MultiOutput(1, "failingTypes", "Types not able to be generated.")]
+        public static Output<List<object>, List<Type>> DummyObjects(List<Type> versioningTypeList)
+        {
+            m_ImplementingTypes = new Dictionary<Type, Type>();
+            LinkInterfaces(versioningTypeList); //Reset interfaces to only contain priovided types to avoid some fitlered out object to be included
+
+            List<object> dummies = new List<object>();
+            List<Type> failingTypes = new List<Type>();
+
+            foreach (Type type in versioningTypeList)
+            {
+                object dummy = InitialiseObject(type);
+                if (dummy == null)
+                    failingTypes.Add(type);
+                else
+                    dummies.Add(dummy);
+            }
+
+            m_ImplementingTypes = new Dictionary<Type, Type>(); //Reset the implementing types list
+
+            return new Output<List<object>, List<Type>> { Item1 = dummies, Item2 = failingTypes };
+
         }
 
         /***************************************************/
@@ -237,7 +267,7 @@ namespace BH.Engine.Test
                         dic.Add(key, value);
                     return dic;
                 }
-                else if (type.Name == "IEnumerable`1" || type.Name == "IList`1")
+                else if (type.Name == "IEnumerable`1" || type.Name == "IList`1" || type.Name == "IReadOnlyList`1")
                 {
                     var itemType = GetType(type.GetGenericArguments()[0]);
                     var listType = typeof(List<>);
