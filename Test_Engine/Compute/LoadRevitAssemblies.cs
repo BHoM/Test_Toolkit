@@ -44,9 +44,9 @@ namespace BH.Engine.Test
             if (!doLoad)
                 return false;
 
-            string programData = @"C:\ProgramData\BHoM\Assemblies";
+            string bhomAssebliesFolder = BH.Engine.Base.Query.BHoMFolder();
 
-            if (!Directory.Exists(programData))
+            if (!Directory.Exists(bhomAssebliesFolder))
             {
                 BH.Engine.Base.Compute.RecordError("Cant find assemblies folder");
                 return false;
@@ -63,9 +63,9 @@ namespace BH.Engine.Test
 
             foreach (string revitDll in revitDLLs)
             {
-                if (!File.Exists(Path.Combine(programData, revitDll)))
+                if (!File.Exists(Path.Combine(bhomAssebliesFolder, revitDll)))
                 {
-                    BH.Engine.Base.Compute.RecordError($"{revitDll} is missing from the {programData} folder. Please make sure you have built the RevitAPIMocks.");
+                    BH.Engine.Base.Compute.RecordError($"{revitDll} is missing from the {bhomAssebliesFolder} folder. Please make sure you have built the RevitAPIMocks.");
                     return false;
                 }
             }
