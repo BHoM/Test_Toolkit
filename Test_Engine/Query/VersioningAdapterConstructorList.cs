@@ -49,6 +49,7 @@ namespace BH.Engine.Test
             {
                 if (!Compute.LoadRevitAssemblies(true))
                 {
+                    BH.Engine.Base.Compute.RecordError($"Exiting {nameof(VersioningAdapterConstructorList)} with empty lists returned as failed to execute {nameof(Compute.LoadRevitAssemblies)}.");
                     return new Output<List<ConstructorInfo>, List<ConstructorInfo>>() { Item1 = new List<ConstructorInfo>(), Item2 = new List<ConstructorInfo>() };
                 }
             }

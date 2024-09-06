@@ -49,6 +49,7 @@ namespace BH.Engine.Test
             {
                 if (!Compute.LoadRevitAssemblies(true))
                 {
+                    BH.Engine.Base.Compute.RecordError($"Exiting {nameof(VersioningMethodList)} with empty lists returned as failed to execute {nameof(Compute.LoadRevitAssemblies)}.");
                     return new Output<List<MethodInfo>, List<MethodInfo>>() { Item1 = new List<MethodInfo>(), Item2 = new List<MethodInfo>() };
                 }
             }
