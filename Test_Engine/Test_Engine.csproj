@@ -55,13 +55,13 @@
     </Reference>
     <Reference Include="Reflection_Engine">
       <HintPath>$(ProgramData)\BHoM\Assemblies\Reflection_Engine.dll</HintPath>
-	  <Private>False</Private>
-	  <SpecificVersion>False</SpecificVersion>
+      <Private>False</Private>
+      <SpecificVersion>False</SpecificVersion>
     </Reference>
     <Reference Include="Serialiser_Engine">
       <HintPath>$(ProgramData)\BHoM\Assemblies\Serialiser_Engine.dll</HintPath>
-	  <Private>False</Private>
-	  <SpecificVersion>False</SpecificVersion>
+      <Private>False</Private>
+      <SpecificVersion>False</SpecificVersion>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -80,7 +80,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Compute\LoadRevitAssemblies.cs" />
-    <Compile Include="Compute\ToJsonWithChecks.cs" />
+    <Compile Include="Compute\TryToJsonAndFromJsonAndCheckIfEqual.cs" />
     <Compile Include="Convert\ToEventMessage.cs" />
     <Compile Include="Convert\ToTestStatus.cs" />
     <Compile Include="Create\ComparisonConfig\DefaultTestComparisonConfig.cs" />
