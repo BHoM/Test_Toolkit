@@ -45,7 +45,7 @@ namespace BH.Engine.Test
         [MultiOutput(4, "failingFromJsonObjects", "Objects that had some failures going FromJson.")]
         [MultiOutput(5, "notEqualJson", "Jsons strings for objects not equal to incoming object after serialisation ToJson followed by deserialisation FromJson.")]
         [MultiOutput(6, "notEqualObjects", "Objects not equal to incoming object after serialisation ToJson followed by deserialisation FromJson.")]
-        public static Output<List<string>, List<string>, List<object>, List<string>, List<object>, List<string>, List<object>> TryToJsonAndCheckIfEqual(List<object> objects)
+        public static Output<List<string>, List<string>, List<object>, List<string>, List<object>, List<string>, List<object>> TryToJsonAndFromJsonAndCheckIfEqual(List<object> objects)
         {
             List<string> successfullJson = new List<string>();
             List<string> failingToJson = new List<string>();
