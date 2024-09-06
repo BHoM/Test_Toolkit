@@ -70,7 +70,7 @@ namespace BH.Engine.Test
                 }
             }
 
-            foreach (string assembly in Directory.EnumerateFiles(@"C:\ProgramData\BHoM\Assemblies", "*Revit*", SearchOption.AllDirectories))
+            foreach (string assembly in Directory.EnumerateFiles(@"C:\ProgramData\BHoM\Assemblies", "*Revit*.dll", SearchOption.AllDirectories))
             {
                 BH.Engine.Base.Compute.LoadAssembly(assembly);
             }
