@@ -124,8 +124,11 @@ namespace BH.Engine.Test.CodeCompliance
 
         private static TestResult CheckOutputPath(this ProjectFile csProject, List<string> fileLines, TestResult finalResult, string csProjFilePath, string documentationLink)
         {
-            List<string> acceptableOutputPaths = new List<string>() { "..\\Build\\" };
+            if (csProjFilePath.Contains("Versioning_Toolkit"))  //Do not require build paths for Versioning_Toolkit
+                return finalResult;
 
+            List<string> acceptableOutputPaths = new List<string>() { "..\\Build\\" };
+            
             foreach(string outputPath in csProject.OutputPaths)
             {
                 if(!string.IsNullOrEmpty(outputPath) && !acceptableOutputPaths.Contains(outputPath))
@@ -240,6 +243,9 @@ namespace BH.Engine.Test.CodeCompliance
 
         private static TestResult CheckPostBuild(this ProjectFile csProject, List<string> fileLines, TestResult finalResult, string csProjFilePath, string documentationLink)
         {
+            if (csProjFilePath.Contains("Versioning_Toolkit"))  //Versioning_Toolkit should _not_ copy to assemblies folder
+                return finalResult;
+
             string postBuildShouldContain = "";
             string searchLine = "";
             if (csProject.IsOldStyle)
