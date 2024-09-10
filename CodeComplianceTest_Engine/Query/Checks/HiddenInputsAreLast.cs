@@ -38,7 +38,8 @@ namespace BH.Engine.Test.CodeCompliance.Checks
         [Message("UIExposure for some inputs are set to hidden, but the corresponding input parameter is not last in the parameter list.", "HiddenInputsAreLast")]
         [ErrorLevel(TestStatus.Warning)]
         [Path(@"([a-zA-Z0-9]+)_(Engine|Adapter)\\.*\.cs$")]
-        [Path(@"([a-zA-Z0-9]+)_Tests\\.*\.cs$", false)]
+        [Path(@"([a-zA-Z0-9]+)_Tests\\.*\.cs$", false)]     //NUnit style projects
+        [Path(@"([a-zA-Z0-9]+)_Test\\.*\.cs$", false)]      //Verification projects
         [ComplianceType("documentation")]
         public static Span HiddenInputsAreLast(this BaseMethodDeclarationSyntax node)
         {

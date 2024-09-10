@@ -38,7 +38,8 @@ namespace BH.Engine.Test.CodeCompliance.Checks
         [Message("Incorrect Engine class name based on file path", "EngineClassMatchesFilePath")]
         [Path(@"([A-Za-z0-9]+)_Engine\\.*\.cs$")]
         [Path(@"([a-zA-Z0-9]+)_Engine\\Objects\\.*\.cs$", false)]
-        [Path(@"([a-zA-Z0-9]+)_Tests\\.*\.cs$", false)]
+        [Path(@"([a-zA-Z0-9]+)_Tests\\.*\.cs$", false)]     //NUnit style projects
+        [Path(@"([a-zA-Z0-9]+)_Test\\.*\.cs$", false)]      //Verification projects
         [ComplianceType("code")]
         [ErrorLevel(TestStatus.Error)]
         public static Span EngineClassMatchesFilePath(this ClassDeclarationSyntax node)
