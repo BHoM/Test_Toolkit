@@ -38,7 +38,8 @@ namespace BH.Engine.Test.CodeCompliance.Checks
         [Message("UIExposure for input is set to hidden, but the corresponding input parameter does not contain a default value.", "UIExposureHasDefaultValue")]
         [ErrorLevel(TestStatus.Error)]
         [Path(@"([a-zA-Z0-9]+)_(Engine|Adapter)\\.*\.cs$")]
-        [Path(@"([a-zA-Z0-9]+)_Tests\\.*\.cs$", false)]
+        [Path(@"([a-zA-Z0-9]+)_Tests\\.*\.cs$", false)]     //NUnit style projects
+        [Path(@"([a-zA-Z0-9]+)_Test\\.*\.cs$", false)]      //Verification projects
         [ComplianceType("documentation")]
         public static Span UIExposureHasDefaultValue(this AttributeSyntax node)
         {

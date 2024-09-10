@@ -42,7 +42,8 @@ namespace BH.Engine.Test.CodeCompliance.Checks
         [ErrorLevel(TestStatus.Error)]
         [Path(@"([a-zA-Z0-9]+)_(oM|Engine|Adapter)\\.*\.cs$")]
         [Path(@"([a-zA-Z0-9]+)_Engine\\Objects\\.*\.cs$", false)]
-        [Path(@"([a-zA-Z0-9]+)_Tests\\.*\.cs$", false)]
+        [Path(@"([a-zA-Z0-9]+)_Tests\\.*\.cs$", false)]     //NUnit style projects
+        [Path(@"([a-zA-Z0-9]+)_Test\\.*\.cs$", false)]      //Verification projects
         [ComplianceType("documentation")]
         public static Span IsDocumentationURLValid(this AttributeSyntax node)
         {
