@@ -61,7 +61,7 @@ namespace BH.Engine.Test
 
             foreach (var ctor in bhomAdapterConstructors) 
             { 
-                if(ctor.IsNotImplemented() || ctor.IsDeprecated())
+                if(ctor.IsNotImplemented() || ctor.IsDeprecated() || ctor.IsTestToolkit())
                     ignored.Add(ctor);
                 else
                     included.Add(ctor);
