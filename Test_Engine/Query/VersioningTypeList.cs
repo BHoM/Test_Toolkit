@@ -60,7 +60,7 @@ namespace BH.Engine.Test
 
             foreach (Type type in bhomTypeList)
             {
-                if (typeof(IObject).IsAssignableFrom(type) && !type.IsAbstract && !type.IsDeprecated())
+                if (!type.IsTestToolkit() && typeof(IObject).IsAssignableFrom(type) && !type.IsAbstract && !type.IsDeprecated())
                 {
                     includeTypeList.Add(type);
                 }
