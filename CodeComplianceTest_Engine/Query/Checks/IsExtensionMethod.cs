@@ -55,7 +55,7 @@ namespace BH.Engine.Test.CodeCompliance.Checks
             var parameters = node.ParameterList.Parameters;
             if (parameters.Count > 0 && !m_systemTypes.Contains(parameters[0].Type.ToString().ToLower()))
             {
-                if (Regex.Match(parameters[0].Type.ToString(), $"(List|IEnumerable|Dictionary)").Success)
+                if (Regex.Match(parameters[0].Type.ToString(), $"(List|IEnumerable|Dictionary)<").Success)
                 {
                     var typeOptions = parameters[0].Type.ToString().Split('<')[1].Split('>')[0].Split(',');
                     foreach(var t in typeOptions)
