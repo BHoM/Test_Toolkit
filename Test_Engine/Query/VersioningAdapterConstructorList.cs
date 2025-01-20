@@ -26,8 +26,10 @@ using BH.oM.Base.Attributes;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.IO;
 using System.Linq;
 using System.Reflection;
+
 
 namespace BH.Engine.Test
 {
@@ -41,7 +43,7 @@ namespace BH.Engine.Test
         [Input("includeRevit", "Toggle to control wheter assemblies depending on revit API dlls should be loaded or not.")]
         [MultiOutput(0, "included", "AdapterConstructors to be considered for adding to the Versioning TestSet.")]
         [MultiOutput(1, "ignored", "AdapterConstructors to _not_ be added to the Versioning TestSet.")]
-        public static Output<List<ConstructorInfo>, List<ConstructorInfo>> VersioningAdapterConstructorList(bool includeRevit = true)
+        public static Output<List<ConstructorInfo>, List<ConstructorInfo>> VersioningAdapterConstructorList(bool includeRevit = true, List<Type> ignoredTypes = null)
         {
             BH.Engine.Base.Compute.LoadAllAssemblies();
 
@@ -52,16 +54,30 @@ namespace BH.Engine.Test
                     BH.Engine.Base.Compute.RecordError($"Exiting {nameof(VersioningAdapterConstructorList)} with empty lists returned as failed to execute {nameof(Compute.LoadRevitAssemblies)}.");
                     return new Output<List<ConstructorInfo>, List<ConstructorInfo>>() { Item1 = new List<ConstructorInfo>(), Item2 = new List<ConstructorInfo>() };
                 }
-            }
 
+            }
+            ignoredTypes = ignoredTypes ?? new List<Type>();
             List<ConstructorInfo> bhomAdapterConstructors = BH.Engine.Base.Query.AdapterTypeList().SelectMany(x => x.GetConstructors()).ToList();
 
             List<ConstructorInfo> included = new List<ConstructorInfo>();
             List<ConstructorInfo> ignored = new List<ConstructorInfo>();
 
-            foreach (var ctor in bhomAdapterConstructors) 
-            { 
-                if(ctor.IsNotImplemented() || ctor.IsDeprecated() || ctor.IsTestToolkit())
+            foreach (var ctor in bhomAdapterConstructors)
+            {
+                bool shouldBeIgnored = ignoredTypes.Any(x => x.IsAssignableFrom(ctor.DeclaringType));
+
+
+                bool isDepractedOrNotImplemented = false;
+                try
+                {
+                    isDepractedOrNotImplemented = ctor.IsDeprecated() || ctor.IsNotImplemented();
+                }
+                catch (Exception e)
+                {
+                    isDepractedOrNotImplemented = true;
+                    BH.Engine.Base.Compute.RecordError(e, $"Could not check if {ctor.DeclaringType.Name} was deprecated");
+                }
+                if (shouldBeIgnored || isDepractedOrNotImplemented || ctor.IsTestToolkit())
                     ignored.Add(ctor);
                 else
                     included.Add(ctor);
@@ -71,5 +87,7 @@ namespace BH.Engine.Test
         }
 
         /***************************************************/
+
+
     }
 }
