@@ -331,6 +331,9 @@ namespace BH.Engine.Test
 
         private static object CreateImmutable(Type type, int depth)
         {
+            if(type.IsGenericType)
+                type = GetType(type);
+
             ConstructorInfo ctor = type.GetConstructors().OrderByDescending(x => x.GetParameters().Count()).First();
             object[] parameters = ctor.GetParameters().Select(x => GetValue(x.ParameterType, depth)).ToArray();
             object obj = null;
@@ -395,7 +398,11 @@ namespace BH.Engine.Test
 
         private static void LinkInterfaces(List<Type> types)
         {
-            foreach (Type type in types)
+            //Handle non-generic types before generic types to put less complex classes in linked interfaces if possible 
+            //Also avoids the case of generic types being generic of an interface type that could be the same type to go into an infinite cycle
+            //For example Foo<IFoo> : IFoo. If Foo is handled first of all types implementing IFoo, then when instanciating a Foo<> It will mean
+            //Foo<Foo<Foo<Foo<..>>>> creating a infinite cycle that finally is exited by the depth count reacing its limit
+            foreach (Type type in types.OrderBy(x => x.IsGenericType ? 1 : 0))
             {
                 try
                 {
