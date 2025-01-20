@@ -61,7 +61,8 @@ namespace BH.Engine.Test
 
             foreach (MethodInfo method in bhomMethodList)
             {
-                if(!method.IsTestToolkit())
+                bool isPropMethod = method.DeclaringType.GetProperties().Any(x => x.GetSetMethod() == method || x.GetGetMethod() == method);
+                if (!method.IsTestToolkit() && !isPropMethod)
                     included.Add(method);
                 else
                     ignored.Add(method);
