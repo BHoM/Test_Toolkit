@@ -99,7 +99,7 @@ namespace BH.Engine.Test.CodeCompliance
 
         private static TestResult CheckNETTarget(this ProjectFile csProject, List<string> fileLines, TestResult finalResult, string csProjFilePath, string documentationLink)
         {
-            List<string> acceptableNETTargets = new List<string> { "v4.7.2", "net472", "net48", "net480", "net481", "netstandard2.0", "net5.0", "net6.0" };
+            List<string> acceptableNETTargets = new List<string> { "v4.7.2", "net472", "net48", "net480", "net481", "netstandard2.0", "net5.0", "net6.0", "net7.0", "net8.0", "net9.0" };
             bool atLeastOneCorrect = false;
 
             foreach(string target in csProject.TargetNETVersions)
@@ -108,7 +108,7 @@ namespace BH.Engine.Test.CodeCompliance
                 {
                     string fullXMLText = $"<TargetFramework>{target}</TargetFramework>";
                     int lineNumber = fileLines.IndexOf(fileLines.Where(x => x.Contains(fullXMLText)).FirstOrDefault()) + 1; //+1 because index is 0 based but line numbers start at 1 for the spans
-                    finalResult = finalResult.Merge(Create.TestResult(TestStatus.Warning, new List<Error> { Create.Error($"Target frameworks for BHoM projects should either be .Net Framework 4.7.2, .Net Framework 4.8, .Net Framework 4.8.1, .Net Standard 2.0, .Net 5.0, or .Net 6.0.", Create.Location(csProjFilePath, Create.LineSpan(lineNumber, lineNumber)), documentationLink, TestStatus.Warning) }));
+                    finalResult = finalResult.Merge(Create.TestResult(TestStatus.Warning, new List<Error> { Create.Error($"Target frameworks for BHoM projects should either be .Net Framework 4.7.2, .Net Framework 4.8, .Net Framework 4.8.1, .Net Standard 2.0 or, .Net 5.0 to 9.0.", Create.Location(csProjFilePath, Create.LineSpan(lineNumber, lineNumber)), documentationLink, TestStatus.Warning) }));
                 }
                 else
                     atLeastOneCorrect = true;
@@ -116,7 +116,7 @@ namespace BH.Engine.Test.CodeCompliance
 
             if(!atLeastOneCorrect)
             {
-                finalResult = finalResult.Merge(Create.TestResult(TestStatus.Error, new List<Error> { Create.Error($"At least one of the Target frameworks for BHoM projects must either be .Net Framework 4.7.2, .Net Standard 2.0, or .Net 5.0.", Create.Location(csProjFilePath, Create.LineSpan(1, 1)), documentationLink) }));
+                finalResult = finalResult.Merge(Create.TestResult(TestStatus.Error, new List<Error> { Create.Error($"At least one of the Target frameworks for BHoM projects must either be .Net Framework 4.7.2, .Net Framework 4.8, .Net Framework 4.8.1, .Net Standard 2.0, or .Net 5.0 to 9.0.", Create.Location(csProjFilePath, Create.LineSpan(1, 1)), documentationLink) }));
             }
 
             return finalResult;
