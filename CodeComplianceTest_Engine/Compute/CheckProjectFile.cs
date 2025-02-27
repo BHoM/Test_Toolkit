@@ -116,7 +116,7 @@ namespace BH.Engine.Test.CodeCompliance
 
             if(!atLeastOneCorrect)
             {
-                finalResult = finalResult.Merge(Create.TestResult(TestStatus.Error, new List<Error> { Create.Error($"At least one of the Target frameworks for BHoM projects must either be .Net Framework 4.7.2, .Net Standard 2.0, or .Net 5.0 to 9.0.", Create.Location(csProjFilePath, Create.LineSpan(1, 1)), documentationLink) }));
+                finalResult = finalResult.Merge(Create.TestResult(TestStatus.Error, new List<Error> { Create.Error($"At least one of the Target frameworks for BHoM projects must either be .Net Framework 4.7.2, .Net Framework 4.8, .Net Framework 4.8.1, .Net Standard 2.0, or .Net 5.0 to 9.0.", Create.Location(csProjFilePath, Create.LineSpan(1, 1)), documentationLink) }));
             }
 
             return finalResult;
