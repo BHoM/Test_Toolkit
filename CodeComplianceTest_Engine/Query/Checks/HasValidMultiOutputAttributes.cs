@@ -68,10 +68,10 @@ namespace BH.Engine.Test.CodeCompliance.Checks
             string builtString = "";
             foreach (char x in returnType)
             {
-                if (x == '<')
+                if (x == '<' || x == '[')
                     split++;
 
-                if(x == '>')
+                if (x == '>' || x == ']')
                     split--;
 
                 if (x == ',' && split == 0)

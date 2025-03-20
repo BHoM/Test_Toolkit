@@ -68,10 +68,10 @@ namespace BH.Engine.Test.CodeCompliance.Checks
             string builtString = "";
             foreach (char x in returnType)
             {
-                if (x == '<')
+                if (x == '<' || x == '[')
                     split++;
 
-                if (x == '>')
+                if (x == '>' || x == ']')
                     split--;
 
                 if (x == ',' && split == 0)
@@ -91,7 +91,7 @@ namespace BH.Engine.Test.CodeCompliance.Checks
                 string t = x.ToString();
                 string newString = "";
                 int bracketCount = 0;
-                foreach(char i in t)
+                foreach (char i in t)
                 {
                     if (i == '<')
                         bracketCount++;
