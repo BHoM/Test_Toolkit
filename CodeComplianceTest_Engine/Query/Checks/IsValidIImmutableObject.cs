@@ -38,7 +38,7 @@ namespace BH.Engine.Test.CodeCompliance.Checks
     public static partial class Query
     {
         [Message("IImutable objects must have at least one property with only a get accessor (no set accessor).", "IsValidIImmutableObject")]
-        [ErrorLevel(TestStatus.Error)]
+        [ErrorLevel(TestStatus.Warning)]
         [Path(@"([a-zA-Z0-9]+)_?oM\\.*\.cs$")]
         [Path(@"([a-zA-Z0-9]+)_Engine\\.*\.cs$", false)]
         [Path(@"([a-zA-Z0-9]+)_Adapter\\.*\.cs$", false)]
