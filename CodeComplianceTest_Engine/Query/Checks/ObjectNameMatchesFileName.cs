@@ -38,8 +38,7 @@ namespace BH.Engine.Test.CodeCompliance.Checks
 
         [Message("Class (object) name must match file name", "ObjectNameMatchesFileName")]
         [ErrorLevel(TestStatus.Error)]
-        [Path(@"([a-zA-Z0-9]+)_?oM\\.*\.cs$")]
-        [Path(@"([a-zA-Z0-9]+)_Tests\\.*\.cs$")]
+        [Path(@"([a-zA-Z0-9]+)(_?oM|_Tests)\\.*\.cs$")]
         [Path(@"([a-zA-Z0-9]+)_Engine\\.*\.cs$", false)]
         [Path(@"([a-zA-Z0-9]+)_Adapter\\.*\.cs$", false)]
         [Path(@"([a-zA-Z0-9]+)_UI\\.*\.cs$", false)]
