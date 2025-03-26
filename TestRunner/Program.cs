@@ -44,45 +44,47 @@ namespace TestRunner
         {
             LoadAllTestAssemblies();
 
-            if (args.Length == 0)
+
+            while (args.Length == 0 || !m_TestMethods.ContainsKey(args[0]))
             {
-                Console.WriteLine("Please provide a filter for the methods you want to run. This can be either the name of the method or its namespace (after 'BH.Test')");
-                return;
+                if (args.Length == 0)
+                    Console.WriteLine("Please provide a filter for the methods you want to run. This can be either the name of the method or its namespace (after 'BH.Test')");
+                else
+                    Console.WriteLine("Cannot find any test matching " + args[0]);
+
+                Console.WriteLine($"Avilable methods to run are: {string.Join(", ", m_TestMethods.Keys)}");
+
+                args = Console.ReadLine().Split(' ');
             }
 
             string key = args[0];
-            if (!m_TestMethods.ContainsKey(key))
+
+            foreach (MethodInfo method in m_TestMethods[key])
             {
-                Console.WriteLine("Cannot find any test matching " + key);
-            }
-            else
-            {
-                foreach (MethodInfo method in m_TestMethods[key])
+                try
                 {
-                    try
+                    object[] parameters = new object[] { };
+                    if (method.GetParameters().Length == 1)
                     {
-                        object[] parameters = new object[] { };
-                        if (method.GetParameters().Length == 1)
+                        if (args.Length == 2)
                         {
-                            if (args.Length == 2)
-                            {
-                                parameters = new object[] { System.Convert.ToBoolean(args[1]) };
-                            }
-                            else if (method.GetParameters()[0].HasDefaultValue)
-                            {
-                                parameters = new object[] { method.GetParameters()[0].DefaultValue };
-                            }
+                            parameters = new object[] { System.Convert.ToBoolean(args[1]) };
                         }
-                        TestResult result = method.Invoke(null, parameters) as TestResult;
-                        Console.WriteLine();
-                        Console.Write(result.FullMessage());
+                        else if (method.GetParameters()[0].HasDefaultValue)
+                        {
+                            parameters = new object[] { method.GetParameters()[0].DefaultValue };
+                        }
                     }
-                    catch (Exception e)
-                    {
-                        Console.WriteLine($"Method {method.Name} failed to run:\n{e.Message}");
-                    }
+                    TestResult result = method.Invoke(null, parameters) as TestResult;
+                    Console.WriteLine();
+                    Console.Write(result.FullMessage());
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine($"Method {method.Name} failed to run:\n{e.Message}");
                 }
             }
+
         }
 
 
