@@ -1,6 +1,6 @@
 /*
  * This file is part of the Buildings and Habitats object Model (BHoM)
- * Copyright (c) 2015 - 2024, the respective contributors. All rights reserved.
+ * Copyright (c) 2015 - 2025, the respective contributors. All rights reserved.
  *
  * Each contributor holds copyright over their respective contributions.
  * The project versioning (Git) records all such contribution source information.
@@ -47,41 +47,67 @@ namespace BH.Engine.Test.CodeCompliance.Checks
                 return null;
 
             string filePath = node.SyntaxTree.FilePath;
+
+            if (string.IsNullOrEmpty(filePath))
+                return node.Identifier.Span.ToSpan();
+
+            //Split the path, including the filename.
+            //Split by dot to get rid of extension in .cs file.
+            //Reverse to start with file and walk backwards
+            List<string> pathSplit = filePath.Split(System.IO.Path.DirectorySeparatorChar).Select(x => x.Split('.').First()).Reverse().ToList();
+
+            foreach (string returnType in ReturnTypeCandidates(node))
+            {
+                foreach (string path in pathSplit)
+                {
+                    if (path == "Create")   //Loop until we reach the create folder
+                        break;
+
+                    if (Regex.Match(returnType, $"((List|IEnumerable)<)?I?{path}(<.*>)?>?$").Success)
+                        return null; //Name of file or folder matches return type exactly so this is valid. IsValidCreateMethodName will check if the method name matches the file name
+                }
+            }
+            return node.Identifier.Span.ToSpan(); //Create method file (name/path) and return type do not match as required
+        }
+
+        private static List<string> ReturnTypeCandidates(this MethodDeclarationSyntax node)
+        {
+            List<string> returnTypeNames = new List<string>();
+
             var type = node.ReturnType;
             if (type is QualifiedNameSyntax)
                 type = ((QualifiedNameSyntax)type).Right;
-            
+
             string returnType = type.ToString();
-            string fileName = "";
 
-            if(!string.IsNullOrEmpty(filePath))
+            returnTypeNames.Add(returnType);
+
+            //Handle the case where the method returns a generic type.
+            //Then check the constraints of the generic type, if any of them matches the file name, then that is also acceptable
+            if (node.ConstraintClauses.Count != 0)
             {
-                fileName = System.IO.Path.GetFileNameWithoutExtension(filePath);
-                if(Regex.Match(returnType, $"((List|IEnumerable)<)?I?{fileName}(<.*>)?>?$").Success)
-                    return null; //File name matches return type exactly so this is valid. IsValidCreateMethodName will check if the method name matches the file name
+                foreach (var constraintClause in node.ConstraintClauses)
+                {
+                    string constraintString = constraintClause.ToString();  //where T : XXX, YYY
+                    string[] split = constraintString.Split(':');
+                    if (split.Length != 2)
+                        continue;
+
+                    string target = split[0].Trim().Split(' ').Last().Trim();  //Split with space to get rid of where
+
+                    if (target != returnType)
+                        continue;
+
+                    returnTypeNames.AddRange(split[1].Split(',').Select(x => x.Trim()));    
+                }
             }
 
-            //If file name does not exactly match the return type then we need to check if the return type is in a sub-folder in create
 
-            List<string> pathSplit = filePath.Split(System.IO.Path.DirectorySeparatorChar).ToList();
-            int createIndex = pathSplit.IndexOf("Create");
-            if (createIndex == -1)
-                return node.Identifier.Span.ToSpan(); //Evidently this create method isn't working for some reason - even though it should but this is as a protection/precaution
-
-            try
-            {
-                if (Regex.Match(returnType, $"((List|IEnumerable)<)?I?{pathSplit[createIndex + 1]}(<.*>)?>?$").Success || Regex.Match(returnType, $"((List|IEnumerable)<)?I?{pathSplit[createIndex + 2]}(<.*>)?>?$").Success)
-                    return null; //The folder path after the 'Create' folder matches the return type so this is valid. IsValidCreateMethodName will check if the method name matches the file name
-            }
-            catch
-            { 
-                //In case createIndex + 1 || createIndex + 2 result in an out of bounds error - it means the check has failed and something isn't compliant so can pass through to returning the span
-            }
-
-            return node.Identifier.Span.ToSpan(); //Create method file (name/path) and return type do not match as required
+            return returnTypeNames;
         }
     }
 }
+
 
 
 

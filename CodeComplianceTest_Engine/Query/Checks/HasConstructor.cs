@@ -1,6 +1,6 @@
 /*
  * This file is part of the Buildings and Habitats object Model (BHoM)
- * Copyright (c) 2015 - 2024, the respective contributors. All rights reserved.
+ * Copyright (c) 2015 - 2025, the respective contributors. All rights reserved.
  *
  * Each contributor holds copyright over their respective contributions.
  * The project versioning (Git) records all such contribution source information.
@@ -44,7 +44,7 @@ namespace BH.Engine.Test.CodeCompliance.Checks
         [Path(@"([a-zA-Z0-9]+)_Tests\\.*\.cs$", false)]     //NUnit style projects
         [Path(@"([a-zA-Z0-9]+)_Test\\.*\.cs$", false)]      //Verification projects
         [ComplianceType("code")]
-        [ErrorLevel(TestStatus.Error)]
+        [ErrorLevel(TestStatus.Warning)]
         [Output("A span that represents where this error resides or null if there is no error")]
         public static Span HasConstructor(this ClassDeclarationSyntax node)
         {
@@ -61,6 +61,7 @@ namespace BH.Engine.Test.CodeCompliance.Checks
         }
     }
 }
+
 
 
 

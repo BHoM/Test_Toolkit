@@ -1,6 +1,6 @@
 /*
  * This file is part of the Buildings and Habitats object Model (BHoM)
- * Copyright (c) 2015 - 2024, the respective contributors. All rights reserved.
+ * Copyright (c) 2015 - 2025, the respective contributors. All rights reserved.
  *
  * Each contributor holds copyright over their respective contributions.
  * The project versioning (Git) records all such contribution source information.
@@ -42,7 +42,7 @@ namespace BH.Engine.Test.CodeCompliance
 
         public static string CurrentAssemblyFileVersion()
         {
-            return "8.0"; //Update each milestone - don't forget the one above!
+            return "8.1"; //Update each milestone - don't forget the one above!
         }
 
         public static string FullCurrentAssemblyFileVersion()
@@ -51,5 +51,6 @@ namespace BH.Engine.Test.CodeCompliance
         }
     }
 }
+
 
 
