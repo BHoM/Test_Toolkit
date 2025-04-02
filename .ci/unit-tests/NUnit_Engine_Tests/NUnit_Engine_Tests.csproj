@@ -5,7 +5,7 @@
 <Description>https://github.com/BHoM/Test_Toolkit</Description>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
-	  <FileVersion>8.1.0.0</FileVersion>
+	  <FileVersion>8.2.0.0</FileVersion>
 	  <AssemblyVersion>8.0.0.0</AssemblyVersion>
     <IsPackable>false</IsPackable>
     <Configurations>Debug;Release;Test</Configurations>
