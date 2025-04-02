@@ -66,7 +66,19 @@ namespace BH.Engine.Test
         /**** Private Fields                            ****/
         /***************************************************/
 
-        private static HashSet<string> m_testToolkitAssemblyNames = new HashSet<string> { "CodeComplianceTest_Engine", "CodeComplianceTest_oM", "InteroperabilityTest_Engine", "InteroperabilityTest_oM", "NUnit_Engine", "NUnit_oM", "Test_Engine", "TestRunner", "UnitTest_Engine", "UnitTest_oM" };
+        private static HashSet<string> m_testToolkitAssemblyNames = new HashSet<string> 
+        { 
+            "CodeComplianceTest_Engine", 
+            "CodeComplianceTest_oM", 
+            "InteroperabilityTest_Engine", 
+            "InteroperabilityTest_oM", 
+            "NUnit_Engine", 
+            "NUnit_oM", 
+            "Test_Engine", 
+            "TestRunner", 
+            "UnitTest_Engine", 
+            "UnitTest_oM" 
+        };
 
         /***************************************************/
     }
