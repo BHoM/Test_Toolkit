@@ -44,7 +44,7 @@ namespace BH.Engine.Test.CodeCompliance.Checks
         [Path(@"([a-zA-Z0-9]+)_Tests\\.*\.cs$", false)]     //NUnit style projects
         [Path(@"([a-zA-Z0-9]+)_Test\\.*\.cs$", false)]      //Verification projects
         [ComplianceType("code")]
-        [ErrorLevel(TestStatus.Error)]
+        [ErrorLevel(TestStatus.Warning)]
         [Output("A span that represents where this error resides or null if there is no error")]
         public static Span HasConstructor(this ClassDeclarationSyntax node)
         {

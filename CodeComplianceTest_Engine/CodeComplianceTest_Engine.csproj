@@ -156,7 +156,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Query\Checks\AttributeHasEndingPunctuation.cs" />
     <Compile Include="Query\Checks\HasConstructor.cs" />
-    <Compile Include="Query\Checks\HasOneConstructor.cs" />
     <Compile Include="Query\Checks\HasUniqueMultiOutputAttributes.cs" />
     <Compile Include="Query\Checks\HasValidConstructor.cs" />
     <Compile Include="Query\Checks\HasValidCopyright.cs" />
@@ -171,7 +170,6 @@
     <Compile Include="Query\Checks\EngineClassMatchesFilePath.cs" />
     <Compile Include="Query\Checks\HasValidOutputAttribute.cs" />
     <Compile Include="Query\Checks\IsInputAttributePresent.cs" />
-    <Compile Include="Query\Checks\HasSingleClass.cs" />
     <Compile Include="Query\Checks\InputAttributeIsUnique.cs" />
     <Compile Include="Query\Checks\InputParameterStartsLower.cs" />
     <Compile Include="Query\Checks\IsValidIImmutableObject.cs" />
