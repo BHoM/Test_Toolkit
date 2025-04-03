@@ -56,10 +56,18 @@ namespace BH.Engine.Test
 
             List<MethodInfo> bhomMethodList = BH.Engine.Base.Query.BHoMMethodList();
 
-            List<MethodInfo> included = bhomMethodList;
+            List<MethodInfo> included = new List<MethodInfo>();
             List<MethodInfo> ignored = new List<MethodInfo>();
 
-            //Note, keeping both collections here for now to allow for future filtering without requirement of changing scripts.
+            foreach (MethodInfo method in bhomMethodList)
+            {
+                bool isPropMethod = method.DeclaringType.GetProperties().Any(x => x.GetSetMethod() == method || x.GetGetMethod() == method);
+                if (!method.IsTestToolkit() && !isPropMethod)
+                    included.Add(method);
+                else
+                    ignored.Add(method);
+            }
+
             return new Output<List<MethodInfo>, List<MethodInfo>> { Item1 = included, Item2 = ignored };
         }
 

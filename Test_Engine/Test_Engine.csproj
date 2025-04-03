@@ -91,6 +91,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Query\FullMessage.cs" />
     <Compile Include="Query\IsEqualOrMoreSevere.cs" />
+    <Compile Include="Query\IsTestToolkit.cs" />
     <Compile Include="Query\MostSevereStatus.cs" />
     <Compile Include="Query\TestInformationOfType.cs" />
     <Compile Include="Query\VersioningAdapterConstructorList.cs" />
