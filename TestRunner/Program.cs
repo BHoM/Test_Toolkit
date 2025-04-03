@@ -47,12 +47,12 @@ namespace TestRunner
 
             while (args.Length == 0 || !m_TestMethods.ContainsKey(args[0]))
             {
-                if (args.Length == 0)
-                    Console.WriteLine("Please provide a filter for the methods you want to run. This can be either the name of the method or its namespace (after 'BH.Test')");
-                else
+                if (args.Length != 0)
                     Console.WriteLine("Cannot find any test matching " + args[0]);
+                
+                Console.WriteLine("Please provide a filter for the methods you want to run. This can be either the name of the method or its namespace (after 'BH.Test').");
 
-                Console.WriteLine($"Avilable methods to run are: {string.Join(", ", m_TestMethods.Keys)}");
+                Console.WriteLine($"Available methods to run are: {string.Join(", ", m_TestMethods.Keys)}");
 
                 args = Console.ReadLine().Split(' ');
             }
