@@ -1,13 +1,17 @@
 ﻿using BH.Engine.Base;
 using BH.Engine.Test;
 using BH.oM.Base.Attributes;
+using BH.oM.Base.Debugging;
 using BH.oM.Data.Library;
+using BH.oM.Test.CodeCompliance;
 using BH.oM.Test.NUnit;
 using BH.oM.Test.Results;
 using BH.oM.Test.UnitTests;
+using BH.Tests.Setup.TestBases;
 using NUnit.Framework;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -16,18 +20,56 @@ using System.Threading.Tasks;
 
 namespace BH.Tests.Setup
 {
-    public abstract class UnitTestRunnerBase : NUnitTest
+    public abstract class UnitTestRunnerBase : BaseTestBase
     {
+        public UnitTestRunnerBase() : base("TestData", typeof(object[])) { }
+
         /***************************************************/
 
         [TestCaseSource("TestData")]
-        public void RunDatadrivenUnitTest(string fileName, MethodBase method, TestData data, Exception e)
+        [Description("Runs a datadriven unit datatest.")]
+        public void RunDatadrivenUnitTest(string fileName, MethodBase method, TestData data)
         {
-            if (e != null)
-                throw e;
+            if (method == null || data == null)
+            {
+                Assert.Multiple(() =>
+                {
+                    Assert.That(method, Is.Not.Null, "Test method is null!");
+                    Assert.That(data, Is.Not.Null, "Test data is null!");
+                    List<Event> events;
+                    if (m_DeserialisationEvents.TryGetValue(fileName, out events))
+                    {
+                        string error = "";
+                        string warning = "";
+                        foreach (Event e in events.GroupBy(x => new { x.Type, x.Message}).Select(x => x.First()))
+                        {
+                            if (e.Type == EventType.Error)
+                                error += e.Message + "\n";
+                            else
+                                warning += e.Message + "\n";
+                        }
 
-            Assert.That(method, Is.Not.Null);
-            Assert.That(data, Is.Not.Null);
+                        if (error != "")
+                            Assert.Fail("Errors raised during deserialisation of the unit tests:\n" + error);
+                        if (warning != "")
+                            Assert.Warn("Warnings raised during deserialisation of the unit tests:\n" + warning);
+                    }
+                });
+            }
+            else
+            {
+                List<Event> events;
+                if (m_DeserialisationEvents.TryGetValue(fileName, out events))
+                {
+                    string warning = "";
+                    foreach (Event e in events.GroupBy(x => new { x.Type, x.Message }).Select(x => x.First()))
+                    {
+                        warning += e.Message + "\n";
+                    }
+                    if (warning != "")
+                        Assert.Warn("Warnings raised during deserialisation of the unit tests:\n" + warning);
+                }
+            }
 
             TestResult result = BH.Engine.UnitTest.Compute.CheckTest(method, data, -1);
 
@@ -36,17 +78,7 @@ namespace BH.Tests.Setup
 
         /***************************************************/
 
-        [OneTimeSetUp]
-        public void EnsureStaticMembers()
-        {
-            var testDataMethod = this.GetType().GetMethod("TestData", System.Reflection.BindingFlags.Static | System.Reflection.BindingFlags.Public);
-            Assume.That(testDataMethod != null, "Expected static member TestData is not implemented on derrived test class");
-
-            Assume.That(testDataMethod.ReturnType == typeof(IEnumerable<object[]>), $"Expected return type of TestData() does not match expected IEnumerable<object[]>");
-        }
-
-        /***************************************************/
-
+        [Description("Extracts all the unittest datasets from the relative folder in the currently executing repo and deserialises the content of the file and returns an IEnumerable with filename, method and one peice of testdata for each UnitTest and each TestData in the dataset.")]
         public static IEnumerable<object[]> GetTestDataInRelativeFolder(string folder)
         {
             string dataFolder = Path.Combine(Query.CurrentDatasetsUTFolder(), folder);
@@ -62,53 +94,40 @@ namespace BH.Tests.Setup
         /***************************************************/
 
 
-        [Description("Executes all unit tests stored in a serialised file of test sets.")]
-        [Input("fileName", "The full file path to the file containing the serialised test datasets.")]
-        [Output("result", "Results from the comparison of the run data with the expected output.")]
+        [Description("Deserialises the content of the file and returns an IEnumerable with filename, method and one peice of testdata for each UnitTest and each TestData in the dataset.")]
         public static IEnumerable<object[]> GetTestData(string fileName)
         {
             string fileNameNoPath = fileName;
+            BH.Engine.Base.Compute.ClearCurrentEvents();
             try
             {
                 if (!string.IsNullOrEmpty(fileName))
                 {
-                    fileNameNoPath = Path.GetFileName(fileName);
+                    fileNameNoPath = fileName.Replace(Query.CurrentDatasetsUTFolder(), "");
                     StreamReader sr = new StreamReader(fileName);
                     string line = sr.ReadToEnd();
                     sr.Close();
 
-                    object ds = BH.Engine.Serialiser.Convert.FromJson(line);
-                    //Assume.That(ds != null, "Failed to deserialialise");
-                    if (ds != null)
-                    {
-                        Dataset testSet = ds as Dataset;
-                        //Assume.That(testSet != null, $"{fileName} failed to deserialise into a dataset.");
-                        if (testSet != null)
-                        {
-                            return GetTestData(fileNameNoPath, testSet);
-
-                        }
-                        else
-                            new List<object[]> { new object[] { fileNameNoPath, null, null, null } };
-                    }
-                    else
-                        return new List<object[]> { new object[] { fileNameNoPath, null, null, null } };
+                    Dataset ds = (Dataset)BH.Engine.Serialiser.Convert.FromJson(line);
+                    return GetTestData(fileNameNoPath, ds);
                 }
             }
             catch (Exception e)
             {
-                return new List<object[]> { new object[] { fileNameNoPath, null, null, e } };
+                BH.Engine.Base.Compute.RecordError(e, "Failed to deserialise dataset");
+                return new List<object[]> { new object[] { fileNameNoPath, null, null } };
+            }
+            finally
+            {
+                m_DeserialisationEvents[fileNameNoPath] = BH.Engine.Base.Query.CurrentEvents();
             }
 
-
-            return new List<object[]> { new object[] { fileNameNoPath, null, null, null } };
+            return new List<object[]> { new object[] { fileNameNoPath, null, null } };
         }
 
         /***************************************************/
 
-        [Description("Executes all unit tests in a dataset and returns a total TestResult from the execution of all testResults in the dataset.")]
-        [Input("testDataSet", "The test dataset to be evaluated.")]
-        [Output("results", "Results from the comparison of the run data with the expected output.")]
+        [Description("Returns an IEnumerable with filename, method and one peice of testdata for each UnitTest and each TestData in the dataset.")]
         public static IEnumerable<object[]> GetTestData(string fileName, Dataset testDataSet)
         {
             if (testDataSet != null)
@@ -117,10 +136,9 @@ namespace BH.Tests.Setup
 
                 foreach (UnitTest test in unitTests)
                 {
-                    int i = 0;
                     foreach (TestData data in test.Data)
                     {
-                        yield return new object[] { fileName, test.Method, data, null };
+                        yield return new object[] { fileName, test.Method, data };
                     }
                 }
             }
@@ -129,7 +147,7 @@ namespace BH.Tests.Setup
 
         /***************************************************/
 
-
+        private static Dictionary<string, List<Event>> m_DeserialisationEvents = new Dictionary<string, List<Event>>();
 
     }
 }

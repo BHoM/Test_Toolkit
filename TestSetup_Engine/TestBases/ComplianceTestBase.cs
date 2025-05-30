@@ -1,10 +1,13 @@
 ﻿using BH.Engine.Base;
 using BH.Engine.Test;
+using BH.Engine.Test.CodeCompliance;
 using BH.oM.Base.Attributes;
 using BH.oM.Test;
+using BH.oM.Test.CodeCompliance;
 using BH.oM.Test.NUnit;
 using BH.oM.Test.Results;
 using BH.oM.Test.UnitTests;
+using BH.Tests.Setup.TestBases;
 using NUnit.Framework;
 using System;
 using System.Collections.Generic;
@@ -13,13 +16,13 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
-using BH.Engine.Test.CodeCompliance;
-using BH.oM.Test.CodeCompliance;
 
 namespace BH.Tests.Setup
 {
-    public abstract class ComplianceTestBase : NUnitTest
+    public abstract class ComplianceTestBase : BaseTestBase
     {
+
+        public ComplianceTestBase() : base("TestFiles", typeof(string)) { }
 
         [TestCaseSource("TestFiles")]
         public void RunCodeCompliance(string filePath)
@@ -61,15 +64,6 @@ namespace BH.Tests.Setup
                 }
 
             });
-        }
-
-        [OneTimeSetUp]
-        public void EnsureStaticMembers()
-        {
-            var testDataMethod = GetType().GetMethod("TestFiles", BindingFlags.Static | BindingFlags.Public);
-            Assume.That(testDataMethod != null, "Expected static member TestFiles is not implemented on derrived test class");
-
-            Assume.That(testDataMethod.ReturnType == typeof(IEnumerable<string>), $"Expected return type of TestFiles() does not match expected IEnumerable<string>");
         }
 
         public static IEnumerable<string> GetCsFiles(string folder)
