@@ -167,12 +167,18 @@ namespace BH.Engine.UnitTest
         /**** Private Methods                           ****/
         /***************************************************/
 
-        private static TestResult CheckTest(MethodBase method, UT.TestData data, int index)
+        public static TestResult CheckTest(MethodBase method, UT.TestData data, int index)
         {
             if (data == null)
                 return new TestResult { Status = oM.Test.TestStatus.Error, Description = "TestData", Message = "The provided TestData was null and could not be evaluated." };
 
-            string description = "TestData: " + (!string.IsNullOrWhiteSpace(data.Name) ? $"name: {data.Name}," : "") + $"index: {index}";
+            string description;
+            if (index < 0)
+            {
+                description = "Test data: " + string.Join(", ", data.Inputs.Select(x => x?.ToString() ?? "null"));
+            }
+            else
+              description = "TestData: " + (!string.IsNullOrWhiteSpace(data.Name) ? $"name: {data.Name}," : "") + $"index: {index}";
             TestResult testResult = new TestResult { Description = description };
             var result = Run(method, data);
 
