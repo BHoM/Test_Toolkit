@@ -37,5 +37,12 @@ namespace BH.Tests.Setup
         }
 
         /***************************************************/
+
+        public static string CurrentDatasetsUTFolder()
+        {
+            return Path.Combine(CurrentCiFolder(), "Datasets");
+        }
+
+        /***************************************************/
     }
 }

@@ -41,7 +41,7 @@ namespace BH.Tests.Setup
 
             Assert.That(File.Exists(filePath), Is.True, "File does not exist.");
 
-            TestResult result = BH.Engine.Test.CodeCompliance.Compute.RunChecks(filePath, checkType);
+            TestResult result = filePath.RunChecks(checkType);
 
             Assert.Multiple(() =>
             {
@@ -66,7 +66,7 @@ namespace BH.Tests.Setup
         [OneTimeSetUp]
         public void EnsureStaticMembers()
         {
-            var testDataMethod = this.GetType().GetMethod("TestFiles", System.Reflection.BindingFlags.Static | System.Reflection.BindingFlags.Public);
+            var testDataMethod = GetType().GetMethod("TestFiles", BindingFlags.Static | BindingFlags.Public);
             Assume.That(testDataMethod != null, "Expected static member TestFiles is not implemented on derrived test class");
 
             Assume.That(testDataMethod.ReturnType == typeof(IEnumerable<string>), $"Expected return type of TestFiles() does not match expected IEnumerable<string>");

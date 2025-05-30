@@ -49,7 +49,7 @@ namespace BH.Tests.Setup
 
         public static IEnumerable<object[]> GetTestDataInRelativeFolder(string folder)
         {
-            string dataFolder = Path.Combine(Query.CurrentCiFolder(), folder);
+            string dataFolder = Path.Combine(Query.CurrentDatasetsUTFolder(), folder);
             foreach (var item in Directory.GetFiles(dataFolder, "*.json", SearchOption.AllDirectories))
             {
                 foreach (var test in GetTestData(item))
