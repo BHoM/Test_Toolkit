@@ -11,6 +11,7 @@ using BH.oM.Test.CodeCompliance;
 using BH.oM.Test.NUnit;
 using BH.oM.Test.Results;
 using BH.oM.Test.UnitTests;
+using BH.Tests.Setup.TestBases;
 using NUnit.Framework;
 using System;
 using System.Collections.Generic;
@@ -22,8 +23,10 @@ using System.Threading.Tasks;
 
 namespace BH.Tests.Setup
 {
-    public abstract class SerialisationTestBase : NUnitTest
+    public abstract class SerialisationTestBase : BaseTestBase
     {
+
+        public SerialisationTestBase() : base(new List<Tuple<string, Type>> { new Tuple<string, Type>("OmTypes", typeof(Type)), new Tuple<string, Type>("EngineMethods", typeof(MethodBase)) }, false) { }
 
         /*************************************/
 
