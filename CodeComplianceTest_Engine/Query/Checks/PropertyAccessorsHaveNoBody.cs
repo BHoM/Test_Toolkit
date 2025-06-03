@@ -35,8 +35,7 @@ namespace BH.Engine.Test.CodeCompliance.Checks
     public static partial class Query
     {
         [Message("Invalid oM property: Object property accessors must not have a body", "PropertyAccessorsHaveNoBody")]
-        [Path(@"([a-zA-Z0-9]+)_?oM\\.*\.cs$")]
-        [Path(@"([a-zA-Z0-9]+)_Tests\\.*\.cs$")]
+        [Path(@"([a-zA-Z0-9]+)(_?oM|_Tests)\\.*\.cs$")]
         [Path(@"([a-zA-Z0-9]+)_Engine\\.*\.cs$", false)]
         [Path(@"([a-zA-Z0-9]+)_Adapter\\.*\.cs$", false)]
         [Path(@"([a-zA-Z0-9]+)_UI\\.*\.cs$", false)]
