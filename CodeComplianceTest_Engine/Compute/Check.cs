@@ -41,7 +41,7 @@ namespace BH.Engine.Test.CodeCompliance
 {
     public static partial class Compute
     {
-        public static TestResult Check(this MethodInfo method, SyntaxNode node, string checkType = null)
+        public static TestResult Check(this MethodInfo method, SyntaxNode node, string checkType = null)//, Func<object[], object> fn = null)
         {
             TestResult finalResult = Create.TestResult(TestStatus.Pass);
             if (method == null || node == null)
@@ -59,7 +59,9 @@ namespace BH.Engine.Test.CodeCompliance
                     method.GetCustomAttributes<ConditionAttribute>().All(condition => condition.IPasses(node)) &&
                     (checkType != null && method.GetCustomAttribute<ComplianceTypeAttribute>()?.ComplianceType == checkType))
             {
-                Func<object[], object> fn = method.ToFunc();
+                //if(fn == null)
+                    Func<object[], object> fn = method.GetFunction();
+
                 Span result = fn(new object[] { node }) as Span;
                 if (result != null)
                 {
@@ -78,7 +80,7 @@ namespace BH.Engine.Test.CodeCompliance
             return finalResult.Merge(method.Check(node.ChildNodes(), checkType));
         }
 
-        public static TestResult Check(this MethodInfo method, IEnumerable<SyntaxNode> nodes, string checkType = null)
+        public static TestResult Check(this MethodInfo method, IEnumerable<SyntaxNode> nodes, string checkType = null)//, Func<object[], object> fn = null)
         {
             TestResult finalResult = Create.TestResult(TestStatus.Pass);
             if (method == null || nodes == null)
@@ -90,6 +92,24 @@ namespace BH.Engine.Test.CodeCompliance
             }
             return finalResult;
         }
+
+
+        private static Func<object[], object> GetFunction(this MethodInfo method)
+        {
+            Func<object[], object> fn;
+            if (m_checkMethods.TryGetValue(method, out fn))
+                return fn;
+
+            fn = method.ToFunc();
+            lock (m_compileLock)
+            {
+                m_checkMethods[method] = fn;
+            }
+            return fn;
+        }
+
+        private static Dictionary<MethodInfo, Func<object[], object>> m_checkMethods = new Dictionary<MethodInfo, Func<object[], object>>();
+        private static object m_compileLock = new object();
     }
 }
 
