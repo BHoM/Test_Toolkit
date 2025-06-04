@@ -12,15 +12,24 @@ namespace BH.Tests.Setup
         public static string CurrentRepoFolder()
         {
             string currentDirectory = System.Environment.CurrentDirectory;
-            if (!currentDirectory.Contains(".ci"))
-                return null;
+            string endFolder = "";
+            int indexAdd = 0;
+            if (currentDirectory.Contains(".ci"))
+                endFolder = ".ci";
+            else if (currentDirectory.Contains("Build"))
+                endFolder = "Build";
+            else if (currentDirectory.Contains("bin"))
+            { 
+                endFolder = "bin";
+                indexAdd = 1;
+            }
 
-            string[] split = currentDirectory.Split(Path.DirectorySeparatorChar);
+                string[] split = currentDirectory.Split(Path.DirectorySeparatorChar);
 
             string folder = "";
 
             int i = 0;
-            while (i < split.Length && split[i] != ".ci")
+            while (split.Length > i + indexAdd && split[i + indexAdd] != endFolder)
             {
                 folder = Path.Combine(folder, split[i]);
                 i++;
