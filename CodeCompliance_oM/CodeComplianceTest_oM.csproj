@@ -1,28 +1,19 @@
-<Project Sdk="Microsoft.NET.Sdk">
-  <PropertyGroup>
-<TargetFramework>netstandard2.0</TargetFramework>
-    <OutputType>Library</OutputType>
-    <RootNamespace>BH.oM.Test</RootNamespace>
-    <OutputPath>..\Build\</OutputPath>
-    <Configurations>ComplianceTestBuild;Debug;Release</Configurations>
-    <AssemblyTitle>Test_oM</AssemblyTitle>
-    <Description>https://github.com/BHoM/Test_Toolkit</Description>
-    <Product>Test_oM</Product>
-    <Copyright>Copyright � https://github.com/BHoM</Copyright>
-    <AssemblyVersion>9.0.0.0</AssemblyVersion>
-    <FileVersion>9.3.0.0</FileVersion>
-  </PropertyGroup>
-  <Target Name="PostBuild" AfterTargets="PostBuildEvent">
-    <Exec Command="xcopy &quot;$(TargetDir)$(TargetFileName)&quot;  &quot;$(ProgramData)\BHoM\Assemblies&quot; /Y" />
-  </Target>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'ComplianceTestBuild|AnyCPU'">
-    <DebugSymbols>true</DebugSymbols>
-    <OutputPath>..\Build\</OutputPath>
-    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
-  </PropertyGroup>
+﻿<Project Sdk="Microsoft.NET.Sdk">
+	<PropertyGroup>
+		<TargetFramework>netstandard2.0</TargetFramework>
+		<AssemblyVersion>8.0.0.0</AssemblyVersion>
+		<Description>https://github.com/BHoM/BHoM_Engine</Description>
+		<Version>5.0.0</Version>
+		<Authors>BHoM</Authors>
+		<Copyright>Copyright © https://github.com/BHoM</Copyright>
+		<CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
+		<RootNamespace>BH.Engine.Test.CodeCompliance</RootNamespace>
+		<FileVersion>8.2.0.0</FileVersion>
+		<OutputPath>..\Build\</OutputPath>
+	</PropertyGroup>
   <ItemGroup>
     <Reference Include="Analytical_oM">
-      <SpecificVersion>False</SpecificVersion>
+      <SpecificVersion>False</SpecificVersion>      
       <HintPath>$(ProgramData)\BHoM\Assemblies\Analytical_oM.dll</HintPath>
       <Private>False</Private>
     </Reference>
@@ -41,10 +32,9 @@
       <HintPath>$(ProgramData)\BHoM\Assemblies\Test_oM.dll</HintPath>
       <Private>False</Private>
     </Reference>
-    <PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
-    <PackageReference Include="System.Data.DataSetExtensions" Version="4.5.0" />
   </ItemGroup>
-  <ItemGroup>
-    <WCFMetadata Include="Service References\" />
-  </ItemGroup>
+  <Target Name="PostBuild" AfterTargets="PostBuildEvent">
+    <Exec Command="xcopy &quot;$(TargetDir)$(TargetFileName)&quot;  &quot;$(ProgramData)\BHoM\Assemblies&quot; /Y" />
+  </Target>
+
 </Project>

@@ -41,7 +41,7 @@ namespace BH.Engine.Test.CodeCompliance
 {
     public static partial class Compute
     {
-        public static TestResult Check(this MethodInfo method, SyntaxNode node, string checkType = null)//, Func<object[], object> fn = null)
+        public static TestResult Check(this MethodInfo method, SyntaxNode node, string checkType = null)
         {
             TestResult finalResult = Create.TestResult(TestStatus.Pass);
             if (method == null || node == null)
@@ -80,7 +80,7 @@ namespace BH.Engine.Test.CodeCompliance
             return finalResult.Merge(method.Check(node.ChildNodes(), checkType));
         }
 
-        public static TestResult Check(this MethodInfo method, IEnumerable<SyntaxNode> nodes, string checkType = null)//, Func<object[], object> fn = null)
+        public static TestResult Check(this MethodInfo method, IEnumerable<SyntaxNode> nodes, string checkType = null)
         {
             TestResult finalResult = Create.TestResult(TestStatus.Pass);
             if (method == null || nodes == null)
