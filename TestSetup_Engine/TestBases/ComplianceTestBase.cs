@@ -68,7 +68,7 @@ namespace BH.Tests.Setup
 
         public static IEnumerable<string> GetCsFiles(string folder)
         {
-            return Directory.GetFiles(Path.Combine(Query.CurrentRepoFolder(), folder), "*.cs", SearchOption.AllDirectories);
+            return Query.GetFiles(Path.Combine(Query.CurrentRepoFolder(), folder), "*.cs", true);
         }
 
         public static List<Error> GroupInformation(List<ITestInformation> information, string filePath)
