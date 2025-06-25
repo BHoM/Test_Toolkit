@@ -1,4 +1,4 @@
-/*
+﻿/*
  * This file is part of the Buildings and Habitats object Model (BHoM)
  * Copyright (c) 2015 - 2025, the respective contributors. All rights reserved.
  *
@@ -20,7 +20,6 @@
  * along with this code. If not, see <https://www.gnu.org/licenses/lgpl-3.0.html>.      
  */
 
-using BH.Engine.Reflection;
 using BH.oM.Base;
 using BH.oM.Base.Attributes;
 using System;
@@ -37,41 +36,50 @@ namespace BH.Engine.Test
         /**** Public Methods                            ****/
         /***************************************************/
 
-        [Description("Ensures all assemblies are loaded and returns a list of Methods to be included when generating a Versioning test set.")]
-        [Input("includeRevit", "Toggle to control wheter assemblies depending on revit API dlls should be loaded or not.")]
-        [MultiOutput(0, "included", "Methods to be considered for adding to the Versioning TestSet.")]
-        [MultiOutput(1, "ignored", "Methods to _not_ be added to the Versioning TestSet.")]
-        public static Output<List<MethodInfo>, List<MethodInfo>> VersioningMethodList(bool includeRevit = true)
+        [Description("Checks if a type is defined in an assembly that is part of Test_Toolkit.")]
+        [Input("type", "Type to check.")]
+        [Output("isTestToolkit", "Returns true if the type is defined inside Test_Toolkit.")]
+        public static bool IsTestToolkit(this Type type)
         {
-            BH.Engine.Base.Compute.LoadAllAssemblies();
+            if (type == null)
+                return false;
 
-            if (includeRevit)
-            {
-                if (!Compute.LoadRevitAssemblies(true))
-                {
-                    BH.Engine.Base.Compute.RecordError($"Exiting {nameof(VersioningMethodList)} with empty lists returned as failed to execute {nameof(Compute.LoadRevitAssemblies)}.");
-                    return new Output<List<MethodInfo>, List<MethodInfo>>() { Item1 = new List<MethodInfo>(), Item2 = new List<MethodInfo>() };
-                }
-            }
-
-            List<MethodInfo> bhomMethodList = BH.Engine.Base.Query.BHoMMethodList();
-
-            List<MethodInfo> included = new List<MethodInfo>();
-            List<MethodInfo> ignored = new List<MethodInfo>();
-
-            foreach (MethodInfo method in bhomMethodList)
-            {
-                bool isPropMethod = method.DeclaringType.GetProperties().Any(x => x.GetSetMethod() == method || x.GetGetMethod() == method);
-                if (!method.IsTestToolkit() && !isPropMethod)
-                    included.Add(method);
-                else
-                    ignored.Add(method);
-            }
-
-            return new Output<List<MethodInfo>, List<MethodInfo>> { Item1 = included, Item2 = ignored };
+            string assemblyName = type.Assembly?.GetName()?.Name;
+            
+            return m_testToolkitAssemblyNames.Contains(assemblyName);
         }
+
+        /***************************************************/
+
+        [Description("Checks if a method is defined in an assembly that is part of Test_Toolkit.")]
+        [Input("method", "Method to check.")]
+        [Output("isTestToolkit", "Returns true if the method is defined inside Test_Toolkit.")]
+        public static bool IsTestToolkit(this MethodBase method)
+        {
+            if (method == null)
+                return false;
+
+            return method.DeclaringType.IsTestToolkit();
+        }
+
+        /***************************************************/
+        /**** Private Fields                            ****/
+        /***************************************************/
+
+        private static HashSet<string> m_testToolkitAssemblyNames = new HashSet<string> 
+        { 
+            "CodeComplianceTest_Engine", 
+            "CodeComplianceTest_oM", 
+            "InteroperabilityTest_Engine", 
+            "InteroperabilityTest_oM", 
+            "NUnit_Engine", 
+            "NUnit_oM", 
+            "Test_Engine", 
+            "TestRunner", 
+            "UnitTest_Engine", 
+            "UnitTest_oM" 
+        };
 
         /***************************************************/
     }
 }
-

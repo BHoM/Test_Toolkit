@@ -60,7 +60,17 @@ namespace BH.Engine.Test
 
             foreach (Type type in bhomTypeList)
             {
-                if (typeof(IObject).IsAssignableFrom(type) && !type.IsAbstract && !type.IsDeprecated())
+                bool isDepracted = false;
+                try
+                {
+                    isDepracted = type.IsDeprecated();
+                }
+                catch (Exception e)
+                {
+                    isDepracted = true;
+                    BH.Engine.Base.Compute.RecordError(e, $"Could not check if {type.FullName} was deprecated");
+                }
+                if (!type.IsTestToolkit() && typeof(IObject).IsAssignableFrom(type) && !type.IsAbstract && !isDepracted)
                 {
                     includeTypeList.Add(type);
                 }
