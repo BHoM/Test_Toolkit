@@ -1,0 +1,139 @@
+name: 'Test Compliance Actions'
+
+# This workflow tests the compliance actions in this repository
+on:
+  pull_request:
+    branches: [ main, master, develop ]
+    paths:
+      - '.github/actions/**'
+      - 'CodeComplianceTest_Engine/**'
+      - '**.cs'
+      - '**.csproj'
+  push:
+    branches: [ main, master, develop ]
+    paths:
+      - '.github/actions/**'
+      - 'CodeComplianceTest_Engine/**'
+      - '**.cs'
+      - '**.csproj'
+  workflow_dispatch: # Allow manual triggering
+
+jobs:
+  test-code-compliance:
+    name: 'Test Code Compliance Action'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      
+      - name: Test Code Compliance Action
+        id: code-test
+        uses: ./.github/actions/code-compliance
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          fail-on-error: 'false'  # Don't fail during testing
+        continue-on-error: true
+      
+      - name: Display Code Compliance Results
+        if: always()
+        run: |
+          echo "Code compliance test completed"
+          echo "Has errors: ${{ steps.code-test.outputs.has-errors }}"
+          echo "Error count: ${{ steps.code-test.outputs.error-count }}"
+          echo "Results summary:"
+          echo '${{ steps.code-test.outputs.results }}' | jq -r '.FileResults | to_entries[] | "\(.key): \(.value.Status) (\(.value.Errors | length) errors, \(.value.Warnings | length) warnings)"' || echo "Failed to parse results"
+
+  test-documentation-compliance:
+    name: 'Test Documentation Compliance Action'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      
+      - name: Test Documentation Compliance Action
+        id: doc-test
+        uses: ./.github/actions/documentation-compliance
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          fail-on-error: 'false'  # Don't fail during testing
+        continue-on-error: true
+      
+      - name: Display Documentation Compliance Results
+        if: always()
+        run: |
+          echo "Documentation compliance test completed"
+          echo "Has errors: ${{ steps.doc-test.outputs.has-errors }}"
+          echo "Error count: ${{ steps.doc-test.outputs.error-count }}"
+          echo "Results summary:"
+          echo '${{ steps.doc-test.outputs.results }}' | jq -r '.FileResults | to_entries[] | "\(.key): \(.value.Status) (\(.value.Errors | length) errors, \(.value.Warnings | length) warnings)"' || echo "Failed to parse results"
+
+  test-project-compliance:
+    name: 'Test Project Compliance Action'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      
+      - name: Test Project Compliance Action
+        id: project-test
+        uses: ./.github/actions/project-compliance
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          fail-on-error: 'false'  # Don't fail during testing
+          assembly-description: 'https://github.com/BHoM'
+        continue-on-error: true
+      
+      - name: Display Project Compliance Results
+        if: always()
+        run: |
+          echo "Project compliance test completed"
+          echo "Has errors: ${{ steps.project-test.outputs.has-errors }}"
+          echo "Error count: ${{ steps.project-test.outputs.error-count }}"
+          echo "Results summary:"
+          echo '${{ steps.project-test.outputs.results }}' | jq -r '.FileResults | to_entries[] | "\(.key): \(.value.Status) (\(.value.Errors | length) errors, \(.value.Warnings | length) warnings)"' || echo "Failed to parse results"
+
+  test-specific-files:
+    name: 'Test Specific Files'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      
+      - name: Test Code Compliance on Specific Files
+        id: specific-test
+        uses: ./.github/actions/code-compliance
+        with:
+          files: 'CodeComplianceTest_Engine/Compute/RunChecks.cs CodeComplianceTest_Engine/Compute/CheckProjectFile.cs'
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          fail-on-error: 'false'
+        continue-on-error: true
+      
+      - name: Display Specific Files Results
+        if: always()
+        run: |
+          echo "Specific files test completed"
+          echo "Has errors: ${{ steps.specific-test.outputs.has-errors }}"
+          echo "Error count: ${{ steps.specific-test.outputs.error-count }}"
+
+  test-summary:
+    name: 'Test Summary'
+    runs-on: ubuntu-latest
+    needs: [test-code-compliance, test-documentation-compliance, test-project-compliance, test-specific-files]
+    if: always()
+    steps:
+      - name: Summary
+        run: |
+          echo "All compliance action tests completed"
+          echo "Check the individual job results for details"
+          echo ""
+          echo "Jobs status:"
+          echo "- Code Compliance: ${{ needs.test-code-compliance.result }}"
+          echo "- Documentation Compliance: ${{ needs.test-documentation-compliance.result }}"
+          echo "- Project Compliance: ${{ needs.test-project-compliance.result }}"
+          echo "- Specific Files: ${{ needs.test-specific-files.result }}"

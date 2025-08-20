@@ -1,0 +1,38 @@
+name: 'Documentation Compliance Check'
+description: 'Runs BHoM documentation compliance checks on changed C# files'
+author: 'BHoM Test Toolkit'
+
+inputs:
+  files:
+    description: 'Space-separated list of C# files to check (if not provided, will check all changed .cs files)'
+    required: false
+    default: ''
+  github-token:
+    description: 'GitHub token for accessing repository'
+    required: false
+    default: ${{ github.token }}
+  fail-on-error:
+    description: 'Whether to fail the action if compliance errors are found'
+    required: false
+    default: 'true'
+
+outputs:
+  results:
+    description: 'JSON string containing compliance check results'
+  has-errors:
+    description: 'Whether any compliance errors were found'
+  error-count:
+    description: 'Number of compliance errors found'
+
+runs:
+  using: 'docker'
+  image: '../shared/Dockerfile'
+  env:
+    CHECK_TYPE: 'documentation'
+    INPUT_FILES: ${{ inputs.files }}
+    GITHUB_TOKEN: ${{ inputs.github-token }}
+    FAIL_ON_ERROR: ${{ inputs.fail-on-error }}
+
+branding:
+  icon: 'book-open'
+  color: 'blue'

@@ -1,0 +1,96 @@
+name: 'Individual Compliance Checks Examples'
+
+# Examples of using each compliance action individually
+# Uncomment and customize the jobs you want to use
+
+on:
+  pull_request:
+    branches: [ main, master, develop ]
+  push:
+    branches: [ main, master, develop ]
+
+jobs:
+  # Example 1: Code compliance check only
+  code-only:
+    name: 'Code Compliance Only'
+    runs-on: ubuntu-latest
+    if: false  # Set to true to enable this job
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      
+      - name: Code Compliance Check
+        uses: BHoM/Test_Toolkit/.github/actions/code-compliance@main
+        with:
+          fail-on-error: 'true'
+
+  # Example 2: Documentation compliance check only  
+  documentation-only:
+    name: 'Documentation Compliance Only'
+    runs-on: ubuntu-latest
+    if: false  # Set to true to enable this job
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      
+      - name: Documentation Compliance Check
+        uses: BHoM/Test_Toolkit/.github/actions/documentation-compliance@main
+        with:
+          fail-on-error: 'false'  # Only warn about documentation issues
+
+  # Example 3: Project compliance check only
+  project-only:
+    name: 'Project Compliance Only'
+    runs-on: ubuntu-latest
+    if: false  # Set to true to enable this job
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      
+      - name: Project Compliance Check
+        uses: BHoM/Test_Toolkit/.github/actions/project-compliance@main
+        with:
+          fail-on-error: 'true'
+          assembly-description: 'https://github.com/YourOrganization'
+
+  # Example 4: Check specific files
+  specific-files:
+    name: 'Check Specific Files'
+    runs-on: ubuntu-latest
+    if: false  # Set to true to enable this job
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Check Specific C# Files
+        uses: BHoM/Test_Toolkit/.github/actions/code-compliance@main
+        with:
+          files: 'src/MyClass.cs src/AnotherClass.cs'
+          fail-on-error: 'true'
+      
+      - name: Check Specific Project Files
+        uses: BHoM/Test_Toolkit/.github/actions/project-compliance@main
+        with:
+          files: 'MyProject/MyProject.csproj'
+          fail-on-error: 'true'
+
+  # Example 5: Matrix strategy for multiple check types
+  compliance-matrix:
+    name: 'Compliance Matrix'
+    runs-on: ubuntu-latest
+    if: false  # Set to true to enable this job
+    strategy:
+      matrix:
+        check-type: ['code-compliance', 'documentation-compliance', 'project-compliance']
+      fail-fast: false
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      
+      - name: Run ${{ matrix.check-type }}
+        uses: BHoM/Test_Toolkit/.github/actions/${{ matrix.check-type }}@main
+        with:
+          fail-on-error: 'true'

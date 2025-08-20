@@ -1,0 +1,103 @@
+name: 'BHoM Compliance Check Example'
+
+# This is an example workflow showing how to use the BHoM compliance actions
+# Copy this to your repository's .github/workflows/ directory and customize as needed
+
+on:
+  pull_request:
+    branches: [ main, master, develop ]
+    paths:
+      - '**.cs'
+      - '**.csproj'
+  push:
+    branches: [ main, master, develop ]
+    paths:
+      - '**.cs'
+      - '**.csproj'
+
+jobs:
+  code-compliance:
+    name: 'Code Compliance'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # Needed to get changed files
+      
+      - name: Run Code Compliance Check
+        id: code-check
+        uses: BHoM/Test_Toolkit/.github/actions/code-compliance@main
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          fail-on-error: 'true'
+      
+      - name: Display Code Compliance Results
+        if: always()
+        run: |
+          echo "Code compliance check completed"
+          echo "Has errors: ${{ steps.code-check.outputs.has-errors }}"
+          echo "Error count: ${{ steps.code-check.outputs.error-count }}"
+          echo "Results: ${{ steps.code-check.outputs.results }}"
+
+  documentation-compliance:
+    name: 'Documentation Compliance'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # Needed to get changed files
+      
+      - name: Run Documentation Compliance Check
+        id: doc-check
+        uses: BHoM/Test_Toolkit/.github/actions/documentation-compliance@main
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          fail-on-error: 'false'  # Set to false to only warn about documentation issues
+      
+      - name: Display Documentation Compliance Results
+        if: always()
+        run: |
+          echo "Documentation compliance check completed"
+          echo "Has errors: ${{ steps.doc-check.outputs.has-errors }}"
+          echo "Error count: ${{ steps.doc-check.outputs.error-count }}"
+          echo "Results: ${{ steps.doc-check.outputs.results }}"
+
+  project-compliance:
+    name: 'Project Compliance'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # Needed to get changed files
+      
+      - name: Run Project Compliance Check
+        id: project-check
+        uses: BHoM/Test_Toolkit/.github/actions/project-compliance@main
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          fail-on-error: 'true'
+          assembly-description: 'https://github.com/YourOrganization'  # Replace with your org URL
+      
+      - name: Display Project Compliance Results
+        if: always()
+        run: |
+          echo "Project compliance check completed"
+          echo "Has errors: ${{ steps.project-check.outputs.has-errors }}"
+          echo "Error count: ${{ steps.project-check.outputs.error-count }}"
+          echo "Results: ${{ steps.project-check.outputs.results }}"
+
+  # Combined job that runs all checks together
+  all-compliance-checks:
+    name: 'All Compliance Checks'
+    runs-on: ubuntu-latest
+    needs: [code-compliance, documentation-compliance, project-compliance]
+    if: always()
+    steps:
+      - name: Check overall compliance status
+        run: |
+          echo "All compliance checks completed"
+          # You can add logic here to determine overall pass/fail status
+          # and potentially create issues, comments, or other actions based on results
