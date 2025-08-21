@@ -177,7 +177,24 @@ namespace BH.Engine.Test
                 else if (type == typeof(System.Drawing.Color))
                     return System.Drawing.Color.FromArgb(1, 2, 3, 4);
                 else if (type == typeof(System.Drawing.Bitmap))
-                    return null;
+                {
+                    System.Drawing.Bitmap bitmap = new System.Drawing.Bitmap(20, 20, System.Drawing.Imaging.PixelFormat.Format24bppRgb);
+
+                    // 2. Get access to the raw bitmap data
+                    System.Drawing.Imaging.BitmapData data = bitmap.LockBits(new System.Drawing.Rectangle(0, 0, bitmap.Width, bitmap.Height), System.Drawing.Imaging.ImageLockMode.WriteOnly, bitmap.PixelFormat);
+
+                    // 3. Generate RGB noise and write it to the bitmap's buffer.
+                    // Note that we are assuming that data.Stride == 3 * data.Width for simplicity/brevity here.
+                    byte[] noise = new byte[data.Width * data.Height * 3];
+                    new Random(2).NextBytes(noise);
+                    System.Runtime.InteropServices.Marshal.Copy(noise, 0, data.Scan0, noise.Length);
+                    bitmap.UnlockBits(data);
+
+                    // 4. Save as JPEG and convert to Base64
+                    System.IO.MemoryStream jpegStream = new System.IO.MemoryStream();
+                    bitmap.Save(jpegStream, System.Drawing.Imaging.ImageFormat.Bmp);
+                    return new System.Drawing.Bitmap(jpegStream);
+                }
                 else if (type == typeof(System.Data.DataTable))
                 {
                     System.Data.DataTable table = new System.Data.DataTable("test");
