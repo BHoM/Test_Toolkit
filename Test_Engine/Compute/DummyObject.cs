@@ -20,16 +20,16 @@
  * along with this code. If not, see <https://www.gnu.org/licenses/lgpl-3.0.html>.      
  */
 
-using BH.oM.Base;
 using BH.Engine.Base;
+using BH.oM.Base;
+using BH.oM.Base.Attributes;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Reflection;
 using System.Text.RegularExpressions;
-using BH.oM.Base.Attributes;
-using System.ComponentModel;
 
 namespace BH.Engine.Test
 {
@@ -290,9 +290,13 @@ namespace BH.Engine.Test
                 {
                     return typeof(object);
                 }
-                else if (type == typeof(MethodBase))
+                else if (type == typeof(MethodBase) || type == typeof(MethodInfo))
                 {
                     return typeof(object).GetMethods().First();
+                }
+                else if (type == typeof(ConstructorInfo))
+                {
+                    return typeof(object).GetConstructors().First(); // Return a constructor info for the default constructor of object
                 }
                 else if (type == typeof(IComparable))
                     return "Comparable";
@@ -317,7 +321,7 @@ namespace BH.Engine.Test
                     Base.Compute.RecordWarning($"Breaking infinite loop after {m_MaxDepth} cycles on {type.FullName}");
                     return null;
                 }
-                else if(type.IsGenericType && type.GetGenericTypeDefinition() == typeof(Nullable<>))
+                else if (type.IsGenericType && type.GetGenericTypeDefinition() == typeof(Nullable<>))
                 {
                     Type underlyingType = type.GetGenericArguments()[0];
                     return GetValue(underlyingType, depth + 1);
