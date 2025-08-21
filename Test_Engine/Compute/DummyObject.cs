@@ -317,6 +317,11 @@ namespace BH.Engine.Test
                     Base.Compute.RecordWarning($"Breaking infinite loop after {m_MaxDepth} cycles on {type.FullName}");
                     return null;
                 }
+                else if(type.IsGenericType && type.GetGenericTypeDefinition() == typeof(Nullable<>))
+                {
+                    Type underlyingType = type.GetGenericArguments()[0];
+                    return GetValue(underlyingType, depth + 1);
+                }
                 else
                     return InitialiseObject(type, depth + 1);
             }
