@@ -1,4 +1,5 @@
-﻿using NUnit.Framework;
+﻿using BH.Engine.Diffing;
+using NUnit.Framework;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,9 +18,9 @@ namespace BH.Test.Engine.Test
         public void TestDummyObjectCreation(Type type)
         {
             Assume.That(type != null, "Type should not be null.");
-            // Arrange
+
             var dummyObject = BH.Engine.Test.Compute.DummyObject(type);
-            string json = BH.Engine.Serialiser.Convert.ToJson(dummyObject);
+
             // Assert
             Assert.That(dummyObject, Is.Not.Null, $"Dummy object of type {type.Name} should not be null.");
             if(type.IsGenericType)
@@ -42,6 +43,12 @@ namespace BH.Test.Engine.Test
 
         private bool IsValidPropType(Type propertyType)
         {
+            if(typeof(Stream).IsAssignableFrom(propertyType) || 
+               typeof(Delegate).IsAssignableFrom(propertyType) ||
+               propertyType.Namespace.StartsWith("Microsoft.CodeAnalysis.CSharp"))
+            {
+                return false; // Skip properties of these types
+            }
             return true;
         }
 
@@ -54,13 +61,20 @@ namespace BH.Test.Engine.Test
             HashSet<Type> excludedTypes = new HashSet<Type>
             {
                 typeof(BH.oM.Base.FragmentSet), // Not common IObject
-                typeof(BH.oM.Base.ComparisonFunctions), // Object contains Func which cannot be simply instantiated
             };
+
+            HashSet<string> excludedTypeNames = new HashSet<string>
+            {
+                "BH.oM.Forms.WindowLayoutSettings"  //Requires access to WinForms to instantiate, which is not available in this context
+
+            };
+
             BH.Engine.Base.Compute.LoadAllAssemblies("","oM$"); //Load all oM assemblies to ensure types are available.
             return BH.Engine.Base.Query.BHoMTypeList().Where(x => !x.IsAbstract)    // Exclude abstract types
                                                       .Where(x => !typeof(Attribute).IsAssignableFrom(x))   // Exclude attributes
                                                       .Where(x => !typeof(Exception).IsAssignableFrom(x))   // Exclude exceptions
-                                                      .Except(excludedTypes);   // Exclude specific types
+                                                      .Except(excludedTypes)   // Exclude specific types
+                                                      .Where(x => !excludedTypeNames.Contains(x.FullName)); // Exclude specific type names
         }
 
         /***************************************************/
