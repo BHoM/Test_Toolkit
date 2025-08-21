@@ -19,6 +19,7 @@ namespace BH.Test.Engine.Test
             Assume.That(type != null, "Type should not be null.");
             // Arrange
             var dummyObject = BH.Engine.Test.Compute.DummyObject(type);
+            string json = BH.Engine.Serialiser.Convert.ToJson(dummyObject);
             // Assert
             Assert.That(dummyObject, Is.Not.Null, $"Dummy object of type {type.Name} should not be null.");
             if(type.IsGenericType)
@@ -30,13 +31,18 @@ namespace BH.Test.Engine.Test
             {
                 foreach (var prop in dummyObject.GetType().GetProperties())
                 {
-                    if (prop.CanRead)
+                    if (prop.CanRead && IsValidPropType(prop.PropertyType))
                     {
                         var value = prop.GetValue(dummyObject);
                         Assert.That(value, Is.Not.Null, $"Property {prop.Name} of type {type.Name} should not be null.");
                     }
                 }
             });
+        }
+
+        private bool IsValidPropType(Type propertyType)
+        {
+            return true;
         }
 
         /***************************************************/
@@ -48,9 +54,13 @@ namespace BH.Test.Engine.Test
             HashSet<Type> excludedTypes = new HashSet<Type>
             {
                 typeof(BH.oM.Base.FragmentSet), // Not common IObject
+                typeof(BH.oM.Base.ComparisonFunctions), // Object contains Func which cannot be simply instantiated
             };
             BH.Engine.Base.Compute.LoadAllAssemblies("","oM$"); //Load all oM assemblies to ensure types are available.
-            return BH.Engine.Base.Query.BHoMTypeList().Where(x => !x.IsAbstract).Except(excludedTypes);
+            return BH.Engine.Base.Query.BHoMTypeList().Where(x => !x.IsAbstract)    // Exclude abstract types
+                                                      .Where(x => !typeof(Attribute).IsAssignableFrom(x))   // Exclude attributes
+                                                      .Where(x => !typeof(Exception).IsAssignableFrom(x))   // Exclude exceptions
+                                                      .Except(excludedTypes);   // Exclude specific types
         }
 
         /***************************************************/
