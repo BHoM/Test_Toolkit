@@ -32,10 +32,15 @@ namespace BH.Test.Engine.Test
             {
                 foreach (var prop in dummyObject.GetType().GetProperties())
                 {
-                    if (prop.CanRead && IsValidPropType(prop.PropertyType))
+                    if (prop.CanRead)
                     {
-                        var value = prop.GetValue(dummyObject);
-                        Assert.That(value, Is.Not.Null, $"Property {prop.Name} of type {type.Name} should not be null.");
+                        if (IsValidPropType(prop.PropertyType))
+                        {
+                            var value = prop.GetValue(dummyObject);
+                            Assert.That(value, Is.Not.Null, $"Property {prop.Name} of type {type.FullName} should not be null.");
+                        }
+                        else
+                            Warn.If(true, $"Property {prop.Name} of type {type.FullName} is skipped due to its type being {prop.PropertyType.FullName} which currently is not handled by the DummyObject creation.");
                     }
                 }
             });
