@@ -15,6 +15,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Test_Engine", "..\..\Test_E
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NUnit_Engine_WrongReferencesTests", "NUnit_Engine_WrongReferencesTests\NUnit_Engine_WrongReferencesTests.csproj", "{6DF99012-A869-4C60-B1EC-9EBB583FCF3B}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Test_Engine_Tests", "Test_Engine_Tests\Test_Engine_Tests.csproj", "{239C75FE-B7D6-496E-9F7F-34C70E0F3579}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -58,6 +60,12 @@ Global
 		{6DF99012-A869-4C60-B1EC-9EBB583FCF3B}.Release|Any CPU.Build.0 = Release|Any CPU
 		{6DF99012-A869-4C60-B1EC-9EBB583FCF3B}.Test|Any CPU.ActiveCfg = Test|Any CPU
 		{6DF99012-A869-4C60-B1EC-9EBB583FCF3B}.Test|Any CPU.Build.0 = Test|Any CPU
+		{239C75FE-B7D6-496E-9F7F-34C70E0F3579}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{239C75FE-B7D6-496E-9F7F-34C70E0F3579}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{239C75FE-B7D6-496E-9F7F-34C70E0F3579}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{239C75FE-B7D6-496E-9F7F-34C70E0F3579}.Release|Any CPU.Build.0 = Release|Any CPU
+		{239C75FE-B7D6-496E-9F7F-34C70E0F3579}.Test|Any CPU.ActiveCfg = Debug|Any CPU
+		{239C75FE-B7D6-496E-9F7F-34C70E0F3579}.Test|Any CPU.Build.0 = Debug|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
