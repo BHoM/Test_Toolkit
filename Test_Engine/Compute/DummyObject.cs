@@ -20,16 +20,16 @@
  * along with this code. If not, see <https://www.gnu.org/licenses/lgpl-3.0.html>.      
  */
 
-using BH.oM.Base;
 using BH.Engine.Base;
+using BH.oM.Base;
+using BH.oM.Base.Attributes;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Reflection;
 using System.Text.RegularExpressions;
-using BH.oM.Base.Attributes;
-using System.ComponentModel;
 
 namespace BH.Engine.Test
 {
@@ -177,7 +177,24 @@ namespace BH.Engine.Test
                 else if (type == typeof(System.Drawing.Color))
                     return System.Drawing.Color.FromArgb(1, 2, 3, 4);
                 else if (type == typeof(System.Drawing.Bitmap))
-                    return null;
+                {
+                    System.Drawing.Bitmap bitmap = new System.Drawing.Bitmap(20, 20, System.Drawing.Imaging.PixelFormat.Format24bppRgb);
+
+                    // 2. Get access to the raw bitmap data
+                    System.Drawing.Imaging.BitmapData data = bitmap.LockBits(new System.Drawing.Rectangle(0, 0, bitmap.Width, bitmap.Height), System.Drawing.Imaging.ImageLockMode.WriteOnly, bitmap.PixelFormat);
+
+                    // 3. Generate RGB noise and write it to the bitmap's buffer.
+                    // Note that we are assuming that data.Stride == 3 * data.Width for simplicity/brevity here.
+                    byte[] noise = new byte[data.Width * data.Height * 3];
+                    new Random(2).NextBytes(noise);
+                    System.Runtime.InteropServices.Marshal.Copy(noise, 0, data.Scan0, noise.Length);
+                    bitmap.UnlockBits(data);
+
+                    // 4. Save as JPEG and convert to Base64
+                    System.IO.MemoryStream jpegStream = new System.IO.MemoryStream();
+                    bitmap.Save(jpegStream, System.Drawing.Imaging.ImageFormat.Bmp);
+                    return new System.Drawing.Bitmap(jpegStream);
+                }
                 else if (type == typeof(System.Data.DataTable))
                 {
                     System.Data.DataTable table = new System.Data.DataTable("test");
@@ -290,9 +307,13 @@ namespace BH.Engine.Test
                 {
                     return typeof(object);
                 }
-                else if (type == typeof(MethodBase))
+                else if (type == typeof(MethodBase) || type == typeof(MethodInfo))
                 {
                     return typeof(object).GetMethods().First();
+                }
+                else if (type == typeof(ConstructorInfo))
+                {
+                    return typeof(object).GetConstructors().First(); // Return a constructor info for the default constructor of object
                 }
                 else if (type == typeof(IComparable))
                     return "Comparable";
@@ -316,6 +337,11 @@ namespace BH.Engine.Test
                 {
                     Base.Compute.RecordWarning($"Breaking infinite loop after {m_MaxDepth} cycles on {type.FullName}");
                     return null;
+                }
+                else if (type.IsGenericType && type.GetGenericTypeDefinition() == typeof(Nullable<>))
+                {
+                    Type underlyingType = type.GetGenericArguments()[0];
+                    return GetValue(underlyingType, depth + 1);
                 }
                 else
                     return InitialiseObject(type, depth + 1);
