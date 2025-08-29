@@ -54,6 +54,7 @@ namespace BH.Tests.Setup
             {
                 if (m_Nodes.TryGetValue(fileName, out node))
                     return node;
+                fileName = System.IO.Path.GetFullPath(fileName);
                 string file;
                 using (StreamReader sr = new StreamReader(fileName))
                 {
@@ -157,8 +158,13 @@ namespace BH.Tests.Setup
                 if (m_testFiles.TryGetValue(folder, out files))
                     return files;
 
-                files = Query.GetFiles(System.IO.Path.Combine(Query.CurrentRepoFolder(), folder), "*.cs", true).ToList();
-                m_testFiles[folder] = files;
+                files = Query.InputParametersUpdatedFiles();
+
+                if (files == null)
+                {
+                    files = Query.GetFiles(System.IO.Path.Combine(Query.CurrentRepoFolder(), folder), "*.cs", true).ToList();
+                    m_testFiles[folder] = files;
+                }
                 return files;
             }
 

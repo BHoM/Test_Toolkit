@@ -75,7 +75,7 @@ namespace BH.Tests.Setup
 
             Assert.That(result.Status, Is.EqualTo(oM.Test.TestStatus.Pass), $"The ut did not pass {result.FullMessage(3, oM.Test.TestStatus.Error)}");
 
-            Console.WriteLine(result.FullMessage());
+            //Console.WriteLine(result.FullMessage());
         }
 
         /***************************************************/
