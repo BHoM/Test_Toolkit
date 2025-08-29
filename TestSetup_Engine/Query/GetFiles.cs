@@ -31,6 +31,6 @@ namespace BH.Tests.Setup
             }
         }
 
-        private static HashSet<string> m_FolderExcluded = new HashSet<string>(new string[] { "bin", "obj", "Build", "_dependencies" });
+        private static HashSet<string> m_FolderExcluded = new HashSet<string>(new string[] { "bin", "obj", "Build", "_Dependencies_" });
     }
 }
