@@ -15,6 +15,7 @@ using BH.Tests.Setup.TestBases;
 using NUnit.Framework;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -36,8 +37,7 @@ namespace BH.Tests.Setup
             TestResult result = ObjectToFromJson(oMType);
 
             Assert.That(result.Status, Is.EqualTo(TestStatus.Pass), result.FullMessage(3, TestStatus.Warning));
-
-            Console.WriteLine(result.FullMessage());
+            Assert.Pass($"Passing object serialisation test for {oMType.FullName} from Assembly {oMType.Assembly.FullName}");
         }
 
         /*************************************/
@@ -48,8 +48,6 @@ namespace BH.Tests.Setup
             TestResult result = TypeToFromJson(oMType);
 
             Assert.That(result.Status, Is.EqualTo(TestStatus.Pass), result.FullMessage(3, TestStatus.Warning));
-
-            Console.WriteLine(result.FullMessage());
         }
 
         /*************************************/
@@ -61,29 +59,56 @@ namespace BH.Tests.Setup
             TestResult result = MethodToFromJson(method);
 
             Assert.That(result.Status, Is.EqualTo(TestStatus.Pass), result.FullMessage(3, TestStatus.Warning));
-
-            Console.WriteLine(result.FullMessage());
+            Assert.Pass($"Passing method serialisation test for {method.IToText(true)} from Assembly {method.DeclaringType.Assembly.FullName}");
         }
 
         /*************************************/
 
-        public static List<Type> oMTypesToTest(Assembly assemblyToTest)
+
+        public static List<Type> oMTypesToTest(List<Assembly> assembliesToTest)
         {
+            List<Assembly> finalAssemblies = Query.InputParametersAssemblies();
+            if (finalAssemblies == null)
+                finalAssemblies = assembliesToTest;
+            else
+                finalAssemblies = finalAssemblies.Where(x => x.IsOmAssembly()).ToList();
+
+            foreach (var assemblyToTest in finalAssemblies)
+                BH.Engine.Base.Compute.ExtractAssembly(assemblyToTest);
+
+            foreach (var item in assembliesToTest)
+            {
+                TestContext.WriteLine(item.FullName);
+            }
+
             // It feels like the BHoMTypeList method should already return a clean list of Type but it doesn't at the moment
-            return assemblyToTest.GetTypes().Where(x => {
+            return finalAssemblies.SelectMany(a => a.GetTypes().Where(x => {
                 return typeof(IObject).IsAssignableFrom(x)
                   && !x.IsAbstract
                   && !x.IsDeprecated()
                   && !x.GetProperties().Select(p => p.PropertyType.Namespace).Any(n => !n.StartsWith("BH.") && !n.StartsWith("System"));
-            }).ToList();
+            })).ToList();
         }
 
         /*************************************/
 
-        public static List<MethodInfo> EngineMethodsToTest(Assembly assemblyToTest)
+        public static List<MethodInfo> EngineMethodsToTest(List<Assembly> assembliesToTest)
         {
-            BH.Engine.Base.Compute.ExtractAssembly(assemblyToTest);
-            return BH.Engine.Base.Query.BHoMMethodList().Where(x => x.DeclaringType.Assembly == assemblyToTest).ToList();
+            List<Assembly> finalAssemblies = Query.InputParametersAssemblies();
+            if (finalAssemblies == null)
+                finalAssemblies = assembliesToTest;
+            else
+                finalAssemblies = finalAssemblies.Where(x => x.IsEngineAssembly()).ToList();
+
+            foreach (var assemblyToTest in finalAssemblies)
+                BH.Engine.Base.Compute.ExtractAssembly(assemblyToTest);
+
+            foreach (var item in assembliesToTest)
+            {
+                TestContext.WriteLine(item.FullName);
+            }
+
+            return BH.Engine.Base.Query.BHoMMethodList().Where(x => finalAssemblies.Any(a => x.DeclaringType.Assembly == a)).ToList();
         }
 
         /*************************************/

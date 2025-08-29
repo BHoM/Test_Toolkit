@@ -68,6 +68,11 @@ namespace BH.Tests.Setup
 
         public static IEnumerable<string> GetCsFiles(string folder)
         {
+            List<string> testFiles = Query.InputParametersUpdatedFiles();
+            if (testFiles != null)
+            {
+                return testFiles.Where(f => Path.GetExtension(f) == ".cs");
+            }
             return Query.GetFiles(Path.Combine(Query.CurrentRepoFolder(), folder), "*.cs", true);
         }
 
