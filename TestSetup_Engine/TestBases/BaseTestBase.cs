@@ -8,7 +8,7 @@ using System.Text;
 
 namespace BH.Tests.Setup.TestBases
 {
-    public abstract class BaseTestBase : NUnitTest
+    public abstract class BaseTestBase// : NUnitTest
     {
         private List<Tuple<string, Type>> m_AssumedStaticMethods;
         private bool m_AllRequired;

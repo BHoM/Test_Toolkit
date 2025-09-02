@@ -1,12 +1,12 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netstandard2.0</TargetFramework>
+    <TargetFramework>net6.0</TargetFramework>
     <Description>https://github.com/BHoM/Test_Toolkit</Description>
     <FileVersion>8.2.0.0</FileVersion>
     <AssemblyVersion>8.0.0.0</AssemblyVersion>
     <RootNamespace>BH.Tests.Setup</RootNamespace>
-    <BaseOutputPath>..\Build</BaseOutputPath>
+	<OutDir>..\Build</OutDir>
     <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
     <Configurations>Debug;Release;Test</Configurations>
   </PropertyGroup>
@@ -22,8 +22,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\CodeComplianceTest_Engine\CodeComplianceTest_Engine.csproj" />
-    <ProjectReference Include="..\CodeCompliance_oM\CodeComplianceTest_oM.csproj" />
     <ProjectReference Include="..\NUnit_Engine\NUnit_Engine.csproj" />
     <ProjectReference Include="..\NUnit_oM\NUnit_oM.csproj" />
     <ProjectReference Include="..\Test_Engine\Test_Engine.csproj" />
