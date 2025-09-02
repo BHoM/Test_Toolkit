@@ -1,0 +1,125 @@
+{
+  "runtimeTarget": {
+    "name": ".NETStandard,Version=v2.0/",
+    "signature": ""
+  },
+  "compilationOptions": {},
+  "targets": {
+    ".NETStandard,Version=v2.0": {},
+    ".NETStandard,Version=v2.0/": {
+      "NUnit_Engine/1.0.0": {
+        "dependencies": {
+          "NETStandard.Library": "2.0.3",
+          "NUnit": "3.13.3",
+          "NUnit.Engine": "3.16.2",
+          "NUnit_oM": "1.0.0",
+          "Test_Engine": "1.0.0"
+        },
+        "runtime": {
+          "NUnit_Engine.dll": {}
+        }
+      },
+      "Microsoft.NETCore.Platforms/1.1.0": {},
+      "NETStandard.Library/2.0.3": {
+        "dependencies": {
+          "Microsoft.NETCore.Platforms": "1.1.0"
+        }
+      },
+      "NUnit/3.13.3": {
+        "dependencies": {
+          "NETStandard.Library": "2.0.3"
+        },
+        "runtime": {
+          "lib/netstandard2.0/nunit.framework.dll": {
+            "assemblyVersion": "3.13.3.0",
+            "fileVersion": "3.13.3.0"
+          }
+        }
+      },
+      "NUnit.Engine/3.16.2": {
+        "dependencies": {
+          "NETStandard.Library": "2.0.3"
+        },
+        "runtime": {
+          "lib/netstandard2.0/nunit.engine.api.dll": {
+            "assemblyVersion": "3.0.0.0",
+            "fileVersion": "3.99.0.0"
+          },
+          "lib/netstandard2.0/nunit.engine.core.dll": {
+            "assemblyVersion": "3.16.2.0",
+            "fileVersion": "3.16.2.0"
+          },
+          "lib/netstandard2.0/nunit.engine.dll": {
+            "assemblyVersion": "3.16.2.0",
+            "fileVersion": "3.16.2.0"
+          },
+          "lib/netstandard2.0/testcentric.engine.metadata.dll": {
+            "assemblyVersion": "1.7.1.0",
+            "fileVersion": "1.7.1.0"
+          }
+        }
+      },
+      "NUnit_oM/1.0.0": {
+        "runtime": {
+          "NUnit_oM.dll": {
+            "assemblyVersion": "8.0.0.0",
+            "fileVersion": "8.3.0.0"
+          }
+        }
+      },
+      "Test_Engine/1.0.0": {
+        "runtime": {
+          "Test_Engine.dll": {
+            "assemblyVersion": "8.0.0.0",
+            "fileVersion": "8.3.0.0"
+          }
+        }
+      }
+    }
+  },
+  "libraries": {
+    "NUnit_Engine/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "Microsoft.NETCore.Platforms/1.1.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-kz0PEW2lhqygehI/d6XsPCQzD7ff7gUJaVGPVETX611eadGsA3A877GdSlU0LRVMCTH/+P3o2iDTak+S08V2+A==",
+      "path": "microsoft.netcore.platforms/1.1.0",
+      "hashPath": "microsoft.netcore.platforms.1.1.0.nupkg.sha512"
+    },
+    "NETStandard.Library/2.0.3": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-st47PosZSHrjECdjeIzZQbzivYBJFv6P2nv4cj2ypdI204DO+vZ7l5raGMiX4eXMJ53RfOIg+/s4DHVZ54Nu2A==",
+      "path": "netstandard.library/2.0.3",
+      "hashPath": "netstandard.library.2.0.3.nupkg.sha512"
+    },
+    "NUnit/3.13.3": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-KNPDpls6EfHwC3+nnA67fh5wpxeLb3VLFAfLxrug6JMYDLHH6InaQIWR7Sc3y75d/9IKzMksH/gi08W7XWbmnQ==",
+      "path": "nunit/3.13.3",
+      "hashPath": "nunit.3.13.3.nupkg.sha512"
+    },
+    "NUnit.Engine/3.16.2": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-F/GXWaFFt5o13tNXI8kNqHZ+VT545v6naPmfWoHvOwxh386jeJLYKGTkNnMKqnzx4YLIKxZQe38zOeXtHZYasw==",
+      "path": "nunit.engine/3.16.2",
+      "hashPath": "nunit.engine.3.16.2.nupkg.sha512"
+    },
+    "NUnit_oM/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "Test_Engine/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    }
+  }
+}
