@@ -9,7 +9,7 @@
 		<CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
 		<RootNamespace>BH.Engine.Test.CodeCompliance</RootNamespace>
 		<FileVersion>8.2.0.0</FileVersion>
-		<OutputPath>..\Build\</OutputPath>
+		<OutDir>..\Build\</OutDir>
 	</PropertyGroup>
   <ItemGroup>
     <Reference Include="Analytical_oM">
