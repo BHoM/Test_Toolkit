@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
 		<TargetFramework>net6.0</TargetFramework>
@@ -63,9 +63,5 @@
 		<SpecificVersion>False</SpecificVersion>
 	</Reference>
 		</ItemGroup>
-
-	<Target Name="PostBuild" AfterTargets="PostBuildEvent">
-		<Exec Command="xcopy &quot;$(TargetDir)\*.dll&quot;  &quot;C:\Github\TestRepo_A\_Tests_&quot; /Y&#xD;&#xA;xcopy &quot;$(TargetDir)\*.exe&quot;  &quot;C:\Github\TestRepo_A\_Tests_&quot; /Y&#xD;&#xA;xcopy &quot;$(TargetDir)\*.json&quot;  &quot;C:\Github\TestRepo_A\_Tests_&quot; /Y" />
-	</Target>
 
 </Project>

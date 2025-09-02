@@ -43,8 +43,4 @@
 		</Reference>
 	</ItemGroup>
 
-	<Target Name="PostBuild" AfterTargets="PostBuildEvent">
-	  <Exec Command="xcopy &quot;$(TargetDir)\*.dll&quot;  &quot;C:\Github\TestRepo_A\_Tests_&quot; /Y&#xD;&#xA;xcopy &quot;$(TargetDir)\*.exe&quot;  &quot;C:\Github\TestRepo_A\_Tests_&quot; /Y&#xD;&#xA;xcopy &quot;$(TargetDir)\*.json&quot;  &quot;C:\Github\TestRepo_A\_Tests_&quot; /Y" />
-	</Target>
-
 </Project>
