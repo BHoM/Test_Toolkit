@@ -1,0 +1,43 @@
+name: Build Tests Artifact
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [ develop, Test_Toolkit-InvestigateRunningAllChecksThroughNUnit ]
+  pull_request:
+    branches: [ develop ]
+
+jobs:
+  collect-and-upload-tests:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+      
+    - name: Create _Tests_ directory
+      run: mkdir -p _Tests_
+      
+    # TODO: The toolkit will need to be built before copying files. This will need to be done before this step, including building the dependecies BHoM, BHoM_Engine and BHoM_Adapter.continue-on-error: 
+    # TODO: For now this is just pushing up the files that are already in the Build directory to enable quicker evaluation of overall workflow of test files.
+    - name: Copy files from Build directory
+      run: |
+        # Copy .dll files (only from Build directory, not subdirectories)
+        find Build -maxdepth 1 -name "*.dll" -type f -exec cp {} _Tests_/ \;
+        
+        # Copy .exe files (only from Build directory, not subdirectories)
+        find Build -maxdepth 1 -name "*.exe" -type f -exec cp {} _Tests_/ \;
+        
+        # Copy .json files (only from Build directory, not subdirectories)
+        find Build -maxdepth 1 -name "*.json" -type f -exec cp {} _Tests_/ \;
+        
+        # List copied files for verification
+        echo "Files copied to _Tests_:"
+        ls -la _Tests_/
+      
+    - name: Upload Tests artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: Tests
+        path: _Tests_/
+        retention-days: 30
