@@ -1,13 +1,12 @@
 ﻿using BH.Engine.Base;
 using BH.Engine.Test.CodeCompliance;
+using BH.oM.Test;
 using BH.oM.Test.CodeCompliance;
 using BH.oM.Test.CodeCompliance.Attributes;
 using BH.oM.Test.Results;
-using BH.oM.Test;
 using BH.Tests.Setup.TestBases;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
-using NUnit.Engine.Internal.Backports;
 using NUnit.Framework;
 using System;
 using System.Collections.Generic;
@@ -16,11 +15,12 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 
-namespace BH.Tests.Setup
+namespace BH.Tests.Compliance
 {
+    [TestFixture]
     [TestFixtureSource("TestMethods")]
     //[TestFixtureSource("TestFiles")]
-    public abstract class ComplianceTestBase2 : BaseTestBase
+    public class CodeCompliance : BaseTestBase
     {
         //private SyntaxNode m_Node;
 
@@ -35,9 +35,18 @@ namespace BH.Tests.Setup
         //    m_Node = BH.Engine.Test.CodeCompliance.Convert.ToSyntaxTree(file, filePath).GetRoot();
         //}
 
+        public static IEnumerable<string> TestFiles()
+        {
+            var files = Setup.Query.InputParametersUpdatedFiles()?.Where(f => Path.GetExtension(f).Equals(".cs", StringComparison.OrdinalIgnoreCase));
+            if(files != null)
+                return files;
+
+            return GetCsFiles("");
+        }
+
         private MethodInfo m_Method;
 
-        public ComplianceTestBase2(string methodName) : base("TestFiles", typeof(string))
+        public CodeCompliance(string methodName) : base("TestFiles", typeof(string))
         {
             m_Method = m_checkMethods[methodName];
         }
@@ -158,11 +167,9 @@ namespace BH.Tests.Setup
                 if (m_testFiles.TryGetValue(folder, out files))
                     return files;
 
-                files = Query.InputParametersUpdatedFiles();
-
                 if (files == null)
                 {
-                    files = Query.GetFiles(System.IO.Path.Combine(Query.CurrentRepoFolder(), folder), "*.cs", true).ToList();
+                    files = Setup.Query.GetFiles(System.IO.Path.Combine(Setup.Query.CurrentRepoFolder(), folder), "*.cs", true).ToList();
                     m_testFiles[folder] = files;
                 }
                 return files;

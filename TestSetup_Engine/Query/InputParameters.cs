@@ -27,7 +27,7 @@ namespace BH.Tests.Setup
 
                 var assembliesUpdated = TestContext.Parameters.Get("UpdatedAssemblies", "");
 
-                foreach (var assemblyName in assembliesUpdated.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries))
+                foreach (var assemblyName in assembliesUpdated.Split(new char[] { ' ', ';' }, StringSplitOptions.RemoveEmptyEntries))
                     m_AssembliesToTest.Add(Assembly.LoadFrom(assemblyName));
 
                 foreach (var assembly in m_AssembliesToTest)
@@ -52,8 +52,8 @@ namespace BH.Tests.Setup
 
             var assembliesUpdated = TestContext.Parameters.Get("UpdatedFiles", "");
 
-            foreach (var fileName in assembliesUpdated.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries))
-                updatedFiles.Add(Path.Combine(fileName)); //Ensure formating is correct
+            foreach (var fileName in assembliesUpdated.Split(new char[] { ' ', ';' }, StringSplitOptions.RemoveEmptyEntries))
+                updatedFiles.Add(Path.GetFullPath(Path.GetFullPath(fileName).TrimEnd('\\'))); //Ensure formating is correct
 
             return updatedFiles;
         }

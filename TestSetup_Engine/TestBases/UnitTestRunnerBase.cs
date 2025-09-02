@@ -3,7 +3,6 @@ using BH.Engine.Test;
 using BH.oM.Base.Attributes;
 using BH.oM.Base.Debugging;
 using BH.oM.Data.Library;
-using BH.oM.Test.CodeCompliance;
 using BH.oM.Test.NUnit;
 using BH.oM.Test.Results;
 using BH.oM.Test.UnitTests;

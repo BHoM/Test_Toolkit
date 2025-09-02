@@ -3,11 +3,9 @@ using BH.Engine.Diffing;
 using BH.Engine.Reflection;
 using BH.Engine.Serialiser;
 using BH.Engine.Test;
-using BH.Engine.Test.CodeCompliance;
 using BH.oM.Base;
 using BH.oM.Base.Attributes;
 using BH.oM.Test;
-using BH.oM.Test.CodeCompliance;
 using BH.oM.Test.NUnit;
 using BH.oM.Test.Results;
 using BH.oM.Test.UnitTests;
@@ -22,15 +20,58 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BH.Tests.Setup
+namespace BH.Tests.Serialisation
 {
-    public abstract class SerialisationTestBase : BaseTestBase
+    public class ToFromJson : BaseTestBase
     {
+        [Test]
+        public void DisplayTestAssemblies()
+        { 
+            foreach( var asm in TestAssemblies())
+            {
+                Console.WriteLine(asm.FullName);
+            }
+        }
 
-        public SerialisationTestBase() : base(new List<Tuple<string, Type>> { new Tuple<string, Type>("OmTypes", typeof(Type)), new Tuple<string, Type>("EngineMethods", typeof(MethodBase)) }, false) { }
+        public static IEnumerable<Type> OmTypes()
+        {
+            return oMTypesToTest(TestAssemblies());
+        }
+
+        public static IEnumerable<MethodBase> EngineMethods()
+        {
+            return EngineMethodsToTest(TestAssemblies());
+        }
+
+        public static List<Assembly> TestAssemblies()
+        {
+            List<Assembly> assembliesToTest = Setup.Query.InputParametersAssemblies();
+            if (assembliesToTest == null)
+            {
+                assembliesToTest = GetProjectFilesAsAssemblies();
+            }
+            return assembliesToTest;
+        }
+
+        private static List<Assembly> GetProjectFilesAsAssemblies()
+        {
+            List<string> files = Setup.Query.GetFiles(System.IO.Path.Combine(Setup.Query.CurrentRepoFolder()), "*.csproj", true).ToList();
+            List<Assembly> assemblies = new List<Assembly>();
+            foreach (string file in files)
+            { 
+                string fileName = Path.GetFileNameWithoutExtension(file);
+                string assemblyPath = Path.Combine(BH.Engine.Base.Query.BHoMFolder(), fileName + ".dll");
+                if(File.Exists(assemblyPath))
+                    assemblies.Add(BH.Engine.Base.Compute.LoadAssembly(assemblyPath));
+            }
+            return assemblies;
+        }
+
+        public ToFromJson() : base(new List<Tuple<string, Type>> { new Tuple<string, Type>("OmTypes", typeof(Type)), new Tuple<string, Type>("EngineMethods", typeof(MethodBase)) }, false) { }
 
         /*************************************/
 
+        [Test]
         [TestCaseSource("OmTypes")]
         public void ObjectSerialisation(Type oMType)
         {
@@ -42,6 +83,7 @@ namespace BH.Tests.Setup
 
         /*************************************/
 
+        [Test]
         [TestCaseSource("OmTypes")]
         public void TypeSerialisation(Type oMType)
         {
@@ -52,7 +94,7 @@ namespace BH.Tests.Setup
 
         /*************************************/
 
-
+        [Test]
         [TestCaseSource("EngineMethods")]
         public void MethodSerialisation(MethodBase method)
         {
@@ -67,22 +109,10 @@ namespace BH.Tests.Setup
 
         public static List<Type> oMTypesToTest(List<Assembly> assembliesToTest)
         {
-            List<Assembly> finalAssemblies = Query.InputParametersAssemblies();
-            if (finalAssemblies == null)
-                finalAssemblies = assembliesToTest;
-            else
-                finalAssemblies = finalAssemblies.Where(x => x.IsOmAssembly()).ToList();
-
-            foreach (var assemblyToTest in finalAssemblies)
-                BH.Engine.Base.Compute.ExtractAssembly(assemblyToTest);
-
-            foreach (var item in assembliesToTest)
-            {
-                TestContext.WriteLine(item.FullName);
-            }
+            assembliesToTest = assembliesToTest.Where(x => x.IsOmAssembly()).ToList();
 
             // It feels like the BHoMTypeList method should already return a clean list of Type but it doesn't at the moment
-            return finalAssemblies.SelectMany(a => a.GetTypes().Where(x => {
+            return assembliesToTest.SelectMany(a => a.GetTypes().Where(x => {
                 return typeof(IObject).IsAssignableFrom(x)
                   && !x.IsAbstract
                   && !x.IsDeprecated()
@@ -94,21 +124,8 @@ namespace BH.Tests.Setup
 
         public static List<MethodInfo> EngineMethodsToTest(List<Assembly> assembliesToTest)
         {
-            List<Assembly> finalAssemblies = Query.InputParametersAssemblies();
-            if (finalAssemblies == null)
-                finalAssemblies = assembliesToTest;
-            else
-                finalAssemblies = finalAssemblies.Where(x => x.IsEngineAssembly()).ToList();
-
-            foreach (var assemblyToTest in finalAssemblies)
-                BH.Engine.Base.Compute.ExtractAssembly(assemblyToTest);
-
-            foreach (var item in assembliesToTest)
-            {
-                TestContext.WriteLine(item.FullName);
-            }
-
-            return BH.Engine.Base.Query.BHoMMethodList().Where(x => finalAssemblies.Any(a => x.DeclaringType.Assembly == a)).ToList();
+            assembliesToTest = assembliesToTest.Where(x => x.IsEngineAssembly()).ToList();
+            return BH.Engine.Base.Query.BHoMMethodList().Where(x => assembliesToTest.Any(a => x.DeclaringType.Assembly == a)).ToList();
         }
 
         /*************************************/

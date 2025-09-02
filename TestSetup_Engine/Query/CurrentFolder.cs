@@ -18,6 +18,8 @@ namespace BH.Tests.Setup
                 endFolder = ".ci";
             else if (currentDirectory.Contains("Build"))
                 endFolder = "Build";
+            else if (currentDirectory.Contains("_Tests_"))
+                endFolder = "_Tests_";
             else if (currentDirectory.Contains("bin"))
             { 
                 endFolder = "bin";
