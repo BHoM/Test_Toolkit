@@ -794,38 +794,12 @@
           "System.Xml.ReaderWriter": "4.0.11"
         }
       },
-      "NUnit_Engine/1.0.0": {
-        "dependencies": {
-          "NUnit": "3.13.3",
-          "NUnit.Engine": "3.16.2",
-          "NUnit_oM": "1.0.0",
-          "Test_Engine": "1.0.0"
-        },
-        "runtime": {
-          "NUnit_Engine.dll": {
-            "assemblyVersion": "8.0.0.0",
-            "fileVersion": "8.3.0.0"
-          }
-        }
-      },
-      "NUnit_oM/1.0.0": {
-        "runtime": {
-          "NUnit_oM.dll": {
-            "assemblyVersion": "8.0.0.0",
-            "fileVersion": "8.3.0.0"
-          }
-        }
-      },
       "TestSetup_Engine/1.0.0": {
         "dependencies": {
           "Microsoft.CodeAnalysis.CSharp": "3.4.0",
           "NUnit": "3.13.3",
           "NUnit.Engine": "3.16.2",
-          "NUnit_Engine": "1.0.0",
-          "NUnit_oM": "1.0.0",
-          "Test_Engine": "1.0.0",
-          "UnitTest_Engine": "1.0.0",
-          "UnitTest_oM": "1.0.0"
+          "Test_Engine": "1.0.0"
         },
         "runtime": {
           "TestSetup_Engine.dll": {
@@ -837,26 +811,6 @@
       "Test_Engine/1.0.0": {
         "runtime": {
           "Test_Engine.dll": {
-            "assemblyVersion": "8.0.0.0",
-            "fileVersion": "8.3.0.0"
-          }
-        }
-      },
-      "UnitTest_Engine/1.0.0": {
-        "dependencies": {
-          "Test_Engine": "1.0.0",
-          "UnitTest_oM": "1.0.0"
-        },
-        "runtime": {
-          "UnitTest_Engine.dll": {
-            "assemblyVersion": "8.0.0.0",
-            "fileVersion": "8.3.0.0"
-          }
-        }
-      },
-      "UnitTest_oM/1.0.0": {
-        "runtime": {
-          "UnitTest_oM.dll": {
             "assemblyVersion": "8.0.0.0",
             "fileVersion": "8.3.0.0"
           }
@@ -1255,32 +1209,12 @@
       "path": "system.xml.xdocument/4.0.11",
       "hashPath": "system.xml.xdocument.4.0.11.nupkg.sha512"
     },
-    "NUnit_Engine/1.0.0": {
-      "type": "project",
-      "serviceable": false,
-      "sha512": ""
-    },
-    "NUnit_oM/1.0.0": {
-      "type": "project",
-      "serviceable": false,
-      "sha512": ""
-    },
     "TestSetup_Engine/1.0.0": {
       "type": "project",
       "serviceable": false,
       "sha512": ""
     },
     "Test_Engine/1.0.0": {
-      "type": "project",
-      "serviceable": false,
-      "sha512": ""
-    },
-    "UnitTest_Engine/1.0.0": {
-      "type": "project",
-      "serviceable": false,
-      "sha512": ""
-    },
-    "UnitTest_oM/1.0.0": {
       "type": "project",
       "serviceable": false,
       "sha512": ""
