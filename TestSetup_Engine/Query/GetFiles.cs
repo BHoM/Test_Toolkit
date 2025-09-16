@@ -10,21 +10,23 @@ namespace BH.Tests.Setup
         {
             if (string.IsNullOrEmpty(folder) || !System.IO.Directory.Exists(folder))
             {
-                throw new ArgumentException("The specified folder does not exist.", nameof(folder));
+                Console.WriteLine($"{folder} does not exist!");
             }
-
-            foreach (string file in System.IO.Directory.EnumerateFiles(folder, searchPattern, System.IO.SearchOption.TopDirectoryOnly))
-                yield return file;
-
-            if (recursive)
+            else
             {
-                foreach (string subFolder in System.IO.Directory.EnumerateDirectories(folder))
+                foreach (string file in System.IO.Directory.EnumerateFiles(folder, searchPattern, System.IO.SearchOption.TopDirectoryOnly))
+                    yield return file;
+
+                if (recursive)
                 {
-                    if (!m_FolderExcluded.Contains(System.IO.Path.GetFileName(subFolder)))
+                    foreach (string subFolder in System.IO.Directory.EnumerateDirectories(folder))
                     {
-                        foreach (string file in GetFiles(subFolder, searchPattern, true))
+                        if (!m_FolderExcluded.Contains(System.IO.Path.GetFileName(subFolder)))
                         {
-                            yield return file;
+                            foreach (string file in GetFiles(subFolder, searchPattern, true))
+                            {
+                                yield return file;
+                            }
                         }
                     }
                 }
