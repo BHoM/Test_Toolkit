@@ -50,6 +50,7 @@ namespace BH.Test.Engine.Test
         {
             if(typeof(Stream).IsAssignableFrom(propertyType) || 
                typeof(Delegate).IsAssignableFrom(propertyType) ||
+               typeof(System.Drawing.Bitmap).IsAssignableFrom(propertyType) ||  //Temporarily excluded unitl https://github.com/BHoM/Test_Toolkit/issues/526 has been resolved
                propertyType.Namespace.StartsWith("Microsoft.CodeAnalysis.CSharp"))
             {
                 return false; // Skip properties of these types
