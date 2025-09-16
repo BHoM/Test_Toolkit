@@ -7,6 +7,7 @@
 		<OutDir>..\Build</OutDir>
 		<IsPackable>false</IsPackable>
 		<RootNamespace>BH.Tests.Serialisation</RootNamespace>
+		<Configurations>Debug;Release</Configurations>
 	</PropertyGroup>
 
   <ItemGroup>
