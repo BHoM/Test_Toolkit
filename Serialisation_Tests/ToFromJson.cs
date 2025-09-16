@@ -6,7 +6,6 @@ using BH.Engine.Test;
 using BH.oM.Base;
 using BH.oM.Base.Attributes;
 using BH.oM.Test;
-using BH.oM.Test.NUnit;
 using BH.oM.Test.Results;
 using BH.oM.Test.UnitTests;
 using BH.Tests.Setup.TestBases;
@@ -45,26 +44,7 @@ namespace BH.Tests.Serialisation
 
         public static List<Assembly> TestAssemblies()
         {
-            List<Assembly> assembliesToTest = Setup.Query.InputParametersAssemblies();
-            if (assembliesToTest == null)
-            {
-                assembliesToTest = GetProjectFilesAsAssemblies();
-            }
-            return assembliesToTest;
-        }
-
-        private static List<Assembly> GetProjectFilesAsAssemblies()
-        {
-            List<string> files = Setup.Query.GetFiles(System.IO.Path.Combine(Setup.Query.CurrentRepoFolder()), "*.csproj", true).ToList();
-            List<Assembly> assemblies = new List<Assembly>();
-            foreach (string file in files)
-            { 
-                string fileName = Path.GetFileNameWithoutExtension(file);
-                string assemblyPath = Path.Combine(BH.Engine.Base.Query.BHoMFolder(), fileName + ".dll");
-                if(File.Exists(assemblyPath))
-                    assemblies.Add(BH.Engine.Base.Compute.LoadAssembly(assemblyPath));
-            }
-            return assemblies;
+            return Setup.Query.CurrentAssemblies();
         }
 
         public ToFromJson() : base(new List<Tuple<string, Type>> { new Tuple<string, Type>("OmTypes", typeof(Type)), new Tuple<string, Type>("EngineMethods", typeof(MethodBase)) }, false) { }
