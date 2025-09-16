@@ -3,7 +3,6 @@ using BH.Engine.Test;
 using BH.oM.Base.Attributes;
 using BH.oM.Base.Debugging;
 using BH.oM.Data.Library;
-using BH.oM.Test.NUnit;
 using BH.oM.Test.Results;
 using BH.oM.Test.UnitTests;
 using BH.Tests.Setup.TestBases;
@@ -17,15 +16,15 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BH.Tests.Setup
+namespace BH.Tests.UnitTests
 {
-    public abstract class UnitTestRunnerBase : BaseTestBase
+    public class UnitTestRunner : BaseTestBase
     {
-        public UnitTestRunnerBase() : base("TestData", typeof(object[])) { }
+        public UnitTestRunner() : base("TestData", typeof(object[])) { }
 
         /***************************************************/
 
-        [TestCaseSource("TestData")]
+        [TestCaseSource(nameof(TestData))]
         [Description("Runs a datadriven unit datatest.")]
         public void RunDatadrivenUnitTest(string fileName, MethodBase method, TestData data)
         {
@@ -40,7 +39,7 @@ namespace BH.Tests.Setup
                     {
                         string error = "";
                         string warning = "";
-                        foreach (Event e in events.GroupBy(x => new { x.Type, x.Message}).Select(x => x.First()))
+                        foreach (Event e in events.GroupBy(x => new { x.Type, x.Message }).Select(x => x.First()))
                         {
                             if (e.Type == EventType.Error)
                                 error += e.Message + "\n";
@@ -74,16 +73,17 @@ namespace BH.Tests.Setup
 
             Assert.That(result.Status, Is.EqualTo(oM.Test.TestStatus.Pass), $"The ut did not pass {result.FullMessage(3, oM.Test.TestStatus.Error)}");
 
-            //Console.WriteLine(result.FullMessage());
+            Assert.Pass(result.FullMessage());
         }
 
         /***************************************************/
 
         [Description("Extracts all the unittest datasets from the relative folder in the currently executing repo and deserialises the content of the file and returns an IEnumerable with filename, method and one peice of testdata for each UnitTest and each TestData in the dataset.")]
-        public static IEnumerable<object[]> GetTestDataInRelativeFolder(string folder)
+        public static IEnumerable<object[]> TestData()
         {
-            string dataFolder = Path.Combine(Query.CurrentDatasetsUTFolder(), folder);
-            foreach (var item in Query.GetFiles(dataFolder, "*.json", true))
+            Setup.Query.CurrentAssemblies();
+
+            foreach (var item in Setup.Query.GetFiles(Setup.Query.CurrentDatasetsUTFolder(), "*.json", true))
             {
                 foreach (var test in GetTestData(item))
                 {
@@ -104,7 +104,7 @@ namespace BH.Tests.Setup
             {
                 if (!string.IsNullOrEmpty(fileName))
                 {
-                    fileNameNoPath = fileName.Replace(Query.CurrentDatasetsUTFolder(), "");
+                    fileNameNoPath = fileName.Replace(Setup.Query.CurrentDatasetsUTFolder(), "");
                     StreamReader sr = new StreamReader(fileName);
                     string line = sr.ReadToEnd();
                     sr.Close();

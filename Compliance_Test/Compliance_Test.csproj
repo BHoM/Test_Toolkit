@@ -7,6 +7,7 @@
 	<OutDir>..\Build</OutDir>
     <IsPackable>false</IsPackable>
     <RootNamespace>BH.Tests.Compliace</RootNamespace>
+    <Configurations>Debug;Release</Configurations>
   </PropertyGroup>
 
   <ItemGroup>
@@ -20,8 +21,6 @@
   <ItemGroup>
     <ProjectReference Include="..\CodeComplianceTest_Engine\CodeComplianceTest_Engine.csproj" />
     <ProjectReference Include="..\CodeCompliance_oM\CodeComplianceTest_oM.csproj" />
-    <ProjectReference Include="..\NUnit_Engine\NUnit_Engine.csproj" />
-    <ProjectReference Include="..\NUnit_oM\NUnit_oM.csproj" />
     <ProjectReference Include="..\TestSetup_Engine\TestSetup_Engine.csproj" />
   </ItemGroup>
 

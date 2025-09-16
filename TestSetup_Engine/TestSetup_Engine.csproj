@@ -22,11 +22,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\NUnit_Engine\NUnit_Engine.csproj" />
-    <ProjectReference Include="..\NUnit_oM\NUnit_oM.csproj" />
     <ProjectReference Include="..\Test_Engine\Test_Engine.csproj" />
-    <ProjectReference Include="..\UnitTest_Engine\UnitTest_Engine.csproj" />
-    <ProjectReference Include="..\UnitTest_oM\UnitTest_oM.csproj" />
   </ItemGroup>
 
   <ItemGroup>
