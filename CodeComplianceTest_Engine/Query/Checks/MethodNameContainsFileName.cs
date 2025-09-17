@@ -38,6 +38,7 @@ namespace BH.Engine.Test.CodeCompliance.Checks
         [Path(@"([a-zA-Z0-9]+)_Engine\\.*\.cs$")]
         [Path(@"([a-zA-Z0-9]+)_Engine\\Convert\\.*\.cs$", false)]
         [Path(@"([a-zA-Z0-9]+)_Engine\\Objects\\.*\.cs$", false)]
+        [Path(@"([a-zA-Z0-9]+)_Engine\\Create\\.*\.cs$", false)]
         [Path(@"([a-zA-Z0-9]+)_Tests\\.*\.cs$", false)]     //NUnit style projects
         [Path(@"([a-zA-Z0-9]+)_Test\\.*\.cs$", false)]      //Verification projects
         [IsPublic()]
