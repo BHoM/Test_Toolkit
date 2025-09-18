@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net6.0</TargetFramework>
+    <TargetFramework>net8.0</TargetFramework>
     <Description>https://github.com/BHoM/Test_Toolkit</Description>
     <FileVersion>8.2.0.0</FileVersion>
     <AssemblyVersion>8.0.0.0</AssemblyVersion>
