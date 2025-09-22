@@ -33,6 +33,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTest_Tests", "UnitTest_
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestStartupHook", "TestStartupHook\TestStartupHook.csproj", "{B637F49E-F6DF-44B7-B921-01A8B4BCBC17}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{02EA681E-C7D8-13C7-8484-4AC65E1B71E8}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -102,6 +104,13 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{5D87C51F-E2BC-1CBF-36A4-FA03D3A09904} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
+		{356A77BF-AE0A-492D-9A77-1CE170F3D93B} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
+		{0951B695-2F68-4BCC-94D6-D03F3236E75A} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
+		{A48688A9-F4EE-48CB-9838-64EBCC5B933C} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
+		{B637F49E-F6DF-44B7-B921-01A8B4BCBC17} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {FF840A73-EBBC-456B-A425-AD1AA68D2C2B}

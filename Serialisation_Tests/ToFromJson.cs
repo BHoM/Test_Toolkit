@@ -34,7 +34,7 @@ namespace BH.Tests.Serialisation
 
         public static IEnumerable<Type> OmTypes()
         {
-            return oMTypesToTest(TestAssemblies());
+            return OmTypesToTest(TestAssemblies());
         }
 
         public static IEnumerable<MethodBase> EngineMethods()
@@ -87,7 +87,7 @@ namespace BH.Tests.Serialisation
         /*************************************/
 
 
-        public static List<Type> oMTypesToTest(List<Assembly> assembliesToTest)
+        public static List<Type> OmTypesToTest(List<Assembly> assembliesToTest)
         {
             assembliesToTest = assembliesToTest.Where(x => x.IsOmAssembly()).ToList();
 
