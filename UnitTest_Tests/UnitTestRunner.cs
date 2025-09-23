@@ -5,7 +5,6 @@ using BH.oM.Base.Debugging;
 using BH.oM.Data.Library;
 using BH.oM.Test.Results;
 using BH.oM.Test.UnitTests;
-using BH.Tests.Setup.TestBases;
 using NUnit.Framework;
 using System;
 using System.Collections.Generic;
@@ -18,9 +17,8 @@ using System.Threading.Tasks;
 
 namespace BH.Tests.UnitTests
 {
-    public class UnitTestRunner : BaseTestBase
+    public class UnitTestRunner
     {
-        public UnitTestRunner() : base("TestData", typeof(object[])) { }
 
         /***************************************************/
 

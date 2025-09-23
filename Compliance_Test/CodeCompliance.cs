@@ -4,7 +4,6 @@ using BH.oM.Test;
 using BH.oM.Test.CodeCompliance;
 using BH.oM.Test.CodeCompliance.Attributes;
 using BH.oM.Test.Results;
-using BH.Tests.Setup.TestBases;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using NUnit.Framework;
@@ -20,7 +19,7 @@ namespace BH.Tests.Compliance
     [TestFixture]
     [TestFixtureSource("TestMethods")]
     //[TestFixtureSource("TestFiles")]
-    public class CodeCompliance : BaseTestBase
+    public class CodeCompliance
     {
         //private SyntaxNode m_Node;
 
@@ -46,7 +45,7 @@ namespace BH.Tests.Compliance
 
         private MethodInfo m_Method;
 
-        public CodeCompliance(string methodName) : base("TestFiles", typeof(string))
+        public CodeCompliance(string methodName)
         {
             m_Method = m_checkMethods[methodName];
         }

@@ -7,8 +7,6 @@ using BH.oM.Base;
 using BH.oM.Base.Attributes;
 using BH.oM.Test;
 using BH.oM.Test.Results;
-using BH.oM.Test.UnitTests;
-using BH.Tests.Setup.TestBases;
 using NUnit.Framework;
 using System;
 using System.Collections.Generic;
@@ -21,7 +19,7 @@ using System.Threading.Tasks;
 
 namespace BH.Tests.Serialisation
 {
-    public class ToFromJson : BaseTestBase
+    public class ToFromJson
     {
         [Test]
         public void DisplayTestAssemblies()
@@ -46,8 +44,6 @@ namespace BH.Tests.Serialisation
         {
             return Setup.Query.CurrentAssemblies();
         }
-
-        public ToFromJson() : base(new List<Tuple<string, Type>> { new Tuple<string, Type>("OmTypes", typeof(Type)), new Tuple<string, Type>("EngineMethods", typeof(MethodBase)) }, false) { }
 
         /*************************************/
 
