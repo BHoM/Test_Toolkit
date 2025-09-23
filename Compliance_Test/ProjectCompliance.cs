@@ -1,5 +1,4 @@
-﻿using BH.Tests.Setup.TestBases;
-using BH.oM.Test.Results;
+﻿using BH.oM.Test.Results;
 using BH.oM.Test;
 using BH.Engine.Test;
 using Microsoft.CodeAnalysis;
@@ -13,12 +12,8 @@ using System.Threading.Tasks;
 
 namespace BH.Tests.Compliace
 {
-    public class ProjectCompliance : BaseTestBase
+    public class ProjectCompliance
     {
-        public ProjectCompliance() : base(new List<Tuple<string, Type>>(), true)
-        { 
-        
-        }
 
         [TestCaseSource("TestFiles")]
         public void TestCompliance(string fileName)
