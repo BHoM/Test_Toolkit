@@ -1,16 +1,7 @@
 <RunSettings>
   <RunConfiguration>
-    <DisableAppDomain>true</DisableAppDomain>
-    <InProcDataCollectionRunSettings>
-      <DataCollectors>
-        <DataCollector friendlyName="Environment" uri="datacollector://microsoft/Environment/1.0">
-          <Configuration>
-            <EnvironmentVariables>
-              <Variable name="DOTNET_STARTUP_HOOKS" value="C:\ProgramData\BHoM\Assemblies\TestStartupHook.dll" />
-            </EnvironmentVariables>
-          </Configuration>
-        </DataCollector>
-      </DataCollectors>
-    </InProcDataCollectionRunSettings>
+    <EnvironmentVariables>
+      <DOTNET_STARTUP_HOOKS>C:\Github\Test_Toolkit\StartupHook\TestStartupHook.dll</DOTNET_STARTUP_HOOKS>
+    </EnvironmentVariables>
   </RunConfiguration>
 </RunSettings>
