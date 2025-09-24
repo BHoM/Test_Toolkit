@@ -1,5 +1,5 @@
 <Project>
-  <PropertyGroup Condition="'$(IsTestProject)' == 'true'">
+  <PropertyGroup>
     <RunSettingsFilePath>$(MSBuildThisFileDirectory)test.runsettings</RunSettingsFilePath>
     <RunCodeAnalysis>false</RunCodeAnalysis>
   </PropertyGroup>
