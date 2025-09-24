@@ -59,7 +59,7 @@ jobs:
           # Skip known non-test DLLs by name patterns
           case "$base" in
             NUnit_Engine|TestSetup_Engine|testhost|testcentric.engine.metadata|\
-            Microsoft.*|System.*|nunit3.*|NUnit3.*|Newtonsoft.*|NuGet.*)
+            Microsoft.*|System.*|nunit3.*|nunit.*|NUnit3.*|Newtonsoft.*|NuGet.*)
               continue ;;
             *_oM|*_Engine)
               continue ;;
