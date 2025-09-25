@@ -21,13 +21,14 @@ namespace BH.Tests.Compliace
             TestResult result = BH.Engine.Test.CodeCompliance.Compute.CheckProjectFile(fileName);
             if (result == null)
                 Assert.Fail($"{fileName}: No result returned from compliance check.");
-            if (result.Status == TestStatus.Warning)
-                Assert.Warn($"{fileName}: {result.FullMessage(5, TestStatus.Warning)}");
-            else
+
+            if (result.Status == TestStatus.Error)
                 Assert.Fail($"{fileName}: {result.FullMessage(5, TestStatus.Warning)}");
 
-            Assert.Pass($"Passing: {fileName}");
+            if (result.Status == TestStatus.Warning)
+                Assert.Warn($"{fileName}: {result.FullMessage(5, TestStatus.Warning)}");
         }
+
         public static IEnumerable<string> TestFiles()
         {
             var files = Setup.Query.InputParametersUpdatedFiles()?.Where(f => Path.GetExtension(f).Equals(".csproj", StringComparison.OrdinalIgnoreCase));
