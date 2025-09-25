@@ -6,7 +6,7 @@
   "compilationOptions": {},
   "targets": {
     ".NETCoreApp,Version=v8.0": {
-      "Compliance_Test/1.0.0": {
+      "Compliance_Tests/1.0.0": {
         "dependencies": {
           "CodeComplianceTest_Engine": "5.0.0",
           "CodeComplianceTest_oM": "5.0.0",
@@ -18,7 +18,7 @@
           "coverlet.collector": "3.1.2"
         },
         "runtime": {
-          "Compliance_Test.dll": {}
+          "Compliance_Tests.dll": {}
         }
       },
       "coverlet.collector/3.1.2": {},
@@ -1084,7 +1084,7 @@
     }
   },
   "libraries": {
-    "Compliance_Test/1.0.0": {
+    "Compliance_Tests/1.0.0": {
       "type": "project",
       "serviceable": false,
       "sha512": ""
