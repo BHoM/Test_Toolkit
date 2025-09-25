@@ -4,7 +4,7 @@
     <TargetFramework>netstandard2.0</TargetFramework>
     <Description>https://github.com/BHoM/Test_Toolkit</Description>
     <Configurations>Debug;Release;Test</Configurations>
-	  <FileVersion>8.2.0.0</FileVersion>
+	  <FileVersion>8.3.0.0</FileVersion>
 	  <AssemblyVersion>8.0.0.0</AssemblyVersion>
   </PropertyGroup>
 
