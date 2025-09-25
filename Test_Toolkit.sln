@@ -25,7 +25,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NUnit_Engine", "NUnit_Engin
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestSetup_Engine", "TestSetup_Engine\TestSetup_Engine.csproj", "{5D87C51F-E2BC-1CBF-36A4-FA03D3A09904}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Compliance_Test", "Compliance_Test\Compliance_Test.csproj", "{356A77BF-AE0A-492D-9A77-1CE170F3D93B}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Compliance_Tests", "Compliance_Tests\Compliance_Tests.csproj", "{356A77BF-AE0A-492D-9A77-1CE170F3D93B}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Serialisation_Tests", "Serialisation_Tests\Serialisation_Tests.csproj", "{0951B695-2F68-4BCC-94D6-D03F3236E75A}"
 EndProject
