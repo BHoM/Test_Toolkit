@@ -16,33 +16,9 @@ using System.Text;
 
 namespace BH.Tests.Compliance
 {
-    [TestFixture]
     [TestFixtureSource(nameof(TestMethods))]
-    //[TestFixtureSource("TestFiles")]
     public class CsFile
     {
-        //private SyntaxNode m_Node;
-
-        //public ComplianceTestBase2(string filePath) : base("TestFiles", typeof(string)) 
-        //{
-        //    string file;
-        //    using (StreamReader sr = new StreamReader(filePath))
-        //    {
-        //        file = sr.ReadToEnd();
-        //    }
-
-        //    m_Node = BH.Engine.Test.CodeCompliance.Convert.ToSyntaxTree(file, filePath).GetRoot();
-        //}
-
-        public static IEnumerable<string> TestFiles()
-        {
-            var files = Setup.Query.InputParametersUpdatedFiles()?.Where(f => Path.GetExtension(f).Equals(".cs", StringComparison.OrdinalIgnoreCase));
-            if(files != null)
-                return files;
-
-            return GetCsFiles("");
-        }
-
         private MethodInfo m_Method;
 
         public CsFile(string methodName)
@@ -74,8 +50,7 @@ namespace BH.Tests.Compliance
             }
         }
 
-        //[TestCaseSource("TestMethods")]
-        [TestCaseSource("TestFiles")]
+        [TestCaseSource(typeof(BH.Tests.Setup.Query), nameof(BH.Tests.Setup.Query.TestFiles), new object[] {"cs"})]
         public void TestCompliance(string fileName)
         {
             SyntaxNode node = GetNode(fileName);
@@ -84,7 +59,7 @@ namespace BH.Tests.Compliance
             Assume.That(node != null);
             Assume.That(System.IO.Path.GetFileName(node.SyntaxTree.FilePath), Is.Not.EqualTo("AssemblyInfo.cs"), "Skipping AssemblyInfo.cs files.");
             
-            //Assume.That(method.GetCustomAttributes<ConditionAttribute>().Select(condition => condition.IPasses(node)), Is.All.True, $"Method {method.Name} is not applicable to be tested with the {node.SyntaxTree.FilePath}.");
+            Assume.That(method.GetCustomAttributes<PathAttribute>().Select(condition => condition.IPasses(node)), Is.All.True, $"Method {method.Name} is not applicable to be tested with the {node.SyntaxTree.FilePath}.");
 
             Assert.Multiple(() =>
             {
@@ -146,8 +121,6 @@ namespace BH.Tests.Compliance
                     if (m_checkMethods == null)
                         m_checkMethods = new Dictionary<string, MethodInfo>();
 
-                    
-
                     foreach (var methodGroup in BH.Engine.Test.CodeCompliance.Query.AllChecks().Distinct().GroupBy(x => x.Name))
                     {
                         if(methodGroup.Count() == 1)
@@ -170,28 +143,6 @@ namespace BH.Tests.Compliance
                 yield return new TestFixtureData(methodName).SetArgDisplayNames(methodName);
 
         }
-
-        public static IEnumerable<string> GetCsFiles(string folder)
-        {
-            if(m_testFiles.TryGetValue(folder, out List<string> files))
-                return files;
-            lock (m_fileLock)
-            {
-                if (m_testFiles.TryGetValue(folder, out files))
-                    return files;
-
-                if (files == null)
-                {
-                    files = Setup.Query.GetFiles(System.IO.Path.Combine(Setup.Query.CurrentRepoFolder(), folder), "*.cs", true).ToList();
-                    m_testFiles[folder] = files;
-                }
-                return files;
-            }
-
-        }
-
-        private static Dictionary<string, List<string>> m_testFiles = new Dictionary<string, List<string>>();
-        private static object m_fileLock = new object();
 
         private static Func<object[], object> GetFunction(MethodInfo method)
         {
