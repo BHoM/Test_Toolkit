@@ -7,11 +7,20 @@ namespace BH.Tests.Setup
 {
     public static partial class Query
     {
-
-
         public static string CurrentRepoFolder()
         {
             string currentDirectory = System.Environment.CurrentDirectory;
+
+            string localRunningPath = Directory.GetParent(currentDirectory).FullName;
+            localRunningPath = Path.Combine(localRunningPath, "TestSetup_Engine", "LocalRunningFolder.txt");
+
+            if(File.Exists(localRunningPath))
+            {
+                string path = File.ReadAllText(localRunningPath);
+                if(Directory.Exists(path))
+                    return path;
+            }
+
             string endFolder = "";
             int indexAdd = 0;
             if (currentDirectory.Contains(".ci"))
@@ -26,7 +35,7 @@ namespace BH.Tests.Setup
                 indexAdd = 1;
             }
 
-                string[] split = currentDirectory.Split(Path.DirectorySeparatorChar);
+            string[] split = currentDirectory.Split(Path.DirectorySeparatorChar);
 
             string folder = "";
 

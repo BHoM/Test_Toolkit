@@ -69,7 +69,7 @@ namespace BH.Tests.UnitTests
 
             TestResult result = BH.Engine.UnitTest.Compute.CheckTest(method, data, -1);
 
-            Assert.That(result.Status, Is.EqualTo(oM.Test.TestStatus.Pass), $"The ut did not pass {result.FullMessage(3, oM.Test.TestStatus.Error)}");
+            Assert.That(result.Status, Is.EqualTo(oM.Test.TestStatus.Pass), $"The unit test did not pass {result.FullMessage(3, oM.Test.TestStatus.Error)}");
 
             Assert.Pass(result.FullMessage());
         }
