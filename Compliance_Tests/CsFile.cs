@@ -17,9 +17,9 @@ using System.Text;
 namespace BH.Tests.Compliance
 {
     [TestFixture]
-    [TestFixtureSource("TestMethods")]
+    [TestFixtureSource(nameof(TestMethods))]
     //[TestFixtureSource("TestFiles")]
-    public class CodeCompliance
+    public class CsFile
     {
         //private SyntaxNode m_Node;
 
@@ -45,7 +45,7 @@ namespace BH.Tests.Compliance
 
         private MethodInfo m_Method;
 
-        public CodeCompliance(string methodName)
+        public CsFile(string methodName)
         {
             m_Method = m_checkMethods[methodName];
         }
@@ -137,7 +137,7 @@ namespace BH.Tests.Compliance
 
         }
 
-       private static IEnumerable<string> TestMethods()
+       private static IEnumerable<TestFixtureData> TestMethods()
         {
             if (m_checkMethods == null)
             {
@@ -146,15 +146,29 @@ namespace BH.Tests.Compliance
                     if (m_checkMethods == null)
                         m_checkMethods = new Dictionary<string, MethodInfo>();
 
-                    foreach (var method in BH.Engine.Test.CodeCompliance.Query.AllChecks().Distinct())
+                    
+
+                    foreach (var methodGroup in BH.Engine.Test.CodeCompliance.Query.AllChecks().Distinct().GroupBy(x => x.Name))
                     {
-                        string key = method.Name + ": " + method.GetParameters().First().ParameterType.Name;
-                        m_checkMethods[key] = method;
+                        if(methodGroup.Count() == 1)
+                        {
+                            m_checkMethods[methodGroup.First().Name] = methodGroup.First();
+                        }
+                        else
+                        {
+                            foreach (var method in methodGroup)
+                            {
+                                string key = method.Name + ": " + method.GetParameters().First().ParameterType.Name.Replace("DeclarationSyntax", "");
+                                m_checkMethods[key] = method;
+                            }
+                        }
                     }
                 }
             }
 
-            return m_checkMethods.Keys;
+            foreach (var methodName in m_checkMethods.Keys)
+                yield return new TestFixtureData(methodName).SetArgDisplayNames(methodName);
+
         }
 
         public static IEnumerable<string> GetCsFiles(string folder)
