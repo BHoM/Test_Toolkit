@@ -17,7 +17,7 @@ namespace BH.Tests.Setup
         [Description("Returns .cs files to be tested. Prioritises files from input parameters. If non available, then all files of the specified format in the currently executing repo are extracted.")]
         public static List<string> TestFilesCs()
         {
-            return TestFiles("cs");
+            return TestFiles(".cs");
         }
 
         /***************************************************/
@@ -25,7 +25,7 @@ namespace BH.Tests.Setup
         [Description("Returns .csproj files to be tested. Prioritises files from input parameters. If non available, then all files of the specified format in the currently executing repo are extracted.")]
         public static List<string> TestFilesCsproj()
         {
-            return TestFiles("csproj");
+            return TestFiles(".csproj");
         }
 
         /***************************************************/
@@ -33,6 +33,9 @@ namespace BH.Tests.Setup
         [Description("Returns files of a specific type to be tested. Prioritises files from input parameters. If non available, then all files of the specified format in the currently executing repo are extracted.")]
         public static List<string> TestFiles(string fileEnding)
         {
+            if(!fileEnding.StartsWith('.'))
+                fileEnding = "." + fileEnding;
+
             if (m_testFiles.TryGetValue(fileEnding, out List<string> files))
                 return files;
 
@@ -45,7 +48,7 @@ namespace BH.Tests.Setup
 
                 if (files == null)
                 {
-                    files = Setup.Query.GetFiles(Setup.Query.CurrentRepoFolder(), $"*.{fileEnding}", true).ToList();
+                    files = Setup.Query.GetFiles(Setup.Query.CurrentRepoFolder(), $"*{fileEnding}", true).ToList();
                     m_testFiles[fileEnding] = files;
                 }
                 return files;
