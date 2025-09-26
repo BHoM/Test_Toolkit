@@ -60,6 +60,20 @@ namespace BH.Tests.Setup
 
         /***************************************************/
 
+        public static string InputParametersCurrentRepository()
+        {
+            List<string> updatedFiles = new List<string>();
+
+            if (!TestContext.Parameters.Exists("CurrentRepository"))
+                return null;
+
+            var assembliesUpdated = TestContext.Parameters.Get("CurrentRepository", "");
+
+            return assembliesUpdated;
+        }
+
+        /***************************************************/
+
 
     }
 }

@@ -41,7 +41,7 @@ namespace BH.Tests.Compliance
         /***************************************************/
 
         [Description("Test method being executed for the current test method, and current .cs file.")]
-        [TestCaseSource(typeof(BH.Tests.Setup.Query), nameof(BH.Tests.Setup.Query.TestFilesCs))]
+        [TestCaseSource(nameof(CsFiles))]
         public void TestCompliance(string fileName)
         {
             SyntaxNode node = GetNode(fileName);    
@@ -113,7 +113,22 @@ namespace BH.Tests.Compliance
         [Description("Returns the test methods available in CodeComplianceTest_Engine to be executed as test fixtures.")]
         private static IEnumerable<TestFixtureData> TestMethods()
         {
-            foreach (var methodGroup in BH.Engine.Test.CodeCompliance.Query.AllChecks().Distinct().GroupBy(x => x.Name))
+            bool isBHoMOrg = true;      //Used to control if copyright checks are applied
+            string currentRepo = BH.Tests.Setup.Query.CurrentRepository();
+            if (currentRepo != null)
+            { 
+                string org = currentRepo.Split('/').First();
+                if(org.Equals("BHoM", StringComparison.OrdinalIgnoreCase))
+                    isBHoMOrg = true;
+                else
+                    isBHoMOrg = false;
+            }
+
+            var checkMethods = BH.Engine.Test.CodeCompliance.Query.AllChecks();
+            if(!isBHoMOrg)   //If not BHoM, then remove copyright checks
+                checkMethods = checkMethods.Where(m => m.Name != nameof(BH.Engine.Test.CodeCompliance.Checks.Query.HasValidCopyright));
+
+            foreach (var methodGroup in checkMethods.Distinct().GroupBy(x => x.Name))
             {
                 if (methodGroup.Count() == 1)
                 {
@@ -127,9 +142,21 @@ namespace BH.Tests.Compliance
                         yield return new TestFixtureData(method).SetArgDisplayNames(key);
                     }
                 }
-
             }
         }
+
+        /***************************************************/
+
+        [Description("Returns the AssemblyInfo cs files as well as assumed link to the repository.")]
+        private static IEnumerable<TestCaseData> CsFiles()
+        {
+            string repoFolder = Setup.Query.CurrentRepoFolder() ?? "";
+            foreach (var file in BH.Tests.Setup.Query.TestFilesCs().Where(x => !x.EndsWith("AssemblyInfo.cs")))
+                yield return new TestCaseData(new string[] { file }).SetArgDisplayNames(file.Replace(repoFolder, ""));
+
+        }
+
+        /***************************************************/
 
         /***************************************************/
         /**** Extraction, compilation and cashing       ****/
