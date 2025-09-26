@@ -12,7 +12,7 @@ namespace BH.Tests.Setup
             string currentDirectory = System.Environment.CurrentDirectory;
 
             string localRunningPath = Directory.GetParent(currentDirectory).FullName;
-            localRunningPath = Path.Combine(localRunningPath, "TestSetup_Engine", "LocalRunningFolder.txt");
+            localRunningPath = Path.Combine(localRunningPath, "LocalRunningRepoFolder.txt");
 
             if(File.Exists(localRunningPath))
             {
