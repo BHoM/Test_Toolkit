@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -9,7 +10,28 @@ namespace BH.Tests.Setup
 {
     public static partial class Query
     {
-        public static IEnumerable<string> TestFiles(string fileEnding)
+        /***************************************************/
+        /**** Public Methods                            ****/
+        /***************************************************/
+
+        [Description("Returns .cs files to be tested. Prioritises files from input parameters. If non available, then all files of the specified format in the currently executing repo are extracted.")]
+        public static List<string> TestFilesCs()
+        {
+            return TestFiles("cs");
+        }
+
+        /***************************************************/
+
+        [Description("Returns .csproj files to be tested. Prioritises files from input parameters. If non available, then all files of the specified format in the currently executing repo are extracted.")]
+        public static List<string> TestFilesCsproj()
+        {
+            return TestFiles("csproj");
+        }
+
+        /***************************************************/
+
+        [Description("Returns files of a specific type to be tested. Prioritises files from input parameters. If non available, then all files of the specified format in the currently executing repo are extracted.")]
+        public static List<string> TestFiles(string fileEnding)
         {
             if (m_testFiles.TryGetValue(fileEnding, out List<string> files))
                 return files;
@@ -30,6 +52,10 @@ namespace BH.Tests.Setup
             }
 
         }
+
+        /***************************************************/
+        /**** Private Fields                            ****/
+        /***************************************************/
 
         private static Dictionary<string, List<string>> m_testFiles = new Dictionary<string, List<string>>();
         private static object m_fileLock = new object();
