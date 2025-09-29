@@ -1,48 +1,26 @@
-<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="..\packages\Microsoft.CodeAnalysis.Analyzers.2.9.4\build\Microsoft.CodeAnalysis.Analyzers.props" Condition="Exists('..\packages\Microsoft.CodeAnalysis.Analyzers.2.9.4\build\Microsoft.CodeAnalysis.Analyzers.props')" />
-  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
-  <PropertyGroup>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{5E17BA6F-F159-47DD-865C-F2DAA235AAC7}</ProjectGuid>
-    <OutputType>Library</OutputType>
-    <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>BH.Engine.Test.CodeCompliance</RootNamespace>
-    <AssemblyName>CodeComplianceTest_Engine</AssemblyName>
-    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
-    <FileAlignment>512</FileAlignment>
-    <TargetFrameworkProfile />
-    <NuGetPackageImportStamp>
-    </NuGetPackageImportStamp>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
-    <OutputPath>..\Build\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <DebugType>pdbonly</DebugType>
-    <Optimize>true</Optimize>
-    <OutputPath>..\Build\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'ComplianceTestBuild|AnyCPU'">
-    <DebugSymbols>true</DebugSymbols>
-    <OutputPath>..\Build\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <DebugType>full</DebugType>
-    <PlatformTarget>AnyCPU</PlatformTarget>
-    <LangVersion>7.3</LangVersion>
-    <ErrorReport>prompt</ErrorReport>
-    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
-  </PropertyGroup>
+<Project Sdk="Microsoft.NET.Sdk">
+	<PropertyGroup>
+		<TargetFramework>netstandard2.0</TargetFramework>
+		<AssemblyVersion>8.0.0.0</AssemblyVersion>
+		<Description>https://github.com/BHoM/BHoM_Engine</Description>
+		<Version>5.0.0</Version>
+		<Authors>BHoM</Authors>
+		<Copyright>Copyright © https://github.com/BHoM</Copyright>
+		<CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
+		<RootNamespace>BH.Engine.Test.CodeCompliance</RootNamespace>
+		<FileVersion>8.2.0.0</FileVersion>
+		<OutDir>..\Build\</OutDir>
+		<Configurations>Debug;Release</Configurations>
+	</PropertyGroup>
+	<ItemGroup>
+	  <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="3.4.0" />
+	  <PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
+	  <PackageReference Include="System.Net.Http" Version="4.3.4" />
+	</ItemGroup>
+	<ItemGroup>
+	  <ProjectReference Include="..\CodeCompliance_oM\CodeComplianceTest_oM.csproj" />
+	  <ProjectReference Include="..\Test_Engine\Test_Engine.csproj" />
+	</ItemGroup>
   <ItemGroup>
     <Reference Include="Dimensional_oM">
       <HintPath>$(ProgramData)\BHoM\Assemblies\Dimensional_oM.dll</HintPath>
@@ -54,11 +32,6 @@
       <Private>False</Private>
       <SpecificVersion>False</SpecificVersion>
     </Reference>
-    <Reference Include="Microsoft.VisualStudio.Setup.Configuration.Interop, Version=1.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.VisualStudio.Setup.Configuration.Interop.1.16.30\lib\net35\Microsoft.VisualStudio.Setup.Configuration.Interop.dll</HintPath>
-      <EmbedInteropTypes>True</EmbedInteropTypes>
-    </Reference>
-    <Reference Include="netstandard" />
     <Reference Include="BHoM">
       <HintPath>$(ProgramData)\BHoM\Assemblies\BHoM.dll</HintPath>
       <Private>False</Private>
@@ -74,12 +47,6 @@
       <Private>False</Private>
       <SpecificVersion>False</SpecificVersion>
     </Reference>
-    <Reference Include="Microsoft.CodeAnalysis, Version=3.4.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.CodeAnalysis.Common.3.4.0-beta2-final\lib\netstandard2.0\Microsoft.CodeAnalysis.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.CodeAnalysis.CSharp, Version=3.4.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.CodeAnalysis.CSharp.3.4.0-beta2-final\lib\netstandard2.0\Microsoft.CodeAnalysis.CSharp.dll</HintPath>
-    </Reference>
     <Reference Include="Quantities_oM">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>$(ProgramData)\BHoM\Assemblies\Quantities_oM.dll</HintPath>
@@ -90,201 +57,14 @@
       <Private>False</Private>
       <SpecificVersion>False</SpecificVersion>
     </Reference>
-    <Reference Include="System" />
-    <Reference Include="System.Buffers, Version=4.0.2.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.Buffers.4.4.0\lib\netstandard2.0\System.Buffers.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Collections.Immutable, Version=1.2.3.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.Collections.Immutable.1.5.0\lib\netstandard2.0\System.Collections.Immutable.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Configuration" />
-    <Reference Include="System.Core" />
-    <Reference Include="System.IO.Compression" />
-    <Reference Include="System.Memory, Version=4.0.1.1, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.Memory.4.5.3\lib\netstandard2.0\System.Memory.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Numerics" />
-    <Reference Include="System.Numerics.Vectors, Version=4.1.3.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.Numerics.Vectors.4.4.0\lib\net46\System.Numerics.Vectors.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Reflection.Metadata, Version=1.4.3.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.Reflection.Metadata.1.6.0\lib\netstandard2.0\System.Reflection.Metadata.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Runtime.CompilerServices.Unsafe, Version=5.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.Runtime.CompilerServices.Unsafe.5.0.0\lib\net45\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Text.Encoding.CodePages, Version=4.1.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.Text.Encoding.CodePages.4.5.1\lib\net461\System.Text.Encoding.CodePages.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Threading.Tasks.Dataflow, Version=4.6.3.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.Threading.Tasks.Dataflow.4.9.0\lib\netstandard2.0\System.Threading.Tasks.Dataflow.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Threading.Tasks.Extensions, Version=4.2.0.1, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.Threading.Tasks.Extensions.4.5.3\lib\netstandard2.0\System.Threading.Tasks.Extensions.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Xaml" />
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Net.Http" />
-    <Reference Include="System.Xml" />
     <Reference Include="Test_oM">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>$(ProgramData)\BHoM\Assemblies\Test_oM.dll</HintPath>
       <Private>False</Private>
     </Reference>
   </ItemGroup>
-  <ItemGroup>
-    <Compile Include="Compute\CheckAssemblyInfo.cs" />
-    <Compile Include="Compute\CheckProjectStructure.cs" />
-    <Compile Include="Compute\CheckProjectFile.cs" />
-    <Compile Include="Compute\Check.cs" />
-    <Compile Include="Convert\ToSyntaxTree.cs" />
-    <Compile Include="Convert\ToSpan.cs" />
-    <Compile Include="Convert\ToLineSpan.cs" />
-    <Compile Include="Convert\ToPosition.cs" />
-    <Compile Include="Convert\ToLineLocation.cs" />
-    <Compile Include="Convert\ToText.cs" />
-    <Compile Include="Create\TestResult.cs" />
-    <Compile Include="Create\Error.cs" />
-    <Compile Include="Create\LineLocation.cs" />
-    <Compile Include="Create\LineSpan.cs" />
-    <Compile Include="Create\Location.cs" />
-    <Compile Include="Create\Span.cs" />
-    <Compile Include="Modify\GroupErrors.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Query\Checks\AttributeHasEndingPunctuation.cs" />
-    <Compile Include="Query\Checks\HasConstructor.cs" />
-    <Compile Include="Query\Checks\HasUniqueMultiOutputAttributes.cs" />
-    <Compile Include="Query\Checks\HasValidConstructor.cs" />
-    <Compile Include="Query\Checks\HasValidCopyright.cs" />
-    <Compile Include="Query\Checks\HasValidMultiOutputAttributes.cs" />
-    <Compile Include="Query\Checks\HasValidPreviousVersionAttribute.cs" />
-    <Compile Include="Query\Checks\HiddenInputsAreLast.cs" />
-    <Compile Include="Query\Checks\InputAttributesAreInOrder.cs" />
-    <Compile Include="Query\Checks\IsDocumentationURLValid.cs" />
-    <Compile Include="Query\Checks\IsUsingCustomData.cs" />
-    <Compile Include="Query\Checks\IsValidCreateMethod.cs" />
-    <Compile Include="Query\Checks\HasDescriptionAttribute.cs" />
-    <Compile Include="Query\Checks\EngineClassMatchesFilePath.cs" />
-    <Compile Include="Query\Checks\HasValidOutputAttribute.cs" />
-    <Compile Include="Query\Checks\IsInputAttributePresent.cs" />
-    <Compile Include="Query\Checks\InputAttributeIsUnique.cs" />
-    <Compile Include="Query\Checks\InputParameterStartsLower.cs" />
-    <Compile Include="Query\Checks\IsValidIImmutableObject.cs" />
-    <Compile Include="Query\Checks\IsVirtualProperty.cs" />
-    <Compile Include="Query\Checks\MethodNameStartsUpper.cs" />
-    <Compile Include="Query\Checks\HasOutputAttribute.cs" />
-    <Compile Include="Query\Checks\InputAttributeHasMatchingParameter.cs" />
-    <Compile Include="Query\Checks\HasUniqueOutputAttribute.cs" />
-    <Compile Include="Query\Checks\IsExtensionMethod.cs" />
-    <Compile Include="Query\Checks\MethodNameContainsFileName.cs" />
-    <Compile Include="Query\Checks\ObjectNameMatchesFileName.cs" />
-    <Compile Include="Query\Checks\ModifyReturnsDifferentType.cs" />
-    <Compile Include="Query\AllChecks.cs" />
-    <Compile Include="Query\Checks\PreviousInputNamesAttributeHasMatchingParameter.cs" />
-    <Compile Include="Query\Checks\PreviousInputNamesAttributeIsUnique.cs" />
-    <Compile Include="Query\Checks\UIExposureHasDefaultValue.cs" />
-    <Compile Include="Query\CurrentVersion.cs" />
-    <Compile Include="Query\DescriptionAttribute.cs" />
-    <Compile Include="Query\DirectlyInherits.cs" />
-    <Compile Include="Query\DynamicChecks\AdapterCreateMethodIsValid.cs" />
-    <Compile Include="Query\DynamicChecks\AdapterReadMethodIsValid.cs" />
-    <Compile Include="Query\DynamicChecks\ImplementsBaseOption.cs" />
-    <Compile Include="Query\DynamicChecks\ImplementsRequiredMethods.cs" />
-    <Compile Include="Query\DynamicChecks\InputFromPropertyMatchesProperty.cs" />
-    <Compile Include="Query\DynamicChecks\IsValidDataset.cs" />
-    <Compile Include="Query\DynamicChecks\IsValidQuantityInputAttribute.cs" />
-    <Compile Include="Query\FullMessage.cs" />
-    <Compile Include="Query\GetAttributes.cs" />
-    <Compile Include="Query\GetDeclaringType.cs" />
-    <Compile Include="Query\GetClass.cs" />
-    <Compile Include="Query\GetIdentifier.cs" />
-    <Compile Include="Query\GetNamespace.cs" />
-    <Compile Include="Query\GetName.cs" />
-    <Compile Include="Query\HasAttribute.cs" />
-    <Compile Include="Query\HasConstructor.cs" />
-    <Compile Include="Query\InterfaceMethodsHaveMethods.cs" />
-    <Compile Include="Query\IsAdapterConstructor.cs" />
-    <Compile Include="Query\IsDeprecated.cs" />
-    <Compile Include="Query\IsEngineMethod.cs" />
-    <Compile Include="Query\IsImmutable.cs" />
-    <Compile Include="Query\ObjectsAreIObject.cs" />
-    <Compile Include="Query\Passes.cs" />
-    <Compile Include="Query\Checks\HasSingleNamespace.cs" />
-    <Compile Include="Query\Checks\IsPublicClass.cs" />
-    <Compile Include="Query\Checks\PropertyAccessorsHaveNoBody.cs" />
-    <Compile Include="Query\Checks\HasPublicGet.cs" />
-    <Compile Include="Query\Checks\IsPublicProperty.cs" />
-    <Compile Include="Query\Checks\IsValidConvertMethodName.cs" />
-    <Compile Include="Query\Checks\IsStaticClass.cs" />
-    <Compile Include="Query\Checks\IsValidEngineClassName.cs" />
-    <Compile Include="Query\HasValidCopyright.cs" />
-    <Compile Include="Compute\RunChecks.cs" />
-    <Compile Include="Query\ContainsToken.cs" />
-    <Compile Include="Query\HasModifier.cs" />
-    <Compile Include="Query\HasBody.cs" />
-    <Compile Include="Query\InputAttributes.cs" />
-    <Compile Include="Query\IsConstructor.cs" />
-    <Compile Include="Query\OutputAttribute.cs" />
-    <Compile Include="Query\PreviousInputNamesAttributes.cs" />
-    <Compile Include="Query\PropertyGetAccessor.cs" />
-    <Compile Include="Query\IsPrivate.cs" />
-    <Compile Include="Query\IsStatic.cs" />
-    <Compile Include="Query\IsPublic.cs" />
-    <Compile Include="Query\GetLeadingTrivia.cs" />
-    <Compile Include="Query\GetNamespaceRoot.cs" />
-    <Compile Include="Query\GetFileRoot.cs" />
-    <Compile Include="Query\IsValidBHoMObject.cs" />
-    <Compile Include="Query\GetText.cs" />
-    <Compile Include="Query\Signature.cs" />
-    <Compile Include="Query\StringEndsWithPunctuation.cs" />
-    <Compile Include="Query\DynamicChecks\ConvertMethodIsValid.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="app.config" />
-    <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <Analyzer Include="..\packages\Microsoft.CodeAnalysis.Analyzers.2.9.4\analyzers\dotnet\cs\Microsoft.CodeAnalysis.Analyzers.dll" />
-    <Analyzer Include="..\packages\Microsoft.CodeAnalysis.Analyzers.2.9.4\analyzers\dotnet\cs\Microsoft.CodeAnalysis.CSharp.Analyzers.dll" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\CodeCompliance_oM\CodeComplianceTest_oM.csproj">
-      <Project>{f758fc9c-cedf-430d-aeff-2b1e196f677b}</Project>
-      <Name>CodeComplianceTest_oM</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Test_Engine\Test_Engine.csproj">
-      <Project>{5fc85409-dbc5-4b0d-a2aa-1d9542f0763b}</Project>
-      <Name>Test_Engine</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
-    <PropertyGroup>
-      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
-    </PropertyGroup>
-    <Error Condition="!Exists('..\packages\Microsoft.CodeAnalysis.Analyzers.2.9.4\build\Microsoft.CodeAnalysis.Analyzers.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.CodeAnalysis.Analyzers.2.9.4\build\Microsoft.CodeAnalysis.Analyzers.props'))" />
+  <Target Name="PostBuild" AfterTargets="PostBuildEvent">
+    <Exec Command="xcopy &quot;$(TargetDir)$(TargetFileName)&quot;  &quot;C:\ProgramData\BHoM\Assemblies&quot; /Y&#xD;&#xA;xcopy &quot;$(TargetDir)Microsoft.CodeAnalysis.dll&quot;  &quot;C:\ProgramData\BHoM\Assemblies&quot; /Y&#xD;&#xA;xcopy &quot;$(TargetDir)Microsoft.CodeAnalysis.CSharp.dll&quot;  &quot;C:\ProgramData\BHoM\Assemblies&quot; /Y&#xD;&#xA;xcopy &quot;$(TargetDir)System.Buffers.dll&quot;  &quot;C:\ProgramData\BHoM\Assemblies&quot; /Y&#xD;&#xA;xcopy &quot;$(TargetDir)System.Collections.Immutable.dll&quot;  &quot;C:\ProgramData\BHoM\Assemblies&quot; /Y&#xD;&#xA;xcopy &quot;$(TargetDir)System.Memory.dll&quot;  &quot;C:\ProgramData\BHoM\Assemblies&quot; /Y&#xD;&#xA;xcopy &quot;$(TargetDir)System.Numerics.Vectors.dll&quot;  &quot;C:\ProgramData\BHoM\Assemblies&quot; /Y&#xD;&#xA;xcopy &quot;$(TargetDir)System.Reflection.Metadata.dll&quot;  &quot;C:\ProgramData\BHoM\Assemblies&quot; /Y&#xD;&#xA;xcopy &quot;$(TargetDir)System.Runtime.CompilerServices.Unsafe.dll&quot;  &quot;C:\ProgramData\BHoM\Assemblies&quot; /Y&#xD;&#xA;xcopy &quot;$(TargetDir)System.Text.Encoding.CodePages.dll&quot;  &quot;C:\ProgramData\BHoM\Assemblies&quot; /Y&#xD;&#xA;xcopy &quot;$(TargetDir)System.Threading.Tasks.Extensions.dll&quot;  &quot;C:\ProgramData\BHoM\Assemblies&quot; /Y" />
   </Target>
-  <PropertyGroup>
-    <PostBuildEvent>xcopy "$(TargetDir)$(TargetFileName)"  "C:\ProgramData\BHoM\Assemblies" /Y
-xcopy "$(TargetDir)Microsoft.CodeAnalysis.dll"  "C:\ProgramData\BHoM\Assemblies" /Y
-xcopy "$(TargetDir)Microsoft.CodeAnalysis.CSharp.dll"  "C:\ProgramData\BHoM\Assemblies" /Y
-xcopy "$(TargetDir)System.Buffers.dll"  "C:\ProgramData\BHoM\Assemblies" /Y
-xcopy "$(TargetDir)System.Collections.Immutable.dll"  "C:\ProgramData\BHoM\Assemblies" /Y
-xcopy "$(TargetDir)System.Memory.dll"  "C:\ProgramData\BHoM\Assemblies" /Y
-xcopy "$(TargetDir)System.Numerics.Vectors.dll"  "C:\ProgramData\BHoM\Assemblies" /Y
-xcopy "$(TargetDir)System.Reflection.Metadata.dll"  "C:\ProgramData\BHoM\Assemblies" /Y
-xcopy "$(TargetDir)System.Runtime.CompilerServices.Unsafe.dll"  "C:\ProgramData\BHoM\Assemblies" /Y
-xcopy "$(TargetDir)System.Text.Encoding.CodePages.dll"  "C:\ProgramData\BHoM\Assemblies" /Y
-xcopy "$(TargetDir)System.Threading.Tasks.Extensions.dll"  "C:\ProgramData\BHoM\Assemblies" /Y</PostBuildEvent>
-  </PropertyGroup>
-  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
-       Other similar extension points exist, see Microsoft.Common.targets.
-  <Target Name="BeforeBuild">
-  </Target>
-  <Target Name="AfterBuild">
-  </Target>
-  -->
+  
 </Project>

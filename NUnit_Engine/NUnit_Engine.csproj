@@ -6,7 +6,7 @@
     <FileVersion>8.3.0.0</FileVersion>
     <AssemblyVersion>8.0.0.0</AssemblyVersion>
     <RootNamespace>BH.Engine.Test.NUnit</RootNamespace>
-    <BaseOutputPath>..\Build</BaseOutputPath>
+	  <!--<OutDir>..\Build</OutDir>-->
     <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
     <Configurations>Debug;Release;Test</Configurations>
   </PropertyGroup>

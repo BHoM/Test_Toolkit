@@ -1,0 +1,98 @@
+name: Build Tests Artifact
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [ develop ]
+  pull_request:
+    branches: [ develop ]
+
+jobs:
+  collect-and-upload-tests:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+      
+    - name: Create _Tests_ directory
+      run: mkdir -p _Tests_
+      
+    # TODO: The toolkit will need to be built before copying files. This will need to be done before this step, including building the dependecies BHoM, BHoM_Engine and BHoM_Adapter.continue-on-error: 
+    # TODO: For now this is just pushing up the files that are already in the Build directory to enable quicker evaluation of overall workflow of test files.
+    - name: Copy files from Build directory
+      run: |
+        # Copy .dll files (only from Build directory, not subdirectories)
+        find Build -maxdepth 1 -name "*.dll" -type f -exec cp {} _Tests_/ \;
+        
+        # Copy .exe files (only from Build directory, not subdirectories)
+        find Build -maxdepth 1 -name "*.exe" -type f -exec cp {} _Tests_/ \;
+        
+        # Copy .json files (only from Build directory, not subdirectories)
+        find Build -maxdepth 1 -name "*.json" -type f -exec cp {} _Tests_/ \;
+        
+        
+        # List copied files for verification
+        echo "Files copied to _Tests_:"
+        ls -la _Tests_/
+      
+    - name: Identify tests
+      run: |
+        set -euo pipefail
+        echo "Searching for test DLLs in _Tests_ folder..."
+
+        tests_dir="_Tests_"
+        if [ ! -d "$tests_dir" ]; then
+          echo "✗ $tests_dir folder not found"
+          exit 1
+        fi
+
+        # Prepare output file
+        out_file="$tests_dir/TestDlls.txt"
+        : > "$out_file"
+
+        found=0
+        shopt -s nullglob
+        for dll in "$tests_dir"/*.dll; do
+          base=$(basename "$dll" .dll)
+
+          # Skip known non-test DLLs by name patterns
+          case "$base" in
+            NUnit_Engine|TestSetup_Engine|testhost|testcentric.engine.metadata|\
+            Microsoft.*|System.*|nunit3.*|nunit.*|NUnit3.*|Newtonsoft.*|NuGet.*)
+              continue ;;
+            *_oM|*_Engine)
+              continue ;;
+          esac
+
+          # Check for test frameworks by scanning binary strings
+          if command -v strings >/dev/null 2>&1; then
+            if strings -a "$dll" 2>/dev/null | grep -qiE '(^|/)nunit\.framework|xunit|mstest\.testframework'; then
+              echo "$base.dll" >> "$out_file"
+              echo "  ✓ $base.dll"
+              found=$((found+1))
+            fi
+          else
+            if grep -a -qiE 'nunit\.framework|xunit|mstest\.testframework' "$dll"; then
+              echo "$base.dll" >> "$out_file"
+              echo "  ✓ $base.dll"
+              found=$((found+1))
+            fi
+          fi
+        done
+
+        if [ "$found" -eq 0 ]; then
+          echo "✗ No test DLLs found in $tests_dir"
+          exit 1
+        fi
+
+        echo "✓ Wrote $found test DLL name(s) to $out_file"
+        
+    - name: Upload Tests artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: Tests
+        path: |
+          _Tests_/
+          StartupHook/*.dll
+        retention-days: 30

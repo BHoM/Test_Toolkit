@@ -21,27 +21,27 @@
  */
 
 using BH.oM.Test.CodeCompliance;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
+using BH.oM.Test.CodeCompliance.Attributes;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace BH.Engine.Test.CodeCompliance
 {
     public static partial class Query
     {
-        public static IEnumerable<MethodInfo> AllChecks()
+        public static IEnumerable<MethodInfo> AllChecks(string checkType = null)
         {
             return Assembly.GetExecutingAssembly().DefinedTypes
                 .Where(t => t.IsClass && t.Name == "Query" && t.Namespace == "BH.Engine.Test.CodeCompliance.Checks")
                 .SelectMany(t => t.DeclaredMethods)
-                .Where(method => method.IsPublic && method.ReturnType == typeof(Span));
+                .Where(method => method.IsPublic && method.ReturnType == typeof(Span) && (checkType == null || method.GetCustomAttribute<ComplianceTypeAttribute>()?.ComplianceType == checkType));
         }
     }
 }
