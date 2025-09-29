@@ -3,7 +3,7 @@ name: Build Tests Artifact
 on:
   workflow_dispatch:
   push:
-    branches: [ develop, Test_Toolkit-InvestigateRunningAllChecksThroughNUnit ]
+    branches: [ develop ]
   pull_request:
     branches: [ develop ]
 
