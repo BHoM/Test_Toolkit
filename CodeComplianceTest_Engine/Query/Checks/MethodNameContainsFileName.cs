@@ -35,9 +35,12 @@ namespace BH.Engine.Test.CodeCompliance.Checks
     public static partial class Query
     {
         [Message("Method name must start with or end with the name of the file", "MethodNameContainsFileName")]
-        [Path(@"([a-zA-Z0-9]+)_(Engine|Tests)\\.*\.cs$")]
+        [Path(@"([a-zA-Z0-9]+)_Engine\\.*\.cs$")]
         [Path(@"([a-zA-Z0-9]+)_Engine\\Convert\\.*\.cs$", false)]
         [Path(@"([a-zA-Z0-9]+)_Engine\\Objects\\.*\.cs$", false)]
+        [Path(@"([a-zA-Z0-9]+)_Engine\\Create\\.*\.cs$", false)]
+        [Path(@"([a-zA-Z0-9]+)_Tests\\.*\.cs$", false)]     //NUnit style projects
+        [Path(@"([a-zA-Z0-9]+)_Test\\.*\.cs$", false)]      //Verification projects
         [IsPublic()]
         [ComplianceType("code")]
         [ErrorLevel(TestStatus.Error)]
