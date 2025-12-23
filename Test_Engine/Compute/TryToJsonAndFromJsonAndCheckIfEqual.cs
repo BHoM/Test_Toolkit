@@ -26,7 +26,6 @@ using BH.oM.Base.Attributes;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Linq;
 
 namespace BH.Engine.Test
 {
@@ -39,22 +38,23 @@ namespace BH.Engine.Test
         [Description("Runs through the provided objects and tries to convert to Json. Then performs checks if the object can be deserialised, and if the de-serailised object is equal to the serialised version.")]
         [Input("objects", "Objects to try to convert ToJson.")]
         [MultiOutput(0, "validJson", "Json strings that pass all checks.")]
-        [MultiOutput(1, "failingToJson", "Json strings show some failure of running the ToJson convert.")]
-        [MultiOutput(2, "failingToJsonObject", "Obejcts that failed the ToJson convert.")]
-        [MultiOutput(3, "failingFromJson", "Json for cases where the FromJson is failing.")]
-        [MultiOutput(4, "failingFromJsonObjects", "Objects that had some failures going FromJson.")]
-        [MultiOutput(5, "notEqualJson", "Jsons strings for objects not equal to incoming object after serialisation ToJson followed by deserialisation FromJson.")]
-        [MultiOutput(6, "notEqualObjects", "Objects not equal to incoming object after serialisation ToJson followed by deserialisation FromJson.")]
-        public static Output<List<string>, List<string>, List<object>, List<string>, List<object>, List<string>, List<object>> TryToJsonAndFromJsonAndCheckIfEqual(List<object> objects)
+        [MultiOutput(1, "validJsonObjects", "Json objects that pass all checks.")]
+        [MultiOutput(2, "failingToJson", "Json strings show some failure of running the ToJson convert.")]
+        [MultiOutput(3, "failingToJsonObject", "Obejcts that failed the ToJson convert.")]
+        [MultiOutput(4, "failingFromJson", "Json for cases where the FromJson is failing.")]
+        [MultiOutput(5, "failingFromJsonObjects", "Objects that had some failures going FromJson.")]
+        [MultiOutput(6, "notEqualJson", "Jsons strings for objects not equal to incoming object after serialisation ToJson followed by deserialisation FromJson.")]
+        [MultiOutput(7, "notEqualObjects", "Objects not equal to incoming object after serialisation ToJson followed by deserialisation FromJson.")]
+        public static Output<List<string>, List<object>, List<string>, List<object>, List<string>, List<object>, List<string>, List<object>> TryToJsonAndFromJsonAndCheckIfEqual(List<object> objects)
         {
-            List<string> successfullJson = new List<string>();
+            List<string> successfulJson = new List<string>();
+            List<object> successfulJsonObjects = new List<object>();
             List<string> failingToJson = new List<string>();
             List<object> failingToJsonObjects = new List<object>();
             List<string> failingFromJson = new List<string>();
             List<object> failingFromJsonObjects = new List<object>();
             List<string> notEqualJson = new List<string>();
             List<object> notEqualObjects = new List<object>();
-
 
             foreach (object obj in objects)
             {
@@ -78,8 +78,6 @@ namespace BH.Engine.Test
                     continue;
                 }
 
-
-
                 object retObj;
                 try
                 {
@@ -92,7 +90,6 @@ namespace BH.Engine.Test
                     BH.Engine.Base.Compute.RecordError(e, $"Failed FromJson for {obj.GetType()}");
                     continue;
                 }
-
 
                 if (retObj == null || retObj.GetType() == typeof(CustomObject))
                 {
@@ -117,7 +114,8 @@ namespace BH.Engine.Test
 
                 if (isEqual)
                 {
-                    successfullJson.Add(json);
+                    successfulJson.Add(json);
+                    successfulJsonObjects.Add(obj);
                 }
                 else
                 {
@@ -125,18 +123,18 @@ namespace BH.Engine.Test
                     notEqualObjects.Add(obj);
                     continue;
                 }
-
             }
 
-            return new Output<List<string>, List<string>, List<object>, List<string>, List<object>, List<string>, List<object>>
+            return new Output<List<string>, List<object>, List<string>, List<object>, List<string>, List<object>, List<string>, List<object>>
             {
-                Item1 = successfullJson,
-                Item2 = failingToJson,
-                Item3 = failingToJsonObjects,
-                Item4 = failingFromJson,
-                Item5 = failingFromJsonObjects,
-                Item6 = notEqualJson,
-                Item7 = notEqualObjects
+                Item1 = successfulJson,
+                Item2 = successfulJsonObjects,
+                Item3 = failingToJson,
+                Item4 = failingToJsonObjects,
+                Item5 = failingFromJson,
+                Item6 = failingFromJsonObjects,
+                Item7 = notEqualJson,
+                Item8 = notEqualObjects
             };
         }
     }
