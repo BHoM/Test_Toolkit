@@ -45,7 +45,10 @@ namespace BH.Engine.Test.CodeCompliance
     {
         public static TestResult CheckAssemblyInfo(this string assemblyInfoPath, string assemblyDescriptionOrg)
         {
-            if (!assemblyInfoPath.EndsWith("AssemblyInfo.cs"))
+            if(string.IsNullOrWhiteSpace(assemblyInfoPath))
+                return Create.TestResult(TestStatus.Pass);
+
+            if (Path.GetFileName(assemblyInfoPath) != "AssemblyInfo.cs")
                 return Create.TestResult(TestStatus.Pass);
 
             if (!File.Exists(assemblyInfoPath))
