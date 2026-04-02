@@ -1,23 +1,23 @@
-﻿
+
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.3.33027.108
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InteroperabilityTest_Engine", "InteroperabilityTest_Engine\InteroperabilityTest_Engine.csproj", "{DF4047D7-2883-4763-83C0-B1D3B391D454}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "InteroperabilityTest_Engine", "InteroperabilityTest_Engine\InteroperabilityTest_Engine.csproj", "{DF4047D7-2883-4763-83C0-B1D3B391D454}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CodeComplianceTest_Engine", "CodeComplianceTest_Engine\CodeComplianceTest_Engine.csproj", "{5E17BA6F-F159-47DD-865C-F2DAA235AAC7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CodeComplianceTest_Engine", "CodeComplianceTest_Engine\CodeComplianceTest_Engine.csproj", "{5E17BA6F-F159-47DD-865C-F2DAA235AAC7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Test_Engine", "Test_Engine\Test_Engine.csproj", "{5FC85409-DBC5-4B0D-A2AA-1D9542F0763B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Test_Engine", "Test_Engine\Test_Engine.csproj", "{5FC85409-DBC5-4B0D-A2AA-1D9542F0763B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTest_Engine", "UnitTest_Engine\UnitTest_Engine.csproj", "{768934CA-E6CF-44D3-9F74-611D4E58B1AE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UnitTest_Engine", "UnitTest_Engine\UnitTest_Engine.csproj", "{768934CA-E6CF-44D3-9F74-611D4E58B1AE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InteroperabilityTest_oM", "InteroperabilityTest_oM\InteroperabilityTest_oM.csproj", "{8AA8B55E-0C55-4356-BF8B-98B98F6C346C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "InteroperabilityTest_oM", "InteroperabilityTest_oM\InteroperabilityTest_oM.csproj", "{8AA8B55E-0C55-4356-BF8B-98B98F6C346C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CodeComplianceTest_oM", "CodeCompliance_oM\CodeComplianceTest_oM.csproj", "{F758FC9C-CEDF-430D-AEFF-2B1E196F677B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CodeComplianceTest_oM", "CodeCompliance_oM\CodeComplianceTest_oM.csproj", "{F758FC9C-CEDF-430D-AEFF-2B1E196F677B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestRunner", "TestRunner\TestRunner.csproj", "{3F911D8A-55E4-4293-8FCF-DE37B3D79E72}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TestRunner", "TestRunner\TestRunner.csproj", "{3F911D8A-55E4-4293-8FCF-DE37B3D79E72}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTest_oM", "UnitTest_oM\UnitTest_oM.csproj", "{1F163CFA-E407-4C7A-9DAF-1C19207A8983}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UnitTest_oM", "UnitTest_oM\UnitTest_oM.csproj", "{1F163CFA-E407-4C7A-9DAF-1C19207A8983}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NUnit_oM", "NUnit_oM\NUnit_oM.csproj", "{5359D5A5-C8F8-430E-98CF-52DCE3F48EFD}"
 EndProject
