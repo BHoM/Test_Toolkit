@@ -8,9 +8,9 @@
     <AssemblyTitle>InteroperabilityTest_oM</AssemblyTitle>
     <Description>https://github.com/BHoM/Test_Toolkit</Description>
     <Product>InteroperabilityTest_oM</Product>
-    <Copyright>Copyright ©  2020</Copyright>
+    <Copyright>Copyright ï¿½  2020</Copyright>
     <AssemblyVersion>9.0.0.0</AssemblyVersion>
-    <FileVersion>9.1.0.0</FileVersion>
+    <FileVersion>9.2.0.0</FileVersion>
   </PropertyGroup>
   <Target Name="PostBuild" AfterTargets="PostBuildEvent">
     <Exec Command="xcopy &quot;$(TargetDir)$(TargetFileName)&quot;  &quot;$(ProgramData)\BHoM\Assemblies&quot; /Y" />

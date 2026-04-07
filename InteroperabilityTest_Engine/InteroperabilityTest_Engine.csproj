@@ -8,9 +8,9 @@
     <AssemblyTitle>InteropabilityTest_Engine</AssemblyTitle>
     <Description>https://github.com/BHoM/Test_Toolkit</Description>
     <Product>InteropabilityTest_Engine</Product>
-    <Copyright>Copyright © https://github.com/BHoM</Copyright>
+    <Copyright>Copyright ï¿½ https://github.com/BHoM</Copyright>
     <AssemblyVersion>9.0.0.0</AssemblyVersion>
-    <FileVersion>9.1.0.0</FileVersion>
+    <FileVersion>9.2.0.0</FileVersion>
   </PropertyGroup>
   <Target Name="PostBuild" AfterTargets="PostBuildEvent">
     <Exec Command="C:\Windows\System32\xcopy &quot;$(SolutionDir)DataSets\*.*&quot; &quot;C:\ProgramData\BHoM\DataSets&quot; /Y /I /E&#xD;&#xA;xcopy &quot;$(TargetDir)$(TargetFileName)&quot;  &quot;C:\ProgramData\BHoM\Assemblies&quot; /Y" />
