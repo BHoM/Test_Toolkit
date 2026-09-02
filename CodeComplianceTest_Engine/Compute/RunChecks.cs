@@ -50,7 +50,7 @@ namespace BH.Engine.Test.CodeCompliance
                 return Create.TestResult(TestStatus.Pass);
 
             TestResult finalResult = Create.TestResult(TestStatus.Pass);
-            foreach(MethodInfo method in Query.AllChecks())
+            foreach(MethodInfo method in Query.AllChecks(checkType))
             {
                 finalResult = finalResult.Merge(method.Check(node, checkType));
             }

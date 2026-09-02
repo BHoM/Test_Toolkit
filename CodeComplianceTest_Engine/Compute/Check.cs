@@ -59,7 +59,9 @@ namespace BH.Engine.Test.CodeCompliance
                     method.GetCustomAttributes<ConditionAttribute>().All(condition => condition.IPasses(node)) &&
                     (checkType != null && method.GetCustomAttribute<ComplianceTypeAttribute>()?.ComplianceType == checkType))
             {
-                Func<object[], object> fn = method.ToFunc();
+                //if(fn == null)
+                    Func<object[], object> fn = method.GetFunction();
+
                 Span result = fn(new object[] { node }) as Span;
                 if (result != null)
                 {
@@ -90,6 +92,24 @@ namespace BH.Engine.Test.CodeCompliance
             }
             return finalResult;
         }
+
+
+        private static Func<object[], object> GetFunction(this MethodInfo method)
+        {
+            Func<object[], object> fn;
+            if (m_checkMethods.TryGetValue(method, out fn))
+                return fn;
+
+            fn = method.ToFunc();
+            lock (m_compileLock)
+            {
+                m_checkMethods[method] = fn;
+            }
+            return fn;
+        }
+
+        private static Dictionary<MethodInfo, Func<object[], object>> m_checkMethods = new Dictionary<MethodInfo, Func<object[], object>>();
+        private static object m_compileLock = new object();
     }
 }
 

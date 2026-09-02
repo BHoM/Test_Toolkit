@@ -1,0 +1,7 @@
+<RunSettings>
+  <RunConfiguration>
+    <EnvironmentVariables>
+      <DOTNET_STARTUP_HOOKS>C:\ProgramData\BHoM\Assemblies\TestStartupHook.dll</DOTNET_STARTUP_HOOKS>
+    </EnvironmentVariables>
+  </RunConfiguration>
+</RunSettings>
