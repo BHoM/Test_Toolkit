@@ -114,7 +114,8 @@ namespace BH.Engine.Test
 
                 if (isEqual)
                 {
-                    successfulJson.Add(json);
+                    // Added here, after the checks, so they run on the json as serialised.
+                    successfulJson.Add(AddDeclaringAssembly(json, obj));
                     successfulJsonObjects.Add(obj);
                 }
                 else
@@ -137,6 +138,50 @@ namespace BH.Engine.Test
                 Item8 = notEqualObjects
             };
         }
+
+        /***************************************************/
+        /**** Private Methods                           ****/
+        /***************************************************/
+
+        [Description("Records the assembly declaring the object's type on the record, as an `_asm` field.")]
+        [Input("json", "Serialised record to add the field to.")]
+        [Input("obj", "Object the record was serialised from.")]
+        [Output("json", "The record, with the declaring assembly recorded on it.")]
+        private static string AddDeclaringAssembly(string json, object obj)
+        {
+            if (string.IsNullOrEmpty(json) || obj == null)
+                return json;
+
+            // A method record already carries its declaring assembly, because its declaring type is
+            // serialised assembly-qualified. Its top-level type is MethodBase, so recording the
+            // assembly of that would be untrue.
+            if (obj is System.Reflection.MethodBase)
+                return json;
+
+            string assembly;
+            try
+            {
+                assembly = obj.GetType().Assembly.GetName().Name;
+            }
+            catch
+            {
+                // Left as it was. A guessed value would be indistinguishable from a real one.
+                return json;
+            }
+
+            if (string.IsNullOrWhiteSpace(assembly))
+                return json;
+
+            // Before `_bhomVersion`, which Versioning_Engine appends last. Helpers.DescriptionFromJson
+            // reads fixed quote-delimited indices, so the field has to sit past them.
+            int at = json.LastIndexOf("\"_bhomVersion\"", StringComparison.Ordinal);
+            if (at < 0)
+                return json;
+
+            return json.Substring(0, at) + $"\"_asm\" : \"{assembly}\", " + json.Substring(at);
+        }
+
+        /***************************************************/
     }
 }
 
