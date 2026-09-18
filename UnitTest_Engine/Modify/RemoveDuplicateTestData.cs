@@ -56,9 +56,9 @@ namespace BH.Engine.UnitTest
                 bool exist = false;
                 for (int i = 0; i < uniqueData.Count; i++)
                 {
-                    if (data.Inputs.IsEqual(uniqueData[i].Inputs))  //Check inputs identical
+                    if (data.Inputs.IsEqual(uniqueData[i].Inputs, Engine.Test.Create.DefaultTestComparisonConfig()))  //Check inputs identical
                     {
-                        if (data.Outputs.IsEqual(uniqueData[i].Outputs))    //Check outputs identical
+                        if (data.Outputs.IsEqual(uniqueData[i].Outputs, Engine.Test.Create.DefaultTestComparisonConfig()))    //Check outputs identical
                         {
                             exist = true;
                             if (string.IsNullOrWhiteSpace(uniqueData[i].Name) && !string.IsNullOrWhiteSpace(data.Name)) //If name is unset to already added, and set to the one compared, bring over the name
