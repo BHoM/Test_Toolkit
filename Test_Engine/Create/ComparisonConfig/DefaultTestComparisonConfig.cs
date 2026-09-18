@@ -47,7 +47,8 @@ namespace BH.Engine.Test
         private static ComparisonConfig m_DefaultComparisonConfig = new ComparisonConfig
         {
             NumericTolerance = 1e-12,
-            MaxPropertyDifferences = 1000
+            MaxPropertyDifferences = 1000,
+            SignificantFigures = 10
         };
 
         /***************************************************/
