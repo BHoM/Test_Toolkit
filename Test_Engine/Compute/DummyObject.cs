@@ -437,14 +437,15 @@ namespace BH.Engine.Test
                 {
                     if (!type.IsAbstract && !type.IsInterface && !type.IsEnum)
                     {
+                        List<Type> propertyTypes = type.GetProperties().Select(x => x.PropertyType).Distinct().ToList();
                         foreach (Type inter in type.GetInterfaces())
                         {
-                            if (!m_ImplementingTypes.ContainsKey(inter))
+                            if (!m_ImplementingTypes.ContainsKey(inter) && !propertyTypes.Contains(inter))
                                 m_ImplementingTypes[inter] = type;
                         }
 
                         Type baseType = type.BaseType;
-                        if (baseType != null && !m_ImplementingTypes.ContainsKey(baseType))
+                        if (baseType != null && !m_ImplementingTypes.ContainsKey(baseType) && !propertyTypes.Contains(baseType))
                             m_ImplementingTypes[baseType] = type;
                     }
                 }

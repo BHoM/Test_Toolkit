@@ -32,7 +32,4 @@
   <ItemGroup>
     <ProjectReference Include="..\Test_Engine\Test_Engine.csproj" />
   </ItemGroup>
-  <Target Name="PostBuild" AfterTargets="PostBuildEvent">
-    <Exec Command="xcopy &quot;$(TargetDir)$(TargetFileName)&quot;  &quot;$(ProgramData)\BHoM\Assemblies&quot; /Y" />
-  </Target>
 </Project>

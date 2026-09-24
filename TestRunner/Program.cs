@@ -27,6 +27,8 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Runtime.CompilerServices;
+using System.Runtime.Loader;
 using System.Text;
 using System.Threading.Tasks;
 using BH.oM.Test;
@@ -36,6 +38,25 @@ namespace TestRunner
 {
     class Program
     {
+        /*************************************/
+        /**** Module Initialiser          ****/
+        /*************************************/
+
+        // Registered as a module initialiser so it runs before Main is JIT-compiled, i.e. before the runtime
+        // needs to resolve BHoM/Test_oM types referenced by Main's own locals. This lets TestRunner run
+        // without bundling its own copies of the BHoM DLLs, always resolving them from the Assemblies folder
+        // so it tests the actual DLLs used by the BHoM UI rather than a stale local copy.
+        [ModuleInitializer]
+        internal static void RegisterAssemblyResolution()
+        {
+            AssemblyLoadContext.Default.Resolving += (context, assemblyName) =>
+            {
+                string path = Path.Combine(m_AssembliesFolder, assemblyName.Name + ".dll");
+                return File.Exists(path) ? context.LoadFromAssemblyPath(path) : null;
+            };
+        }
+
+
         /*************************************/
         /**** Main                        ****/
         /*************************************/
@@ -92,7 +113,7 @@ namespace TestRunner
 
         static void LoadAllTestAssemblies()
         {
-            foreach (string file in Directory.GetFiles(@"C:\ProgramData\BHoM\Assemblies"))
+            foreach (string file in Directory.GetFiles(m_AssembliesFolder))
             {
                 if (file.EndsWith("_Test.dll"))
                 {
@@ -135,6 +156,8 @@ namespace TestRunner
         /*************************************/
 
         static Dictionary<string, List<MethodInfo>> m_TestMethods = new Dictionary<string, List<MethodInfo>>();
+
+        static readonly string m_AssembliesFolder = @"C:\ProgramData\BHoM\Assemblies";
 
         /*************************************/
     }
