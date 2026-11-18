@@ -31,13 +31,16 @@ using System.Threading.Tasks;
 
 using BH.oM.Test;
 
-using System.Net;
 using System.Net.Http;
 
 namespace BH.Engine.Test.CodeCompliance.Checks
 {
     public static partial class Query
     {
+        /***************************************************/
+        /**** Public Methods                            ****/
+        /***************************************************/
+
         [Message("Documentation link does not link to a valid web resource", "IsDocumentationURLValid")]
         [ErrorLevel(TestStatus.Error)]
         [Path(@"([a-zA-Z0-9]+)_(oM|Engine|Adapter)\\.*\.cs$")]
@@ -57,10 +60,11 @@ namespace BH.Engine.Test.CodeCompliance.Checks
 
             try
             {
-                HttpClient client = new HttpClient();
-                var checkingResponse = client.GetAsync(url).Result;
-                if (checkingResponse.StatusCode != HttpStatusCode.OK)
-                    return node.Span.ToSpan();
+                using (HttpResponseMessage response = m_UrlClient.GetAsync(url, HttpCompletionOption.ResponseHeadersRead).GetAwaiter().GetResult())
+                {
+                    if (!response.IsSuccessStatusCode)
+                        return node.Span.ToSpan();
+                }
             }
             catch
             {
@@ -69,6 +73,28 @@ namespace BH.Engine.Test.CodeCompliance.Checks
 
             return null;
         }
+
+        /***************************************************/
+        /**** Private Methods                           ****/
+        /***************************************************/
+
+        private static HttpClient CreateUrlClient()
+        {
+            //Some sites refuse requests that carry no User-Agent, so identify the check and where to read about it
+            HttpClient client = new HttpClient { Timeout = TimeSpan.FromSeconds(30) };
+            client.DefaultRequestHeaders.TryAddWithoutValidation("User-Agent", "BHoM-ComplianceCheck/1.0 (+https://bhom.xyz/documentation/DevOps/Code%20Compliance%20and%20CI/Compliance%20Checks/IsDocumentationURLValid/)");
+            //A single client lives as long as the host process, so do not keep connections, and their DNS results, open between checks
+            client.DefaultRequestHeaders.ConnectionClose = true;
+            return client;
+        }
+
+        /***************************************************/
+        /**** Private Fields                            ****/
+        /***************************************************/
+
+        private static readonly HttpClient m_UrlClient = CreateUrlClient();
+
+        /***************************************************/
     }
 }
 
