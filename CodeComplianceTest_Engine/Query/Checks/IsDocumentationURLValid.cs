@@ -82,7 +82,7 @@ namespace BH.Engine.Test.CodeCompliance.Checks
         {
             //Some sites refuse requests that carry no User-Agent, so identify the check and where to read about it
             HttpClient client = new HttpClient { Timeout = TimeSpan.FromSeconds(30) };
-            client.DefaultRequestHeaders.UserAgent.ParseAdd("BHoM-ComplianceCheck/1.0 (+https://bhom.xyz/documentation/DevOps/Code%20Compliance%20and%20CI/Compliance%20Checks/IsDocumentationURLValid/)");
+            client.DefaultRequestHeaders.TryAddWithoutValidation("User-Agent", "BHoM-ComplianceCheck/1.0 (+https://bhom.xyz/documentation/DevOps/Code%20Compliance%20and%20CI/Compliance%20Checks/IsDocumentationURLValid/)");
             //A single client lives as long as the host process, so do not keep connections, and their DNS results, open between checks
             client.DefaultRequestHeaders.ConnectionClose = true;
             return client;

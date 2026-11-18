@@ -105,6 +105,7 @@ namespace BH.Test.Engine.CodeCompliance
         [Test]
         public void UserAgentIdentifiesTheCheck()
         {
+            m_LastUserAgent = null;
             Check(m_BaseUrl + "needs-user-agent");
             Assert.That(m_LastUserAgent, Does.StartWith("BHoM-ComplianceCheck/"));
         }
