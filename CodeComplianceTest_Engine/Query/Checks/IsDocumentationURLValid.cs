@@ -25,6 +25,7 @@ using BH.oM.Test.CodeCompliance.Attributes;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -41,6 +42,8 @@ namespace BH.Engine.Test.CodeCompliance.Checks
         /**** Public Methods                            ****/
         /***************************************************/
 
+        [Description("Checks that the URL in a DocumentationURL attribute can be reached.\n" +
+            "Fails if the request cannot be made, or if the response is not a success status.")]
         [Message("Documentation link does not link to a valid web resource", "IsDocumentationURLValid")]
         [ErrorLevel(TestStatus.Error)]
         [Path(@"([a-zA-Z0-9]+)_(oM|Engine|Adapter)\\.*\.cs$")]

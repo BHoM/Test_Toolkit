@@ -39,6 +39,7 @@ namespace BH.Test.Engine.CodeCompliance
         /***************************************************/
 
         [OneTimeSetUp]
+        [Description("Starts a local HTTP listener on a free port, so that the tests do not depend on any external website.")]
         public void StartServer()
         {
             TcpListener portFinder = new TcpListener(IPAddress.Loopback, 0);
@@ -56,6 +57,7 @@ namespace BH.Test.Engine.CodeCompliance
         /***************************************************/
 
         [OneTimeTearDown]
+        [Description("Stops the local HTTP listener and waits up to five seconds for its request loop to finish.")]
         public void StopServer()
         {
             //Guarded so that a failure in StartServer is reported rather than hidden behind a NullReferenceException here
@@ -71,6 +73,7 @@ namespace BH.Test.Engine.CodeCompliance
         /***************************************************/
 
         [Test]
+        [Description("Checks that a URL returning 200 OK passes.")]
         public void OkResponsePasses()
         {
             Assert.That(Check(m_BaseUrl + "ok"), Is.Null);
@@ -79,6 +82,7 @@ namespace BH.Test.Engine.CodeCompliance
         /***************************************************/
 
         [Test]
+        [Description("Checks that any successful response passes, using 204 No Content, rather than only 200 OK.")]
         public void NoContentResponsePasses()
         {
             Assert.That(Check(m_BaseUrl + "nocontent"), Is.Null);
@@ -87,6 +91,7 @@ namespace BH.Test.Engine.CodeCompliance
         /***************************************************/
 
         [Test]
+        [Description("Checks that a URL returning 404 Not Found is reported as a failure.")]
         public void NotFoundResponseFails()
         {
             Assert.That(Check(m_BaseUrl + "missing"), Is.Not.Null);
@@ -95,6 +100,7 @@ namespace BH.Test.Engine.CodeCompliance
         /***************************************************/
 
         [Test]
+        [Description("Checks that a site which refuses requests carrying no User-Agent passes, because the check sends one.")]
         public void SiteRejectingRequestsWithoutUserAgentPasses()
         {
             Assert.That(Check(m_BaseUrl + "needs-user-agent"), Is.Null);
@@ -103,6 +109,7 @@ namespace BH.Test.Engine.CodeCompliance
         /***************************************************/
 
         [Test]
+        [Description("Checks that the User-Agent sent by the check identifies it as the BHoM compliance check.")]
         public void UserAgentIdentifiesTheCheck()
         {
             m_LastUserAgent = null;
@@ -113,6 +120,7 @@ namespace BH.Test.Engine.CodeCompliance
         /***************************************************/
 
         [Test]
+        [Description("Checks that a URL with a scheme other than HTTP or HTTPS is reported as a failure rather than throwing an exception.")]
         public void NonHttpSchemeFailsWithoutThrowing()
         {
             Span result = null;
@@ -124,6 +132,7 @@ namespace BH.Test.Engine.CodeCompliance
 
         //Relies on the .invalid top-level domain never resolving (RFC 6761). Behind an HTTP proxy the proxy's own error, such as a 502, still fails the check, so this passes for a different reason. A DNS resolver that answers for .invalid can make it fail.
         [Test]
+        [Description("Checks that a URL whose host cannot be resolved is reported as a failure rather than throwing an exception.")]
         public void UnresolvableHostFailsWithoutThrowing()
         {
             Span result = null;
